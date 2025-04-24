@@ -1,0 +1,19 @@
+import Spinner from "app/components/Spinner";
+import BasicStats from "./statisticComponents/BasicStats";
+import MotionContainer from "app/components/containers/MotionContainer";
+import UsedLeadsInsight from "./statisticComponents/usedLeadsInsight/UsedLeadsInsight";
+
+const LeadActivities = ({ data }) => {
+  if (!data) {
+    return <Spinner />;
+  }
+
+  return (
+    <MotionContainer animation="fade-in" className="space-y-5 my-5">
+      <BasicStats data={data} />
+      <UsedLeadsInsight data={data} />
+    </MotionContainer>
+  );
+};
+
+export default LeadActivities;

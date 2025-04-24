@@ -1,26 +1,54 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@layer base {
+  .primary-border {
+    @apply border border-neutral-300 rounded-xl p-5;
   }
-}
-
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  .base-padding {
+    @apply px-3 lg:px-5 py-2 lg:py-2;
+  }
+  .center {
+    @apply flex items-center justify-center;
+  }
+  .primary-outline {
+    @apply outline-10 md:outline-20 outline-stone-300/20 m-5;
+  }
+  input,
+  textarea,
+  select {
+    @apply rounded-3xl bg-neutral-100 px-3 py-1 lg:py-2 placeholder:capitalize placeholder:opacity-40 outline-none w-full duration-300 focus:ring-1 focus:ring-neutral-300 text-[12px] lg:text-base;
+  }
+  label {
+    @apply capitalize font-medium pl-1 text-[13px] lg:text-base;
+  }
+  .light-style {
+    @apply bg-neutral-100 hover:bg-neutral-200/60 text-black  border-neutral-300 duration-300;
+  }
+  .blue-style {
+    @apply bg-blue-100 hover:bg-blue-200/80 text-blue-500  border-blue-300 duration-300;
+  }
+  .green-style {
+    @apply bg-green-100 hover:bg-green-200/80 text-green-500  border-green-300 duration-300;
+  }
+  .purple-style {
+    @apply bg-purple-100 hover:bg-purple-200/80 text-purple-500  border-purple-300 duration-300;
+  }
+  .gold-style {
+    @apply bg-amber-100 hover:bg-amber-200/80 text-amber-500 border-amber-300 duration-300;
+  }
+  .red-style {
+    @apply bg-red-100 hover:bg-red-200/80 text-red-500  border-red-300 duration-300;
+  }
+  .black-style {
+    @apply bg-neutral-700 hover:bg-black text-white duration-300;
+  }
+  .light-gradient {
+    @apply bg-gradient-to-br from-neutral-50 from-10% to-neutral-100;
+  }
+  .blue-gradient {
+    @apply bg-gradient-to-br from-blue-50 from-10% to-blue-100;
+  }
+  .green-gradient {
+    @apply bg-gradient-to-br from-green-50 from-10% to-green-100;
+  }
 }
