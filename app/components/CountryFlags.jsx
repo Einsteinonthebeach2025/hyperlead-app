@@ -1,3 +1,5 @@
+import ReactCountryFlag from "react-country-flag";
+
 // Function to convert country names to ISO codes
 export const getCountryCode = (countryName) => {
   const countryMap = {
@@ -173,11 +175,14 @@ export const getCountryCode = (countryName) => {
 };
 
 // Country Flag Component
-export const CountryFlag = ({ countryName, className }) => {
+export const CountryFlags = ({ countryName, className }) => {
+  if (!countryName) return null;
+
+  const countryCode = getCountryCode(countryName);
   return (
     <ReactCountryFlag
       className={className}
-      countryCode={getCountryCode(countryName)}
+      countryCode={countryCode}
       svg
       style={{
         width: "1.5em",

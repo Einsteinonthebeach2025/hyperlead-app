@@ -11,7 +11,9 @@ const LeadActivities = ({ data }) => {
   return (
     <MotionContainer animation="fade-in" className="space-y-5 my-5">
       <BasicStats data={data} />
-      <UsedLeadsInsight data={data} />
+      <div className="relative grid grid-cols-4 gap-4">
+        <UsedLeadsInsight data={data} />
+      </div>
     </MotionContainer>
   );
 };

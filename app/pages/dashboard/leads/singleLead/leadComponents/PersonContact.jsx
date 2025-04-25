@@ -1,5 +1,6 @@
 import CardContainer from "app/components/containers/CardContainer";
 import FlexBox from "app/components/containers/FlexBox";
+import IconContainer from "app/components/containers/IconContainer";
 import SubTitle from "app/components/SubTitle";
 import Title from "app/components/Title";
 import { FaEnvelope, FaLinkedin, FaPhone, FaUserTie } from "react-icons/fa";

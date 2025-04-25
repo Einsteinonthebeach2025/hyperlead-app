@@ -9,6 +9,8 @@ const UpdatePasswordForm = ({
   confirmPassword,
   handleSubmit,
   loading,
+  setPassword,
+  setConfirmPassword,
 }) => {
   return (
     <FormContainer className="w-[90%] max-w-[400px] space-y-2">

@@ -1,4 +1,5 @@
 import CardContainer from "app/components/containers/CardContainer";
+import IconContainer from "app/components/containers/IconContainer";
 import MotionChildren from "app/components/containers/MotionChildren";
 import SubTitle from "app/components/SubTitle";
 import Title from "app/components/Title";

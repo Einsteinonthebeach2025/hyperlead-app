@@ -5,6 +5,8 @@ import SubTitle from "app/components/SubTitle";
 import LeadPesronsName from "./leadsCardComponents/LeadPersonsName";
 import LeadLocation from "./leadsCardComponents/LeadLocation";
 import LeadIndustry from "./leadsCardComponents/LeadIndustry";
+import { truncateString } from "app/helpers/utils";
+import { updateLeadUsedStatus } from "app/lib/actions/leadActions";
 
 const LeadCard = ({ leads, onLeadStatusChange }) => {
   const router = useRouter();
@@ -38,7 +40,7 @@ const LeadCard = ({ leads, onLeadStatusChange }) => {
               }}
             >
               <div
-                className={`grid grid-cols-[1.3fr_0.7fr_1.2fr_1.0fr_1.2fr] cursor-pointer gap-3 p-3 h-24 primary-border relative hover:border-neutral-400 rounded-xl duration-300 light-gradient group ${
+                className={`grid grid-cols-[1.3fr_0.7fr_1.0fr_0.8fr_1.0fr] cursor-pointer gap-3 p-3 h-24 primary-border relative hover:border-neutral-400 rounded-xl duration-300 light-gradient group ${
                   lead?.used ? " opacity-50" : ""
                 }`}
               >

@@ -18,6 +18,7 @@ const LeadPesronsName = ({ lead = {}, onStatusChange }) => {
           </SubTitle>
           <span className="text-neutral-500 font-medium text-[12px]">
             {lead?.email}
+            {/* {truncateString(lead?.email, 28)} */}
           </span>
         </FlexBox>
       </div>

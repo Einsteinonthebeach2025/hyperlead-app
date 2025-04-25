@@ -1,5 +1,5 @@
 import FlexBox from "app/components/containers/FlexBox";
-import { CountryFlag } from "app/components/CountryFlagsComponent";
+import { CountryFlags } from "app/components/CountryFlags";
 import SubTitle from "app/components/SubTitle";
 
 const LeadLocation = ({ lead = {} }) => {
@@ -7,7 +7,7 @@ const LeadLocation = ({ lead = {} }) => {
   return (
     <FlexBox type="column-center" className="pl-4">
       <FlexBox type="row" className="gap-1">
-        {country && <CountryFlag countryName={country} />}
+        {country && <CountryFlags countryName={country} />}
         {country && <SubTitle>{country}</SubTitle>}
       </FlexBox>
       <FlexBox type="column-center">

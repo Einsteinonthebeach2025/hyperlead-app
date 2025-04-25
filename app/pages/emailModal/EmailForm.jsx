@@ -4,6 +4,7 @@ import SubTitle from "app/components/SubTitle";
 import { sendEmail } from "app/lib/actions/emailActions";
 import { useState } from "react";
 import { useSelector } from "react-redux";
+import SubmitButtons from "../dashboard/leads/leadsLayout/leadActionButtons/SubmitButtons";
 
 const EmailForm = ({ data = {}, closeModal }) => {
   const { user } = useSelector((store) => store.user || {});

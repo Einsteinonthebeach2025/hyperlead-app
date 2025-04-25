@@ -5,6 +5,8 @@ import LeadsPaginationButtons from "./leadsNavigation/LeadsPaginationButtons";
 import FlexBox from "app/components/containers/FlexBox";
 import MotionContainer from "app/components/containers/MotionContainer";
 import Headline from "app/components/Headline";
+import { filterLeads } from "app/helpers/leadsFilter";
+import LeadFilter from "./leadsNavigation/LeadFilter";
 
 const Leads = ({
   data,
@@ -19,7 +21,7 @@ const Leads = ({
   const [leads, setLeads] = useState(data || []);
   const [allLeads, setAllLeads] = useState(initialAllLeads || []);
 
-  if (!data) return <h1>{message}</h1>;
+  if (!data) return <div className="center h-screen">{message}</div>;
 
   const handleFilterChange = (type, value) => {
     const newFilters = { ...filters };
