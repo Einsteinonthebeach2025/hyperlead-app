@@ -228,7 +228,7 @@ export const getCurrentUser = async () => {
 export const sendPasswordResetEmail = async (email) => {
   try {
     const { error } = await supabase.auth.resetPasswordForEmail(email, {
-      redirectTo: `${window.location.origin}/resetpassword/update`,
+      redirectTo: `https://hyperlead-acpplication.vercel.app/resetpassword/update`,
     });
     if (error) throw error;
     return {
