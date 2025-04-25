@@ -243,21 +243,57 @@ export const sendPasswordResetEmail = async (email) => {
   }
 };
 
+// export const updatePassword = async (newPassword) => {
+//   try {
+//     const { error } = await supabase.auth.updateUser({
+//       password: newPassword,
+//     });
+
+//     if (error) throw error;
+
+//     return {
+//       error: null,
+//       message: "Password updated successfully!",
+//     };
+//   } catch (error) {
+//     return {
+//       error: handleAuthError(error),
+//       message: null,
+//     };
+//   }
+// };
+
 export const updatePassword = async (newPassword) => {
   try {
+    await new Promise((resolve) => setTimeout(resolve, 500));
     const { error } = await supabase.auth.updateUser({
       password: newPassword,
     });
-
-    if (error) throw error;
-
+    if (error) {
+      if (error.status === 429) {
+        return {
+          error: "Too many requests. Please wait a moment before trying again.",
+          message: null,
+        };
+      }
+      throw error;
+    }
     return {
       error: null,
-      message: "Password updated successfully!",
+      message: "Password updated successfully.",
     };
   } catch (error) {
+    console.error("Password update error:", error);
+    if (error.message && error.message.includes("429")) {
+      return {
+        error: "Too many requests. Please wait a moment before trying again.",
+        message: null,
+      };
+    }
     return {
-      error: handleAuthError(error),
+      error: handleAuthError
+        ? handleAuthError(error)
+        : "Failed to update password. Please try again.",
       message: null,
     };
   }
