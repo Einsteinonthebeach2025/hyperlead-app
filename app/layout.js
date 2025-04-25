@@ -5,6 +5,7 @@ import NavigationWrapper from "./layout/navigation/NavigationWrapper";
 import SideBar from "./layout/navigation/side/SideBar";
 import { StoreProvider } from "./lib/store/StoreProvider";
 import AuthProvider from "./lib/store/AuthProvider";
+import EmailModal from "./pages/emailModal/EmailModal";
 
 export const metadata = {
   title: "Create Next App",
@@ -22,7 +23,7 @@ export default function RootLayout({ children }) {
               {children}
               <ErrorMsg />
               <SideBar />
-              {/* <EmailModal /> */}
+              <EmailModal />
               <Footer />
             </main>
           </body>

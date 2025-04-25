@@ -1,5 +1,5 @@
 "use client";
-import { slideShow } from "@/animationValues/motionVariants";
+import { slideShow } from "app/animationValues/motionVariants";
 import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
 
