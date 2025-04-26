@@ -228,12 +228,15 @@ export const getCurrentUser = async () => {
 export const sendPasswordResetEmail = async (email) => {
   try {
     const { error } = await supabase.auth.resetPasswordForEmail(email, {
-      redirectTo: `https://hyperlead-application.vercel.app/resetpassword/update`,
+      redirectTo: `http://localhost:3000/resetpassword/update`,
     });
     if (error) throw error;
     return {
       error: null,
-      message: "Password reset instructions have been sent to your email.",
+      message: {
+        message: "Password reset instructions have been sent to your email.",
+        type: "success",
+      },
     };
   } catch (error) {
     return {
@@ -242,26 +245,6 @@ export const sendPasswordResetEmail = async (email) => {
     };
   }
 };
-
-// export const updatePassword = async (newPassword) => {
-//   try {
-//     const { error } = await supabase.auth.updateUser({
-//       password: newPassword,
-//     });
-
-//     if (error) throw error;
-
-//     return {
-//       error: null,
-//       message: "Password updated successfully!",
-//     };
-//   } catch (error) {
-//     return {
-//       error: handleAuthError(error),
-//       message: null,
-//     };
-//   }
-// };
 
 export const updatePassword = async (newPassword) => {
   try {
@@ -283,7 +266,6 @@ export const updatePassword = async (newPassword) => {
       message: "Password updated successfully.",
     };
   } catch (error) {
-    console.error("Password update error:", error);
     if (error.message && error.message.includes("429")) {
       return {
         error: "Too many requests. Please wait a moment before trying again.",

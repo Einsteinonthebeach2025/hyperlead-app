@@ -24,7 +24,7 @@ const ResetPassword = () => {
         dispatch(setError(error));
         return;
       } else {
-        dispatch(setError({ message, type: "success" }));
+        dispatch(setError(message));
         setEmail("");
       }
     } catch (error) {
