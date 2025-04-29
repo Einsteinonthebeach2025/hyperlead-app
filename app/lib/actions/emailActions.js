@@ -16,7 +16,7 @@ export async function sendEmail({
   try {
     const htmlContent = generateEmailHTML(subject, message);
     const { data: emailData } = await resend.emails.send({
-      from: email,
+      from: "onboarding@resend.dev",
       to: lead_email,
       subject,
       html: htmlContent,

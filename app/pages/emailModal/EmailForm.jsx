@@ -29,8 +29,7 @@ const EmailForm = ({ data = {}, closeModal }) => {
         user_id: user.id,
         email: user.email,
         lead_id: data?.id,
-        // lead_email: data?.email,
-        lead_email: "graphchiqovani@yahoo.com",
+        lead_email: data?.email,
         subject: formData.subject,
         message: formData.message,
       });
@@ -77,8 +76,7 @@ const EmailForm = ({ data = {}, closeModal }) => {
             id="lead_email"
             name="lead_email"
             type="email"
-            // value={data?.email}
-            value="graphchiqovani@yahoo.com"
+            value={data?.email}
             disabled
           />
         </div>
