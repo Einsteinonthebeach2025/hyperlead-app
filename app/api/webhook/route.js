@@ -4,11 +4,16 @@ import { NextResponse } from "next/server";
 export async function POST(req) {
   try {
     const body = await req.json();
+    console.log("[WEBHOOK] Received body:", JSON.stringify(body, null, 2));
     const { type, data } = body;
+    console.log(`[WEBHOOK] Event type: ${type}`);
     const supabase = await createServerClient();
 
     if (type === "email.opened") {
-      const { messageId, recipient } = data;
+      const { messageId, recipient } = data || {};
+      console.log(
+        `[WEBHOOK] email.opened: messageId=${messageId}, recipient=${recipient}`
+      );
       const { error } = await supabase
         .from("emails")
         .update({
@@ -18,14 +23,28 @@ export async function POST(req) {
         .eq("resend_message_id", messageId);
 
       if (error) {
-        console.error("Supabase update error (opened):", error);
+        console.error("[WEBHOOK] Supabase update error (opened):", error);
         return NextResponse.json({ error }, { status: 500 });
       }
+      console.log("[WEBHOOK] email.opened updated successfully");
       return NextResponse.json({ received: true }, { status: 200 });
     }
 
     if (type === "email.delivered") {
-      const { messageId, recipient } = data;
+      const { messageId, recipient } = data || {};
+      console.log(
+        `[WEBHOOK] email.delivered: messageId=${messageId}, recipient=${recipient}`
+      );
+      if (!messageId || !recipient) {
+        console.error("[WEBHOOK] Missing messageId or recipient", {
+          messageId,
+          recipient,
+        });
+        return NextResponse.json(
+          { error: "Missing messageId or recipient" },
+          { status: 400 }
+        );
+      }
       const { error } = await supabase
         .from("emails")
         .update({
@@ -34,14 +53,16 @@ export async function POST(req) {
         .eq("leads_email", recipient)
         .eq("resend_message_id", messageId);
       if (error) {
-        console.error("Supabase update error (delivered):", error);
+        console.error("[WEBHOOK] Supabase update error (delivered):", error);
         return NextResponse.json({ error }, { status: 500 });
       }
+      console.log("[WEBHOOK] email.delivered updated successfully");
       return NextResponse.json({ received: true }, { status: 200 });
     }
+    console.log("[WEBHOOK] Ignored event type:", type);
     return NextResponse.json({ ignored: true }, { status: 200 });
   } catch (error) {
-    console.error("Webhook handler error:", error);
+    console.error("[WEBHOOK] Handler error:", error);
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 }
