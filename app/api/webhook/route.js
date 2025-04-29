@@ -1,6 +1,8 @@
 // import { NextResponse } from "next/server";
 // import { createServerClient } from "app/lib/config/supabaseServer";
 
+import { createServerClient } from "app/lib/config/supabaseServer";
+
 // const WEBHOOK_SECRET =
 //   process.env.RESEND_WEBHOOK_SECRET || "whsec_+nD/EMWZWEzITuBCcasSfdq8nNLWPhLu";
 
@@ -145,7 +147,6 @@
 // }
 
 // app/api/webhook/route.js
-import { createServerClient } from "@/config/supabaseServer";
 
 export async function POST(req) {
   try {
