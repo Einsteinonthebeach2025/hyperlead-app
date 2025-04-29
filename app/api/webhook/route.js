@@ -146,7 +146,7 @@
 
 // app/api/webhook/route.js
 
-import { createAdminClient } from "@/lib/supabaseAdmin"; // you'll create this next
+import { createAdminClient } from "app/lib/config/supabaseAdmin";
 
 export async function POST(req) {
   try {
