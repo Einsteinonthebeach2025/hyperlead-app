@@ -1,8 +1,6 @@
 // import { NextResponse } from "next/server";
 // import { createServerClient } from "app/lib/config/supabaseServer";
 
-import { createServerClient } from "app/lib/config/supabaseServer";
-
 // const WEBHOOK_SECRET =
 //   process.env.RESEND_WEBHOOK_SECRET || "whsec_+nD/EMWZWEzITuBCcasSfdq8nNLWPhLu";
 
@@ -148,6 +146,8 @@ import { createServerClient } from "app/lib/config/supabaseServer";
 
 // app/api/webhook/route.js
 
+import { createAdminClient } from "@/lib/supabaseAdmin"; // you'll create this next
+
 export async function POST(req) {
   try {
     const body = await req.json();
@@ -165,7 +165,7 @@ export async function POST(req) {
       return new Response("Ignored", { status: 200 });
     }
 
-    const supabase = await createServerClient();
+    const supabase = createAdminClient();
 
     const updateFields = {};
     if (eventType === "email.delivered") {
