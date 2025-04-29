@@ -76,7 +76,8 @@ const EmailForm = ({ data = {}, closeModal }) => {
             id="lead_email"
             name="lead_email"
             type="email"
-            value={data?.email}
+            // value={data?.email}
+            value="graphchiqovani@yahoo.com"
             disabled
           />
         </div>
