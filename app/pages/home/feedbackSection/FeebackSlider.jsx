@@ -41,6 +41,8 @@ const FeedbackSlider = () => {
     );
   }
 
+  console.log(feedbacks);
+
   return (
     <section className="py-5 overflow-hidden center relative w-full">
       <div className="flex items-center relative w-max">

@@ -70,10 +70,7 @@ const createOrUpdateProfile = async (user, profile = {}) => {
       {
         id: user.id,
         email: user.email,
-        userName:
-          profile.userName ||
-          user.user_metadata?.userName ||
-          user.email?.split("@")[0],
+        userName: profile.userName,
         created_at: new Date().toISOString(),
         updated_at: new Date().toISOString(),
       },
@@ -109,7 +106,6 @@ export const signUp = async ({ email, password, userName }) => {
       options: {
         emailRedirectTo: `${window.location.origin}`,
         data: {
-          full_name: userName,
           username: userName,
         },
       },
@@ -120,7 +116,7 @@ export const signUp = async ({ email, password, userName }) => {
     await new Promise((resolve) => setTimeout(resolve, 500));
     const { data: updateData, error: updateError } =
       await supabase.auth.updateUser({
-        data: { full_name: userName, username: userName },
+        data: { username: userName },
       });
     if (updateError) {
       throw updateError;

@@ -21,7 +21,7 @@ const DisplayUserName = () => {
         onClick={handleActive}
       >
         <div className="hidden md:flex flex-col items-end">
-          <h1>{user?.profile?.userName || user?.email}</h1>
+          <h1>{user?.profile?.userName}</h1>
           <span className="text-[10px] text-neutral-500">{user?.email}</span>
         </div>
         {user?.profile?.avatar_url ? (

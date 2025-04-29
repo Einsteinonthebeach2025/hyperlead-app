@@ -35,9 +35,7 @@ const LeadCard = ({ leads, onLeadStatusChange }) => {
               animate={{ opacity: 1, rotateX: 0 }}
               exit={{ opacity: 0, rotateX: 90 }}
               transition={{ duration: 0.5 }}
-              onClick={() => {
-                handleLeadClick(lead.id);
-              }}
+              onClick={() => handleLeadClick(lead.id)}
             >
               <div
                 className={`grid grid-cols-[1.3fr_0.7fr_1.0fr_0.8fr_1.0fr] cursor-pointer gap-3 p-3 h-24 primary-border relative hover:border-neutral-400 rounded-xl duration-300 light-gradient group ${

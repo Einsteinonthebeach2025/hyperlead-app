@@ -28,6 +28,11 @@ const SideComponent = () => {
       label: "My Leads",
       icon: <MdLeaderboard />,
     },
+    {
+      href: "/dashboard/preferences",
+      label: "Preferences",
+      icon: <MdLeaderboard />,
+    },
   ];
 
   return (

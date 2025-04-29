@@ -1,6 +1,4 @@
 const InsightInfo = ({ data = [] }) => {
-  console.log(data);
-
   return (
     <div className=" absolute inset-0 center flex-col">
       {data ? (

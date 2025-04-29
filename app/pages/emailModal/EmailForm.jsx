@@ -3,13 +3,14 @@ import FlexBox from "app/components/containers/FlexBox";
 import SubTitle from "app/components/SubTitle";
 import { sendEmail } from "app/lib/actions/emailActions";
 import { useState } from "react";
-import { useSelector } from "react-redux";
-import SubmitButtons from "../dashboard/leads/leadsLayout/leadActionButtons/SubmitButtons";
+import { useDispatch, useSelector } from "react-redux";
+import SubmitButtons from "./SubmitButtons";
+import { setError } from "app/features/modalSlice";
 
 const EmailForm = ({ data = {}, closeModal }) => {
+  const dispatch = useDispatch();
   const { user } = useSelector((store) => store.user || {});
-  const [isSending, setIsSending] = useState(false);
-  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     subject: "",
     message: "",
@@ -17,33 +18,34 @@ const EmailForm = ({ data = {}, closeModal }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setIsSending(true);
-    setError(null);
-
+    setLoading(true);
     if (!user?.id) {
-      setError("User not authenticated");
-      setIsSending(false);
+      dispatch(setError("User not authenticated"));
+      setLoading(false);
       return;
     }
-
     try {
       const result = await sendEmail({
         user_id: user.id,
         email: user.email,
-        lead_id: data.id,
+        lead_id: data?.id,
+        lead_email: data?.email,
         subject: formData.subject,
         message: formData.message,
       });
 
       if (result.success) {
-        // closeModal();
+        closeModal();
+        dispatch(
+          setError({ message: "Email sent successfully", type: "success" })
+        );
       } else {
         setError(result.error);
       }
     } catch (error) {
-      setError(error.message);
+      dispatch(setError(error.message));
     } finally {
-      setIsSending(false);
+      setLoading(false);
     }
   };
 
@@ -64,7 +66,7 @@ const EmailForm = ({ data = {}, closeModal }) => {
             id="user_email"
             name="user_email"
             type="email"
-            value={user?.email || ""}
+            value={user?.email}
             disabled
           />
         </div>
@@ -74,7 +76,7 @@ const EmailForm = ({ data = {}, closeModal }) => {
             id="lead_email"
             name="lead_email"
             type="email"
-            value="graphchiqovani@yahoo.com"
+            value={data?.email}
             disabled
           />
         </div>
@@ -100,11 +102,8 @@ const EmailForm = ({ data = {}, closeModal }) => {
           rows={6}
         />
       </div>
-
-      {error && <div className="text-red-500 text-sm mt-2">{error}</div>}
-
       <SubmitButtons
-        isSubmitting={isSending}
+        loading={loading}
         onCancel={closeModal}
         submitText="Send Email"
       />

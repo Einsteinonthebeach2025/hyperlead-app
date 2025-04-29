@@ -1,16 +1,25 @@
 "use server";
 import { Resend } from "resend";
 import { createServerClient } from "../config/supabaseServer";
+import generateEmailHTML from "app/helpers/emailTemplate";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
-export async function sendEmail({ user_id, email, lead_id, subject, message }) {
+export async function sendEmail({
+  user_id,
+  email,
+  lead_id,
+  lead_email,
+  subject,
+  message,
+}) {
   try {
+    const htmlContent = generateEmailHTML(subject, message);
     const { data: emailData } = await resend.emails.send({
-      from: "onboarding@resend.dev",
+      from: email,
       to: "graphchiqovani@yahoo.com",
       subject,
-      html: message,
+      html: htmlContent,
     });
     const supabase = await createServerClient();
     const { data, error } = await supabase
@@ -19,11 +28,12 @@ export async function sendEmail({ user_id, email, lead_id, subject, message }) {
         user_id,
         email,
         lead_id,
-        leads_email: "graphchiqovani@yahoo.com",
+        leads_email: lead_email,
         subject,
         message,
         status: "sent",
         sent_at: new Date().toISOString(),
+        resend_message_id: emailData?.id,
       })
       .select()
       .single();
@@ -32,7 +42,6 @@ export async function sendEmail({ user_id, email, lead_id, subject, message }) {
       console.error("Supabase insert error:", error);
       throw error;
     }
-
     console.log("Successfully inserted email record:", data);
     return { success: true, data };
   } catch (error) {

@@ -30,7 +30,7 @@ const MarkButton = ({ lead, onStatusChange }) => {
         onClick={handleUsedStatus}
         className="h-fit"
       >
-        <div className="text-red-600">
+        <div className="text-green-600">
           {active ? <FaBookmark /> : <FaRegBookmark />}
         </div>
       </FlexBox>
