@@ -21,6 +21,7 @@ export async function sendEmail({
       subject,
       html: htmlContent,
     });
+    console.log("[sendEmail] Resend response:", emailData);
     const supabase = await createServerClient();
     const { data, error } = await supabase
       .from("emails")
@@ -33,7 +34,7 @@ export async function sendEmail({
         message,
         status: "sent",
         sent_at: new Date().toISOString(),
-        resend_message_id: emailData?.id?.toString().trim(),
+        resend_message_id: emailData?.id,
       })
       .select()
       .single();
