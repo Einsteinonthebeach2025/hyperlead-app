@@ -50,7 +50,10 @@ export async function POST(req) {
         .from("emails")
         .update({ delivered: true })
         .eq("leads_email", recipient)
-        .eq("resend_message_id", messageId);
+        .eq(
+          "resend_message_id",
+          messageId ? messageId.toString().trim() : null
+        );
       if (error) {
         console.error("[Webhook] Supabase update error (delivered):", error);
         return NextResponse.json({ error }, { status: 500 });
