@@ -1,72 +1,70 @@
-import { createServerClient } from "app/lib/config/supabaseServer";
 import { NextResponse } from "next/server";
+import { createServerClient } from "app/lib/config/supabaseServer";
+
+const WEBHOOK_SECRET =
+  process.env.RESEND_WEBHOOK_SECRET || "whsec_+nD/EMWZWEzITuBCcasSfdq8nNLWPhLu";
 
 export async function POST(req) {
   try {
-    const body = await req.json();
-    console.log("[WEBHOOK] Received body:", JSON.stringify(body, null, 2));
-    const { type, data } = body;
-    console.log(`[WEBHOOK] Event type: ${type}`);
-    const supabase = await createServerClient();
+    const signature = req.headers.get("x-resend-signature");
+    const body = await req.text();
+    console.log("[Webhook] Raw body:", body);
+    console.log("[Webhook] Signature:", signature);
 
-    if (type === "email.opened") {
-      const { messageId, recipient } = data || {};
-      console.log(
-        `[WEBHOOK] email.opened: messageId=${messageId}, recipient=${recipient}`
+    // Optionally: verify signature here (implement if needed)
+    // For now, just log and proceed
+
+    let event;
+    try {
+      event = JSON.parse(body);
+    } catch (err) {
+      console.error("[Webhook] Failed to parse JSON:", err);
+      return NextResponse.json({ error: "Invalid JSON" }, { status: 400 });
+    }
+    console.log("[Webhook] Event received:", event);
+
+    const { type, data } = event;
+    if (!type || !data) {
+      console.error("[Webhook] Missing type or data");
+      return NextResponse.json(
+        { error: "Missing type or data" },
+        { status: 400 }
       );
-      const { error } = await supabase
-        .from("emails")
-        .update({
-          opened_at: new Date().toISOString(),
-        })
-        .eq("leads_email", recipient)
-        .eq("resend_message_id", messageId);
-
-      if (error) {
-        console.error("[WEBHOOK] Supabase update error (opened):", error);
-        return NextResponse.json({ error }, { status: 500 });
-      }
-      console.log("[WEBHOOK] email.opened updated successfully");
-      return NextResponse.json({ received: true }, { status: 200 });
     }
 
     if (type === "email.delivered") {
-      const { messageId, recipient } = data || {};
-      console.log(
-        `[WEBHOOK] email.delivered: messageId=${messageId}, recipient=${recipient}`
-      );
+      const { messageId, recipient } = data;
       if (!messageId || !recipient) {
-        console.error("[WEBHOOK] Missing messageId or recipient", {
-          messageId,
-          recipient,
-        });
+        console.error(
+          "[Webhook] Missing messageId or recipient in delivered event"
+        );
         return NextResponse.json(
           { error: "Missing messageId or recipient" },
           { status: 400 }
         );
       }
+      const supabase = await createServerClient();
       const { error } = await supabase
         .from("emails")
-        .update({
-          delivered: true,
-        })
+        .update({ delivered: true })
         .eq("leads_email", recipient)
         .eq("resend_message_id", messageId);
       if (error) {
-        console.error("[WEBHOOK] Supabase update error (delivered):", error);
+        console.error("[Webhook] Supabase update error (delivered):", error);
         return NextResponse.json({ error }, { status: 500 });
       }
-      console.log("[WEBHOOK] email.delivered updated successfully");
+      console.log("[Webhook] Email marked as delivered for:", {
+        recipient,
+        messageId,
+      });
       return NextResponse.json({ received: true }, { status: 200 });
     }
-    console.log("[WEBHOOK] Ignored event type:", type);
+
+    // Optionally handle other event types (e.g., email.opened)
+
     return NextResponse.json({ ignored: true }, { status: 200 });
   } catch (error) {
-    console.error("[WEBHOOK] Handler error:", error);
+    console.error("[Webhook] Handler error:", error);
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 }
-
-// 00050c4c-7e05-40b1-8d71-bef6f6eeefdf  << am lids shevucvale emaili
-
-//kenneth.collins@le-vel.com
