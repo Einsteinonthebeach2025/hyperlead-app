@@ -33,10 +33,12 @@ export async function POST(req) {
     }
 
     if (type === "email.delivered") {
-      const { messageId, recipient } = data;
+      const messageId = data.email_id;
+      const recipient = Array.isArray(data.to) ? data.to[0] : data.to;
       if (!messageId || !recipient) {
         console.error(
-          "[Webhook] Missing messageId or recipient in delivered event"
+          "[Webhook] Missing messageId or recipient in delivered event",
+          { messageId, recipient }
         );
         return NextResponse.json(
           { error: "Missing messageId or recipient" },
