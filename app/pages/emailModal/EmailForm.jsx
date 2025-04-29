@@ -29,7 +29,8 @@ const EmailForm = ({ data = {}, closeModal }) => {
         user_id: user.id,
         email: user.email,
         lead_id: data?.id,
-        lead_email: data?.email,
+        // lead_email: data?.email,
+        lead_email: "graphchiqovani@yahoo.com",
         subject: formData.subject,
         message: formData.message,
       });
