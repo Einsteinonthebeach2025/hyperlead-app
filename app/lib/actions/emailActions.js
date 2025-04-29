@@ -13,14 +13,6 @@ export async function sendEmail({
   subject,
   message,
 }) {
-  console.log("[sendEmail] Input:", {
-    user_id,
-    email,
-    lead_id,
-    lead_email,
-    subject,
-    message,
-  });
   try {
     const htmlContent = generateEmailHTML(subject, message);
     const { data: emailData } = await resend.emails.send({
@@ -42,19 +34,16 @@ export async function sendEmail({
         message,
         status: "sent",
         sent_at: new Date().toISOString(),
-        resend_message_id: emailData?.id,
+        resend_message_id: emailData?.id?.toString().trim(),
       })
       .select()
       .single();
 
     if (error) {
-      console.error("[sendEmail] Supabase insert error:", error);
       throw error;
     }
-    console.log("[sendEmail] Successfully inserted email record:", data);
     return { success: true, data };
   } catch (error) {
-    console.error("[sendEmail] Error:", error);
     return { success: false, error: error.message };
   }
 }
