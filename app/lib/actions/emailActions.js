@@ -14,9 +14,10 @@ export async function sendEmail({
   message,
 }) {
   try {
-    const htmlContent = generateEmailHTML(subject, message);
+    const htmlContent = generateEmailHTML(subject, message, email);
     const { data: emailData } = await resend.emails.send({
-      from: "onboarding@resend.dev",
+      from: "contact@hyperlead.net",
+      sender: email,
       to: lead_email,
       subject,
       html: htmlContent,
