@@ -18,12 +18,12 @@ const Button = ({
       onClick={onClick}
       className={`${className} ${
         type === "light"
-          ? "light-style border px-4 py-1 md:py-2"
+          ? "light-style border px-4 py-1"
           : type === "blue"
-            ? "blue-style text-sm border px-4 py-1 md:py-2"
+            ? "blue-style text-sm border px-4 py-1 "
             : type === "link"
               ? "text-neutral-600 hover:text-black"
-              : "black-style px-4 py-1 md:py-2"
+              : "black-style px-4 py-1 "
       } text-[11px] md:text-sm [&_svg]:text-sm md:[&_svg]:text-lg cursor-pointer font-semibold flex items-center space-x-1 rounded-3xl capitalize duration-300`}
     >
       <>

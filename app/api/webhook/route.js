@@ -6,10 +6,6 @@ export async function POST(req) {
     const eventType = body.type;
     const messageId = body.data?.email_id;
 
-    console.log("Incoming webhook:", JSON.stringify(body, null, 2));
-    console.log("Event type:", eventType);
-    console.log("Email ID:", messageId);
-
     if (
       !messageId ||
       !["email.delivered", "email.opened"].includes(eventType)

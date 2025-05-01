@@ -17,7 +17,7 @@ export async function sendEmail({
     const htmlContent = generateEmailHTML(subject, message, email);
     const { data: emailData } = await resend.emails.send({
       from: "contact@hyperlead.net",
-      sender: email,
+      // replyTo: email,
       to: lead_email,
       subject,
       html: htmlContent,

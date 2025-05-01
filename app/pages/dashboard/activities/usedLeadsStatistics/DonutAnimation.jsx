@@ -8,7 +8,7 @@ const DonutAnimation = ({ data }) => {
   let accumulatedOffset = 0;
 
   return (
-    <svg className="" viewBox="0 0 100 100">
+    <svg className="w-full h-full" viewBox="0 0 100 100">
       {data?.map((activity, index) => {
         const percentage = totalValue ? activity.value / totalValue : 0;
         const strokeLength = percentage * circumference;

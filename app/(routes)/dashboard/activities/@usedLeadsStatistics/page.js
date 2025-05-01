@@ -1,10 +1,5 @@
 import { createServerClient } from "app/lib/config/supabaseServer";
-import Activities from "app/pages/dashboard/activities/Activities";
-
-export const metadata = {
-  title: "Hyperlead | Dashboard",
-  description: "User Dashboard",
-};
+import UsedLeadsInsight from "app/pages/dashboard/activities/usedLeadsStatistics/UsedLeadsInsight";
 
 const getUserStatistics = async () => {
   const supabase = await createServerClient();
@@ -15,18 +10,14 @@ const getUserStatistics = async () => {
   if (sessionError || !session?.user) {
     return null;
   }
-  // Fetch profile data
   const { data: profile, error: profileError } = await supabase
     .from("profiles")
-    .select(
-      "subscription, monthly_leads, leads_received_this_month, total_leads_received"
-    )
+    .select("id")
     .eq("id", session.user.id)
     .single();
   if (profileError) {
     return null;
   }
-  // Fetch user_leads data to analyze used/unused
   const { data: userLeads, error: leadsError } = await supabase
     .from("user_leads")
     .select("used")
@@ -34,7 +25,6 @@ const getUserStatistics = async () => {
   if (leadsError || !userLeads) {
     return { ...profile, used_stats: null };
   }
-  // Calculate stats
   const usedCount = userLeads.filter((lead) => lead.used).length;
   const unusedCount = userLeads.length - usedCount;
 
@@ -47,9 +37,9 @@ const getUserStatistics = async () => {
   };
 };
 
-const ActivitiesPage = async () => {
-  const statisticsData = await getUserStatistics();
-  return <Activities statisticsData={statisticsData} />;
+const UsedLeadsStatisticsPage = async () => {
+  const usedLeadsData = await getUserStatistics();
+  return <UsedLeadsInsight data={usedLeadsData} />;
 };
 
-export default ActivitiesPage;
+export default UsedLeadsStatisticsPage;

@@ -5,31 +5,35 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>${subject}</title>
+    <!-- Plain text fallback -->
+    <!-- ${subject} | ${message.replace(/<[^>]+>/g, "")} | From: ${sender} -->
 </head>
 
-<body>
-    <table width="100%" height="100%" cellpadding="0" cellspacing="0" background-color: #ffffff;
-        style="display: flex; flex-direction: column; overflow: hidden;">
-
+<body style="margin: 0; padding: 0; width: 100%;">
+    <table width="100%" height="100%" cellpadding="0" cellspacing="0"
+        style="width: 100%; max-width: 100%; background-color: #ffffff;">
         <tr>
-            <td align="center" style=" padding: 20px; width: 100%; background-color: #e5e5e5e5;">
-                <img src="/assets/icon.png" alt="welcome" style="width: 40px; height: 40px; display: block;" />
-                <h1 style="font-size: 24px; font-weight: bold; margin: 10px 0 0;">Hyperlead</h1>
+            <td align="center" style="padding: 20px; width: 100%; background-color: #e5e5e5;">
+                <img src="https://cdn-icons-png.flaticon.com/512/565/565547.png" alt="welcome"
+                    style="width: 40px; height: 40px; display: block;" />
+                <h1 style="font-size: 24px; font-weight: bold; margin: 10px 0 0; color: black;">Hyperlead</h1>
             </td>
         </tr>
 
         <tr>
-            <td style="padding: 20px; text-align: left; vertical-align: top; flex-grow: 1; ">
-                <div style="min-height: 300px;">
-                    <h2 style="font-size: 22px; font-weight: bold; margin: 0 0 10px;  text-transform: capitalize;">
-                        ${subject}</h2>
-                    <p style="font-size: 14px; margin: 0; color: grey">${message}</p>
+            <td style="padding: 20px; text-align: left; vertical-align: top;">
+                <div style="min-height: 300px; max-width: 100%;">
+                    <h2
+                        style="font-size: 22px; font-weight: bold; margin: 0 0 10px; text-transform: capitalize; padding-bottom: 10px; border-bottom: 1px solid #e5e5e5; color: black">
+                        ${subject}
+                    </h2>
+                    <p style="font-size: 14px; margin: 0; color: #545252; line-height: 1.5;">${message}</p>
                 </div>
             </td>
         </tr>
 
         <tr>
-            <td align="center" style="background-color: #e5e5e5; padding: 20px; ">
+            <td align="center" style="background-color: #e5e5e5; padding: 20px;">
                 <table cellpadding="0" cellspacing="0" border="0" style="margin-bottom: 10px;">
                     <tr>
                         <td>
@@ -47,11 +51,21 @@
                     </tr>
                 </table>
 
-                <a href="https://hyperlead-application.vercel.app"
-                    style="font-size: 14px; color: #2563eb; text-decoration: underline;">Visit our page</a>
+                <a href="https://www.hyperlead.net"
+                    style="display: inline-flex; align-items: center; gap: 8px; padding: 6px 12px; background-color: #000000; color: white; font-weight: bold; border-radius: 15px; text-decoration: none; font-size: 14px;">
 
-                <p style="font-size: 12px; font-weight: bold; margin-top: 10px;">
+                    <img src="https://thvbmvercsjaxtmoewue.supabase.co/storage/v1/object/sign/images/web.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJpbWFnZXMvd2ViLnBuZyIsImlhdCI6MTc0NjAxOTU4NSwiZXhwIjoxNzc3NTU1NTg1fQ.ENR_AfRbEguFdLdkn4a_BmvAUAI0Z_sneuGZGCgfgMY"
+                        alt="Website icon" style="width: 16px; height: 16px; border: 1px solid white" />
+
+                    <span>Go to Hyperlead</span>
+                </a>
+
+                <p style="font-size: 12px; font-weight: bold; margin-top: 10px; color: black;">
                     © ${new Date().getFullYear()} Hyperlead App. All rights reserved.
+                </p>
+
+                <p style="font-size: 12px; margin-top: 8px; color: #333;">
+                    Sent by: <strong>${sender}</strong>
                 </p>
             </td>
         </tr>
@@ -60,7 +74,7 @@
 
 </html>
 
-// import { createServerClient } from "app/lib/config/supabaseServer";
+<!-- // import { createServerClient } from "app/lib/config/supabaseServer";
 // import { NextResponse } from "next/server";
 
 // export async function POST(req) {
@@ -114,4 +128,4 @@
 // }
 // }
 
-// 00050c4c-7e05-40b1-8d71-bef6f6eeefdf << am lids shevucvale emaili //kenneth.collins@le-vel.com
+// 00050c4c-7e05-40b1-8d71-bef6f6eeefdf << am lids shevucvale emaili //kenneth.collins@le-vel.com -->
