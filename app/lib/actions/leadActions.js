@@ -96,6 +96,20 @@ export const assignLeadsToUser = async (
     const previouslyReceivedLeadIds =
       allUserLeads?.map((lead) => lead.lead_id) || [];
 
+    // Get all leads currently assigned to the user (in case delete hasn't finished or for safety)
+    const { data: currentUserLeads, error: currentLeadsError } = await supabase
+      .from("user_leads")
+      .select("lead_id")
+      .eq("user_id", userId);
+
+    const currentlyAssignedLeadIds =
+      currentUserLeads?.map((lead) => lead.lead_id) || [];
+
+    // Combine with previously received leads
+    const allExcludedLeadIds = [
+      ...new Set([...previouslyReceivedLeadIds, ...currentlyAssignedLeadIds]),
+    ];
+
     // Calculate how many leads we need from each industry
     const leadsPerIndustry = Math.floor(leadCount / preferences.length);
     const extraLeads = leadCount % preferences.length;
@@ -117,12 +131,8 @@ export const assignLeadsToUser = async (
         .contains("industry", [industry]);
 
       // Exclude previously received leads if any exist
-      if (previouslyReceivedLeadIds.length > 0) {
-        query = query.not(
-          "id",
-          "in",
-          `(${previouslyReceivedLeadIds.join(",")})`
-        );
+      if (allExcludedLeadIds.length > 0) {
+        query = query.not("id", "in", `(${allExcludedLeadIds.join(",")})`);
       }
 
       query = query.limit(industryLeadCount);
@@ -148,8 +158,15 @@ export const assignLeadsToUser = async (
       allAvailableLeads = [...allAvailableLeads, ...industryLeads];
     }
 
+    // Deduplicate allAvailableLeads by lead.id
+    const uniqueLeadsMap = new Map();
+    allAvailableLeads.forEach((lead) => {
+      uniqueLeadsMap.set(lead.id, lead);
+    });
+    const uniqueAvailableLeads = Array.from(uniqueLeadsMap.values());
+
     // Create user_leads entries for the new leads
-    const userLeadsToInsert = allAvailableLeads.map((lead) => ({
+    const userLeadsToInsert = uniqueAvailableLeads.map((lead) => ({
       user_id: userId,
       lead_id: lead.id,
       user_email: userEmail,
@@ -157,7 +174,7 @@ export const assignLeadsToUser = async (
     }));
 
     // Also record these leads in history to avoid future duplicates
-    const historyEntries = allAvailableLeads.map((lead) => ({
+    const historyEntries = uniqueAvailableLeads.map((lead) => ({
       user_id: userId,
       lead_id: lead.id,
       received_at: new Date().toISOString(),
