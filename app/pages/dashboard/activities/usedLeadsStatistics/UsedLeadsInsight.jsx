@@ -11,7 +11,7 @@ const UsedLeadsInsight = ({ data = {} }) => {
   const activities = [
     {
       title: "My total leads",
-      value: total,
+      value: total || 0,
       color: COLORS[1],
       width: 10,
     },

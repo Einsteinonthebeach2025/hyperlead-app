@@ -1,4 +1,5 @@
-import Button from "app/components/buttons/Button";
+import FlexBox from "app/components/containers/FlexBox";
+import SpanContainer from "app/components/containers/SpanContainer";
 import Title from "app/components/Title";
 
 const PricingTitle = ({ item }) => {
@@ -7,14 +8,20 @@ const PricingTitle = ({ item }) => {
   }
   return (
     <div>
-      <div className="relative mb-4">
-        <div className="absolute right-0 top-0">
-          {item.color && <Button type="blue">Most Popular</Button>}
-        </div>
+      <FlexBox type="row-between" className="items-center">
         <Title>{item.title}</Title>
+        {item.color && (
+          <SpanContainer color="blue">
+            <span className="pointer-events-none">Most Popular</span>
+          </SpanContainer>
+        )}
+      </FlexBox>
+      <div className="leading-4">
+        <span className="text-neutral-500 text-[12px]">{item.desc}</span>
       </div>
-      <span className="text-neutral-700">{item.desc}</span>
-      <h1 className="text-3xl md:text-6xl font-semibold">{item.price}$</h1>
+      <Title className="text-4xl">
+        {item.price}$ <span className="font-light"> Month</span>
+      </Title>
     </div>
   );
 };

@@ -1,14 +1,14 @@
 import { createServerClient } from "app/lib/config/supabaseServer";
-import DashboardPreferences from "app/pages/dashboard/preferences/DashboardPreferences";
+import IndustryStats from "app/pages/dashboard/activities/industryStatistics/IndustryStats";
 
-const PreferencesPage = async () => {
+const IndustryStatisticsPage = async () => {
   const supabase = await createServerClient();
 
   const {
     data: { session },
     error: sessionError,
   } = await supabase.auth.getSession();
-  if (!session?.user) return <DashboardPreferences data={null} />;
+  if (!session?.user) return <IndustryStats data={null} />;
 
   const { data: profile, error: profileError } = await supabase
     .from("profiles")
@@ -16,7 +16,7 @@ const PreferencesPage = async () => {
     .eq("id", session.user.id)
     .single();
   if (profileError || !profile) {
-    return <DashboardPreferences data={null} />;
+    return <IndustryStats data={null} />;
   }
 
   const { data: userLeads, error: userLeadsError } = await supabase
@@ -24,7 +24,7 @@ const PreferencesPage = async () => {
     .select("lead_id")
     .eq("user_id", session.user.id);
   if (userLeadsError || !userLeads) {
-    return <DashboardPreferences data={null} />;
+    return <IndustryStats data={null} />;
   }
   const allLeadIds = userLeads.map((ul) => ul.lead_id);
   const { data: allLeads, error: allLeadsError } = await supabase
@@ -32,7 +32,7 @@ const PreferencesPage = async () => {
     .select("industry")
     .in("id", allLeadIds);
   if (allLeadsError || !allLeads) {
-    return <DashboardPreferences data={null} />;
+    return <IndustryStats data={null} />;
   }
 
   const userPreferences = profile.preferences;
@@ -48,8 +48,7 @@ const PreferencesPage = async () => {
       }
     });
   });
-
-  return <DashboardPreferences data={preferenceLeadCounts} />;
+  return <IndustryStats data={preferenceLeadCounts} />;
 };
 
-export default PreferencesPage;
+export default IndustryStatisticsPage;

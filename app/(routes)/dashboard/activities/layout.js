@@ -12,6 +12,7 @@ const AnalyticsLayout = ({
   emailStatistics,
   leadsRegionStatistics,
   employeeStatistics,
+  industryStatistics,
 }) => {
   return (
     <div className="pr-4">
@@ -24,7 +25,10 @@ const AnalyticsLayout = ({
         {emailStatistics}
         {employeeStatistics}
       </div>
-      <div className="grid grid-cols-2 gap-4 pb-4">{leadsRegionStatistics}</div>
+      <div className="grid grid-cols-2 gap-4 pb-4">
+        {leadsRegionStatistics}
+        <div>{industryStatistics}</div>
+      </div>
     </div>
   );
 };

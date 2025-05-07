@@ -12,6 +12,7 @@ export default function NavigationWrapper() {
     pathname === "/resetpassword" ||
     pathname === "/resetpassword/update" ||
     pathname === "/feedback" ||
+    pathname === "/regions" ||
     pathname === "/preferences";
 
   if (isAuthRoute) {

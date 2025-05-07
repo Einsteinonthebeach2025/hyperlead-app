@@ -34,7 +34,14 @@ export const filterConfig = [
     type: "city",
     label: "Cities",
     getOptions: (leads) => [
-      ...new Set(leads.map((lead) => lead.city).filter(Boolean)),
+      ...new Set(
+        leads
+          .map((lead) => lead.city)
+          .filter(Boolean)
+          .map((city) =>
+            city.length > 17 ? city.slice(0, 17).trim() + "..." : city
+          )
+      ),
     ],
   },
   {

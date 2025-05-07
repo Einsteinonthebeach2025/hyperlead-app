@@ -1,66 +1,3 @@
-// const createOrUpdateProfile = async (user, profile = {}) => {
-//   try {
-//     // First, check if profile exists
-//     const { data: existingProfile, error: fetchError } = await supabase
-//       .from("profiles")
-//       .select("*")
-//       .eq("id", user.id)
-//       .single();
-//     if (fetchError && fetchError.code !== "PGRST116") {
-//       throw fetchError;
-//     }
-//     if (existingProfile) {
-//       const { data: updatedProfile, error: updateError } = await supabase
-//         .from("profiles")
-//         .update({
-//           email: user.email,
-//           userName:
-//             profile.userName ||
-//             user.user_metadata?.userName ||
-//             user.email?.split("@")[0],
-//           updated_at: new Date().toISOString(),
-//         })
-//         .eq("id", user.id)
-//         .select("*")
-//         .single();
-//       if (updateError) {
-//         throw updateError;
-//       }
-//       return updatedProfile;
-//     }
-//     const { data: newProfile, error: insertError } = await supabase
-//       .from("profiles")
-//       .insert({
-//         id: user.id,
-//         email: user.email,
-//         userName:
-//           profile.userName ||
-//           user.user_metadata?.userName ||
-//           user.email?.split("@")[0],
-//         created_at: new Date().toISOString(),
-//         updated_at: new Date().toISOString(),
-//         subscription: null,
-//         subscription_timestamp: null,
-//         leads_received_this_month: 0,
-//       })
-//       .select(
-//         "id, email, userName, created_at, updated_at, subscription, subscription_timestamp, leads_received_this_month"
-//       )
-//       .single();
-
-//     if (insertError) {
-//       console.error("Profile insert error:", insertError);
-//       throw insertError;
-//     }
-
-//     console.log("Profile created successfully:", newProfile);
-//     return newProfile;
-//   } catch (error) {
-//     console.error("Profile creation/update error:", error);
-//     throw error;
-//   }
-// };
-
 import handleAuthError from "app/helpers/handleAuthErrors";
 import supabase from "../config/supabaseClient";
 
@@ -106,17 +43,17 @@ export const signUp = async ({ email, password, userName }) => {
       options: {
         emailRedirectTo: `${window.location.origin}`,
         data: {
-          username: userName,
+          userName,
+          display_name: userName,
         },
       },
     });
     if (authError) {
       throw authError;
     }
-    await new Promise((resolve) => setTimeout(resolve, 500));
     const { data: updateData, error: updateError } =
       await supabase.auth.updateUser({
-        data: { username: userName },
+        data: { userName, display_name: userName },
       });
     if (updateError) {
       throw updateError;

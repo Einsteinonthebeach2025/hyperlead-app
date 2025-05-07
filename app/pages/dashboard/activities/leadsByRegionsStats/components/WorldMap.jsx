@@ -2,7 +2,7 @@ import { VectorMap } from "@react-jvectormap/core";
 import { worldMill } from "@react-jvectormap/world";
 import { countryCoordinates, countryNameToCode } from "app/helpers/utils";
 
-const WorldMap = ({ sortedData }) => {
+const WorldMap = ({ sortedData = [] }) => {
   const countries = sortedData.slice(0, 5).map((item) => item.country);
 
   const markers = countries

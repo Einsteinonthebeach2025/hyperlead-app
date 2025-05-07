@@ -21,11 +21,7 @@ const LeadsPage = async () => {
     .eq("id", session.user.id)
     .single();
 
-  if (
-    profileError ||
-    !profile?.subscription ||
-    !profile?.subscription_timestamp
-  ) {
+  if (profileError) {
     return <Leads data={null} message="Please subscribe to get leads" />;
   }
 

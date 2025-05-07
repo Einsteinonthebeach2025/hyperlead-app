@@ -3,7 +3,6 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
-import Header from "./Header";
 import ButtonSection from "./ButtonSection";
 import PrefList from "./PrefList";
 import { selectUser, updateUserProfile } from "app/features/userSlice";
@@ -12,6 +11,8 @@ import { updateProfile } from "app/lib/actions/profileActions";
 import MotionContainer from "app/components/containers/MotionContainer";
 import Logo from "app/components/Logo";
 import preferencesData from "app/localDB/preferencesData";
+import ContentHeadline from "app/components/ContentHeadline";
+import { assignDemoLeads } from "app/lib/actions/leadActions";
 
 const PreferencesForm = ({ initialPreferences = [] }) => {
   const router = useRouter();
@@ -39,14 +40,26 @@ const PreferencesForm = ({ initialPreferences = [] }) => {
         dispatch(setError("No data returned from update"));
         return;
       }
+      // assign demo leads
+      const {
+        success,
+        error: demoError,
+        assignedLeadsCount,
+      } = await assignDemoLeads(user.id, user.email, pref);
+
+      if (!success) {
+        console.error("Demo leads assignment error:", demoError);
+        dispatch(setError("Failed to assign demo leads"));
+        return;
+      }
       dispatch(
         setError({
-          message: "Preferences updated successfully",
+          message: `Preferences updated successfully. You've received ${assignedLeadsCount} demo leads!`,
           type: "success",
         })
       );
       dispatch(updateUserProfile({ preferences: pref }));
-      router.push("/");
+      router.push("/regions");
     } catch (error) {
       console.error("Unexpected error in updatePref:", error);
       dispatch(setError("An unexpected error occurred"));
@@ -61,7 +74,10 @@ const PreferencesForm = ({ initialPreferences = [] }) => {
       className="h-screen w-full center flex-col space-y-8"
     >
       <Logo />
-      <Header />
+      <ContentHeadline
+        title="Select Your Preferences"
+        desc="Choose any preferences that best match your industry focus"
+      />
       <PrefList data={preferencesData} pref={pref} setPref={setPref} />
       <ButtonSection pref={pref} loading={loading} updatePref={updatePref} />
     </MotionContainer>

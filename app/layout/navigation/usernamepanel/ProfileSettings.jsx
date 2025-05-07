@@ -53,6 +53,12 @@ const ProfileSettings = ({ isOpen, handleActive }) => {
       type: "link",
     },
     {
+      name: "Regions",
+      href: "/regions",
+      icon: <MdBusinessCenter />,
+      type: "link",
+    },
+    {
       name: "Logout",
       href: "/",
       icon: <IoIosLogOut />,
@@ -73,12 +79,12 @@ const ProfileSettings = ({ isOpen, handleActive }) => {
               ? handleSignOut
               : () => handleActive && handleActive();
             return (
-              <MotionChildren key={index} animation="fade-in">
+              <div key={index}>
                 <Button onClick={onClick} type={item.type} href={item.href}>
                   <span>{item.name}</span>
                   {item.icon}
                 </Button>
-              </MotionChildren>
+              </div>
             );
           })}
         </MotionContainer>

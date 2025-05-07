@@ -20,6 +20,7 @@ const Leads = ({
   const listRef = useRef(null);
   const [leads, setLeads] = useState(data || []);
   const [allLeads, setAllLeads] = useState(initialAllLeads || []);
+  const [searchResults, setSearchResults] = useState(null);
 
   if (!data) return <div className="center h-screen">{message}</div>;
 
@@ -37,15 +38,22 @@ const Leads = ({
   const handleReset = () => {
     setFilters({});
     setPage(1);
+    setSearchResults(null);
   };
 
   const handlePageChange = (newPage) => {
     setPage(newPage);
   };
 
+  const handleSearchResults = (results) => {
+    setSearchResults(results);
+    setPage(1);
+  };
+
   const filteredLeads = useMemo(() => {
-    return filterLeads(allLeads, filters);
-  }, [allLeads, filters]);
+    const leadsToFilter = searchResults || allLeads;
+    return filterLeads(leadsToFilter, filters);
+  }, [allLeads, filters, searchResults]);
 
   const paginatedLeads = useMemo(() => {
     const start = (page - 1) * leadsPerPage;
@@ -88,6 +96,7 @@ const Leads = ({
           handleFilterChange={handleFilterChange}
           handleReset={handleReset}
           currentFilters={filters}
+          onSearchResults={handleSearchResults}
         />
         <LeadCard
           leads={paginatedLeads}

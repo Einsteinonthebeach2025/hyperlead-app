@@ -6,14 +6,15 @@ const Benefits = ({ item }) => {
   }
 
   return (
-    <div>
+    <div className="space-y-2 mt-5">
       {item.benefits?.map((benefit, index) => (
-        <div
-          className="flex items-center space-x-3 pl-3 my-2 md:my-4"
-          key={index}
-        >
-          <IoMdCheckmark className="text-green-500" size={20} />
-          <span className="text-sm md:text-base">{benefit}</span>
+        <div className="space-x-2 flex items-center px-3" key={index}>
+          <div>
+            <IoMdCheckmark className="text-green-500" size={20} />
+          </div>
+          <div className="leading-0">
+            <span className="text-sm text-neutral-700">{benefit}</span>
+          </div>
         </div>
       ))}
     </div>

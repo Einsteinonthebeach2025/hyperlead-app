@@ -5,7 +5,7 @@ import CountryStats from "./components/CountryStats";
 import { useToggleLocal } from "app/hooks/useToggleLocal";
 import ShowAllStats from "./components/ShowAllStats";
 import Button from "app/components/buttons/Button";
-import Header from "./components/Header";
+import ContentHeadline from "app/components/ContentHeadline";
 const WorldMap = dynamic(() => import("./components/WorldMap"), {
   ssr: false,
 });
@@ -23,7 +23,11 @@ const LeadsByRegions = ({ data }) => {
 
   return (
     <CardContainer className="space-y-2 w-full mx-auto relative overflow-hidden">
-      <Header />
+      <ContentHeadline
+        type="column-start"
+        title="Geographic Pulse of Your Leads"
+        desc=" Visual breakdown of where your most leads are coming from this month"
+      />
       <Button onClick={handleShowAll} type="blue">
         show all
       </Button>

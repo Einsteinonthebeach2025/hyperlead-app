@@ -7,10 +7,7 @@ import Paragraph from "app/components/Paragraph";
 import Title from "app/components/Title";
 import { setError } from "app/features/modalSlice";
 import { selectUser, setUser } from "app/features/userSlice";
-import {
-  assignLeadsToUser,
-  simulateSubscriptionExpiration,
-} from "app/lib/actions/leadActions";
+import { assignLeadsToUser } from "app/lib/actions/leadActions";
 import { updateProfile } from "app/lib/actions/profileActions";
 import supabase from "app/lib/config/supabaseClient";
 import { useState } from "react";
@@ -50,7 +47,7 @@ const Card = () => {
         user.email,
         user.profile.preferences,
         monthlyLeads,
-        true // This is a new subscription
+        true
       );
       if (!success) {
         throw new Error(leadError || "Failed to assign leads");
@@ -97,28 +94,6 @@ const Card = () => {
     }
   };
 
-  const handleTestExpiration = async () => {
-    try {
-      const {
-        data: { session },
-      } = await supabase.auth.getSession();
-      const result = await simulateSubscriptionExpiration(session.user.id);
-      if (result.error) {
-        dispatch(setError({ message: result.error }));
-      } else {
-        dispatch(
-          setError({
-            message:
-              "Subscription expired successfully! You can now test renewal.",
-            type: "success",
-          })
-        );
-      }
-    } catch (error) {
-      dispatch(setError({ message: error.message }));
-    }
-  };
-
   return (
     <>
       <MotionContainer
@@ -152,9 +127,6 @@ const Card = () => {
           </CardContainer>
         </MotionChildren>
       </MotionContainer>
-      <Button onClick={handleTestExpiration}>
-        Test Subscription Expiration
-      </Button>
     </>
   );
 };
