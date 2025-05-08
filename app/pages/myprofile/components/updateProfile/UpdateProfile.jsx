@@ -26,6 +26,10 @@ const UpdateProfile = () => {
     city: "",
     sex: "",
     userBirthDate: "",
+    linkedin_url: "",
+    twitter_url: "",
+    web_url: "",
+    position: "",
   });
 
   // Initialize form data when user data is available
@@ -42,6 +46,10 @@ const UpdateProfile = () => {
         city: user.profile.city || "",
         sex: user.profile.sex || "",
         userBirthDate: user.profile.userBirthDate || "",
+        linkedin_url: user.profile.linkedin_url || "",
+        twitter_url: user.profile.twitter_url || "",
+        web_url: user.profile.web_url || "",
+        position: user.profile.position || "",
       });
     }
   }, [user]);
@@ -103,7 +111,7 @@ const UpdateProfile = () => {
     <MotionContainer animation="fade-in">
       <FormContainer>
         <form className="center flex-col space-y-5" onSubmit={handleSubmit}>
-          <FlexBox type="column-1">
+          <FlexBox type="column">
             <Title>Update Profile</Title>
             <Paragraph>Your current information</Paragraph>
           </FlexBox>
@@ -227,6 +235,54 @@ const UpdateProfile = () => {
                 value={formData.address}
                 onChange={handleChange}
                 placeholder="Enter your address"
+              />
+            </div>
+
+            <div>
+              <label htmlFor="linkedin_url">LinkedIn URL</label>
+              <input
+                type="url"
+                id="linkedin_url"
+                name="linkedin_url"
+                value={formData.linkedin_url}
+                onChange={handleChange}
+                placeholder="Enter your LinkedIn profile URL"
+              />
+            </div>
+
+            <div>
+              <label htmlFor="twitter_url">Twitter URL</label>
+              <input
+                type="url"
+                id="twitter_url"
+                name="twitter_url"
+                value={formData.twitter_url}
+                onChange={handleChange}
+                placeholder="Enter your Twitter profile URL"
+              />
+            </div>
+
+            <div>
+              <label htmlFor="web_url">Website URL</label>
+              <input
+                type="url"
+                id="web_url"
+                name="web_url"
+                value={formData.web_url}
+                onChange={handleChange}
+                placeholder="Enter your website URL"
+              />
+            </div>
+
+            <div>
+              <label htmlFor="position">Position</label>
+              <input
+                type="text"
+                id="position"
+                name="position"
+                value={formData.position}
+                onChange={handleChange}
+                placeholder="Enter your position"
               />
             </div>
           </div>

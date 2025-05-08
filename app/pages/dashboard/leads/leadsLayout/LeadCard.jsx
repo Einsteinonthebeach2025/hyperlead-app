@@ -15,7 +15,6 @@ const LeadCard = ({ leads, onLeadStatusChange }) => {
     try {
       const result = await updateLeadUsedStatus(leadId);
       if (!result.success) {
-        console.error("Failed to update lead status:", result.error);
         return;
       }
       router.push(`/dashboard/leads/${leadId}`);

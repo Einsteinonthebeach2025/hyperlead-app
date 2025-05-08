@@ -23,7 +23,7 @@ const WorldMap = ({ sortedData = [] }) => {
   }, {});
 
   return (
-    <div className="w-full h-[250px] overflow-hidden">
+    <div className="w-full h-[250px] overflow-hidden ">
       <VectorMap
         map={worldMill}
         backgroundColor="transparent"

@@ -27,7 +27,8 @@ const Regions = ({ initialRegions = [] }) => {
       <Logo />
       <WorldMap sortedData={[]} />
       <ContentHeadline
-        className="w-full lg:w-[45%] *:text-center px-3"
+        type="column-center"
+        className="w-full lg:w-[45%] text-center"
         title="Define Your Target Regions"
         desc="By selecting one or more regions, your lead recommendations will be filtered accordingly. If no regions are selected, you'll automatically receive unfiltered leads from all available areas nationwide."
       />

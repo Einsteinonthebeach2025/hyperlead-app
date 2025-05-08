@@ -11,6 +11,7 @@ import FormContainer from "app/components/containers/FormContainer";
 import Button from "app/components/buttons/Button";
 import { selectUser } from "app/features/userSlice";
 import ProfileInformation from "./components/profileInformation/ProfileInformation";
+import GradientContainer from "app/components/containers/GradientContainer";
 
 const MyProfile = memo(({ data }) => {
   const { isOpen, toggleState } = useToggleLocal(false);
@@ -22,7 +23,8 @@ const MyProfile = memo(({ data }) => {
   }, [toggleState]);
 
   return (
-    <FlexBox type="center-col" className="relative py-10">
+    <FlexBox type="center-col" className="relative py-10 space-y-10">
+      <GradientContainer />
       <FormContainer className="w-[90%]">
         <BackgroundWallpaper profile={data} />
         <FlexBox type="center-col" className="w-full relative">

@@ -12,14 +12,14 @@ const PricingList = () => {
 
   return (
     <MotionContainer
-      animation="zoom-out"
+      animation="fade-in"
       type="in-view"
       className="hidden md:grid md:grid-cols-3 lg:px-[10%] space-x-5"
     >
       {pricingData?.map((item) => {
         return (
           <MotionChildren
-            animation="zoom-out"
+            animation="fade-in"
             key={item.id}
             className={`primary-border flex flex-col justify-between items-center space-y-5 ${
               item.color ? "bg-violet-300/30" : "bg-[#f8fafc]"

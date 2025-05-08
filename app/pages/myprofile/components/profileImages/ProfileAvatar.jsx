@@ -39,6 +39,12 @@ const ProfileAvatar = memo(({ profile: initialProfile = {}, userId }) => {
       try {
         const file = e.target.files?.[0];
         if (!file) return;
+        const MAX_FILE_SIZE = 500 * 1024;
+        if (file.size > MAX_FILE_SIZE) {
+          dispatch(setError("Image size should not exceed 500KB"));
+          e.target.value = "";
+          return;
+        }
         setUploading(true);
         uploadTimeoutRef.current = setTimeout(() => {
           setUploading(false);

@@ -1,19 +1,39 @@
-import MotionContainer from "app/components/containers/MotionContainer";
-import Paragraph from "app/components/Paragraph";
+import { CountryFlags } from "app/components/CountryFlags";
 import Title from "app/components/Title";
+import ProfileSocialLinks from "./ProfileSocialLinks";
+import CardContainer from "app/components/containers/CardContainer";
+import SubscribtionStatus from "./SubscribtionStatus";
 
 const ProfileHeader = ({ profile }) => {
   return (
-    <>
-      <Paragraph>Profile Information</Paragraph>
-      <MotionContainer animation="zoom-out">
+    <CardContainer className="flex justify-between w-full px-5">
+      <div className="flex flex-col gap-2">
+        <SubscribtionStatus />
         <Title className="capitalize">
-          {profile?.firstName || profile?.lastName
-            ? `${profile?.firstName || ""} ${profile?.lastName || ""}`.trim()
-            : "Update your information below"}
+          {profile?.firstName} {profile?.lastName}
         </Title>
-      </MotionContainer>
-    </>
+        <UserDetails profile={profile} />
+      </div>
+      <ProfileSocialLinks profile={profile} />
+    </CardContainer>
+  );
+};
+
+const UserDetails = ({ profile }) => {
+  return (
+    <div className="gap-2 flex capitalize text-sm text-neutral-500">
+      {profile?.country && profile?.city && (
+        <>
+          <div className="gap-1 flex">
+            <CountryFlags countryName={profile?.country} />
+            <span>{profile?.country},</span>
+            {profile?.city && <span>{profile?.city}</span>}
+          </div>
+          •
+        </>
+      )}
+      <span>{profile?.position}</span>
+    </div>
   );
 };
 

@@ -1,11 +1,3 @@
-import MotionContainer from "app/components/containers/MotionContainer";
-import Headline from "app/components/Headline";
-
-export const metadata = {
-  title: "HYPERLEAD | My Analytics",
-  description: "My Analytics",
-};
-
 const AnalyticsLayout = ({
   basicStatistics,
   usedLeadsStatistics,
@@ -13,12 +5,11 @@ const AnalyticsLayout = ({
   leadsRegionStatistics,
   employeeStatistics,
   industryStatistics,
+  children,
 }) => {
   return (
     <div className="pr-4">
-      <MotionContainer animation="fade-in">
-        <Headline className="w-fit">Dashboard</Headline>
-      </MotionContainer>
+      {children}
       {basicStatistics}
       <div className="grid grid-cols-[1fr_1.5fr_1fr] gap-4 py-4">
         {usedLeadsStatistics}

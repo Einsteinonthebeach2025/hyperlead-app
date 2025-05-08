@@ -1,28 +1,29 @@
-import FlexBox from "app/components/containers/FlexBox";
-import SubTitle from "app/components/SubTitle";
+import CardContainer from "app/components/containers/CardContainer";
+import InfoContainer from "app/components/containers/InfoContainer";
+import Title from "app/components/Title";
 
 const ProfileDetails = ({ profile }) => {
-  const renderProfileField = (label, value) => {
-    if (!value) return null;
-    return (
-      <FlexBox type="row-start">
-        <span className="text-neutral-400 italic capitalize w-18 text-start mr-4">
-          {label}:
-        </span>
-        <SubTitle>{value}</SubTitle>
-      </FlexBox>
-    );
-  };
-
   return (
-    <div className=" my-6 w-full center flex-col">
-      {renderProfileField("Country", profile?.country)}
-      {renderProfileField("City", profile?.city)}
-      {renderProfileField("Phone", profile?.phone)}
-      {renderProfileField("Date", profile?.userBirthDate)}
-      {renderProfileField("Sex", profile?.sex)}
-      {renderProfileField("Company", profile?.company)}
-      {renderProfileField("Address", profile?.address)}
+    <div className="w-full grid grid-cols-2 gap-4">
+      <CardContainer>
+        <Title>Personal Information</Title>
+        <div className="grid grid-cols-2 gap-4 mt-5">
+          <InfoContainer text="Email" subText={profile?.email} />
+          <InfoContainer text="Phone" subText={profile?.phone} />
+          <InfoContainer text="Company" subText={profile?.company} />
+          <InfoContainer text="Position" subText={profile?.position} />
+          <InfoContainer text="Gender" subText={profile?.sex} />
+        </div>
+      </CardContainer>
+      <CardContainer>
+        <Title>Address</Title>
+        <div className="grid grid-cols-2 gap-4 mt-5">
+          <InfoContainer text="Country" subText={profile?.country} />
+          <InfoContainer text="City" subText={profile?.city} />
+          <InfoContainer text="address" subText={profile?.address} />
+          <InfoContainer text="Date" subText={profile?.userBirthDate} />
+        </div>
+      </CardContainer>
     </div>
   );
 };

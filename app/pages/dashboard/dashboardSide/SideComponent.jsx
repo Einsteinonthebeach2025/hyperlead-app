@@ -3,21 +3,12 @@ import MotionChildren from "app/components/containers/MotionChildren";
 import MotionContainer from "app/components/containers/MotionContainer";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import {
-  MdDashboard,
-  MdLeaderboard,
-  MdOutlineAttachMoney,
-} from "react-icons/md";
+import { MdDashboard, MdLeaderboard } from "react-icons/md";
 
 const SideComponent = () => {
   const pathname = usePathname();
 
   const links = [
-    {
-      href: "/dashboard/subscription",
-      label: "Subscription",
-      icon: <MdOutlineAttachMoney />,
-    },
     {
       href: "/dashboard/activities",
       label: "Activities",

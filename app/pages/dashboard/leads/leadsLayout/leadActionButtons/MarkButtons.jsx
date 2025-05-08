@@ -1,5 +1,6 @@
 import FlexBox from "app/components/containers/FlexBox";
 import MotionContainer from "app/components/containers/MotionContainer";
+import HoverModal from "app/components/HoverModal";
 import { useToggleLocal } from "app/hooks/useToggleLocal";
 import { updateLeadUsedStatus } from "app/lib/actions/leadActions";
 import { AnimatePresence } from "framer-motion";
@@ -34,23 +35,12 @@ const MarkButton = ({ lead, onStatusChange }) => {
           {active ? <FaBookmark /> : <FaRegBookmark />}
         </div>
       </FlexBox>
-      <Hoverable isOpen={isOpen} active={active} />
+      <HoverModal
+        isOpen={isOpen}
+        className="left-5 bottom-1"
+        text={active ? "Mark as unread" : "Mark as read"}
+      />
     </>
-  );
-};
-
-const Hoverable = ({ isOpen, active }) => {
-  return (
-    <AnimatePresence>
-      {isOpen && (
-        <MotionContainer
-          animation="zoom-out"
-          className=" rounded-md px-2 py-1 absolute shadow-[4px_4px_5px_0px_#909090] left-5 bottom-1 text-white w-fit text-[10px] font-bold  bg-neutral-700 z-10"
-        >
-          <span>{active ? "Mark as unread" : "Mark as read"}</span>
-        </MotionContainer>
-      )}
-    </AnimatePresence>
   );
 };
 

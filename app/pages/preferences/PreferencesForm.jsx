@@ -75,6 +75,8 @@ const PreferencesForm = ({ initialPreferences = [] }) => {
     >
       <Logo />
       <ContentHeadline
+        type="column-center"
+        className="text-center"
         title="Select Your Preferences"
         desc="Choose any preferences that best match your industry focus"
       />

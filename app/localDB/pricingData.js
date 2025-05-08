@@ -38,21 +38,21 @@ const pricingData = [
       "Priority support",
     ],
   },
-  {
-    id: 2,
-    title: "Enterprise",
-    desc: " Built for sales teams, agencies, and high-growth companies that need scale, control, and custom workflows.",
-    price: 249,
-    link: "/",
-    benefits: [
-      "800  verified decision-maker leads/month",
-      "All Growth features, plus:",
-      "Unlimited email campaigns",
-      "Dedicated account manager for onboarding + support",
-      "Team access: multi-user login and collaboration tools",
-      "Slack and phone support",
-    ],
-  },
+  // {
+  //   id: 2,
+  //   title: "Enterprise",
+  //   desc: " Built for sales teams, agencies, and high-growth companies that need scale, control, and custom workflows.",
+  //   price: 249,
+  //   link: "/",
+  //   benefits: [
+  //     "800  verified decision-maker leads/month",
+  //     "All Growth features, plus:",
+  //     "Unlimited email campaigns",
+  //     "Dedicated account manager for onboarding + support",
+  //     "Team access: multi-user login and collaboration tools",
+  //     "Slack and phone support",
+  //   ],
+  // },
 ];
 
 export default pricingData;
