@@ -7,7 +7,7 @@ export const metadata = {
 };
 
 const LeadsPage = async () => {
-  const leadsPerPage = 10;
+  const leadsPerPage = 20;
   const supabase = await createServerClient();
   const {
     data: { session },

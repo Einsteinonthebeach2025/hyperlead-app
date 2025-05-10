@@ -5,9 +5,9 @@ import { sendEmail } from "app/lib/actions/emailActions";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import SubmitButtons from "./SubmitButtons";
-import { setError } from "app/features/modalSlice";
+import { clearSelectedLeads, setError } from "app/features/modalSlice";
 
-const EmailForm = ({ data = {}, closeModal }) => {
+const EmailForm = ({ data = [], closeModal }) => {
   const dispatch = useDispatch();
   const { user } = useSelector((store) => store.user || {});
   const [loading, setLoading] = useState(false);
@@ -19,28 +19,34 @@ const EmailForm = ({ data = {}, closeModal }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    if (!user?.id) {
-      dispatch(setError("User not authenticated"));
-      setLoading(false);
-      return;
-    }
     try {
-      const result = await sendEmail({
-        user_id: user.id,
-        email: user.email,
-        lead_id: data?.id,
-        lead_email: data?.email,
-        subject: formData.subject,
-        message: formData.message,
-      });
-
-      if (result.success) {
+      const emailPromises = data.map((lead) =>
+        sendEmail({
+          user_id: user.id,
+          email: user.email,
+          lead_id: lead.id,
+          lead_email: lead.email,
+          subject: formData.subject,
+          message: formData.message,
+        })
+      );
+      const results = await Promise.all(emailPromises);
+      const allSuccessful = results.every((result) => result.success);
+      if (allSuccessful) {
         closeModal();
+        dispatch(clearSelectedLeads());
         dispatch(
-          setError({ message: "Email sent successfully", type: "success" })
+          setError({
+            message: `Email sent successfully to ${data.length} recipient${data.length > 1 ? "s" : ""}`,
+            type: "success",
+          })
         );
       } else {
-        setError(result.error);
+        const errors = results
+          .filter((result) => !result.success)
+          .map((result) => result.error)
+          .join(", ");
+        dispatch(setError(errors));
       }
     } catch (error) {
       dispatch(setError(error.message));
@@ -56,6 +62,8 @@ const EmailForm = ({ data = {}, closeModal }) => {
       [name]: value,
     }));
   };
+
+  const recipientEmails = data?.map((lead) => lead.email).join(", ");
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4 w-full my-5">
@@ -75,8 +83,8 @@ const EmailForm = ({ data = {}, closeModal }) => {
           <input
             id="lead_email"
             name="lead_email"
-            type="email"
-            value={data?.email}
+            type="text"
+            value={recipientEmails}
             disabled
           />
         </div>
@@ -105,7 +113,7 @@ const EmailForm = ({ data = {}, closeModal }) => {
       <SubmitButtons
         loading={loading}
         onCancel={closeModal}
-        submitText="Send Email"
+        submitText={`Send Email${data.length > 1 ? ` to ${data.length} Recipients` : ""}`}
       />
     </form>
   );

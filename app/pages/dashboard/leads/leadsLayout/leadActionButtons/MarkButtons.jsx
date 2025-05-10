@@ -1,9 +1,7 @@
 import FlexBox from "app/components/containers/FlexBox";
-import MotionContainer from "app/components/containers/MotionContainer";
 import HoverModal from "app/components/HoverModal";
 import { useToggleLocal } from "app/hooks/useToggleLocal";
 import { updateLeadUsedStatus } from "app/lib/actions/leadActions";
-import { AnimatePresence } from "framer-motion";
 import { FaBookmark, FaRegBookmark } from "react-icons/fa6";
 
 const MarkButton = ({ lead, onStatusChange }) => {
@@ -37,7 +35,7 @@ const MarkButton = ({ lead, onStatusChange }) => {
       </FlexBox>
       <HoverModal
         isOpen={isOpen}
-        className="left-5 bottom-1"
+        className="left-8 bottom-1"
         text={active ? "Mark as unread" : "Mark as read"}
       />
     </>

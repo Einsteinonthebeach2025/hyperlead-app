@@ -10,6 +10,7 @@ import { clearUser } from "app/features/userSlice";
 import { setError } from "app/features/modalSlice";
 import MotionContainer from "app/components/containers/MotionContainer";
 import Button from "app/components/buttons/Button";
+import CardContainer from "app/components/containers/CardContainer";
 
 const ProfileSettings = ({ isOpen, handleActive }) => {
   const dispatch = useDispatch();
@@ -74,31 +75,30 @@ const ProfileSettings = ({ isOpen, handleActive }) => {
   return (
     <AnimatePresence>
       {isOpen && (
-        <MotionContainer
-          animation="bottom"
-          className="absolute z-10 top-12 right-0 w-44 primary-border space-y-1 bg-white border shadow *:flex *:justify-end"
-        >
-          {links?.map((item, index) => {
-            return (
-              <div key={index}>
-                <Button
-                  onClick={(e) => {
-                    e.preventDefault();
-                    if (item.isLogout) {
-                      handleSignOut(e);
-                    } else if (handleActive) {
-                      handleActive();
-                    }
-                  }}
-                  type={item.type}
-                  href={item.href}
-                >
-                  <span>{item.name}</span>
-                  {item.icon}
-                </Button>
-              </div>
-            );
-          })}
+        <MotionContainer animation="bottom">
+          <CardContainer className="absolute z-10 top-14 right-0 w-44 primary-border space-y-1 bg-white border shadow-md *:flex *:justify-end">
+            {links?.map((item, index) => {
+              return (
+                <div key={index}>
+                  <Button
+                    onClick={(e) => {
+                      e.preventDefault();
+                      if (item.isLogout) {
+                        handleSignOut(e);
+                      } else if (handleActive) {
+                        handleActive();
+                      }
+                    }}
+                    type={item.type}
+                    href={item.href}
+                  >
+                    <span>{item.name}</span>
+                    {item.icon}
+                  </Button>
+                </div>
+              );
+            })}
+          </CardContainer>
         </MotionContainer>
       )}
     </AnimatePresence>

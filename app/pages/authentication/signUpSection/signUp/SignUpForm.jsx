@@ -21,7 +21,6 @@ const SignUpForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!dispatch) return;
-
     setLocalLoading(true);
     dispatch(setLoading(true));
     if (
@@ -41,12 +40,12 @@ const SignUpForm = () => {
         dispatch(setError("Failed to create user profile"));
         return;
       }
-      dispatch(setUser(data));
+      router.push("/preferences");
       setEmail("");
       setUserName("");
       setPassword("");
       setConfirmPassword("");
-      router.push("/preferences");
+      dispatch(setUser(data));
     } catch (error) {
       dispatch(setError("An unexpected error occurred. Please try again."));
     } finally {

@@ -5,7 +5,7 @@ import LeadsPaginationButtons from "./leadsNavigation/LeadsPaginationButtons";
 import FlexBox from "app/components/containers/FlexBox";
 import MotionContainer from "app/components/containers/MotionContainer";
 import Headline from "app/components/Headline";
-import { filterLeads } from "app/helpers/leadsFilter";
+import { filterLeads } from "app/helpers/filterHelpers";
 import LeadFilter from "./leadsNavigation/LeadFilter";
 
 const Leads = ({
@@ -16,7 +16,7 @@ const Leads = ({
 }) => {
   const [filters, setFilters] = useState({});
   const [page, setPage] = useState(currentPage);
-  const leadsPerPage = 10;
+  const leadsPerPage = 20;
   const listRef = useRef(null);
   const [leads, setLeads] = useState(data || []);
   const [allLeads, setAllLeads] = useState(initialAllLeads || []);
@@ -85,9 +85,14 @@ const Leads = ({
     );
   };
 
+  //As an efficient method of communication, businesses big and small have adopted business text messaging in full force. Traditional communication channels such as email, direct calling, and mail just don’t hold up quite as strongly.
+
+  // fatema.akbari@onquality.de  << fatemas emaili pirveli lidi  --- dfd0a28d-a520-4d9a-b861-4660216fe8c5
+  // julian.boschinger@robart.cc  << robart gmbh emailii meore lidi   --- 87272ae2-0195-4f95-98b2-a25b25b30f62
+
   return (
     <div ref={listRef} className="w-full">
-      <FlexBox type="column" className="lg:pr-8 py-3 space-y-5">
+      <FlexBox type="column" className="lg:pr-6 py-3 space-y-5">
         <MotionContainer animation="fade-in">
           <Headline className="w-fit">Leads</Headline>
         </MotionContainer>

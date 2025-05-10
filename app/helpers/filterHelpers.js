@@ -79,3 +79,57 @@ export const filterLeads = (leads, filters) => {
     return true;
   });
 };
+
+// EMAIL FILTER LOGIC
+export const filterEmails = (data, { search, month, delivered, opened }) => {
+  return data.filter((item) => {
+    const subject = item.subject?.toLowerCase() || "";
+    const company = item.leads?.company_title?.toLowerCase() || "";
+    const sentDate = new Date(item.sent_at);
+    const sentMonth = sentDate
+      .toLocaleString("default", { month: "long" })
+      .toLowerCase();
+    const matchesSearch =
+      subject.includes(search.toLowerCase()) ||
+      company.includes(search.toLowerCase());
+    const matchesMonth = month === "all" || sentMonth === month.toLowerCase();
+    const matchesDelivered =
+      delivered === "all" ||
+      (delivered === "true" && item.delivered) ||
+      (delivered === "false" && !item.delivered);
+    const matchesOpened =
+      opened === "all" ||
+      (opened === "true" && item.opened_at) ||
+      (opened === "false" && !item.opened_at);
+
+    return matchesSearch && matchesMonth && matchesDelivered && matchesOpened;
+  });
+};
+
+export const MONTHS = [
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December",
+];
+
+export const FILTER_OPTIONS = {
+  delivery: [
+    { value: "all", label: "Delivery Status" },
+    { value: "true", label: "Delivered" },
+    { value: "false", label: "Pending" },
+  ],
+  open: [
+    { value: "all", label: "Opened Status" },
+    { value: "true", label: "Opened" },
+    { value: "false", label: "Pending" },
+  ],
+};

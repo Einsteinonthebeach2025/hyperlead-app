@@ -2,7 +2,6 @@ const regionsData = {
   "United States": ["united states"],
   Canada: ["canada"],
   "United Kingdom": ["united kingdom"],
-
   Europe: [
     "albania",
     "andorra",

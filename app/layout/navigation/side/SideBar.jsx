@@ -1,10 +1,10 @@
 "use client";
 import { AnimatePresence } from "framer-motion";
 import { useSelector } from "react-redux";
-import NavLinks from "../NavLinks";
 import { selectUser } from "app/features/userSlice";
 import MotionContainer from "app/components/containers/MotionContainer";
 import RegistrationButtons from "app/components/RegistrationButtons";
+import NavLinks from "../nav/NavLinks";
 
 const SideBar = () => {
   const { isOpen } = useSelector((store) => store?.modal || {});

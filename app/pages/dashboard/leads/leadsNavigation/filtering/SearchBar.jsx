@@ -35,7 +35,7 @@ const SearchBar = ({ leads = [], onSearch }) => {
         value={searchTerm}
         onChange={handleSearch}
         placeholder="Search your leads..."
-        className="px-4 py-1 pl-10 bg-neutral-100 border border-neutral-300 rounded-md focus:outline-none focus:ring-[0.5px] focus:ring-neutral-400"
+        className="search-bar"
       />
       <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-neutral-400" />
     </div>

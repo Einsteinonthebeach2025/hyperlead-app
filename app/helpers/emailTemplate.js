@@ -69,7 +69,7 @@ function generateEmailHTML(subject, message, sender) {
   </table>
 </a>
 
-        <p style="font-size: 12px; font-weight: bold; margin-top: 10px; color: black;">
+        <p style="font-size: 12px; margin-top: 10px; color: black;">
           © ${new Date().getFullYear()} Hyperlead App. All rights reserved.
         </p>
 

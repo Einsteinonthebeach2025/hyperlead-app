@@ -32,7 +32,7 @@ const UserDetails = ({ profile }) => {
           •
         </>
       )}
-      <span>{profile?.position}</span>
+      <span>{profile?.position}</span> • <span> {profile?.company}</span>
     </div>
   );
 };

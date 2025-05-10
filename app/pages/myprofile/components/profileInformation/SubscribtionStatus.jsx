@@ -23,7 +23,7 @@ const SubscribtionStatus = () => {
 
   const divStyle = `relative text-[12px] gap-2 font-medium px-2 py-1 w-fit border-2 rounded-md ${subs ? "text-green-500 bg-green-100 border-green-400" : "text-red-500 bg-red-100 border-red-400"}`;
 
-  if (!subs) {
+  if (!user) {
     return <Spinner />;
   }
 
@@ -36,7 +36,7 @@ const SubscribtionStatus = () => {
           type="center-row"
           className={divStyle}
         >
-          <FaCheck />
+          <FaCheck size={18} />
           <span className="pointer-events-none">{subs} plan is active</span>
           <HoverModal
             isOpen={isOpen}

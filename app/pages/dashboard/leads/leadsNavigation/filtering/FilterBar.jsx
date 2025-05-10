@@ -1,5 +1,5 @@
 import SpanContainer from "app/components/containers/SpanContainer";
-import { filterConfig } from "app/helpers/leadsFilter";
+import { filterConfig } from "app/helpers/filterHelpers";
 import { FaRotateLeft } from "react-icons/fa6";
 
 const FilterBar = ({
@@ -8,9 +8,6 @@ const FilterBar = ({
   handleFilterChange,
   handleReset,
 }) => {
-  const selectClassName =
-    "appearance-none bg-neutral-100 border border-neutral-300 rounded-md px-2 py-1 focus:outline-none focus:ring-[0.5px] focus:ring-neutral-400";
-
   const hasActiveFilters =
     currentFilters &&
     Object.values(currentFilters).some((value) => value !== "");
@@ -25,7 +22,6 @@ const FilterBar = ({
               id={filter.id}
               name={filter.id}
               value={currentFilters[filter.type] || ""}
-              className={selectClassName}
               onChange={(e) => handleFilterChange(filter.type, e.target.value)}
             >
               <option value="">{filter.label}</option>

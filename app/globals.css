@@ -14,12 +14,17 @@
     @apply outline-10 md:outline-20 outline-stone-300/20 m-5;
   }
   input,
-  textarea,
-  select {
+  textarea {
     @apply rounded-3xl bg-neutral-100 px-3 py-1 lg:py-2 placeholder:capitalize placeholder:opacity-40 outline-none w-full duration-300 focus:ring-1 focus:ring-neutral-300 text-[12px] lg:text-base;
+  }
+  select {
+    @apply appearance-none bg-neutral-100 border border-neutral-300 rounded-md px-2 py-1 focus:outline-none focus:ring-[0.5px] focus:ring-neutral-400;
   }
   label {
     @apply capitalize font-medium pl-1 text-[13px] lg:text-base;
+  }
+  .search-bar {
+    @apply px-4 py-1 pl-10 bg-neutral-100 border border-neutral-300 rounded-md focus:outline-none focus:ring-[0.5px] focus:ring-neutral-400;
   }
   .light-style {
     @apply bg-neutral-100 hover:bg-neutral-200/60 text-black  border-neutral-300 duration-300;

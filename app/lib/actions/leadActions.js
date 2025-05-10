@@ -56,6 +56,42 @@ export const assignLeadsToUser = async (
         "No preferences set. Please set your industry preferences first."
       );
     }
+
+    // Get user's region preferences
+    const { data: userProfile, error: profileError } = await supabase
+      .from("profiles")
+      .select("region")
+      .eq("id", userId)
+      .single();
+
+    if (profileError) {
+      throw new Error(`Failed to fetch profile: ${profileError.message}`);
+    }
+
+    const hasRegionPreferences =
+      userProfile.region && userProfile.region.length > 0;
+
+    // If user has region preferences, get the list of available countries from leads
+    let availableCountries = [];
+    if (hasRegionPreferences) {
+      const { data: availableLeads, error: leadsError } = await supabase
+        .from("leads")
+        .select("country")
+        .in("country", userProfile.region)
+        .limit(1);
+
+      if (leadsError) {
+        throw new Error(
+          `Failed to check available countries: ${leadsError.message}`
+        );
+      }
+
+      // Get unique countries that exist in leads data
+      availableCountries = [
+        ...new Set(availableLeads.map((lead) => lead.country)),
+      ];
+    }
+
     // If it's a new subscription or renewal, first delete all existing user_leads
     if (isNewSubscription) {
       const { error: deleteError } = await supabase
@@ -69,6 +105,7 @@ export const assignLeadsToUser = async (
         );
       }
     }
+
     // Get all leads that this user has ever received (to avoid duplicates)
     const { data: allUserLeads, error: historyError } = await supabase
       .from("user_leads_history")
@@ -77,25 +114,27 @@ export const assignLeadsToUser = async (
     const previouslyReceivedLeadIds =
       allUserLeads?.map((lead) => lead.lead_id) || [];
 
-    // Get all leads currently assigned to the user (in case delete hasn't finished or for safety)
+    // Get all leads currently assigned to the user
     const { data: currentUserLeads, error: currentLeadsError } = await supabase
       .from("user_leads")
       .select("lead_id")
       .eq("user_id", userId);
     const currentlyAssignedLeadIds =
       currentUserLeads?.map((lead) => lead.lead_id) || [];
+
     // Combine with previously received leads
     const allExcludedLeadIds = [
       ...new Set([...previouslyReceivedLeadIds, ...currentlyAssignedLeadIds]),
     ];
-    // Calculate how many leads we need from each industry
+
+    // Calculate leads per industry
     const leadsPerIndustry = Math.floor(leadCount / preferences.length);
     const extraLeads = leadCount % preferences.length;
     let allAvailableLeads = [];
-    // Fetch leads for each industry separately to ensure balanced distribution
+
+    // Fetch leads for each industry separately
     for (let i = 0; i < preferences.length; i++) {
       const industry = preferences[i];
-      // For the last industry, add any remaining leads from the division remainder
       const industryLeadCount =
         i === preferences.length - 1
           ? leadsPerIndustry + extraLeads
@@ -103,25 +142,38 @@ export const assignLeadsToUser = async (
 
       let query = supabase
         .from("leads")
-        .select("id, industry")
+        .select("id, industry, country")
         .contains("industry", [industry]);
-      // Exclude previously received leads if any exist
+
+      // Add region filter if user has region preferences and we found matching countries
+      if (hasRegionPreferences && availableCountries.length > 0) {
+        query = query.in("country", availableCountries);
+      }
+
+      // Exclude previously received leads
       if (allExcludedLeadIds.length > 0) {
         query = query.not("id", "in", `(${allExcludedLeadIds.join(",")})`);
       }
+
       query = query.limit(industryLeadCount);
       const { data: industryLeads, error: leadsError } = await query;
+
       if (leadsError) {
         throw new Error(`Failed to fetch leads: ${leadsError.message}`);
       }
 
       if (!industryLeads || industryLeads.length < industryLeadCount) {
+        const regionMessage =
+          hasRegionPreferences && availableCountries.length > 0
+            ? ` in available regions (${availableCountries.join(", ")})`
+            : "";
         throw new Error(
-          `Not enough leads available for industry: ${industry}. Only ${
+          `Not enough leads available for industry: ${industry}${regionMessage}. Only ${
             industryLeads?.length || 0
           } leads found, needed ${industryLeadCount}`
         );
       }
+
       allAvailableLeads = [...allAvailableLeads, ...industryLeads];
     }
 

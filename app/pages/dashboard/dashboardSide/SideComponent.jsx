@@ -3,7 +3,7 @@ import MotionChildren from "app/components/containers/MotionChildren";
 import MotionContainer from "app/components/containers/MotionContainer";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { MdDashboard, MdLeaderboard } from "react-icons/md";
+import { MdDashboard, MdLeaderboard, MdEmail } from "react-icons/md";
 
 const SideComponent = () => {
   const pathname = usePathname();
@@ -18,6 +18,11 @@ const SideComponent = () => {
       href: "/dashboard/leads",
       label: "My Leads",
       icon: <MdLeaderboard />,
+    },
+    {
+      href: "/dashboard/emails",
+      label: "Emails",
+      icon: <MdEmail />,
     },
   ];
 

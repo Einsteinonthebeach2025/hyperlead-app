@@ -1,14 +1,16 @@
 "use client";
-import { setToggle } from "app/features/modalSlice";
+import { selectLeads, setToggle } from "app/features/modalSlice";
 import { FaEnvelopeOpen, FaEnvelope } from "react-icons/fa";
 import { useSelector, useDispatch } from "react-redux";
 
 const EmailButton = ({ lead }) => {
   const dispatch = useDispatch();
+  const leads = useSelector(selectLeads);
 
   const emailModal = (e) => {
     e.stopPropagation();
-    dispatch(setToggle({ isOpen: true, data: lead }));
+    const leadsToEmail = leads.length > 0 ? leads : [lead];
+    dispatch(setToggle({ isOpen: true, data: leadsToEmail }));
   };
 
   return (

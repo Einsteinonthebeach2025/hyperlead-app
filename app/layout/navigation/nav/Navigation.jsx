@@ -1,7 +1,7 @@
 import Logo from "app/components/Logo";
 import NavLinks from "./NavLinks";
-import SideButton from "./side/SideButton";
-import UserPanel from "./usernamepanel/UserPanel";
+import SideButton from "../side/SideButton";
+import UserPanel from "../usernamepanel/UserPanel";
 
 const Navigation = () => {
   return (
