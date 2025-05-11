@@ -51,5 +51,5 @@ TODO LIST
 - [ ] NOTIFY USER: After using 80% of leads
 - [ ] NOTIFY USER: 5 days before subscription expiration
 - [ ] NOTIFY USER: After every successful subscription
-- [ ] NOTIFY USER: After adding set of LEADS to the database
-- [ ] NOTIFY USER: About every new feature is added to application
+- [ ] NOTIFY USER: After adding set of LEADS to the database (GLOBAL)
+- [ ] NOTIFY USER: About every new feature is added to application (GLOBAL)

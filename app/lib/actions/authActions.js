@@ -1,5 +1,6 @@
 import handleAuthError from "app/helpers/handleAuthErrors";
 import supabase from "../config/supabaseClient";
+import { notifyPasswordChange } from "./notificationActions";
 
 const createOrUpdateProfile = async (user, profile = {}) => {
   try {
@@ -182,7 +183,10 @@ export const sendPasswordResetEmail = async (email) => {
 export const updatePassword = async (newPassword) => {
   try {
     await new Promise((resolve) => setTimeout(resolve, 500));
-    const { error } = await supabase.auth.updateUser({
+    const {
+      data: { user },
+      error,
+    } = await supabase.auth.updateUser({
       password: newPassword,
     });
     if (error) {
@@ -194,6 +198,23 @@ export const updatePassword = async (newPassword) => {
       }
       throw error;
     }
+
+    // Create notification for password change
+    await notifyPasswordChange(user.id);
+
+    // Track password reset in password_resets table
+    const { error: resetError } = await supabase
+      .from("password_resets")
+      .insert({
+        user_id: user.id,
+        reset_at: new Date().toISOString(),
+      });
+
+    if (resetError) {
+      console.error("Error tracking password reset:", resetError);
+      // We don't throw here as the password was already changed successfully
+    }
+
     return {
       error: null,
       message: "Password updated successfully.",
