@@ -1,5 +1,5 @@
 import FlexBox from "app/components/containers/FlexBox";
-import HoverModal from "app/components/HoverModal";
+import HoverModal from "app/components/modals/HoverModal";
 import { useToggleLocal } from "app/hooks/useToggleLocal";
 import { updateLeadUsedStatus } from "app/lib/actions/leadActions";
 import { FaBookmark, FaRegBookmark } from "react-icons/fa6";

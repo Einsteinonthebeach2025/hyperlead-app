@@ -1,7 +1,7 @@
 "use client";
 import { motion } from "framer-motion";
 import Link from "next/link";
-import Button from "./buttons/Button";
+import Button from "./Button";
 
 const RegistrationButtons = () => {
   return (

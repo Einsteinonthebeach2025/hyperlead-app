@@ -1,15 +1,17 @@
 "use client";
-import LeadCard from "./leadsLayout/LeadCard";
+import { filterLeads } from "app/helpers/filterHelpers";
 import { useState, useMemo, useRef, useEffect } from "react";
+import LeadCard from "./leadsLayout/LeadCard";
 import LeadsPaginationButtons from "./leadsNavigation/LeadsPaginationButtons";
 import FlexBox from "app/components/containers/FlexBox";
 import MotionContainer from "app/components/containers/MotionContainer";
 import Headline from "app/components/Headline";
-import { filterLeads } from "app/helpers/filterHelpers";
 import LeadFilter from "./leadsNavigation/LeadFilter";
+import SectionHeadline from "app/components/SectionHeadline";
 
 const Leads = ({
   data,
+  desc,
   message,
   currentPage = 1,
   allLeads: initialAllLeads,
@@ -22,7 +24,16 @@ const Leads = ({
   const [allLeads, setAllLeads] = useState(initialAllLeads || []);
   const [searchResults, setSearchResults] = useState(null);
 
-  if (!data) return <div className="center h-screen">{message}</div>;
+   if (!data) {
+    return (
+      <div className="h-screen center">
+        <SectionHeadline
+          title={message}
+          desc={desc}
+        />
+      </div>
+    );
+  }
 
   const handleFilterChange = (type, value) => {
     const newFilters = { ...filters };
@@ -84,6 +95,10 @@ const Leads = ({
       )
     );
   };
+
+  
+
+
 
   //As an efficient method of communication, businesses big and small have adopted business text messaging in full force. Traditional communication channels such as email, direct calling, and mail just don’t hold up quite as strongly.
 

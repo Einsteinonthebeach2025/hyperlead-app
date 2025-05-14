@@ -4,10 +4,11 @@ import { setError } from "app/features/modalSlice";
 import { selectUser, setUser } from "app/features/userSlice";
 import { assignLeadsToUser } from "app/lib/actions/leadActions";
 import { updateProfile } from "app/lib/actions/profileActions";
-import supabase from "app/lib/config/supabaseClient";
 import { useState } from "react";
 import { IoMdHome } from "react-icons/io";
 import { useDispatch, useSelector } from "react-redux";
+import { notifyUserOnSubscription } from "app/lib/actions/notificationActions";
+import supabase from "app/lib/config/supabaseClient";
 
 const PricingButton = ({ item }) => {
   const dispatch = useDispatch();
@@ -44,7 +45,7 @@ const PricingButton = ({ item }) => {
         );
         return;
       }
-      const monthlyLeads = plan.toLowerCase() === "starter" ? 150 : 400;
+      const monthlyLeads = plan.toLowerCase() === "starter" ? 20 : 40;
       const {
         success,
         error: leadError,
@@ -68,12 +69,14 @@ const PricingButton = ({ item }) => {
         leads_received_this_month: currentMonthLeads + assignedLeadsCount,
         total_leads_received: currentTotal + assignedLeadsCount,
         last_lead_reset_date: new Date().toISOString(),
+        last_notification_timestamp: null,
       };
       const { data, error } = await updateProfile(session.user.id, updates);
       if (error) {
         console.error("Profile update error:", error);
         throw error;
       }
+      await notifyUserOnSubscription(assignedLeadsCount);
       dispatch(
         setUser({
           ...user,

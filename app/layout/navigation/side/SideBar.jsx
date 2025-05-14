@@ -3,9 +3,8 @@ import { AnimatePresence } from "framer-motion";
 import { useSelector } from "react-redux";
 import { selectUser } from "app/features/userSlice";
 import MotionContainer from "app/components/containers/MotionContainer";
-import RegistrationButtons from "app/components/RegistrationButtons";
 import NavLinks from "../nav/NavLinks";
-
+import RegistrationButtons from "app/components/buttons/RegistrationButtons";
 const SideBar = () => {
   const { isOpen } = useSelector((store) => store?.modal || {});
   const user = useSelector(selectUser);

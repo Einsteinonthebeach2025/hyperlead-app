@@ -1,14 +1,14 @@
 import Image from "next/image";
 import { FaUserCircle } from "react-icons/fa";
 
-const UserDisplayAvatar = ({ user }) => {
+const UserDisplayAvatar = ({ url }) => {
   return (
     <>
-      {user?.profile?.avatar_url ? (
+      {url ? (
         <div className="rounded-full w-10 h-10 overflow-hidden">
           <Image
             className="w-full h-full object-cover"
-            src={user.profile.avatar_url}
+            src={url}
             alt="user-avatar"
             width={40}
             height={40}

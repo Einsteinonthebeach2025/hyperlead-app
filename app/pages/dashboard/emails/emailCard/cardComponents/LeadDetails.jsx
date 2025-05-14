@@ -29,20 +29,12 @@ const LeadDetails = ({ item, onDelete }) => {
       <div className="flex gap-2 h-fit">
         <FlexBox
           type="row-center"
-          className="gap-2 *:duration-300 *:cursor-pointer"
+          className="gap-2 *:duration-300 *:cursor-pointer *:text-blue-700 *:hover:text-blue-500"
         >
-          <a
-            className="text-amber-500 hover:text-amber-400"
-            href={leads?.website}
-            target="_blank"
-          >
+          <a href={leads?.website} target="_blank">
             <TbWorld size={20} />
           </a>
-          <a
-            className="text-blue-700 hover:text-blue-500"
-            href={leads?.linkedin_url}
-            target="_blank"
-          >
+          <a href={leads?.linkedin_url} target="_blank">
             <FaLinkedin size={20} />
           </a>
         </FlexBox>

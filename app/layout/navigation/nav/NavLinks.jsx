@@ -1,9 +1,10 @@
 "use client";
 import Link from "next/link";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setToggle } from "app/features/modalSlice";
 import MotionChildren from "app/components/containers/MotionChildren";
 import MotionContainer from "app/components/containers/MotionContainer";
+import { selectUser } from "app/features/userSlice";
 
 const navLinks = [
   {
@@ -13,23 +14,22 @@ const navLinks = [
   },
   {
     id: 1,
-    name: "pricing",
-    link: "/pricing",
-  },
-  {
-    id: 2,
-    name: "blog",
-    link: "/blog",
-  },
-  {
-    id: 3,
-    name: "changelog",
-    link: "/",
+    name: "administration",
+    link: "/administration/reported-bugs",
+    isAdmin: true,
   },
 ];
 
 const NavLinks = () => {
+  const user = useSelector(selectUser);
   const dispatch = useDispatch();
+
+  const filteredLinks = navLinks.filter((item) => {
+    if (item.isAdmin) {
+      return user?.profile?.is_admin;
+    }
+    return true;
+  });
 
   const handleClose = () => {
     dispatch(setToggle(false));
@@ -39,7 +39,7 @@ const NavLinks = () => {
       animation="zoom-out"
       className="flex flex-col items-center md:space-x-4 md:flex-row "
     >
-      {navLinks?.map((item) => {
+      {filteredLinks?.map((item) => {
         return (
           <MotionChildren
             animation="zoom-out"

@@ -1,5 +1,5 @@
 import { createServerClient } from "app/lib/config/supabaseServer";
-import PreferencesForm from "app/pages/preferences/PreferencesForm";
+import Preferences from "app/pages/preferences/Preferences";
 
 export const metadata = {
   title: "Hyperlead | Preferences",
@@ -22,7 +22,7 @@ const PreferencesPage = async () => {
     preferences = profile?.preferences || [];
   }
 
-  return <PreferencesForm initialPreferences={preferences} />;
+  return <Preferences initialPreferences={preferences} />;
 };
 
 export default PreferencesPage;

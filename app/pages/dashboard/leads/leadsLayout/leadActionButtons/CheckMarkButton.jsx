@@ -2,7 +2,7 @@ import { FaCheck } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import { selectLeads, toggleSelectedLead } from "app/features/modalSlice";
 import { useToggleLocal } from "app/hooks/useToggleLocal";
-import HoverModal from "app/components/HoverModal";
+import HoverModal from "app/components/modals/HoverModal";
 
 const CheckMarkButton = ({ lead }) => {
   const dispatch = useDispatch();

@@ -1,7 +1,7 @@
 "use client";
 import Spinner from "app/components/Spinner";
 import Title from "app/components/Title";
-import { getFeedback } from "app/lib/actions/feedbackActions";
+import { getFeedback } from "app/lib/actions/reportActions";
 import { useEffect, useState } from "react";
 import FeedbackCard from "./feedbackCard/FeedbackCard";
 

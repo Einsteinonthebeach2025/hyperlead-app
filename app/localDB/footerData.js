@@ -8,8 +8,8 @@ const footerData = [
         link: "/",
       },
       {
-        title: "public roadmap",
-        link: "/",
+        title: "report a bug",
+        link: "/bug-report",
       },
       {
         title: "feedback",

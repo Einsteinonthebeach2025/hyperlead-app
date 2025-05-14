@@ -8,6 +8,7 @@ import { signUp } from "app/lib/actions/authActions";
 import { validateForm } from "app/helpers/validateForm";
 import { setError } from "app/features/modalSlice";
 import { setLoading, setUser } from "app/features/userSlice";
+import { notifyUserRegistration } from "app/lib/actions/notificationActions";
 
 const SignUpForm = () => {
   const dispatch = useDispatch();
@@ -46,6 +47,7 @@ const SignUpForm = () => {
       setPassword("");
       setConfirmPassword("");
       dispatch(setUser(data));
+      await notifyUserRegistration();
     } catch (error) {
       dispatch(setError("An unexpected error occurred. Please try again."));
     } finally {

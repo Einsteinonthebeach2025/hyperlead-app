@@ -7,6 +7,7 @@ import LeadLocation from "./leadsCardComponents/LeadLocation";
 import LeadIndustry from "./leadsCardComponents/LeadIndustry";
 import { truncateString } from "app/helpers/utils";
 import { updateLeadUsedStatus } from "app/lib/actions/leadActions";
+import { notifyLeadsUsage } from "app/lib/actions/notificationActions";
 
 const LeadCard = ({ leads, onLeadStatusChange }) => {
   const router = useRouter();
@@ -17,6 +18,7 @@ const LeadCard = ({ leads, onLeadStatusChange }) => {
       if (!result.success) {
         return;
       }
+      await notifyLeadsUsage();
       router.push(`/dashboard/leads/${leadId}`);
     } catch (error) {
       console.error("Error handling lead click:", error);

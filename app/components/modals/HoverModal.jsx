@@ -1,6 +1,6 @@
 "use client";
 import { AnimatePresence } from "framer-motion";
-import MotionContainer from "./containers/MotionContainer";
+import MotionContainer from "../containers/MotionContainer";
 
 const HoverModal = ({ isOpen, text, className }) => {
   return (

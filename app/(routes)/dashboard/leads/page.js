@@ -20,7 +20,6 @@ const LeadsPage = async () => {
     .select("subscription, subscription_timestamp")
     .eq("id", session.user.id)
     .single();
-
   if (profileError) {
     return <Leads data={null} message="Please subscribe to get leads" />;
   }
@@ -48,7 +47,8 @@ const LeadsPage = async () => {
       return (
         <Leads
           data={null}
-          message="Your subscription has expired. Please renew to view leads"
+          message="subscription has expired"
+          desc="Please renew to view leads"
         />
       );
     }

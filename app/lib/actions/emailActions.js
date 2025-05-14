@@ -39,7 +39,6 @@ export async function sendEmail({
       })
       .select()
       .single();
-
     if (error) {
       throw error;
     }

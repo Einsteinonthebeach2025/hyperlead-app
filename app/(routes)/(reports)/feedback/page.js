@@ -1,4 +1,4 @@
-import Feedback from "app/pages/feedback/FeedBack";
+import Feedback from "app/pages/reports/feedback/FeedBack";
 
 export const metadata = {
   title: "Hyperlead | Feedback",

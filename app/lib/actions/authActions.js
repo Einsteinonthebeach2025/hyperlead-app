@@ -162,7 +162,8 @@ export const getCurrentUser = async () => {
 export const sendPasswordResetEmail = async (email) => {
   try {
     const { error } = await supabase.auth.resetPasswordForEmail(email, {
-      redirectTo: `https://hyperlead.net/resetpassword/update`,
+      // redirectTo: `https://hyperlead.net/resetpassword/update`,
+      redirectTo: `http://localhost:3000/resetpassword/update`,
     });
     if (error) throw error;
     return {
@@ -198,23 +199,13 @@ export const updatePassword = async (newPassword) => {
       }
       throw error;
     }
-
-    // Create notification for password change
     await notifyPasswordChange(user.id);
-
-    // Track password reset in password_resets table
     const { error: resetError } = await supabase
       .from("password_resets")
       .insert({
         user_id: user.id,
         reset_at: new Date().toISOString(),
       });
-
-    if (resetError) {
-      console.error("Error tracking password reset:", resetError);
-      // We don't throw here as the password was already changed successfully
-    }
-
     return {
       error: null,
       message: "Password updated successfully.",

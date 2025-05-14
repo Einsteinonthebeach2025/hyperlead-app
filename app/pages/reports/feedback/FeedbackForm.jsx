@@ -2,10 +2,10 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useDispatch } from "react-redux";
-import { submitFeedback } from "app/lib/actions/feedbackActions";
 import { setError } from "app/features/modalSlice";
 import Button from "app/components/buttons/Button";
 import StarInputs from "./StarInputs";
+import { submitFeedback } from "app/lib/actions/reportActions";
 
 const FeedbackForm = () => {
   const [rating, setRating] = useState(0);

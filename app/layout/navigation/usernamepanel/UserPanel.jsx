@@ -1,8 +1,8 @@
 "use client";
 import { useSelector } from "react-redux";
-import DisplayUserName from "./DisplayUserName";
 import { selectUser } from "app/features/userSlice";
-import RegistrationButtons from "app/components/RegistrationButtons";
+import DisplayUserName from "./panelComponents/DisplayUserName";
+import RegistrationButtons from "app/components/buttons/RegistrationButtons";
 
 const UserPanel = () => {
   const user = useSelector(selectUser);
