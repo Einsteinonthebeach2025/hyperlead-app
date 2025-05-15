@@ -16,6 +16,15 @@ const PricingButton = ({ item }) => {
   const [loadingPlan, setLoadingPlan] = useState(null);
 
   const handleSubscription = async (plan) => {
+    if (!user) {
+      dispatch(
+        setError({
+          message: "Please login to subscribe to a plan",
+          type: "error",
+        })
+      );
+      return;
+    }
     if (
       user?.profile?.subscription === "Starter" ||
       user?.profile?.subscription === "PRO"

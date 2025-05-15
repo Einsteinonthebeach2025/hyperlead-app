@@ -144,3 +144,26 @@ export const notifyUserOnSubscription = async (assignedLeadsCount) => {
     return { data: null, error: error.message };
   }
 };
+
+export const notifyUserOnBugFix = async () => {
+  try {
+    const user = await getCurrentUser();
+    const { data, error } = await supabase
+      .from("notifications")
+      .insert({
+        user_id: user.id,
+        type: "BUG_FIX_NOTIFY",
+        message: `We have fixed the bug you reported. Thank you for your feedback!`,
+        read: false,
+        importance: "low",
+        metadata: {},
+        action_url: "",
+      })
+      .select()
+      .single();
+    if (error) throw error;
+    return { data, error: null };
+  } catch (error) {
+    return { data: null, error: error.message };
+  }
+};

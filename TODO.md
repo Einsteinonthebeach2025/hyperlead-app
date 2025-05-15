@@ -52,6 +52,7 @@ TODO LIST
 - [x] NOTIFY USER: After using 80% of leads
 - [x] NOTIFY USER: After every successful subscription
 - [x] NOTIFY USER: 5 days before subscription expiration
+- [x] NOTIFY USER: About fixed bug he reported
 - [ ] NOTIFY USER: When subscription is out
 - [ ] NOTIFY USER: After adding set of LEADS to the database (GLOBAL)
 - [ ] NOTIFY USER: About every new feature is added to application (GLOBAL)
@@ -64,4 +65,5 @@ TODO LIST
 
 ####### ADMINISTRATION PANEL
 
-- [ ] Admin panel has navigation bar (BUGS, USERS)
+- [x] Admin panel has navigation bar (BUGS, USERS)
+- [x] BUGS: Each card has DELETE button and ACTION button (Action button sends notification to reporter with some fixed bug text)

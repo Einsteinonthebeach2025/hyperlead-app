@@ -3,15 +3,14 @@ import Headline from "app/components/Headline"
 import SectionHeadline from "app/components/SectionHeadline";
 import BugList from "./BugList";
 
-
 const ReportedBugs = ({ bugs, message, desc }) => {
 
-  if (!bugs) {
+  if (!bugs || bugs.length === 0) {
     return (
       <div className="h-screen center">
         <SectionHeadline
-          title={message}
-          desc={desc}
+          title={message || "Empty bugs list"}
+          desc={desc || "Bugs are not reported yet"}
         />
       </div>
     );

@@ -6,7 +6,7 @@ import AuthProvider from "./lib/store/AuthProvider";
 import EmailModal from "./pages/emailModal/EmailModal";
 import NavigationWrapper from "./layout/navigation/nav/NavigationWrapper";
 import ErrorMsg from "./components/modals/ErrorMsg";
-
+import TestingRegime from "./TestingRegime";
 export const metadata = {
   title: "Welcome to Hyperlead",
   description:
@@ -25,6 +25,7 @@ export default function RootLayout({ children }) {
               <ErrorMsg />
               <SideBar />
               <EmailModal />
+              <TestingRegime />
               <Footer />
             </main>
           </body>

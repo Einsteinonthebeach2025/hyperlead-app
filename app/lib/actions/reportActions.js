@@ -80,3 +80,18 @@ export const submitBug = async (bugData) => {
     return { data: null, error: error.message };
   }
 };
+
+export const deleteBug = async (id) => {
+  try {
+    const { data, error } = await supabase
+      .from("bug_reports")
+      .delete()
+      .eq("id", id);
+    if (error) {
+      return { success: false, error: error.message };
+    }
+    return { success: true };
+  } catch (err) {
+    return { success: false, error: "Unexpected error occurred" };
+  }
+};
