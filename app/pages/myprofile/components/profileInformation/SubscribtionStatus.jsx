@@ -4,7 +4,7 @@ import { FaCheck, FaTriangleExclamation } from "react-icons/fa6";
 import FlexBox from "app/components/containers/FlexBox";
 import Spinner from "app/components/Spinner";
 import { useToggleLocal } from "app/hooks/useToggleLocal";
-import HoverModal from "app/components/HoverModal";
+import HoverModal from "app/components/modals/HoverModal";
 
 const SubscribtionStatus = () => {
   const user = useSelector(selectUser);
