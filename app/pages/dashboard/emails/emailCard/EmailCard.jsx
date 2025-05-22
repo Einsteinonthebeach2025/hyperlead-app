@@ -1,9 +1,9 @@
+import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import CardContainer from "app/components/containers/CardContainer";
 import LeadDetails from "./cardComponents/LeadDetails";
 import EmailDetails from "./cardComponents/EmailDetails";
 import EmailDate from "./cardComponents/EmailDate";
-import { useState } from "react";
 
 const EmailCard = ({ data }) => {
   const [emails, setEmails] = useState(data);

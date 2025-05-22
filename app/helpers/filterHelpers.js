@@ -52,6 +52,15 @@ export const filterConfig = [
       ...new Set(leads.map((lead) => lead.seniority).filter(Boolean)),
     ],
   },
+  {
+    id: "used",
+    type: "used",
+    label: "All Leads",
+    getOptions: () => [
+      { label: "Used", value: "true" },
+      { label: "Unused", value: "false" },
+    ],
+  },
 ];
 
 // Filter leads based on current filters
@@ -76,11 +85,15 @@ export const filterLeads = (leads, filters) => {
       return false;
     if (filters.city && lead.city !== filters.city) return false;
     if (filters.seniority && lead.seniority !== filters.seniority) return false;
+    if (filters.used && filters.used !== "all") {
+      const isUsed = filters.used === "true";
+      if (lead.used !== isUsed) return false;
+    }
     return true;
   });
 };
 
-// EMAIL FILTER LOGIC
+// EMAILS FILTER LOGIC
 export const filterEmails = (data, { search, month, delivered, opened }) => {
   return data.filter((item) => {
     const subject = item.subject?.toLowerCase() || "";
@@ -132,4 +145,32 @@ export const FILTER_OPTIONS = {
     { value: "true", label: "Opened" },
     { value: "false", label: "Pending" },
   ],
+};
+
+// USER MANAGEMENT FILTER LOGIC
+export const userFilterConfig = [
+  {
+    id: "subscription",
+    type: "subscription",
+    label: "Users",
+    getOptions: () => [
+      { label: "Active Users", value: "active" },
+      { label: "Inactive Users", value: "inactive" },
+      { label: "PRO plan", value: "pro" },
+      { label: "STARTER plan", value: "starter" },
+    ],
+  },
+];
+
+export const filterUsers = (users, filters) => {
+  const sub = filters.subscription;
+  if (!sub || sub === "all") return users;
+  if (sub === "active")
+    return users.filter((user) => user.subscription !== null);
+  if (sub === "inactive")
+    return users.filter((user) => user.subscription === null);
+  return users.filter(
+    (user) =>
+      user.subscription && user.subscription.toLowerCase() === sub.toLowerCase()
+  );
 };

@@ -1,8 +1,14 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  isOpen: false,
-  data: null,
+  notificationModal: {
+    isOpen: false,
+    data: null,
+  },
+  emailModal: {
+    isOpen: false,
+    data: null,
+  },
   error: "",
   type: "error",
   link: "",
@@ -15,8 +21,14 @@ const modalSlice = createSlice({
   initialState,
   reducers: {
     setToggle: (state, action) => {
-      state.isOpen = action.payload;
-      state.data = action.payload.data || null;
+      const { modalType, isOpen, data } = action.payload;
+      if (modalType === "notification") {
+        state.notificationModal.isOpen = isOpen;
+        state.notificationModal.data = data || null;
+      } else if (modalType === "email") {
+        state.emailModal.isOpen = isOpen;
+        state.emailModal.data = data || null;
+      }
     },
     setError: (state, action) => {
       const { message, type, link, title } =
@@ -41,12 +53,22 @@ const modalSlice = createSlice({
     clearSelectedLeads: (state) => {
       state.leads = [];
     },
+    clearSelectedUsers: (state) => {
+      state.users = [];
+    },
   },
 });
 
-export const { setToggle, setError, toggleSelectedLead, clearSelectedLeads } =
-  modalSlice.actions;
+export const {
+  setToggle,
+  setError,
+  toggleSelectedLead,
+  clearSelectedLeads,
+  clearSelectedUsers,
+} = modalSlice.actions;
 export const modalReducer = modalSlice.reducer;
 
 export const selectError = (state) => state.modal.error;
 export const selectLeads = (state) => state.modal.leads;
+export const selectNotificationModal = (state) => state.modal.notificationModal;
+export const selectEmailModal = (state) => state.modal.emailModal;

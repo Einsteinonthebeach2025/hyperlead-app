@@ -9,6 +9,7 @@ import UserDisplayAvatar from "app/layout/navigation/usernamepanel/panelComponen
 import ActionButtons from "./ActionButtons";
 import { formatTime } from "app/helpers/utils";
 import { useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
 
 const BugList = ({ bugs }) => {
   const [bugData, setBugData] = useState(bugs);
@@ -19,15 +20,24 @@ const BugList = ({ bugs }) => {
 
   return (
     <div className="grid grid-cols-2 gap-3">
-      {bugData.map((item) => {
-        return (
-          <CardContainer key={item.id} className="space-y-3">
-            <UserInfo item={item} />
-            <BugInfo item={item} />
-            <ActionButtons item={item} onDelete={handleBugDelete} />
-          </CardContainer>
-        );
-      })}
+      <AnimatePresence mode="popLayout">
+        {bugData.map((item) => {
+          return (
+            <motion.div
+              key={item.id}
+              initial={{ opacity: 1 }}
+              exit={{ rotateX: 90 }}
+              transition={{ duration: 0.5 }}
+            >
+              <CardContainer key={item.id} className="space-y-3">
+                <UserInfo item={item} />
+                <BugInfo item={item} />
+                <ActionButtons item={item} onDelete={handleBugDelete} />
+              </CardContainer>
+            </motion.div>
+          );
+        })}
+      </AnimatePresence>
     </div>
   );
 };

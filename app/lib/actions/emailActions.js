@@ -48,6 +48,49 @@ export async function sendEmail({
   }
 }
 
+export async function sendEmailToUsers({
+  user_id,
+  email,
+  recipient_id,
+  recipient_email,
+  subject,
+  message,
+}) {
+  try {
+    const htmlContent = generateEmailHTML(subject, message, email);
+    const { data: emailData } = await resend.emails.send({
+      from: "Hyperlead <contact@hyperlead.net>",
+      replyTo: email,
+      to: recipient_email,
+      subject,
+      html: htmlContent,
+    });
+    console.log("[sendEmailToUsers] Resend response:", emailData);
+    const supabase = await createServerClient();
+    const { data, error } = await supabase
+      .from("emails")
+      .insert({
+        user_id,
+        email,
+        lead_id: recipient_id,
+        leads_email: recipient_email,
+        subject,
+        message,
+        status: "sent",
+        sent_at: new Date().toISOString(),
+        resend_message_id: emailData?.id,
+      })
+      .select()
+      .single();
+    if (error) {
+      throw error;
+    }
+    return { success: true, data };
+  } catch (error) {
+    return { success: false, error: error.message };
+  }
+}
+
 export async function deleteEmail(emailId) {
   if (!emailId) {
     return { success: false, error: "No email ID provided" };

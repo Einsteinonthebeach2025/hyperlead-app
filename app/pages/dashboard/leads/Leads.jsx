@@ -3,11 +3,9 @@ import { filterLeads } from "app/helpers/filterHelpers";
 import { useState, useMemo, useRef, useEffect } from "react";
 import LeadCard from "./leadsLayout/LeadCard";
 import LeadsPaginationButtons from "./leadsNavigation/LeadsPaginationButtons";
-import FlexBox from "app/components/containers/FlexBox";
-import MotionContainer from "app/components/containers/MotionContainer";
-import Headline from "app/components/Headline";
 import LeadFilter from "./leadsNavigation/LeadFilter";
 import SectionHeadline from "app/components/SectionHeadline";
+import DashboardPageWrapper from "app/components/containers/DashboardPageWrapper";
 
 const Leads = ({
   data,
@@ -24,7 +22,7 @@ const Leads = ({
   const [allLeads, setAllLeads] = useState(initialAllLeads || []);
   const [searchResults, setSearchResults] = useState(null);
 
-   if (!data) {
+  if (!data) {
     return (
       <div className="h-screen center">
         <SectionHeadline
@@ -83,7 +81,7 @@ const Leads = ({
     setAllLeads(initialAllLeads || []);
   }, [data, initialAllLeads]);
 
-  const handleLeadStatusChange = (leadId, newStatus) => {
+  const handleLeadStatusChange = (leadId, newStatus, e) => {
     setLeads((prevLeads) =>
       prevLeads?.map((lead) =>
         lead.id === leadId ? { ...lead, used: newStatus } : lead
@@ -96,41 +94,30 @@ const Leads = ({
     );
   };
 
-  
+  console.log(data);
 
-
-
-  //As an efficient method of communication, businesses big and small have adopted business text messaging in full force. Traditional communication channels such as email, direct calling, and mail just don’t hold up quite as strongly.
-
-  // fatema.akbari@onquality.de  << fatemas emaili pirveli lidi  --- dfd0a28d-a520-4d9a-b861-4660216fe8c5
-  // julian.boschinger@robart.cc  << robart gmbh emailii meore lidi   --- 87272ae2-0195-4f95-98b2-a25b25b30f62
 
   return (
-    <div ref={listRef} className="w-full">
-      <FlexBox type="column" className="lg:pr-6 py-3 space-y-5">
-        <MotionContainer animation="fade-in">
-          <Headline className="w-fit">Leads</Headline>
-        </MotionContainer>
-        <LeadFilter
-          leads={allLeads}
-          handleFilterChange={handleFilterChange}
-          handleReset={handleReset}
-          currentFilters={filters}
-          onSearchResults={handleSearchResults}
-        />
-        <LeadCard
-          leads={paginatedLeads}
-          onLeadStatusChange={handleLeadStatusChange}
-        />
-        <LeadsPaginationButtons
-          currentPage={page}
-          allLeads={allLeads}
-          leadsPerPage={leadsPerPage}
-          totalPages={totalFilteredPages}
-          onPageChange={handlePageChange}
-        />
-      </FlexBox>
-    </div>
+    <DashboardPageWrapper title="Leads" ref={listRef}>
+      <LeadFilter
+        leads={allLeads}
+        handleFilterChange={handleFilterChange}
+        handleReset={handleReset}
+        currentFilters={filters}
+        onSearchResults={handleSearchResults}
+      />
+      <LeadCard
+        leads={paginatedLeads}
+        onLeadStatusChange={handleLeadStatusChange}
+      />
+      <LeadsPaginationButtons
+        currentPage={page}
+        allLeads={allLeads}
+        leadsPerPage={leadsPerPage}
+        totalPages={totalFilteredPages}
+        onPageChange={handlePageChange}
+      />
+    </DashboardPageWrapper>
   );
 };
 

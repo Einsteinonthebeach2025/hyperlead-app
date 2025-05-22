@@ -38,6 +38,7 @@ export const getFeedback = async () => {
         )
       `
       )
+      .eq("status", "approved")
       .order("created_at", { ascending: false });
     if (error) throw error;
     // Transform the data to flatten the profile information
@@ -59,6 +60,34 @@ export const getFeedback = async () => {
   }
 };
 
+export const deleteFeedback = async (id) => {
+  try {
+    const { data, error } = await supabase
+      .from("feedback")
+      .delete()
+      .eq("id", id);
+    if (error) throw error;
+    return { data, error: null };
+  } catch (error) {
+    return { data: null, error: error.message };
+  }
+};
+
+export const updateFeedback = async (id, status) => {
+  try {
+    const { data, error } = await supabase
+      .from("feedback")
+      .update({ status })
+      .eq("id", id)
+      .select()
+      .single();
+    if (error) throw error;
+    return { data, error: null };
+  } catch (error) {
+    return { data: null, error: error.message };
+  }
+};
+
 export const submitBug = async (bugData) => {
   try {
     const user = await getCurrentUser();
@@ -75,6 +104,22 @@ export const submitBug = async (bugData) => {
       .select()
       .single();
     if (error) throw error;
+
+    const { data: profileData, error: profileError } = await supabase
+      .from("profiles")
+      .select("reported_bugs")
+      .eq("id", user.id)
+      .single();
+    if (profileError) throw profileError;
+
+    const { error: updateError } = await supabase
+      .from("profiles")
+      .update({
+        reported_bugs: (profileData?.reported_bugs || 0) + 1,
+      })
+      .eq("id", user.id);
+    if (updateError) throw updateError;
+
     return { data, error: null };
   } catch (error) {
     return { data: null, error: error.message };

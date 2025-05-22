@@ -2,6 +2,27 @@ export const truncateString = (str, maxLength = 12) => {
   return str?.length > maxLength ? str.slice(0, maxLength) + "..." : str;
 };
 
+export async function fetchAllLeadsFields(supabase, fields) {
+  let allLeads = [];
+  let from = 0;
+  const batchSize = 1000;
+  let done = false;
+  while (!done) {
+    const { data, error } = await supabase
+      .from("leads")
+      .select(fields)
+      .range(from, from + batchSize - 1);
+    if (error) throw error;
+    allLeads = allLeads.concat(data);
+    if (!data || data.length < batchSize) {
+      done = true;
+    } else {
+      from += batchSize;
+    }
+  }
+  return allLeads;
+}
+
 export const formatTime = (timestamp) => {
   const createdAt = new Date(timestamp);
   const now = new Date();

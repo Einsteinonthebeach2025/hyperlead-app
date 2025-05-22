@@ -9,7 +9,6 @@ const createOrUpdateProfile = async (user, profile = {}) => {
         id: user.id,
         email: user.email,
         userName: profile.userName,
-        created_at: new Date().toISOString(),
         updated_at: new Date().toISOString(),
       },
       {

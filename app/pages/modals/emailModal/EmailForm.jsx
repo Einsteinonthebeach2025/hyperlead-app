@@ -1,11 +1,13 @@
 "use client";
 import FlexBox from "app/components/containers/FlexBox";
 import SubTitle from "app/components/SubTitle";
+import Button from "app/components/buttons/Button";
 import { sendEmail } from "app/lib/actions/emailActions";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import SubmitButtons from "./SubmitButtons";
 import { clearSelectedLeads, setError } from "app/features/modalSlice";
+import { FaEnvelope } from "react-icons/fa";
+import SpanText from "app/components/SpanText";
 
 const EmailForm = ({ data = [], closeModal }) => {
   const dispatch = useDispatch();
@@ -63,30 +65,18 @@ const EmailForm = ({ data = [], closeModal }) => {
     }));
   };
 
-  const recipientEmails = data?.map((lead) => lead.email).join(", ");
+  const recipients = data?.map((lead) => lead)
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4 w-full my-5">
       <FlexBox type="row" className="gap-3 *:w-full">
         <div>
-          <SubTitle>From</SubTitle>
-          <input
-            id="user_email"
-            name="user_email"
-            type="email"
-            value={user?.email}
-            disabled
-          />
+          <SpanText>From</SpanText>
+          <SubTitle className="lowercase">{user?.email}</SubTitle>
         </div>
         <div>
-          <SubTitle>To</SubTitle>
-          <input
-            id="lead_email"
-            name="lead_email"
-            type="text"
-            value={recipientEmails}
-            disabled
-          />
+          <SpanText>To</SpanText>
+          {recipients?.length > 1 ? <SubTitle className="lowercase">{recipients.length} recipients selected</SubTitle> : <SubTitle className="lowercase">{recipients[0]?.email}</SubTitle>}
         </div>
       </FlexBox>
       <div>
@@ -94,6 +84,7 @@ const EmailForm = ({ data = [], closeModal }) => {
         <input
           type="text"
           name="subject"
+          placeholder="headline of the email"
           value={formData.subject}
           onChange={handleChange}
           required
@@ -104,17 +95,18 @@ const EmailForm = ({ data = [], closeModal }) => {
         <SubTitle>Message</SubTitle>
         <textarea
           name="message"
+          placeholder="body of the email"
           value={formData.message}
           onChange={handleChange}
           required
           rows={6}
         />
       </div>
-      <SubmitButtons
-        loading={loading}
-        onCancel={closeModal}
-        submitText={`Send Email${data.length > 1 ? ` to ${data.length} Recipients` : ""}`}
-      />
+
+      <Button loading={loading} type="submit" disabled={loading}>
+        <FaEnvelope />
+        <span>Send Email</span>
+      </Button>
     </form>
   );
 };

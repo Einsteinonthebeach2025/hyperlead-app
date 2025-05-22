@@ -1,30 +1,31 @@
-import SpanContainer from "app/components/containers/SpanContainer";
-import { filterConfig } from "app/helpers/filterHelpers";
+import Button from "app/components/buttons/Button";
 import { FaRotateLeft } from "react-icons/fa6";
 
 const FilterBar = ({
-  leads,
+  data,
   currentFilters,
   handleFilterChange,
   handleReset,
+  filterConfig,
 }) => {
   const hasActiveFilters =
     currentFilters &&
-    Object.values(currentFilters).some((value) => value !== "");
+    Object.values(currentFilters).some((value) => value !== "all");
 
   return (
     <div className="flex gap-2">
       {filterConfig?.map((filter) => {
-        const options = filter.getOptions(leads);
+        const options = filter.getOptions(data);
+        const value = currentFilters[filter.type] || "all";
         return (
           <div key={filter.type} className="relative">
             <select
               id={filter.id}
               name={filter.id}
-              value={currentFilters[filter.type] || ""}
+              value={value}
               onChange={(e) => handleFilterChange(filter.type, e.target.value)}
             >
-              <option value="">{filter.label}</option>
+              <option value="all">{filter.label === "Users" ? "All Users" : filter.label}</option>
               {options?.map((option) => (
                 <option
                   key={typeof option === "object" ? option.value : option}
@@ -38,14 +39,14 @@ const FilterBar = ({
         );
       })}
       {hasActiveFilters && (
-        <SpanContainer
-          color="green"
+        <Button
+          type="success"
           onClick={handleReset}
-          className="cursor-pointer rounded-lg px-3 flex items-center gap-2"
+          className="cursor-pointer rounded-md"
         >
           <FaRotateLeft size={16} />
-          <span className="text-sm">Reset Filters</span>
-        </SpanContainer>
+          <span>Reset Filters</span>
+        </Button>
       )}
     </div>
   );

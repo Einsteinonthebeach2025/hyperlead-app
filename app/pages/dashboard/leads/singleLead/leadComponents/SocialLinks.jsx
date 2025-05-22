@@ -7,24 +7,16 @@ const SocialLinks = ({ data }) => {
   return (
     <FlexBox type="column-start">
       <SubTitle>Social Links</SubTitle>
-      <FlexBox type="row-3" className="w-fit">
+      <FlexBox className="w-fit space-x-2">
         {data?.company_linkedin_url && (
-          <a
-            href={data?.company_linkedin_url}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <IconContainer size="sm">
-              <FaLinkedin size={20} />
-            </IconContainer>
-          </a>
+          <IconContainer color="green" href={data?.company_linkedin_url} size="sm">
+            <FaLinkedin size={20} />
+          </IconContainer>
         )}
         {data?.twitter_url && (
-          <a href={data?.twitter_url} target="_blank" rel="noopener noreferrer">
-            <IconContainer size="sm">
-              <FaTwitter size={20} />
-            </IconContainer>
-          </a>
+          <IconContainer color="green" href={data?.twitter_url} size="sm">
+            <FaTwitter size={20} />
+          </IconContainer>
         )}
       </FlexBox>
     </FlexBox>

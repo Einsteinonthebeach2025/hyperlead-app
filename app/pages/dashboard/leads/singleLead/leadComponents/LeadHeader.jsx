@@ -8,7 +8,7 @@ import { FaBuilding } from "react-icons/fa";
 const LeadHeader = ({ data }) => {
   return (
     <CardContainer className="flex space-x-2">
-      <div>
+      <div className="center">
         <IconContainer>
           <FaBuilding size={24} />
         </IconContainer>

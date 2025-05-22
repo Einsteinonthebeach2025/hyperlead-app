@@ -58,13 +58,16 @@ export const notifyLeadsUsage = async () => {
     if (leadsError) throw leadsError;
     if (!userLeads || userLeads.length === 0)
       return { data: null, error: null };
+
     const totalLeads = userLeads.length;
     const usedLeads = userLeads.filter((lead) => lead.used).length;
     const usagePercentage = (usedLeads / totalLeads) * 100;
+
     const shouldNotify =
       usagePercentage >= 80 &&
       (!profile.last_notification_timestamp ||
         profile.last_notification_timestamp < profile.total_leads_received);
+
     if (shouldNotify) {
       const { data, error } = await supabase
         .from("notifications")
@@ -145,19 +148,98 @@ export const notifyUserOnSubscription = async (assignedLeadsCount) => {
   }
 };
 
-export const notifyUserOnBugFix = async () => {
+export const notifyUserOnBugFix = async (bugId) => {
   try {
-    const user = await getCurrentUser();
+    const { data: bug, error: bugError } = await supabase
+      .from("bug_reports")
+      .select("user_id, id, header")
+      .eq("id", bugId)
+      .single();
+    if (bugError) throw bugError;
+    if (!bug) throw new Error("Bug not found");
+
     const { data, error } = await supabase
       .from("notifications")
       .insert({
-        user_id: user.id,
+        user_id: bug.user_id,
         type: "BUG_FIX_NOTIFY",
-        message: `We have fixed the bug you reported. Thank you for your feedback!`,
+        message: `We have fixed the bug "${bug.header}" that you reported. Thank you for your feedback!`,
         read: false,
         importance: "low",
         metadata: {},
         action_url: "",
+      })
+      .select()
+      .single();
+    if (error) throw error;
+    return { data, error: null };
+  } catch (error) {
+    console.error("Error in notifyUserOnBugFix:", error);
+    return { data: null, error: error.message };
+  }
+};
+
+export const notifyUserFomAdmin = async (userId, message, importance) => {
+  try {
+    const { data, error } = await supabase
+      .from("notifications")
+      .insert({
+        user_id: userId,
+        type: "ADMINISTRATION_NOTIFY",
+        message: message,
+        read: false,
+        importance: importance,
+        metadata: {},
+        action_url: "",
+      })
+      .select()
+      .single();
+
+    if (error) throw error;
+    return { data, error: null };
+  } catch (error) {
+    console.error("Error creating admin notification:", error);
+    return { data: null, error: error.message };
+  }
+};
+
+export const deleteNotification = async (notificationId) => {
+  try {
+    const { data, error } = await supabase
+      .from("notifications")
+      .delete()
+      .eq("id", notificationId);
+    if (error) throw error;
+    return { data, error: null };
+  } catch (error) {
+    return { data: null, error: error.message };
+  }
+};
+
+export const notifyLeadsFinished = async () => {
+  try {
+    const user = await getCurrentUser();
+    const { data: userLeads, error: leadsError } = await supabase
+      .from("user_leads")
+      .select("used")
+      .eq("user_id", user.id);
+    if (leadsError) throw leadsError;
+    if (!userLeads || userLeads.length === 0)
+      return { data: null, error: null };
+
+    const allUsed = userLeads.every((lead) => lead.used);
+    if (!allUsed) return { data: null, error: null };
+
+    const { data, error } = await supabase
+      .from("notifications")
+      .insert({
+        user_id: user.id,
+        type: "leads_finish",
+        message: `${user?.profile?.userName || "Hello"}, you have used all your leads. Subscribe for a new set of leads.`,
+        read: false,
+        importance: "high",
+        metadata: {},
+        action_url: "/dashboard/subscription",
       })
       .select()
       .single();

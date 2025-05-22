@@ -1,9 +1,10 @@
 import FlexBox from "app/components/containers/FlexBox";
+import Importance from "app/components/Importance";
 import { formatTime } from "app/helpers/utils";
 
 const NotificationList = ({ data }) => {
   return (
-    <FlexBox type="column" className="grow-1 h-[360px] overflow-y-auto">
+    <FlexBox type="column" className="grow-1 max-h-[360px] overflow-y-auto">
       {data?.map((item) => {
         return (
           <div
@@ -28,25 +29,4 @@ const NotificationList = ({ data }) => {
   );
 };
 
-const Importance = ({ item }) => {
-  const getColor = (level) => {
-    switch (level.toLowerCase()) {
-      case "low":
-        return "text-green-500 border-green-500 bg-green-100/80";
-      case "medium":
-        return "text-amber-500 border-amber-500 bg-amber-100/80";
-      case "high":
-        return "text-red-500 border-red-500 bg-red-100/80";
-    }
-  };
-  return (
-    <div>
-      <span
-        className={`text-[10px] pointer-events-none font-semibold uppercase px-2 tracking-wider border rounded-sm ${getColor(item)}`}
-      >
-        Priority {item}
-      </span>
-    </div>
-  );
-};
 export default NotificationList;

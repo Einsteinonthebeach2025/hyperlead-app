@@ -1,15 +1,15 @@
 import FlexBox from "app/components/containers/FlexBox";
 import SubTitle from "app/components/SubTitle";
-import MarkButton from "../leadActionButtons/MarkButtons";
-import EmailButton from "../leadActionButtons/EmailButton";
-import CheckMarkButton from "../leadActionButtons/CheckMarkButton";
+import MarkButton from "../../../../../components/buttons/MarkButtons";
+import CheckMarkButton from "../../../../../components/buttons/CheckMarkButton";
+import SendEmailButton from "app/components/buttons/SendEmailButton";
 
 const LeadPesronsName = ({ lead = {}, onStatusChange }) => {
   return (
     <FlexBox type="row" className="gap-5 items-center ">
       <FlexBox type="column" className="gap-2">
         <MarkButton lead={lead} onStatusChange={onStatusChange} />
-        <EmailButton lead={lead} />
+        <SendEmailButton lead={lead} />
         <CheckMarkButton lead={lead} />
       </FlexBox>
       <PersonName lead={lead} />
@@ -34,9 +34,8 @@ const PersonName = ({ lead }) => {
 };
 
 const PersonInitials = ({ lead }) => {
-  const initials = `${lead.first_name?.[0] ?? ""}${
-    lead.last_name?.[0] ?? ""
-  }`.toUpperCase();
+  const initials = `${lead.first_name?.[0] ?? ""}${lead.last_name?.[0] ?? ""
+    }`.toUpperCase();
   return (
     <span className="text-black bg-amber-400/20 w-7 h-7 flex items-center justify-center group-hover:bg-amber-400/40 duration-300 rounded-full w font-medium text-[14px]">
       {initials}

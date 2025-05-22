@@ -1,8 +1,9 @@
 import FlexBox from "app/components/containers/FlexBox";
 import SubTitle from "app/components/SubTitle";
-import FilterBar from "./filtering/FilterBar";
-import SearchBar from "./filtering/SearchBar";
+import FilterBar from "../../../../components/FilterBar";
+import SearchBar from "../../../../components/SearchBar";
 import { useState, useEffect } from "react";
+import { filterConfig } from "app/helpers/filterHelpers";
 
 const LeadFilter = ({
   leads = [],
@@ -27,10 +28,11 @@ const LeadFilter = ({
       <SubTitle>Filter leads as your need</SubTitle>
       <div className="flex flex-col gap-2">
         <FilterBar
-          leads={filteredLeads}
+          data={filteredLeads}
           currentFilters={currentFilters}
           handleReset={handleReset}
           handleFilterChange={handleFilterChange}
+          filterConfig={filterConfig}
         />
         <SearchBar leads={leads} onSearch={handleSearch} />
       </div>

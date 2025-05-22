@@ -26,11 +26,11 @@ const ShowAllStats = ({ data, isOpen, handleShowAll }) => {
                   <SpanContainer
                     color="green"
                     key={item.country}
-                    className="flex items-center flex-col rounded-lg pointer-events-none"
+                    className=" flex-col rounded-lg pointer-events-none"
                   >
                     <CountryFlags countryName={item.country} />
                     <span className="text-[10px]">{item.country}</span>
-                    <span className=" font-semibold text-neutral-700 text-sm">
+                    <span className="font-semibold text-neutral-700 text-sm">
                       {percent}%
                     </span>
                   </SpanContainer>

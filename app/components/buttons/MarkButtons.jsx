@@ -9,6 +9,7 @@ const MarkButton = ({ lead, onStatusChange }) => {
   const { isOpen, toggleState } = useToggleLocal();
 
   const handleUsedStatus = async (e) => {
+    e.preventDefault();
     e.stopPropagation();
     try {
       const result = await updateLeadUsedStatus(lead.id, !active);

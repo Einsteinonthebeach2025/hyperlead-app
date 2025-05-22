@@ -13,11 +13,9 @@ const SpanContainer = ({ children, className, onClick, color = "light" }) => {
   return (
     <div
       onClick={onClick}
-      className={`${containerColor} ${className} border text-center flex items-center justify-center rounded-full px-3 py-1 text-[12px] capitalize`}
+      className={`${containerColor} ${className} border flex items-center justify-center rounded-full px-3 py-1 text-[12px] capitalize`}
     >
-      <span className="pointer-events-none">
-        {children}
-      </span>
+      {children}
     </div>
   );
 };

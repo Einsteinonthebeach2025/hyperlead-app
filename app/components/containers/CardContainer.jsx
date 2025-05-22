@@ -1,4 +1,4 @@
-const CardContainer = ({ children, className, onClick, type = "light" }) => {
+const CardContainer = ({ children, className, onClick, type = "light", onMouseleave }) => {
   const cardTypes = (type) => {
     switch (type) {
       case "light":
@@ -13,6 +13,7 @@ const CardContainer = ({ children, className, onClick, type = "light" }) => {
   return (
     <div
       onClick={onClick}
+      onMouseLeave={onMouseleave}
       className={`${className} ${cardTypes(
         type
       )} p-5 border rounded-xl duration-300 group *:duration-300 `}

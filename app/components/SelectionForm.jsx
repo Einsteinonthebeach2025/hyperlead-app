@@ -56,7 +56,6 @@ const SelectionForm = ({
         [updateField]: selections,
       });
       if (error) {
-        console.error(`Update ${updateField} error:`, error);
         dispatch(setError(error || `Failed to update ${updateField}`));
         return;
       }
@@ -70,12 +69,12 @@ const SelectionForm = ({
           type: "success",
         })
       );
+      router.push("/")
       dispatch(updateUserProfile({ [updateField]: selections }));
       if (onSuccess) {
         await onSuccess(selections);
       }
     } catch (error) {
-      console.error(`Unexpected error in update${updateField}:`, error);
       dispatch(setError("An unexpected error occurred"));
     } finally {
       setLoading(false);

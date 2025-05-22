@@ -26,7 +26,6 @@ export const checkSubscriptionExpiration = async (userId) => {
           leads_received_this_month: 0,
         })
         .eq("id", userId);
-
       if (updateError) throw updateError;
     }
     return { expired };

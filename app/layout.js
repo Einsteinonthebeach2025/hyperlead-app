@@ -3,10 +3,11 @@ import Footer from "./layout/footer/Footer";
 import SideBar from "./layout/navigation/side/SideBar";
 import { StoreProvider } from "./lib/store/StoreProvider";
 import AuthProvider from "./lib/store/AuthProvider";
-import EmailModal from "./pages/emailModal/EmailModal";
+import EmailModal from "./pages/modals/emailModal/EmailModal";
 import NavigationWrapper from "./layout/navigation/nav/NavigationWrapper";
 import ErrorMsg from "./components/modals/ErrorMsg";
-import TestingRegime from "./TestingRegime";
+import SendNotificationModal from "./pages/modals/notificationModal/SendNotificationModal";
+
 export const metadata = {
   title: "Welcome to Hyperlead",
   description:
@@ -25,7 +26,7 @@ export default function RootLayout({ children }) {
               <ErrorMsg />
               <SideBar />
               <EmailModal />
-              <TestingRegime />
+              <SendNotificationModal />
               <Footer />
             </main>
           </body>

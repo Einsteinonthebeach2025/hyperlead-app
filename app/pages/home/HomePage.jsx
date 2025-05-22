@@ -2,7 +2,7 @@ import FeebackSlider from "./feedbackSection/FeebackSlider";
 import Hero from "./heroSection/Hero";
 import Faq from "./faqSection/Faq";
 import Pricing from "./pricingSection/Pricing";
-import TestCom from "./TestCom";
+
 const HomePage = () => {
   return (
     <main className="center flex-col space-y-20">

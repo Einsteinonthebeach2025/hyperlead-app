@@ -1,17 +1,15 @@
-import { selectUser } from "app/features/userSlice";
-import { useSelector } from "react-redux";
+"use client"
 import { FaCheck, FaTriangleExclamation } from "react-icons/fa6";
 import FlexBox from "app/components/containers/FlexBox";
 import Spinner from "app/components/Spinner";
 import { useToggleLocal } from "app/hooks/useToggleLocal";
 import HoverModal from "app/components/modals/HoverModal";
 
-const SubscribtionStatus = () => {
-  const user = useSelector(selectUser);
-  const subs = user?.profile?.subscription;
+const SubscribtionStatus = ({ item }) => {
+  const subs = item.subscription;
   const { isOpen, toggleState } = useToggleLocal();
 
-  const subscriptionDate = new Date(user?.profile?.subscription_timestamp);
+  const subscriptionDate = new Date(item.subscription_timestamp);
   const endDateObj = new Date(subscriptionDate);
   endDateObj.setMonth(endDateObj.getMonth() + 1);
   const year = endDateObj.getFullYear();
@@ -21,9 +19,9 @@ const SubscribtionStatus = () => {
   const minutes = String(endDateObj.getMinutes()).padStart(2, "0");
   const endDate = `${year}-${month}-${day} ${hours}:${minutes}`;
 
-  const divStyle = `relative text-[12px] gap-2 font-medium px-2 py-1 w-fit border-2 rounded-md ${subs ? "text-green-500 bg-green-100 border-green-400" : "text-red-500 bg-red-100 border-red-400"}`;
+  const divStyle = `relative text-[12px] gap-2 font-medium px-2 py-1 w-fit border-2 rounded-full ${subs ? "text-green-500 bg-green-100 border-green-400" : "text-red-500 bg-red-100 border-red-400"}`;
 
-  if (!user) {
+  if (!item) {
     return <Spinner />;
   }
 
@@ -33,11 +31,10 @@ const SubscribtionStatus = () => {
         <FlexBox
           onMouseEnter={() => toggleState(true)}
           onMouseLeave={() => toggleState(false)}
-          type="center-row"
           className={divStyle}
         >
           <FaCheck size={18} />
-          <span className="pointer-events-none">{subs} plan is active</span>
+          <h1 className="pointer-events-none"><span className="uppercase font-bold">{subs}</span> plan is active</h1>
           <HoverModal
             isOpen={isOpen}
             active={false}

@@ -1,17 +1,17 @@
 import Image from "next/image";
 import { FaUserCircle } from "react-icons/fa";
 
-const UserDisplayAvatar = ({ url }) => {
+const UserDisplayAvatar = ({ url, className }) => {
   return (
     <>
       {url ? (
-        <div className="rounded-full w-10 h-10 overflow-hidden">
+        <div className={`rounded-full overflow-hidden ${className}`}>
           <Image
             className="w-full h-full object-cover"
             src={url}
             alt="user-avatar"
-            width={40}
-            height={40}
+            width={200}
+            height={200}
             quality={85}
             priority
           />

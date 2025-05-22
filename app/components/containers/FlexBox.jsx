@@ -13,6 +13,8 @@ const FlexBox = ({
         return "flex";
       case "row-center":
         return "flex justify-center";
+      case "row-start":
+        return "flex justify-start";
       case "row-between":
         return "flex justify-between";
       case "row-evenly":
@@ -20,7 +22,7 @@ const FlexBox = ({
       case "row-around":
         return "flex justify-around";
       case "row-center-end":
-        return "flex justify-around items-end";
+        return "flex justify-center items-end";
       case "row-around-end":
         return "flex justify-around items-end";
       case "row-between-end":

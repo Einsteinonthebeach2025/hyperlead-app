@@ -1,11 +1,10 @@
 "use client";
 import { useState, useMemo } from "react";
-import MotionContainer from "app/components/containers/MotionContainer";
-import Headline from "app/components/Headline";
+import { filterEmails } from "app/helpers/filterHelpers";
 import EmailCard from "./emailCard/EmailCard";
 import EmailFilter from "./emailFiltering/EmailFilter";
-import { filterEmails } from "app/helpers/filterHelpers";
 import SectionHeadline from "app/components/SectionHeadline";
+import DashboardPageWrapper from "app/components/containers/DashboardPageWrapper";
 
 const Emails = ({ data }) => {
   const [search, setSearch] = useState("");
@@ -29,10 +28,7 @@ const Emails = ({ data }) => {
   }
 
   return (
-    <div className="py-3 lg:pr-6 space-y-3">
-      <MotionContainer animation="fade-in">
-        <Headline className="w-fit">Emails</Headline>
-      </MotionContainer>
+    <DashboardPageWrapper title="Emails">
       <EmailFilter
         data={data}
         search={search}
@@ -45,7 +41,7 @@ const Emails = ({ data }) => {
         setOpened={setOpened}
       />
       <EmailCard data={filteredData} />
-    </div>
+    </DashboardPageWrapper>
   );
 };
 

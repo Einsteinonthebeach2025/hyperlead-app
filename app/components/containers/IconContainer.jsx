@@ -1,4 +1,4 @@
-const IconContainer = ({ children, size, color = "blue", className }) => {
+const IconContainer = ({ children, size, href, color = "blue", className }) => {
   const sizeClasses = {
     sm: "w-10 h-10",
     md: "w-12 h-12",
@@ -9,6 +9,7 @@ const IconContainer = ({ children, size, color = "blue", className }) => {
     blue: "blue-style",
     green: "green-style",
     light: "light-style",
+    gold: "gold-style",
   };
 
   const containerSize = sizeClasses[size] || sizeClasses.lg;
@@ -18,7 +19,7 @@ const IconContainer = ({ children, size, color = "blue", className }) => {
     <div
       className={`${containerSize} ${containerColor} ${className} rounded-full duration-300 flex items-center justify-center`}
     >
-      {children}
+      <a href={href} target="_blank" rel="noopener noreferrer">{children}</a>
     </div>
   );
 };

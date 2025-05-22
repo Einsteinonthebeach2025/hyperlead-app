@@ -11,6 +11,7 @@ const WorldMap = dynamic(() => import("./components/WorldMap"), {
 });
 
 const LeadsByRegions = ({ data }) => {
+
   const { isOpen, toggleState } = useToggleLocal();
 
   if (!data || data.length === 0) return <div>No data available</div>;
@@ -32,7 +33,7 @@ const LeadsByRegions = ({ data }) => {
         show all
       </Button>
       <WorldMap sortedData={sortedData} />
-      <CountryStats sortedData={sortedData} total={total} />
+      <CountryStats data={sortedData} total={total} color="bg-blue-500" />
       <ShowAllStats data={data} isOpen={isOpen} handleShowAll={handleShowAll} />
     </CardContainer>
   );

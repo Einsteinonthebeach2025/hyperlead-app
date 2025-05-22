@@ -1,13 +1,14 @@
 "use client";
 import { motion } from "framer-motion";
 import { useToggleLocal } from "app/hooks/useToggleLocal";
-import NotificationModal from "app/layout/navigation/usernamepanel/panelComponents/notificationIcon/NotificationModal";
 import { IoMdNotifications } from "react-icons/io";
 import { useEffect, useState } from "react";
-import supabase from "app/lib/config/supabaseClient";
 import { useSelector } from "react-redux";
 import { selectUser } from "app/features/userSlice";
+import NotificationModal from "app/layout/navigation/usernamepanel/panelComponents/notificationIcon/NotificationModal";
+import supabase from "app/lib/config/supabaseClient";
 import Dot from "./Dot";
+
 const NotificationsIcon = () => {
   const user = useSelector(selectUser);
   const { isOpen, toggleState } = useToggleLocal(false);
@@ -85,6 +86,7 @@ const NotificationsIcon = () => {
         isOpen={isOpen}
         data={notifications}
         refresh={fetchNotifications}
+        handleClick={handleClick}
       />
     </div>
   );

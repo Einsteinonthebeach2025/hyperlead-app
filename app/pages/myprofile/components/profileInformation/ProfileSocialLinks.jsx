@@ -21,14 +21,7 @@ const ProfileSocialLinks = ({ profile }) => {
   return (
     <div className="items-center flex gap-2 text-2xl">
       {socialLinks.map((link) => (
-        <a
-          key={link.href}
-          href={link.href}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <IconContainer size="sm">{link.icon}</IconContainer>
-        </a>
+        <IconContainer key={link.href} href={link.href} size="sm">{link.icon}</IconContainer>
       ))}
     </div>
   );

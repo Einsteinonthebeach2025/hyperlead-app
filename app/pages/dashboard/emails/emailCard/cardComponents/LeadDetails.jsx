@@ -1,11 +1,32 @@
+"use client";
 import FlexBox from "app/components/containers/FlexBox";
 import SubTitle from "app/components/SubTitle";
+import Delete from "app/components/buttons/Delete";
 import { FaLinkedin } from "react-icons/fa";
 import { TbWorld } from "react-icons/tb";
-import DeleteButton from "./DeleteButton";
+import { deleteEmail } from "app/lib/actions/emailActions";
+import { useRouter } from "next/navigation";
 
 const LeadDetails = ({ item, onDelete }) => {
   const { leads } = item;
+  const router = useRouter();
+
+  const handleEmailDelete = async (emailId) => {
+    try {
+      const { success, error } = await deleteEmail(emailId);
+      if (!success) {
+        return error;
+      }
+      if (onDelete) {
+        onDelete(emailId);
+      }
+      router.refresh();
+      return null;
+    } catch (error) {
+      return "Failed to delete email";
+    }
+  };
+
   return (
     <FlexBox
       type="row-between"
@@ -38,7 +59,11 @@ const LeadDetails = ({ item, onDelete }) => {
             <FaLinkedin size={20} />
           </a>
         </FlexBox>
-        <DeleteButton item={item} onDelete={onDelete} />
+        <Delete
+          id={item.id}
+          onDelete={handleEmailDelete}
+          type="email"
+        />
       </div>
     </FlexBox>
   );

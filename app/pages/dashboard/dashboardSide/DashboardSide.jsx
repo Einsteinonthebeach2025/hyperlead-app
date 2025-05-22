@@ -1,6 +1,7 @@
 import SideBarLinks from "app/components/SideBarLinks";
 import SimulateExpire from "app/SimulateExpire";
 import { MdDashboard, MdLeaderboard, MdEmail } from "react-icons/md";
+import { IoMdNotifications } from "react-icons/io";
 
 const links = [
   {
@@ -18,19 +19,22 @@ const links = [
     label: "Emails",
     icon: <MdEmail />,
   },
+  {
+    href: "/dashboard/notifications",
+    label: "Notifications",
+    icon: <IoMdNotifications />,
+  },
 ];
 
 const DashboardSide = () => {
   return (
-    <div className="w-full md:w-[30%] lg:w-[20%] relative py-5">
-      <div className="sticky top-20 w-full px-5">
-        <SideBarLinks links={links} />
-        <div className="center py-2">
-          <SimulateExpire />
-        </div>
-      </div>
-    </div>
+    <SideBarLinks links={links}>
+      <SimulateExpire />
+    </SideBarLinks>
+
   );
 };
+
+
 
 export default DashboardSide;

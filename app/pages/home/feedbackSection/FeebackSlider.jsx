@@ -1,9 +1,9 @@
 "use client";
 import Spinner from "app/components/Spinner";
-import Title from "app/components/Title";
 import { getFeedback } from "app/lib/actions/reportActions";
 import { useEffect, useState } from "react";
 import FeedbackCard from "./feedbackCard/FeedbackCard";
+import SectionHeadline from "app/components/SectionHeadline";
 
 const FeedbackSlider = () => {
   const [feedbacks, setFeedbacks] = useState([]);
@@ -33,16 +33,17 @@ const FeedbackSlider = () => {
     return <Spinner />;
   }
 
-  if (error) {
+  if (!feedbacks || feedbacks.length === 0) {
     return (
-      <section className="py-5 overflow-hidden center relative w-full">
-        <Title>Error loading feedbacks: {error}</Title>
-      </section>
+      <SectionHeadline
+        title="No feedbacks found"
+        desc="users feedbacks are not reported yet"
+      />
     );
   }
 
   return (
-    <section className="py-5 overflow-hidden center relative w-full">
+    <section className="py-5 overflow-hidden center relative w-full border">
       <div className="flex items-center relative w-max">
         <FeedbackCard feedbacks={feedbacks} />
         <FeedbackCard feedbacks={feedbacks} />

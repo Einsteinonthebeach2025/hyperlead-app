@@ -30,7 +30,7 @@ const DisplayUserName = () => {
           className="gap-2 cursor-pointer items-center"
         >
           <UserDisplayName user={user} />
-          <UserDisplayAvatar url={user?.profile?.avatar_url} />
+          <UserDisplayAvatar className="w-10 h-10" url={user?.profile?.avatar_url} />
           {isOpen ? <IoIosArrowUp /> : <IoIosArrowDown />}
         </FlexBox>
       </FlexBox>

@@ -8,7 +8,7 @@ const ProfileHeader = ({ profile }) => {
   return (
     <CardContainer className="flex justify-between w-full px-5">
       <div className="flex flex-col gap-2">
-        <SubscribtionStatus />
+        <SubscribtionStatus item={profile} />
         <Title className="capitalize">
           {profile?.firstName} {profile?.lastName}
         </Title>

@@ -76,7 +76,7 @@ const ProfileSettings = ({ isOpen, handleActive }) => {
     <AnimatePresence>
       {isOpen && (
         <MotionContainer animation="bottom">
-          <CardContainer className="absolute z-10 top-14 right-0 w-44 primary-border space-y-1 bg-white border shadow-md *:flex *:justify-end">
+          <CardContainer onMouseleave={handleActive} className="absolute z-10 top-14 right-0 w-44 primary-border space-y-1 bg-white border shadow-md *:flex *:justify-end">
             {links?.map((item, index) => {
               return (
                 <div key={index}>

@@ -78,7 +78,7 @@ const PricingButton = ({ item }) => {
         leads_received_this_month: currentMonthLeads + assignedLeadsCount,
         total_leads_received: currentTotal + assignedLeadsCount,
         last_lead_reset_date: new Date().toISOString(),
-        last_notification_timestamp: null,
+        last_notification_timestamp: null
       };
       const { data, error } = await updateProfile(session.user.id, updates);
       if (error) {

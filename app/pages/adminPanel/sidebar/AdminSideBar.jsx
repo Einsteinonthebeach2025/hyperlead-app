@@ -1,24 +1,34 @@
 import SideBarLinks from "app/components/SideBarLinks";
-import { MdDashboard, MdLeaderboard } from "react-icons/md";
+import { MdFeedback } from "react-icons/md";
+import { FaUsersCog, FaBug } from "react-icons/fa";
 
 const links = [
   {
+    href: "/administration/analytics",
+    label: "App analytics",
+    icon: <FaUsersCog />,
+  },
+  {
     href: "/administration/reported-bugs",
     label: "Reported bugs",
-    icon: <MdDashboard />,
+    icon: <FaBug />,
+  },
+  {
+    href: "/administration/reported-feedbacks",
+    label: "Feedbacks",
+    icon: <MdFeedback />,
   },
   {
     href: "/administration/hyperlead-users",
-    label: "hyperlead users",
-    icon: <MdLeaderboard />,
+    label: "User management",
+    icon: <FaUsersCog />,
   },
+
 ];
 
 const AdminSideBar = () => {
   return (
-    <div className="w-[15%] *:w-full space-y-3 px-3 py-5">
-      <SideBarLinks links={links} />
-    </div>
+    <SideBarLinks links={links} />
   )
 }
 
