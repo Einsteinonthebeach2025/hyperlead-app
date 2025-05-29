@@ -71,7 +71,7 @@ const NotificationsIcon = () => {
   return (
     <div
       onClick={handleClick}
-      className="border relative p-2 mr-2 rounded-full border-neutral-300 text-neutral-600 hover:text-neutral-900 duration-300 "
+      className="relative p-2 mr-2 rounded-full border border-stone-300 dark:border-stone-600"
     >
       <motion.div
         key={animateKey}
@@ -79,7 +79,7 @@ const NotificationsIcon = () => {
         transition={{ duration: 0.5, ease: "easeInOut" }}
         className="cursor-pointer"
       >
-        <IoMdNotifications size={23} />
+        <IoMdNotifications size={23} className="text-stone-600 hover:text-stone-800 dark:text-stone-200 hover:dark:text-stone-400 duration-300" />
       </motion.div>
       <Dot hasUnread={hasUnread} />
       <NotificationModal

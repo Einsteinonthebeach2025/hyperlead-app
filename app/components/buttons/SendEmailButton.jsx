@@ -32,12 +32,12 @@ const SendEmailButton = ({ lead, type = 'lead' }) => {
   return (
     <>
       {type === "user" ?
-        <Button onClick={emailModal} type="gold" className="w-fit">
+        <Button onClick={emailModal} type="blue" className="w-fit">
           <span>Send email</span>
           <FaEnvelope size={15} />
         </Button>
         :
-        <div onClick={emailModal} className="cursor-pointer duration-300 hover:text-indigo-600">
+        <div onClick={emailModal} className="cursor-pointer duration-300 text-blue-600 hover:text-blue-800">
           <FaEnvelope />
         </div>}
     </>

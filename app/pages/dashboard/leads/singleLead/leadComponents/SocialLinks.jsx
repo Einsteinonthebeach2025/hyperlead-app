@@ -9,12 +9,12 @@ const SocialLinks = ({ data }) => {
       <SubTitle>Social Links</SubTitle>
       <FlexBox className="w-fit space-x-2">
         {data?.company_linkedin_url && (
-          <IconContainer color="green" href={data?.company_linkedin_url} size="sm">
+          <IconContainer href={data?.company_linkedin_url} size="sm">
             <FaLinkedin size={20} />
           </IconContainer>
         )}
         {data?.twitter_url && (
-          <IconContainer color="green" href={data?.twitter_url} size="sm">
+          <IconContainer href={data?.twitter_url} size="sm">
             <FaTwitter size={20} />
           </IconContainer>
         )}

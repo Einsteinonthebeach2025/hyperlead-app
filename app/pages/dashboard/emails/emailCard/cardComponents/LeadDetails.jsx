@@ -6,6 +6,7 @@ import { FaLinkedin } from "react-icons/fa";
 import { TbWorld } from "react-icons/tb";
 import { deleteEmail } from "app/lib/actions/emailActions";
 import { useRouter } from "next/navigation";
+import Dot from "app/components/Dot";
 
 const LeadDetails = ({ item, onDelete }) => {
   const { leads } = item;
@@ -30,20 +31,20 @@ const LeadDetails = ({ item, onDelete }) => {
   return (
     <FlexBox
       type="row-between"
-      className="w-full border-b border-neutral-200 pb-3"
+      className="w-full border-b border-neutral-200 dark:border-stone-600 pb-3"
     >
       <div className="pointer-events-none">
         <FlexBox className="gap-2 w-fit">
           <SubTitle>
             {leads?.first_name} {leads?.last_name}
           </SubTitle>
-          •
-          <span className="text-neutral-600 font-light">
+          <Dot />
+          <span className="text-neutral-600 dark:text-stone-400 font-light">
             {leads?.seniority}
           </span>
         </FlexBox>
-        <h1 className="text-[12px] text-neutral-600">{item?.leads_email}</h1>
-        <h1 className="text-[12px] text-green-500 italic font-bold">
+        <h1 className="text-[12px] text-neutral-600 dark:text-stone-400">{item?.leads_email}</h1>
+        <h1 className="text-[12px] text-blue-500 italic font-bold">
           {leads?.company_title}
         </h1>
       </div>

@@ -14,7 +14,7 @@ const ShowAllStats = ({ data, isOpen, handleShowAll }) => {
         {isOpen && (
           <MotionContainer
             animation="fade-in"
-            className="absolute inset-0 bg-blue-500/70 backdrop-blur-[2px] p-5 space-y-5"
+            className="absolute inset-0 bg-blue-500/70 dark:bg-blue-300/60 backdrop-blur-[2px] p-5 space-y-5"
           >
             <Close type="light" onClick={handleShowAll} />
             <div className="grid grid-cols-4 gap-4">
@@ -24,13 +24,13 @@ const ShowAllStats = ({ data, isOpen, handleShowAll }) => {
                   : 0;
                 return (
                   <SpanContainer
-                    color="green"
+                    color="blue"
                     key={item.country}
                     className=" flex-col rounded-lg pointer-events-none"
                   >
                     <CountryFlags countryName={item.country} />
                     <span className="text-[10px]">{item.country}</span>
-                    <span className="font-semibold text-neutral-700 text-sm">
+                    <span className="font-semibold text-neutral-700 dark:text-stone-200 text-sm">
                       {percent}%
                     </span>
                   </SpanContainer>

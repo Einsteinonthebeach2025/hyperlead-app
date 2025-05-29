@@ -1,7 +1,7 @@
 
 const SpanText = ({ children, className }) => {
     return (
-        <p className={`${className} capitalize text-neutral-500 text-[10px]`}>
+        <p className={`${className} capitalize text-stone-500 dark:text-stone-100 text-[10px]`}>
             {children}
         </p>
     )

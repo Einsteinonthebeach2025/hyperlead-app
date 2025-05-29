@@ -4,6 +4,7 @@ import FilterBar from "../../../../components/FilterBar";
 import SearchBar from "../../../../components/SearchBar";
 import { useState, useEffect } from "react";
 import { filterConfig } from "app/helpers/filterHelpers";
+import LeadsNaming from "./LeadsNaming";
 
 const LeadFilter = ({
   leads = [],

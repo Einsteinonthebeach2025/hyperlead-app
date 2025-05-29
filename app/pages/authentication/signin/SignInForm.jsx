@@ -7,6 +7,7 @@ import { signIn } from "app/lib/actions/authActions";
 import Link from "next/link";
 import { setError } from "app/features/modalSlice";
 import Button from "app/components/buttons/Button";
+import GoogleButton from "app/components/buttons/GoogleButton";
 
 const SignInForm = () => {
   const dispatch = useDispatch();
@@ -35,50 +36,53 @@ const SignInForm = () => {
   };
 
   return (
-    <form onSubmit={handleLogin} className="space-y-4 w-full" noValidate>
-      <div>
-        <label htmlFor="email">Email</label>
-        <input
-          id="userEmail"
-          type="email"
-          name="email"
-          placeholder="Your Email"
-          autoComplete="false"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        />
-      </div>
-      <div>
-        <label htmlFor="password">Password</label>
-        <input
-          id="password"
-          type="password"
-          name="password"
-          placeholder="Enter Your Password"
-          autoComplete="new-password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        />
-        <Link
-          className="text-[12px] text-blue-500 hover:underline ml-1"
-          href="/resetpassword"
+    <>
+      <form onSubmit={handleLogin} className="space-y-4 w-full mb-2" noValidate>
+        <div>
+          <label htmlFor="email">Email</label>
+          <input
+            id="userEmail"
+            type="email"
+            name="email"
+            placeholder="Your Email"
+            autoComplete="false"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
+        </div>
+        <div>
+          <label htmlFor="password">Password</label>
+          <input
+            id="password"
+            type="password"
+            name="password"
+            placeholder="Enter Your Password"
+            autoComplete="new-password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
+          <Link
+            className="text-[12px] text-blue-500 hover:underline ml-1"
+            href="/resetpassword"
+          >
+            Forgot Password?
+          </Link>
+        </div>
+        <Button
+          className="mx-auto"
+          type="submit"
+          text="Logging In"
+          loading={loading}
+          disable={loading}
         >
-          Forgot Password?
-        </Link>
-      </div>
-      <Button
-        className="mx-auto"
-        type="submit"
-        text="Logging In"
-        loading={loading}
-        disable={loading}
-      >
-        <IoMdLogIn size={20} />
-        <span>Login</span>
-      </Button>
-    </form>
+          <IoMdLogIn size={20} />
+          <span>Login</span>
+        </Button>
+      </form>
+      <GoogleButton />
+    </>
   );
 };
 

@@ -1,11 +1,10 @@
 "use client";
-import GradientContainer from "app/components/containers/GradientContainer";
-import FeedbackForm from "./FeedbackForm";
 import { useSelector } from "react-redux";
+import { selectUser } from "app/features/userSlice";
+import FeedbackForm from "./FeedbackForm";
 import FormContainer from "app/components/containers/FormContainer";
 import MotionContainer from "app/components/containers/MotionContainer";
 import Title from "app/components/Title";
-import { selectUser } from "app/features/userSlice";
 import Logo from "app/components/Logo";
 import SectionHeadline from "app/components/SectionHeadline";
 import FlexBox from "app/components/containers/FlexBox";
@@ -16,7 +15,6 @@ const Feedback = () => {
 
   return (
     <section className="h-screen relative center">
-      <GradientContainer />
       {user?.email ? (
         <FormContainer className="w-[90%] max-w-[500px] space-y-4">
           <MotionContainer animation="zoom-out">

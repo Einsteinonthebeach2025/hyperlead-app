@@ -8,6 +8,7 @@ import LeadIndustry from "./leadsCardComponents/LeadIndustry";
 import { truncateString } from "app/helpers/utils";
 import Link from "next/link";
 import SectionHeadline from "app/components/SectionHeadline";
+import CardContainer from "app/components/containers/CardContainer";
 
 const LeadCard = ({ leads, onLeadStatusChange }) => {
 
@@ -34,10 +35,8 @@ const LeadCard = ({ leads, onLeadStatusChange }) => {
                 exit={{ opacity: 0, rotateX: 90 }}
                 transition={{ duration: 0.5 }}
               >
-                <div
-                  className={`grid grid-cols-[1.3fr_0.7fr_1.0fr_0.8fr_1.0fr] cursor-pointer gap-3 p-3 h-24 primary-border relative hover:border-neutral-400 rounded-xl duration-300 light-gradient group ${lead?.used ? "opacity-50" : ""
-                    }`}
-                >
+                <CardContainer className={` grid grid-cols-[1.3fr_0.7fr_1.0fr_0.8fr_1.0fr] gap-3 group relative group ${lead?.used ? "opacity-60" : ""
+                  }`}>
                   <LeadPesronsName
                     lead={lead}
                     onStatusChange={onLeadStatusChange}
@@ -52,7 +51,7 @@ const LeadCard = ({ leads, onLeadStatusChange }) => {
                   </FlexBox>
                   <LeadLocation lead={lead} />
                   <LeadIndustry lead={lead} />
-                </div>
+                </CardContainer>
               </motion.div>
             </Link>
           );

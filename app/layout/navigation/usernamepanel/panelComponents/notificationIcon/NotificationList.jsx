@@ -1,4 +1,5 @@
 import FlexBox from "app/components/containers/FlexBox";
+import Dot from "app/components/Dot";
 import Importance from "app/components/Importance";
 import { formatTime } from "app/helpers/utils";
 
@@ -8,16 +9,17 @@ const NotificationList = ({ data }) => {
       {data?.map((item) => {
         return (
           <div
-            className="bg-neutral-200/40 hover:bg-neutral-200/80 px-2 py-1 cursor-pointer rounded-md duration-300 my-1"
+            className="bg-neutral-200/40 dark:bg-[#151e27] hover:bg-neutral-200/80 dark:hover:bg-[#4b5f74] px-2 py-1 cursor-pointer rounded-md duration-300 my-1"
             key={item.id}
           >
             <div className="text-[12px]">
-              <strong>System</strong> •
-              <span className=" text-neutral-500"> {item.message}</span>
-              <br /> <strong>Hyperlead App</strong>
+              <strong className="dark:text-stone-100">System</strong> <Dot />
+              <span className=" text-neutral-500 dark:text-stone-300"> {item.message}</span>
+              <br /> <strong className="dark:text-stone-100">Hyperlead App</strong>
               <FlexBox className="gap-2 w-fit">
-                <Importance item={item?.importance} /> •
-                <span className="text-neutral-600 font-light text-[10px]">
+                <Importance item={item?.importance} />
+                <Dot />
+                <span className="text-neutral-600 dark:text-stone-200 font-light text-[10px]">
                   {formatTime(item.created_at)}
                 </span>
               </FlexBox>

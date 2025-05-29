@@ -7,6 +7,8 @@ import EmailModal from "./pages/modals/emailModal/EmailModal";
 import NavigationWrapper from "./layout/navigation/nav/NavigationWrapper";
 import ErrorMsg from "./components/modals/ErrorMsg";
 import SendNotificationModal from "./pages/modals/notificationModal/SendNotificationModal";
+import GlobalModal from "./components/modals/GlobalModal";
+import ThemeProvider from "./lib/store/ThemeProvider";
 
 export const metadata = {
   title: "Welcome to Hyperlead",
@@ -19,17 +21,20 @@ export default function RootLayout({ children }) {
     <StoreProvider>
       <AuthProvider>
         <html lang="en">
-          <body className="center flex-col">
-            <main className="relative w-full max-w-[1650px]">
-              <NavigationWrapper />
-              {children}
-              <ErrorMsg />
-              <SideBar />
-              <EmailModal />
-              <SendNotificationModal />
-              <Footer />
-            </main>
-          </body>
+          <ThemeProvider>
+            <body className="center flex-col">
+              <main className="relative w-full max-w-[1650px] dark:bg-[#151e27] duration-500">
+                <NavigationWrapper />
+                {children}
+                <ErrorMsg />
+                <SideBar />
+                <EmailModal />
+                <GlobalModal />
+                <SendNotificationModal />
+                <Footer />
+              </main>
+            </body>
+          </ThemeProvider>
         </html>
       </AuthProvider>
     </StoreProvider>

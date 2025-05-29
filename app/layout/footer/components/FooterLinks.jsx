@@ -13,7 +13,7 @@ const FooterLinks = () => {
               {item.links.map((item, index) => {
                 return (
                   <Link
-                    className="text-neutral-700 hover:text-black text-sm"
+                    className="text-neutral-700 hover:text-black dark:text-stone-300 dark:hover:text-stone-200 duration-300 text-sm"
                     href={item.link}
                     key={index}
                   >

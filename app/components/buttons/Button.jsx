@@ -20,11 +20,7 @@ const Button = ({
       case "blue":
         return "blue-style text-sm border px-4 py-1 lg:py-2 md:text-sm";
       case "link":
-        return "text-neutral-600 hover:text-black md:text-sm";
-      case "gold":
-        return "gold-style text-sm px-4 border py-1 md:text-sm";
-      case "link":
-        return "text-neutral-600 hover:text-black md:text-sm";
+        return "text-neutral-600 hover:text-black dark:text-stone-200 dark:hover:text-stone-400 md:text-sm";
       case "delete":
         return "border text-[10px] border-red-500 bg-red-100 text-red-500 hover:bg-red-200 px-2";
       case "success":

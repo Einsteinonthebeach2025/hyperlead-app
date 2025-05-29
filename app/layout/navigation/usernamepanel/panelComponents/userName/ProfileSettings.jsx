@@ -67,7 +67,6 @@ const ProfileSettings = ({ isOpen, handleActive }) => {
       name: "Logout",
       href: "/",
       icon: <IoIosLogOut />,
-      type: "light",
       isLogout: true,
     },
   ];
@@ -76,7 +75,7 @@ const ProfileSettings = ({ isOpen, handleActive }) => {
     <AnimatePresence>
       {isOpen && (
         <MotionContainer animation="bottom">
-          <CardContainer onMouseleave={handleActive} className="absolute z-10 top-14 right-0 w-44 primary-border space-y-1 bg-white border shadow-md *:flex *:justify-end">
+          <CardContainer onMouseleave={handleActive} className="absolute z-10 top-14 right-0 w-44 space-y-1 border shadow-md dark:shadow-stone-700 *:flex *:justify-end">
             {links?.map((item, index) => {
               return (
                 <div key={index}>

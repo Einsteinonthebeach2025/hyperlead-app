@@ -7,6 +7,7 @@ import { setError } from "app/features/modalSlice";
 import SelectionForm from "app/components/SelectionForm";
 import preferencesData from "app/localDB/preferencesData";
 
+
 const Preferences = ({ initialPreferences = [] }) => {
   const router = useRouter();
   const dispatch = useDispatch();

@@ -1,7 +1,10 @@
 "use client";
+import { selectIsDarkMode } from "app/features/modalSlice";
 import { motion } from "framer-motion";
+import { useSelector } from "react-redux";
 
 const DonutAnimation = ({ data }) => {
+  const isDarkMode = useSelector(selectIsDarkMode)
   const radius = 40;
   const circumference = 2 * Math.PI * radius;
   const totalValue = data?.reduce((acc, cur) => acc + cur.value, 0);
@@ -18,11 +21,12 @@ const DonutAnimation = ({ data }) => {
 
         return (
           <motion.circle
+            className={activity.OPACITY}
             key={index}
             cx="50"
             cy="50"
             r={radius}
-            stroke={activity.color}
+            stroke={isDarkMode ? '#3414d9' : '#3b82f6'}
             strokeWidth={activity.width}
             fill="none"
             strokeDasharray={strokeDasharray}

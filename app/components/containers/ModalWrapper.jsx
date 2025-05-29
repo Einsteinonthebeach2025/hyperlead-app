@@ -15,7 +15,7 @@ const ModalWrapper = ({ isOpen, onClose, title, children }) => {
           className="fixed top-0 z-10 inset-0 bg-black/70 backdrop-blur-sm center"
         >
           <FormContainer className="w-full max-w-[600px]">
-            <FlexBox type="row-between" className="w-full text-amber-500">
+            <FlexBox type="row-between" className="w-full text-blue-500">
               <Title>{title}</Title>
               <Close onClick={onClose} />
             </FlexBox>

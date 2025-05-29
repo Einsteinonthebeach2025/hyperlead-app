@@ -25,7 +25,7 @@ const PersonName = ({ lead }) => {
         <SubTitle>
           {lead?.first_name} {lead?.last_name}
         </SubTitle>
-        <span className="text-neutral-500 font-medium text-[12px]">
+        <span className="text-neutral-500 dark:text-stone-300 font-medium text-[12px]">
           {lead?.email}
         </span>
       </FlexBox>
@@ -37,7 +37,7 @@ const PersonInitials = ({ lead }) => {
   const initials = `${lead.first_name?.[0] ?? ""}${lead.last_name?.[0] ?? ""
     }`.toUpperCase();
   return (
-    <span className="text-black bg-amber-400/20 w-7 h-7 flex items-center justify-center group-hover:bg-amber-400/40 duration-300 rounded-full w font-medium text-[14px]">
+    <span className="text-black bg-blue-300 group-hover:bg-blue-400 dark:bg-blue-400/60 group-hover:dark:bg-blue-800 w-8 h-8 flex items-center justify-center duration-300 rounded-full w font-medium text-[14px]">
       {initials}
     </span>
   );

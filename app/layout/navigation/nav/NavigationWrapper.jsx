@@ -14,6 +14,7 @@ export default function NavigationWrapper() {
     pathname === "/feedback" ||
     pathname === "/regions" ||
     pathname === "/bug-report" ||
+    pathname === "/auth/callback" ||
     pathname === "/preferences";
 
   if (isAuthRoute) {

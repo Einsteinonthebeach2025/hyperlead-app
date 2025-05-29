@@ -4,11 +4,11 @@ const Importance = ({ item }) => {
   const getColor = (level) => {
     switch (level.toLowerCase()) {
       case "low":
-        return "text-green-500 border-green-500 bg-green-100/80";
+        return "text-green-500 border-green-500 bg-green-100/80 dark:bg-green-900/40";
       case "medium":
-        return "text-amber-500 border-amber-500 bg-amber-100/80";
+        return "text-amber-500 border-amber-500 bg-amber-100/80 dark:bg-amber-800/40";
       case "high":
-        return "text-red-500 border-red-500 bg-red-100/80";
+        return "text-red-500 border-red-500 bg-red-100/80 dark:bg-red-900/40";
     }
   };
 

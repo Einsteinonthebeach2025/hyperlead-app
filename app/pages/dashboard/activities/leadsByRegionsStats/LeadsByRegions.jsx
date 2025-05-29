@@ -33,7 +33,7 @@ const LeadsByRegions = ({ data }) => {
         show all
       </Button>
       <WorldMap sortedData={sortedData} />
-      <CountryStats data={sortedData} total={total} color="bg-blue-500" />
+      <CountryStats data={sortedData} total={total} />
       <ShowAllStats data={data} isOpen={isOpen} handleShowAll={handleShowAll} />
     </CardContainer>
   );

@@ -1,6 +1,6 @@
 import SideBarLinks from "app/components/SideBarLinks";
 import SimulateExpire from "app/SimulateExpire";
-import { MdDashboard, MdLeaderboard, MdEmail } from "react-icons/md";
+import { MdDashboard, MdLeaderboard, MdEmail, MdOutlineSecurity } from "react-icons/md";
 import { IoMdNotifications } from "react-icons/io";
 
 const links = [
@@ -23,6 +23,11 @@ const links = [
     href: "/dashboard/notifications",
     label: "Notifications",
     icon: <IoMdNotifications />,
+  },
+  {
+    href: "/dashboard/security",
+    label: "Account security",
+    icon: <MdOutlineSecurity />,
   },
 ];
 

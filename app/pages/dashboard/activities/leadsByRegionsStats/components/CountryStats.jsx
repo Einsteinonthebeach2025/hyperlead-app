@@ -1,8 +1,10 @@
 "use client"
 import { motion } from "framer-motion";
 import { CountryFlags } from "app/components/CountryFlags";
+import SubTitle from "app/components/SubTitle";
+import SpanText from "app/components/SpanText";
 
-const CountryStats = ({ data, total, color }) => {
+const CountryStats = ({ data, total }) => {
   return (
     <div>
       {data.slice(0, 6).map((item, idx) => {
@@ -11,22 +13,22 @@ const CountryStats = ({ data, total, color }) => {
           <div key={item.country} className="flex items-center gap-4 space-y-2">
             <CountryFlags countryName={item.country} />
             <div className="flex-1">
-              <div className="font-semibold">{item.country}</div>
-              <div className="text-[10px] text-neutral-500">
+              <SubTitle>{item.country}</SubTitle>
+              <SpanText>
                 {item.count} Leads
-              </div>
+              </SpanText>
               <div className="relative h-3 bg-gray-200 rounded-full overflow-hidden">
                 <motion.div
                   initial={{ width: 0 }}
                   animate={{ width: `${percent}%` }}
                   transition={{ duration: 0.8, delay: idx * 0.1 }}
-                  className={`absolute left-0 top-0 h-full ${color} rounded-full`}
+                  className="absolute left-0 top-0 h-full bg-blue-500 dark:bg-blue-800 rounded-full"
                 />
               </div>
             </div>
-            <div className="w-12 text-right font-semibold text-neutral-700">
+            <SubTitle className="w-12 text-right font-semibold">
               {percent}%
-            </div>
+            </SubTitle>
           </div>
         );
       })}

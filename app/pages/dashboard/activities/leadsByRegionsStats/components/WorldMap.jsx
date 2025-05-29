@@ -1,9 +1,13 @@
 import { VectorMap } from "@react-jvectormap/core";
 import { worldMill } from "@react-jvectormap/world";
+import { selectIsDarkMode } from "app/features/modalSlice";
 import { countryCoordinates, countryNameToCode } from "app/helpers/utils";
+import { useSelector } from "react-redux";
 
 const WorldMap = ({ sortedData = [] }) => {
   const countries = sortedData.slice(0, 5).map((item) => item.country);
+  const isDarkMode = useSelector(selectIsDarkMode);
+
 
   const markers = countries
     .map((item) => {
@@ -18,7 +22,7 @@ const WorldMap = ({ sortedData = [] }) => {
 
   const regionColors = countries.reduce((acc, name) => {
     const code = countryNameToCode[name];
-    if (code) acc[code] = "#22c55e"; // red
+    if (code) acc[code] = isDarkMode ? "#290ac7" : "#3b82f6";
     return acc;
   }, {});
 
@@ -36,7 +40,7 @@ const WorldMap = ({ sortedData = [] }) => {
             strokeOpacity: 0,
           },
           hover: {
-            fill: "#3B82F6",
+            fill: isDarkMode ? "#05eb37" : "#3b82f6",
             fillOpacity: 0.9,
             cursor: "pointer",
           },

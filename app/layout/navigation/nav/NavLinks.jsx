@@ -46,7 +46,7 @@ const NavLinks = () => {
             onClick={handleClose}
             key={item.id}
           >
-            <Link className="text-3xl md:text-sm" href={item.link}>
+            <Link className="text-3xl md:text-sm dark:text-stone-300" href={item.link}>
               {item.name}
             </Link>
           </MotionChildren>

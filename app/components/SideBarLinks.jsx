@@ -21,9 +21,9 @@ const SideBarLinks = ({ links, children }) => {
               <MotionChildren key={link.href} animation="fade-in">
                 <Link
                   href={link.href}
-                  className={`w-full center flex-row space-x-2 px-3 py-2 rounded-lg transition-all duration-300 capitalize relative ${isActive
-                    ? "bg-neutral-800 text-white"
-                    : "text-neutral-600 bg-neutral-200 hover:bg-neutral-500/20"
+                  className={`w-full flex items-center justify-start gap-3 px-3 py-2 rounded-lg transition-all duration-300 capitalize relative ${isActive
+                    ? "bg-neutral-800 text-white dark:bg-indigo-900 dark:hover:bg-indigo-900/70"
+                    : "text-neutral-600 bg-neutral-200 hover:bg-neutral-500/20 dark:bg-blue-900/30 dark:hover:bg-blue-900/50 dark:text-stone-200"
                     }`}
                 >
                   <span>{link.icon}</span>

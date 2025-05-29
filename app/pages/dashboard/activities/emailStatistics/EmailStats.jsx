@@ -2,33 +2,31 @@
 import { motion } from "framer-motion";
 import Title from "app/components/Title";
 import CardContainer from "app/components/containers/CardContainer";
+import Paragraph from "app/components/Paragraph";
+import ContentHeadline from "app/components/ContentHeadline";
+import SpanText from "app/components/SpanText";
 
 const EmailStats = ({ data = {} }) => {
   const donutData = [
     {
       title: "Total Emails Sent",
       value: data?.totalEmails || 0,
-      color: "#f59e0b",
     },
     {
       title: "Opened",
       value: data?.openedEmails || 0,
-      color: "#f59e0b",
     },
     {
       title: "Delivered",
       value: data?.deliveredEmails || 0,
-      color: "#3b82f6",
     },
     {
       title: "Open Rate",
       value: data?.openRate || 0,
-      color: "#3B82F6",
     },
     {
       title: "Delivery Rate",
       value: data?.deliveryRate || 0,
-      color: "#22c55e",
     },
   ];
 
@@ -36,23 +34,26 @@ const EmailStats = ({ data = {} }) => {
 
   return (
     <CardContainer className="space-y-4">
-      <Title>Email Statistics</Title>
+      <ContentHeadline
+        type="column-start"
+        title="Email Statistics"
+        desc="your email statistics are displayed below"
+      />
       <div className="space-y-2">
         {donutData.map((item, i) => {
           const percentage = ((item.value / maxValue) * 100).toFixed(1);
           return (
             <div key={i}>
-              <h1 className="font-normal text-[13px]">{item.title}</h1>
-              <div className="w-full bg-neutral-200 rounded-md h-6 overflow-hidden relative">
+              <SpanText className="font-medium">{item.title}</SpanText>
+              <div className="w-full bg-neutral-200 dark:bg-neutral-700 rounded-md h-6 overflow-hidden relative mt-1">
                 <motion.div
                   initial={{ width: 0 }}
                   viewport={{ once: true }}
                   animate={{ width: `${percentage}%` }}
                   transition={{ duration: 0.8, ease: "easeOut" }}
-                  className="h-full "
-                  style={{ backgroundColor: item.color }}
+                  className="h-full bg-blue-500 dark:bg-blue-800"
                 />
-                <span className="absolute right-2 top-1/2 -translate-y-1/2 text-black text-xs font-mono">
+                <span className="absolute right-2 top-1/2 -translate-y-1/2 text-[10px] font-medium dark:text-stone-200">
                   {item.title.includes("Rate")
                     ? `${item.value.toFixed(1)}%`
                     : item.value}

@@ -5,7 +5,7 @@ import Logo from "app/components/Logo";
 
 const FooterSubscribe = () => {
   return (
-    <FlexBox type="column-start">
+    <FlexBox type="column-start" className="space-y-2">
       <Logo />
       <div>
         <SubscribeForm />

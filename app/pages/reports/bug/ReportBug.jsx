@@ -1,5 +1,4 @@
 "use client";
-import GradientContainer from "app/components/containers/GradientContainer";
 import { useSelector } from "react-redux";
 import { selectUser } from "app/features/userSlice";
 import FormContainer from "app/components/containers/FormContainer";
@@ -13,7 +12,6 @@ const ReportBug = () => {
 
   return (
     <div className="h-screen center relative">
-      <GradientContainer />
       {user?.email ? (
         <FormContainer className="w-[90%] max-w-[500px] space-y-4">
           <MotionContainer animation="zoom-out">

@@ -1,10 +1,7 @@
 const SpanContainer = ({ children, className, onClick, color = "light" }) => {
   const colorClasses = {
     blue: "blue-style",
-    green: "green-style",
     light: "light-style",
-    gold: "gold-style",
-    purple: "purple-style",
     red: "red-style",
   };
 

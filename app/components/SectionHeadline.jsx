@@ -9,11 +9,11 @@ const SectionHeadline = ({ title, desc, className, children }) => {
     >
       <MotionChildren
         animation="zoom-out"
-        className="text-3xl md:text-5xl text-center lg:text-6xl font-bold tracking-tight capitalize"
+        className="text-3xl md:text-5xl text-center lg:text-6xl font-bold tracking-tight capitalize dark:text-stone-100"
       >
         {title}
       </MotionChildren>
-      <p className="text-base md:text-lg text-center text-gray-600 max-w-3xl mx-auto">
+      <p className="text-base md:text-lg text-center text-gray-600 max-w-3xl mx-auto dark:text-stone-300">
         {desc}
       </p>
       {children}

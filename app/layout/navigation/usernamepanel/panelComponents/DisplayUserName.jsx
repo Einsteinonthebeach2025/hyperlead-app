@@ -17,6 +17,9 @@ const DisplayUserName = () => {
     toggleState(!isOpen);
   };
 
+  const avatar = user?.profile?.avatar_url || user?.user_metadata?.avatar_url;
+
+
   return (
     <div className="relative">
       <FlexBox className="gap-1 relative">
@@ -30,8 +33,10 @@ const DisplayUserName = () => {
           className="gap-2 cursor-pointer items-center"
         >
           <UserDisplayName user={user} />
-          <UserDisplayAvatar className="w-10 h-10" url={user?.profile?.avatar_url} />
-          {isOpen ? <IoIosArrowUp /> : <IoIosArrowDown />}
+          <UserDisplayAvatar className="w-10 h-10" url={avatar} />
+          <div className="dark:text-stone-300">
+            {isOpen ? <IoIosArrowUp /> : <IoIosArrowDown />}
+          </div>
         </FlexBox>
       </FlexBox>
       <ProfileSettings isOpen={isOpen} handleActive={handleActive} />

@@ -15,8 +15,7 @@ const SubscribeForm = () => {
         placeholder="enter your email"
         autoComplete="false"
       />
-
-      <Button className="absolute right-0  top-0" type="submit">
+      <Button className="absolute right-0 bottom-0 h-full" >
         Subscribe
       </Button>
     </div>

@@ -1,9 +1,11 @@
 import SubTitle from "app/components/SubTitle";
 
 const UserDisplayName = ({ user }) => {
+  const userName = user?.profile?.userName || user?.user_metadata?.name;
+
   return (
     <div className="hidden md:flex flex-col items-end mr-1">
-      <SubTitle>{user?.profile?.userName}</SubTitle>
+      <SubTitle>{userName}</SubTitle>
       <span className="text-[10px] text-neutral-500">{user?.email}</span>
     </div>
   );

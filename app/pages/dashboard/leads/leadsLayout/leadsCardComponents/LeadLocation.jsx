@@ -10,10 +10,10 @@ const LeadLocation = ({ lead = {} }) => {
         {country && <CountryFlags countryName={country} />}
         {country && <SubTitle>{country}</SubTitle>}
       </FlexBox>
-      <FlexBox type="column-center">
+      <FlexBox type="column-center" className="text-blue-800">
         {city && <h1 className="text-[13px] font-medium">{city}</h1>}
         {state && (
-          <h1 className="text-[13px] font-medium text-blue-800">{state}</h1>
+          <h1 className="text-[13px] font-medium">{state}</h1>
         )}
       </FlexBox>
     </FlexBox>

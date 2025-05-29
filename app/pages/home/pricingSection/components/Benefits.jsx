@@ -13,7 +13,7 @@ const Benefits = ({ item }) => {
             <IoMdCheckmark className="text-green-500" size={20} />
           </div>
           <div className="leading-0">
-            <span className="text-sm text-neutral-700">{benefit}</span>
+            <span className="text-sm text-neutral-700 dark:text-stone-300">{benefit}</span>
           </div>
         </div>
       ))}

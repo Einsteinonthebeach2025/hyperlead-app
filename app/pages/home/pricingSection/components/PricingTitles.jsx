@@ -17,7 +17,7 @@ const PricingTitle = ({ item }) => {
         )}
       </FlexBox>
       <div className="leading-4">
-        <span className="text-neutral-500 text-[12px]">{item.desc}</span>
+        <span className="text-neutral-500 dark:text-stone-300 text-[12px]">{item.desc}</span>
       </div>
       <Title className="text-4xl">
         {item.price}$ <span className="font-light"> Month</span>

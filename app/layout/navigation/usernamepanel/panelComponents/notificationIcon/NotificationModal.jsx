@@ -10,7 +10,7 @@ const NotificationModal = ({ isOpen, data, refresh, handleClick }) => {
     <AnimatePresence>
       {isOpen && (
         <MotionContainer animation="bottom">
-          <CardContainer onMouseleave={handleClick} className="absolute shadow-md flex flex-col justify-between top-14 right-0 w-96 space-y-2">
+          <CardContainer onMouseleave={handleClick} className="absolute shadow-md dark:shadow-stone-700 flex flex-col justify-between top-14 right-0 w-96 space-y-2">
             <SubTitle>Notifications</SubTitle>
             <NotificationList data={data} />
             <ModalButtons refresh={refresh} />

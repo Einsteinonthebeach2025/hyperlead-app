@@ -3,7 +3,7 @@ import DonutAnimation from "./DonutAnimation";
 import InsightInfo from "./InsightInfo";
 
 const UsedLeadsInsight = ({ data = {} }) => {
-  const COLORS = ["#3b82f6", "#f59e0b", "#22c55e"];
+  const OPACITY = ["opacity-100", "opacity-60", "opacity-30"];
   const used = data?.used_stats?.used;
   const unused = data?.used_stats?.unused;
   const total = used + unused;
@@ -12,19 +12,19 @@ const UsedLeadsInsight = ({ data = {} }) => {
     {
       title: "My total leads",
       value: total || 0,
-      color: COLORS[1],
+      OPACITY: OPACITY[1],
       width: 10,
     },
     {
       title: "Leads Used",
       value: used,
-      color: COLORS[2],
+      OPACITY: OPACITY[2],
       width: 9,
     },
     {
       title: "Remaining leads",
       value: unused,
-      color: COLORS[0],
+      OPACITY: OPACITY[0],
       width: 8,
     },
   ];

@@ -13,7 +13,7 @@ const PersonContact = ({ data }) => {
       <div className="space-y-4 mt-4">
         <FlexBox type="row-start" className="gap-2 items-center">
           <div>
-            <IconContainer color="gold" size="sm">
+            <IconContainer size="sm">
               <FaUserTie size={20} />
             </IconContainer>
           </div>

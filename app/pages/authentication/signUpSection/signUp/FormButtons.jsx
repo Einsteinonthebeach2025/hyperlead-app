@@ -1,11 +1,7 @@
 import Button from "app/components/buttons/Button";
-import { useRouter } from "next/navigation";
-import { FcGoogle } from "react-icons/fc";
 import { MdAccountCircle } from "react-icons/md";
 
 const FormButtons = ({ loading }) => {
-  const router = useRouter();
-
   return (
     <div className="center flex-col space-y-3">
       <Button
@@ -22,10 +18,6 @@ const FormButtons = ({ loading }) => {
           or continue with Google
         </span>
       </div>
-      <Button type="light" onClick={() => router.push("/signup/preferences")}>
-        <FcGoogle size={20} />
-        <span>Sign in with GOOGLE</span>
-      </Button>
     </div>
   );
 };

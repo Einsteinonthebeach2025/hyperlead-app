@@ -9,11 +9,16 @@ const initialState = {
     isOpen: false,
     data: null,
   },
+  globalModal: {
+    isOpen: false,
+    data: null,
+  },
   error: "",
   type: "error",
   link: "",
   title: "",
   leads: [],
+  isDarkMode: false,
 };
 
 const modalSlice = createSlice({
@@ -28,6 +33,9 @@ const modalSlice = createSlice({
       } else if (modalType === "email") {
         state.emailModal.isOpen = isOpen;
         state.emailModal.data = data || null;
+      } else if (modalType === "global") {
+        state.globalModal.isOpen = isOpen;
+        state.globalModal.data = data || null;
       }
     },
     setError: (state, action) => {
@@ -56,6 +64,10 @@ const modalSlice = createSlice({
     clearSelectedUsers: (state) => {
       state.users = [];
     },
+    toggleTheme: (state) => {
+      state.isDarkMode = !state.isDarkMode;
+      localStorage.setItem("theme", state.isDarkMode ? "dark" : "light");
+    },
   },
 });
 
@@ -65,6 +77,7 @@ export const {
   toggleSelectedLead,
   clearSelectedLeads,
   clearSelectedUsers,
+  toggleTheme,
 } = modalSlice.actions;
 export const modalReducer = modalSlice.reducer;
 
@@ -72,3 +85,5 @@ export const selectError = (state) => state.modal.error;
 export const selectLeads = (state) => state.modal.leads;
 export const selectNotificationModal = (state) => state.modal.notificationModal;
 export const selectEmailModal = (state) => state.modal.emailModal;
+export const selectGlobalModal = (state) => state.modal.globalModal;
+export const selectIsDarkMode = (state) => state.modal.isDarkMode;

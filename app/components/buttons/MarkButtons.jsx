@@ -30,13 +30,13 @@ const MarkButton = ({ lead, onStatusChange }) => {
         onClick={handleUsedStatus}
         className="h-fit"
       >
-        <div className="text-green-600">
+        <div className="text-blue-600">
           {active ? <FaBookmark /> : <FaRegBookmark />}
         </div>
       </FlexBox>
       <HoverModal
         isOpen={isOpen}
-        className="left-8 bottom-1"
+        className="left-10 bottom-1"
         text={active ? "Mark as unread" : "Mark as read"}
       />
     </>

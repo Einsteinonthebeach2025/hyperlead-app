@@ -9,6 +9,7 @@ import { validateForm } from "app/helpers/validateForm";
 import { setError } from "app/features/modalSlice";
 import { setLoading, setUser } from "app/features/userSlice";
 import { notifyUserRegistration } from "app/lib/actions/notificationActions";
+import GoogleButton from "app/components/buttons/GoogleButton";
 
 const SignUpForm = () => {
   const dispatch = useDispatch();
@@ -57,19 +58,22 @@ const SignUpForm = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4" noValidate>
-      <Inputs
-        email={email}
-        userName={userName}
-        password={password}
-        confirmPassword={confirmPassword}
-        setEmail={setEmail}
-        setUserName={setUserName}
-        setPassword={setPassword}
-        setConfirmPassword={setConfirmPassword}
-      />
-      <FormButtons loading={loading} />
-    </form>
+    <>
+      <form onSubmit={handleSubmit} className="space-y-4" noValidate>
+        <Inputs
+          email={email}
+          userName={userName}
+          password={password}
+          confirmPassword={confirmPassword}
+          setEmail={setEmail}
+          setUserName={setUserName}
+          setPassword={setPassword}
+          setConfirmPassword={setConfirmPassword}
+        />
+        <FormButtons loading={loading} />
+      </form>
+      <GoogleButton />
+    </>
   );
 };
 

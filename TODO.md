@@ -5,9 +5,12 @@ abi.warrell@thundertech.com ---> 114069fd-1c28-419a-ba21-51662d41fc68
 kaisa@marketer.tech ---> 39e8d233-c16f-4d92-892e-7e163a82b7ba
 dgamble@enformix.com ---> 3a0171cf-9575-4cf4-bf8d-df3eba56102f
 
+- რამე თესლი ლოადინგ ანიმაციაა საჭირო /auth/callback და მსგავსი ლოადინგებისთვის
+
 1. USER REGISTRATION
 
 - [x] CREATE USER (Email, UserName, Password)
+- [x] GOOGLE authentication
 - [x] After creation, navigate user to PREFERENCES page
 - [x] Updating PREFERENCES will give 20 random lead from each industry
 - [x] After PREFERENCES, navigate user to REGION page to choose region for getting leads accordingly
