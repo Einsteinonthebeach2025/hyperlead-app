@@ -95,6 +95,7 @@ export const filterLeads = (leads, filters) => {
 
 // EMAILS FILTER LOGIC
 export const filterEmails = (data, { search, month, delivered, opened }) => {
+  if (!Array.isArray(data)) return [];
   return data.filter((item) => {
     const subject = item.subject?.toLowerCase() || "";
     const company = item.leads?.company_title?.toLowerCase() || "";

@@ -1,3 +1,4 @@
+"use client"
 import MotionContainer from './MotionContainer'
 import Headline from '../Headline'
 

@@ -6,15 +6,14 @@ const Stars = ({ item }) => {
     return Array.from({ length: totalStars }, (_, index) => (
       <FaStar
         key={index}
-        className={`text-lg ${
-          index < rating ? "text-yellow-400" : "text-neutral-400"
-        }`}
+        className={`text-lg ${index < rating ? "text-yellow-400" : "text-neutral-400"
+          }`}
       />
     ));
   };
 
   return (
-    <div className="flex gap-1 items-center mb-2 border-b pb-2 border-neutral-200">
+    <div className="flex gap-1 items-center mb-2 border-bottom">
       {renderStars(item?.rating)}
     </div>
   );

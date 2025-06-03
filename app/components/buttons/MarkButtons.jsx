@@ -1,3 +1,4 @@
+"use client"
 import FlexBox from "app/components/containers/FlexBox";
 import HoverModal from "app/components/modals/HoverModal";
 import { useToggleLocal } from "app/hooks/useToggleLocal";
@@ -28,7 +29,6 @@ const MarkButton = ({ lead, onStatusChange }) => {
         onMouseEnter={() => toggleState(true)}
         onMouseLeave={() => toggleState(false)}
         onClick={handleUsedStatus}
-        className="h-fit"
       >
         <div className="text-blue-600">
           {active ? <FaBookmark /> : <FaRegBookmark />}
@@ -36,7 +36,7 @@ const MarkButton = ({ lead, onStatusChange }) => {
       </FlexBox>
       <HoverModal
         isOpen={isOpen}
-        className="left-10 bottom-1"
+        className="right-10 top-1"
         text={active ? "Mark as unread" : "Mark as read"}
       />
     </>

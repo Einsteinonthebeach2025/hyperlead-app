@@ -1,6 +1,6 @@
 "use client";
 import { filterLeads } from "app/helpers/filterHelpers";
-import { useState, useMemo, useRef, useEffect } from "react";
+import { useState, useMemo, useEffect } from "react";
 import LeadCard from "./leadsLayout/LeadCard";
 import LeadsPaginationButtons from "./leadsNavigation/LeadsPaginationButtons";
 import LeadFilter from "./leadsNavigation/LeadFilter";
@@ -17,7 +17,6 @@ const Leads = ({
   const [filters, setFilters] = useState({});
   const [page, setPage] = useState(currentPage);
   const leadsPerPage = 20;
-  const listRef = useRef(null);
   const [leads, setLeads] = useState(data || []);
   const [allLeads, setAllLeads] = useState(initialAllLeads || []);
   const [searchResults, setSearchResults] = useState(null);
@@ -76,11 +75,6 @@ const Leads = ({
     window.scrollTo({ top: 0, behavior: "instant" });
   }, [page]);
 
-  useEffect(() => {
-    setLeads(data || []);
-    setAllLeads(initialAllLeads || []);
-  }, [data, initialAllLeads]);
-
   const handleLeadStatusChange = (leadId, newStatus, e) => {
     setLeads((prevLeads) =>
       prevLeads?.map((lead) =>
@@ -94,11 +88,22 @@ const Leads = ({
     );
   };
 
-  console.log(data);
-
+  const handleLeadLikeChange = (leadId, likesArray) => {
+    setLeads((prevLeads) =>
+      prevLeads?.map((lead) =>
+        lead.id === leadId ? { ...lead, likes: likesArray } : lead
+      )
+    );
+    setAllLeads((prevAllLeads) =>
+      prevAllLeads?.map((lead) =>
+        lead.id === leadId ? { ...lead, likes: likesArray } : lead
+      )
+    );
+  };
 
   return (
-    <DashboardPageWrapper title="Leads" ref={listRef}>
+
+    <DashboardPageWrapper title="Leads" >
       <LeadFilter
         leads={allLeads}
         handleFilterChange={handleFilterChange}
@@ -109,6 +114,7 @@ const Leads = ({
       <LeadCard
         leads={paginatedLeads}
         onLeadStatusChange={handleLeadStatusChange}
+        onLeadLikeChange={handleLeadLikeChange}
       />
       <LeadsPaginationButtons
         currentPage={page}

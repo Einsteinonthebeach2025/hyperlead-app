@@ -6,7 +6,7 @@ import EmailFilter from "./emailFiltering/EmailFilter";
 import SectionHeadline from "app/components/SectionHeadline";
 import DashboardPageWrapper from "app/components/containers/DashboardPageWrapper";
 
-const Emails = ({ data }) => {
+const Emails = ({ data = [] }) => {
   const [search, setSearch] = useState("");
   const [month, setMonth] = useState("all");
   const [delivered, setDelivered] = useState("all");

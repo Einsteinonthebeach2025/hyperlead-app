@@ -64,6 +64,12 @@ const ProfileSettings = ({ isOpen, handleActive }) => {
       type: "link",
     },
     {
+      name: "Add Assistant",
+      href: "/add-assistant",
+      icon: <MdBusinessCenter />,
+      type: "link",
+    },
+    {
       name: "Logout",
       href: "/",
       icon: <IoIosLogOut />,

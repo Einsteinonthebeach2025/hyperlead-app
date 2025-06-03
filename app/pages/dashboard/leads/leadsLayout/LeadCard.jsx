@@ -1,16 +1,19 @@
 "use client"
 import { AnimatePresence, motion } from "framer-motion";
+import { truncateString } from "app/helpers/utils";
 import FlexBox from "app/components/containers/FlexBox";
 import SubTitle from "app/components/SubTitle";
-import LeadPesronsName from "./leadsCardComponents/LeadPersonsName";
 import LeadLocation from "./leadsCardComponents/LeadLocation";
 import LeadIndustry from "./leadsCardComponents/LeadIndustry";
-import { truncateString } from "app/helpers/utils";
 import Link from "next/link";
 import SectionHeadline from "app/components/SectionHeadline";
 import CardContainer from "app/components/containers/CardContainer";
+import MarkButton from "app/components/buttons/MarkButtons";
+import LeadPersonsName from "./leadsCardComponents/LeadPersonsName";
+import LeadLikeButton from "app/components/buttons/LeadLikeButton";
+import AddToFavorite from "app/components/buttons/AddToFavorite";
 
-const LeadCard = ({ leads, onLeadStatusChange }) => {
+const LeadCard = ({ leads, onLeadStatusChange, onLeadLikeChange }) => {
 
   if (leads.length === 0) {
     return (
@@ -35,12 +38,9 @@ const LeadCard = ({ leads, onLeadStatusChange }) => {
                 exit={{ opacity: 0, rotateX: 90 }}
                 transition={{ duration: 0.5 }}
               >
-                <CardContainer className={` grid grid-cols-[1.3fr_0.7fr_1.0fr_0.8fr_1.0fr] gap-3 group relative group ${lead?.used ? "opacity-60" : ""
+                <CardContainer className={`grid grid-cols-[1.3fr_0.7fr_1.0fr_0.8fr_1.0fr_0.1fr] gap-3 group relative h-28 group ${lead?.used ? "opacity-60" : ""
                   }`}>
-                  <LeadPesronsName
-                    lead={lead}
-                    onStatusChange={onLeadStatusChange}
-                  />
+                  <LeadPersonsName lead={lead} />
                   <FlexBox>
                     <SubTitle>{lead?.seniority}</SubTitle>
                   </FlexBox>
@@ -51,6 +51,11 @@ const LeadCard = ({ leads, onLeadStatusChange }) => {
                   </FlexBox>
                   <LeadLocation lead={lead} />
                   <LeadIndustry lead={lead} />
+                  <FlexBox type="center-col" className="gap-1" >
+                    <MarkButton lead={lead} onStatusChange={onLeadStatusChange} />
+                    <LeadLikeButton lead={lead} onLeadLikeChange={onLeadLikeChange} />
+                    <AddToFavorite lead={lead} />
+                  </FlexBox>
                 </CardContainer>
               </motion.div>
             </Link>

@@ -31,7 +31,7 @@ const LeadDetails = ({ item, onDelete }) => {
   return (
     <FlexBox
       type="row-between"
-      className="w-full border-b border-neutral-200 dark:border-stone-600 pb-3"
+      className="w-full border-bottom"
     >
       <div className="pointer-events-none">
         <FlexBox className="gap-2 w-fit">

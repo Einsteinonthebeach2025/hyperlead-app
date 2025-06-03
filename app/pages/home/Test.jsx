@@ -1,12 +1,19 @@
+import AiButton from "app/components/buttons/AiButton";
+import { FaHome } from "react-icons/fa";
 
 
 const Test = () => {
 
-  return (
-    <div className="h-screen  w-full center p-8 transition-colors duration-300">
-      <div className="border p-3 bg-neutral-300 text-red-500 dark:bg-neutral-800 dark:text-blue-500">
-        <h1>boris brejcha</h1>
 
+  return (
+    <div className="h-screen w-full flex flex-col items-center justify-center p-8 gap-4 bg-neutral-900 text-white">
+      <AiButton text="AI button style">
+        <FaHome className="text-white" />
+      </AiButton>
+
+
+      <div>
+        <h1 className="border-bottom">Hello world from georgia</h1>
       </div>
     </div>
   );

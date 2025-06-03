@@ -4,12 +4,14 @@ import List from './List';
 
 const Notifications = ({ data, message, desc }) => {
 
-  if (data?.length === 0) {
+  if (data?.length === 0 || !data) {
     return (
-      <SectionHeadline
-        title={message || "No notifications found"}
-        desc={desc || "You have no notifications"}
-      />
+      <div className='h-screen center'>
+        <SectionHeadline
+          title={message || "No notifications found"}
+          desc={desc || "You have no notifications"}
+        />
+      </div>
     )
   }
 

@@ -5,7 +5,7 @@ import UserRegions from './UserRegions';
 
 const UserInfoDetails = ({ item }) => {
   return (
-    <FlexBox type="row-between" className='items-start border-b border-neutral-200 pb-3'>
+    <FlexBox type="row-between" className='items-start border-bottom'>
       <UserPersonalInfo item={item} />
       <UserJobTiitle item={item} />
       <UserRegions item={item} />

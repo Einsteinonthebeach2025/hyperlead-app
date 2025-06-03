@@ -77,3 +77,39 @@ export const updateWallpaper = async (userId, wallpaperUrl) => {
     return { success: false, error: error.message };
   }
 };
+
+export const addAssistantToUser = async (userId, assistantEmail) => {
+  try {
+    const { data: assistantUser } = await supabase
+      .from("profiles")
+      .select("email")
+      .eq("email", assistantEmail)
+      .single();
+    if (!assistantUser) {
+      return { success: false, error: "This user does not exist." };
+    }
+    const { data: currentUserProfile, error: profileError } = await supabase
+      .from("profiles")
+      .select("user_assistant")
+      .eq("id", userId)
+      .single();
+    if (profileError) {
+      return { success: false, error: "Could not fetch your profile." };
+    }
+    let assistants = currentUserProfile?.user_assistant || [];
+    if (assistants.includes(assistantEmail)) {
+      return { success: false, error: "This assistant is already added." };
+    }
+    assistants = [...assistants, assistantEmail];
+    const { error: updateError } = await supabase
+      .from("profiles")
+      .update({ user_assistant: assistants })
+      .eq("id", userId);
+    if (updateError) {
+      return { success: false, error: "Failed to add assistant." };
+    }
+    return { success: true };
+  } catch (error) {
+    return { success: false, error: error.message || "Unknown error" };
+  }
+};

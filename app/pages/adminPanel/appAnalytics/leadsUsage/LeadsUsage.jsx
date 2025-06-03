@@ -16,7 +16,7 @@ const LeadsUsage = ({ industryStats, countryStats, totalLeads }) => {
     <div className='grid grid-cols-[1.2fr_1.8fr] gap-3'>
       <CardContainer>
         <ContentHeadline
-          className="pb-2 border-b border-neutral-200 mb-2"
+          className="border-bottom mb-2"
           type="column-start"
           title="Most Leads"
           desc="Hyperleads by country"

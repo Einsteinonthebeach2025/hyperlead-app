@@ -1,6 +1,6 @@
 import SideBarLinks from "app/components/SideBarLinks";
 import SimulateExpire from "app/SimulateExpire";
-import { MdDashboard, MdLeaderboard, MdEmail, MdOutlineSecurity } from "react-icons/md";
+import { MdDashboard, MdLeaderboard, MdEmail, MdOutlineSecurity, MdOutlineAttachEmail } from "react-icons/md";
 import { IoMdNotifications } from "react-icons/io";
 
 const links = [
@@ -15,9 +15,19 @@ const links = [
     icon: <MdLeaderboard />,
   },
   {
+    href: "/dashboard/favorite-leads",
+    label: "Favorite Leads",
+    icon: <MdLeaderboard />,
+  },
+  {
     href: "/dashboard/emails",
     label: "Emails",
     icon: <MdEmail />,
+  },
+  {
+    href: "/dashboard/email-sequence",
+    label: "Email Sequences",
+    icon: <MdOutlineAttachEmail />,
   },
   {
     href: "/dashboard/notifications",

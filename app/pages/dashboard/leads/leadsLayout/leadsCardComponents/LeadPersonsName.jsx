@@ -1,14 +1,12 @@
 import FlexBox from "app/components/containers/FlexBox";
 import SubTitle from "app/components/SubTitle";
-import MarkButton from "../../../../../components/buttons/MarkButtons";
 import CheckMarkButton from "../../../../../components/buttons/CheckMarkButton";
 import SendEmailButton from "app/components/buttons/SendEmailButton";
 
-const LeadPesronsName = ({ lead = {}, onStatusChange }) => {
+const LeadPersonsName = ({ lead = {} }) => {
   return (
     <FlexBox type="row" className="gap-5 items-center ">
       <FlexBox type="column" className="gap-2">
-        <MarkButton lead={lead} onStatusChange={onStatusChange} />
         <SendEmailButton lead={lead} />
         <CheckMarkButton lead={lead} />
       </FlexBox>
@@ -43,4 +41,4 @@ const PersonInitials = ({ lead }) => {
   );
 };
 
-export default LeadPesronsName;
+export default LeadPersonsName;

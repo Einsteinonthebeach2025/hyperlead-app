@@ -17,7 +17,7 @@ const WeeklyAnalytics = ({ weeklyUsers, totalUsers, totalLeads }) => {
     <div className='grid grid-cols-1 gap-3'>
       <CardContainer>
         <ContentHeadline
-          className="pb-2 border-b border-neutral-200"
+          className="border-bottom"
           type="column-start"
           title="Weekly Users Chart"
           desc="Based on the number of users created this week"

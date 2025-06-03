@@ -8,7 +8,7 @@ import { FaBriefcase, FaDollarSign, FaIndustry, FaUsers } from "react-icons/fa";
 const CompanyStats = ({ data }) => {
   return (
     <CardContainer>
-      <Title className="pb-3 border-b border-gray-200">Company Stats</Title>
+      <Title className="pb-3 border-bottom">Company Stats</Title>
       <div className="space-y-4 mt-4">
         <div className="flex items-center gap-3">
           <IconContainer size="md">

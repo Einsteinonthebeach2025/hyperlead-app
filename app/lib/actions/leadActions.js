@@ -378,3 +378,88 @@ export const assignDemoLeads = async (userId, userEmail, preferences) => {
     };
   }
 };
+
+export const likeLead = async (leadId) => {
+  const {
+    data: { user },
+    error: userError,
+  } = await supabase.auth.getUser();
+  if (userError || !user) {
+    throw new Error("User not authenticated");
+  }
+  const userId = user.id;
+  const { data: lead, error: fetchError } = await supabase
+    .from("leads")
+    .select("likes")
+    .eq("id", leadId)
+    .single();
+  if (fetchError) {
+    throw new Error("Failed to fetch lead");
+  }
+  const currentLikes = lead.likes || [];
+  let updatedLikes, status;
+  if (currentLikes.includes(userId)) {
+    // Unlike: remove userId from likes
+    updatedLikes = currentLikes.filter((id) => id !== userId);
+    status = "unliked";
+  } else {
+    // Like: add userId to likes
+    updatedLikes = [...currentLikes, userId];
+    status = "liked";
+  }
+  const { error: updateError } = await supabase
+    .from("leads")
+    .update({ likes: updatedLikes })
+    .eq("id", leadId);
+
+  if (updateError) {
+    throw new Error("Failed to update likes");
+  }
+  return { status, likes: updatedLikes };
+};
+
+export const addLeadToFavorites = async (leadId) => {
+  const {
+    data: { user },
+    error: authError,
+  } = await supabase.auth.getUser();
+  if (authError || !user) throw new Error("Not authenticated");
+  const { data: profile, error: fetchError } = await supabase
+    .from("profiles")
+    .select("favorite_leads")
+    .eq("id", user.id)
+    .single();
+  if (fetchError) throw new Error("Failed to fetch profile");
+  const currentFavorites = profile.favorite_leads || [];
+  if (currentFavorites.includes(leadId)) return profile;
+  const updatedFavorites = [...currentFavorites, leadId];
+  const { error: updateError } = await supabase
+    .from("profiles")
+    .update({ favorite_leads: updatedFavorites })
+    .eq("id", user.id);
+  if (updateError) throw new Error("Failed to update favorites");
+  return { favorite_leads: updatedFavorites };
+};
+
+export const removeLeadFromFavorites = async (leadId) => {
+  const {
+    data: { user },
+    error: authError,
+  } = await supabase.auth.getUser();
+  if (authError || !user) throw new Error("Not authenticated");
+  const { data: profile, error: fetchError } = await supabase
+    .from("profiles")
+    .select("favorite_leads")
+    .eq("id", user.id)
+    .single();
+  if (fetchError) throw new Error("Failed to fetch profile");
+  const updatedFavorites = (profile.favorite_leads || []).filter(
+    (id) => id !== leadId
+  );
+  const { error: updateError } = await supabase
+    .from("profiles")
+    .update({ favorite_leads: updatedFavorites })
+    .eq("id", user.id);
+  if (updateError) throw new Error("Failed to remove from favorites");
+  return { favorite_leads: updatedFavorites };
+};

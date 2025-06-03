@@ -7,7 +7,7 @@ const MonthlyAnalytics = ({ monthlyUsers = [], totalUsers = 0 }) => {
   return (
     <CardContainer>
       <ContentHeadline
-        className="pb-2 border-b border-neutral-200"
+        className="border-bottom"
         type="column-start"
         title="Monthly Users Chart"
         desc="Monthly chart"

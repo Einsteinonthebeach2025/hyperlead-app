@@ -27,7 +27,7 @@ const LeadCompanyInfo = ({ data = {} }) => {
   return (
     <CardContainer className="flex items-start flex-col space-y-6 [&_span]:text-[13px] [&_a]:text-[13px] [&_a]:hover:underline">
       <FlexBox type="column-start" className="w-full">
-        <Title className="border-b pb-1 border-gray-200 w-full">
+        <Title className="border-bottomw-full">
           Company Information
         </Title>
         <div className="w-full mt-1">

@@ -11,23 +11,21 @@ const FaqAccordion = () => {
   return (
     <div className="space-y-3 w-full max-w-lg mx-auto px-3">
       {faq?.map((item, index) => (
-        <div key={index} className="border-b border-neutral-200 py-2">
+        <div key={index} className="border-bottom pt-3">
           <div
             className="flex items-center space-x-3 cursor-pointer"
             onClick={() => toggleState(index)}
           >
             <GoPlus
               size={25}
-              className={`text-neutral-400 transition-transform duration-300 ${
-                isOpen === index ? "rotate-45" : ""
-              }`}
+              className={`text-neutral-400 transition-transform duration-300 ${isOpen === index ? "rotate-45" : ""
+                }`}
             />
             <SubTitle>{item.q}</SubTitle>
           </div>
           <div
-            className={`overflow-hidden transition-[max-height] duration-300 ease-in-out ${
-              isOpen === index ? "max-h-[400px]" : "max-h-0"
-            }`}
+            className={`overflow-hidden transition-[max-height] duration-300 ease-in-out ${isOpen === index ? "max-h-[400px]" : "max-h-0"
+              }`}
           >
             <Accordion item={item} />
           </div>

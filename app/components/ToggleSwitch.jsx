@@ -1,10 +1,10 @@
 import React from "react";
 
-const ToggleSwitch = ({ checked, onChange, disabled = false }) => (
+const ToggleSwitch = ({ checked, onChange, disabled = false, small = false }) => (
     <label style={{
         display: "inline-block",
-        width: 50,
-        height: 28,
+        width: small ? 35 : 50,
+        height: small ? 20 : 28,
         position: "relative",
         cursor: disabled ? "not-allowed" : "pointer",
         opacity: disabled ? 0.6 : 1,
@@ -23,15 +23,15 @@ const ToggleSwitch = ({ checked, onChange, disabled = false }) => (
             right: 0,
             bottom: 0,
             background: checked ? "#3b82f6" : "#ccc",
-            borderRadius: 28,
+            borderRadius: small ? 18 : 28,
             transition: "background 0.2s",
         }} />
         <span style={{
             position: "absolute",
-            top: 3,
-            left: checked ? 26 : 3,
-            width: 22,
-            height: 22,
+            top: small ? 3 : 3,
+            left: checked ? (small ? 16 : 26) : 3,
+            width: small ? 15 : 22,
+            height: small ? 15 : 22,
             background: "#fff",
             borderRadius: "50%",
             transition: "left 0.2s",

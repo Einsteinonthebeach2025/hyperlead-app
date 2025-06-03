@@ -1,19 +1,9 @@
 import FlexBox from "app/components/containers/FlexBox";
+import { formatTime } from "app/helpers/utils";
 
 const EmailDate = ({ item }) => {
-  const formatDate = (dateString) => {
-    if (!dateString) return "—";
-    const date = new Date(dateString);
-    const year = date.getFullYear();
-    const month = `${date.getMonth() + 1}`.padStart(2, "0");
-    const day = `${date.getDate()}`.padStart(2, "0");
-    const hours = `${date.getHours()}`.padStart(2, "0");
-    const minutes = `${date.getMinutes()}`.padStart(2, "0");
-    return `${year}-${month}-${day} ${hours}:${minutes}`;
-  };
-
-  const sent = formatDate(item?.sent_at);
-  const opened = formatDate(item?.opened_at);
+  const sent = formatTime(item?.sent_at);
+  const opened = formatTime(item?.opened_at);
 
   return (
     <FlexBox

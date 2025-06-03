@@ -9,7 +9,7 @@ import { FaLinkedin, FaPhone, FaUserTie } from "react-icons/fa";
 const PersonContact = ({ data }) => {
   return (
     <CardContainer>
-      <Title className="pb-3 border-b border-gray-200">Primary Contact</Title>
+      <Title className="border-bottom">Primary Contact</Title>
       <div className="space-y-4 mt-4">
         <FlexBox type="row-start" className="gap-2 items-center">
           <div>

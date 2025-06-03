@@ -15,7 +15,7 @@ const NotificationsPage = async () => {
   } = await supabase.auth.getSession();
   if (!session?.user)
     return (
-      <Notifications data={null} message="Error occured" desc={sessionError} />
+      <Notifications data={null} message="Error occurred" desc={sessionError} />
     );
 
   const { data: notifications, error: notificationsError } = await supabase
@@ -27,7 +27,7 @@ const NotificationsPage = async () => {
     return (
       <Notifications
         data={null}
-        message="Error occured"
+        message="Error occurred"
         desc={notificationsError}
       />
     );

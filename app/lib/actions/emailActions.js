@@ -12,6 +12,10 @@ export async function sendEmail({
   lead_email,
   subject,
   message,
+  type = "single_email",
+  sequence_name = null,
+  sequence_id = null,
+  follow_up = false,
 }) {
   try {
     const htmlContent = generateEmailHTML(subject, message, email);
@@ -36,6 +40,10 @@ export async function sendEmail({
         status: "sent",
         sent_at: new Date().toISOString(),
         resend_message_id: emailData?.id,
+        type,
+        sequence_name,
+        sequence_id,
+        follow_up,
       })
       .select()
       .single();
@@ -72,13 +80,17 @@ export async function sendEmailToUsers({
       .insert({
         user_id,
         email,
-        lead_id: recipient_id,
-        leads_email: recipient_email,
+        lead_id: [recipient_id],
+        leads_email: [recipient_email],
         subject,
         message,
         status: "sent",
         sent_at: new Date().toISOString(),
-        resend_message_id: emailData?.id,
+        resend_message_id: [emailData?.id],
+        type: "email_sequence",
+        sequence_name: null,
+        recipient_emails: [],
+        opened_at: Array(recipient_emails.length).fill(null),
       })
       .select()
       .single();
@@ -115,6 +127,25 @@ export async function deleteEmail(emailId) {
       .from("emails")
       .delete()
       .eq("id", emailId);
+    if (deleteError) {
+      throw deleteError;
+    }
+    return { success: true };
+  } catch (error) {
+    return { success: false, error: error.message };
+  }
+}
+
+export async function deleteEmailSequence(sequenceId) {
+  if (!sequenceId) {
+    return { success: false, error: "No sequence ID provided" };
+  }
+  try {
+    const supabase = await createServerClient();
+    const { error: deleteError } = await supabase
+      .from("emails")
+      .delete()
+      .eq("sequence_id", sequenceId);
     if (deleteError) {
       throw deleteError;
     }

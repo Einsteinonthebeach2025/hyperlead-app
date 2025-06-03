@@ -2,8 +2,6 @@ TODO LIST
 
 neil@structuretech1.com ---> 0f841c02-0051-49b1-8454-71b8627b8dea
 abi.warrell@thundertech.com ---> 114069fd-1c28-419a-ba21-51662d41fc68
-kaisa@marketer.tech ---> 39e8d233-c16f-4d92-892e-7e163a82b7ba
-dgamble@enformix.com ---> 3a0171cf-9575-4cf4-bf8d-df3eba56102f
 
 - რამე თესლი ლოადინგ ანიმაციაა საჭირო /auth/callback და მსგავსი ლოადინგებისთვის
 
