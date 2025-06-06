@@ -13,7 +13,7 @@ import LeadPersonsName from "./leadsCardComponents/LeadPersonsName";
 import LeadLikeButton from "app/components/buttons/LeadLikeButton";
 import AddToFavorite from "app/components/buttons/AddToFavorite";
 
-const LeadCard = ({ leads, onLeadStatusChange, onLeadLikeChange }) => {
+const LeadCard = ({ leads, onLeadStatusChange, onLeadLikeChange, type }) => {
 
   if (leads.length === 0) {
     return (
@@ -52,7 +52,7 @@ const LeadCard = ({ leads, onLeadStatusChange, onLeadLikeChange }) => {
                   <LeadLocation lead={lead} />
                   <LeadIndustry lead={lead} />
                   <FlexBox type="center-col" className="gap-1" >
-                    <MarkButton lead={lead} onStatusChange={onLeadStatusChange} />
+                    {type === "favorite" ? " " : <MarkButton lead={lead} onStatusChange={onLeadStatusChange} />}
                     <LeadLikeButton lead={lead} onLeadLikeChange={onLeadLikeChange} />
                     <AddToFavorite lead={lead} />
                   </FlexBox>

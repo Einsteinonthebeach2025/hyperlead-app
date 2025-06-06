@@ -1,16 +1,10 @@
 const SpanContainer = ({ children, className, onClick, color = "light" }) => {
-  const colorClasses = {
-    blue: "blue-style",
-    light: "light-style",
-    red: "red-style",
-  };
 
-  const containerColor = colorClasses[color] || colorClasses.light;
 
   return (
     <div
       onClick={onClick}
-      className={`${containerColor} ${className} border flex items-center justify-center rounded-full px-3 py-1 text-[12px] capitalize`}
+      className={`${className} border flex items-center text-center justify-center rounded-full px-3 py-1 text-[12px] capitalize blue-style`}
     >
       {children}
     </div>

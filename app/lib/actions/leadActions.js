@@ -55,22 +55,17 @@ export const assignLeadsToUser = async (
         "No preferences set. Please set your industry preferences first."
       );
     }
-
-    // Get user's region preferences
     const { data: userProfile, error: profileError } = await supabase
       .from("profiles")
       .select("region")
       .eq("id", userId)
       .single();
-
     if (profileError) {
       throw new Error(`Failed to fetch profile: ${profileError.message}`);
     }
 
     const hasRegionPreferences =
       userProfile.region && userProfile.region.length > 0;
-
-    // If user has region preferences, get the list of available countries from leads
     let availableCountries = [];
     if (hasRegionPreferences) {
       const { data: availableLeads, error: leadsError } = await supabase
@@ -78,26 +73,20 @@ export const assignLeadsToUser = async (
         .select("country")
         .in("country", userProfile.region)
         .limit(1);
-
       if (leadsError) {
         throw new Error(
           `Failed to check available countries: ${leadsError.message}`
         );
       }
-
-      // Get unique countries that exist in leads data
       availableCountries = [
         ...new Set(availableLeads.map((lead) => lead.country)),
       ];
     }
-
-    // If it's a new subscription or renewal, first delete all existing user_leads
     if (isNewSubscription) {
       const { error: deleteError } = await supabase
         .from("user_leads")
         .delete()
         .eq("user_id", userId);
-
       if (deleteError) {
         throw new Error(
           `Failed to delete existing leads: ${deleteError.message}`
@@ -228,20 +217,15 @@ export const assignLeadsToUser = async (
 
 export const simulateSubscriptionExpiration = async (userId) => {
   try {
-    // Set subscription_timestamp to 2 months ago to force expiration
     const twoMonthsAgo = new Date();
     twoMonthsAgo.setMonth(twoMonthsAgo.getMonth() - 2);
-
     const { error } = await supabase
       .from("profiles")
       .update({
         subscription_timestamp: twoMonthsAgo.toISOString(),
       })
       .eq("id", userId);
-
     if (error) throw error;
-
-    // Now check expiration which will reset the subscription
     return await checkSubscriptionExpiration(userId);
   } catch (error) {
     console.error("Error simulating subscription expiration:", error);
@@ -257,13 +241,11 @@ export const updateLeadUsedStatus = async (leadId, status = true) => {
     } = await supabase.auth.getSession();
     if (sessionError) throw sessionError;
     if (!session?.user) throw new Error("No active session");
-
     const { error: updateError } = await supabase
       .from("user_leads")
       .update({ used: status })
       .eq("user_id", session.user.id)
       .eq("lead_id", leadId);
-
     if (updateError) throw updateError;
     return { success: true };
   } catch (error) {
@@ -277,13 +259,26 @@ export const assignDemoLeads = async (userId, userEmail, preferences) => {
     if (!preferences || preferences.length === 0) {
       throw new Error("No preferences selected");
     }
+    const { data: existingDemoLeads, error: demoLeadsError } = await supabase
+      .from("user_leads")
+      .select("id")
+      .eq("user_id", userId)
+      .eq("is_demo", true);
+    if (demoLeadsError) {
+      throw new Error("Failed to check for existing demo leads");
+    }
+    if (existingDemoLeads && existingDemoLeads.length > 0) {
+      return {
+        success: true,
+        assignedLeadsCount: existingDemoLeads.length,
+        alreadyAssigned: true,
+      };
+    }
     const MAX_DEMO_LEADS = 20;
     const numPrefs = preferences.length;
     const baseLeadsPerPref = Math.floor(MAX_DEMO_LEADS / numPrefs);
     let remainder = MAX_DEMO_LEADS % numPrefs;
-    // Shuffle preferences to distribute remainder randomly
     const shuffledPrefs = [...preferences].sort(() => Math.random() - 0.5);
-    // Calculate how many leads to fetch for each preference
     const leadsPerPref = shuffledPrefs.map((pref, idx) =>
       idx < remainder ? baseLeadsPerPref + 1 : baseLeadsPerPref
     );
@@ -304,7 +299,6 @@ export const assignDemoLeads = async (userId, userEmail, preferences) => {
         allDemoLeads = [...allDemoLeads, ...industryLeads];
       }
     }
-    // Deduplicate in case of overlapping leads
     const uniqueLeadsMap = new Map();
     allDemoLeads.forEach((lead) => {
       uniqueLeadsMap.set(lead.id, lead);
@@ -313,7 +307,6 @@ export const assignDemoLeads = async (userId, userEmail, preferences) => {
       0,
       MAX_DEMO_LEADS
     );
-    // Create user_leads entries for the demo leads
     const userLeadsToInsert = uniqueDemoLeads.map((lead) => ({
       user_id: userId,
       lead_id: lead.id,

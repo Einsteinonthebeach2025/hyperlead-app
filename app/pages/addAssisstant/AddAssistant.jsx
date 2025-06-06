@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setError } from 'app/features/modalSlice';
 import { MdAssistantNavigation } from "react-icons/md";
 import { selectUser } from 'app/features/userSlice';
-import { addAssistantToUser } from 'app/lib/actions/profileActions';
+import { notifyAssistantInvitation } from 'app/lib/actions/notificationActions';
 import GradientContainer from 'app/components/containers/GradientContainer'
 import Button from 'app/components/buttons/Button';
 import FormContainer from 'app/components/containers/FormContainer';
@@ -17,18 +17,24 @@ const AddAssistant = () => {
   const user = useSelector(selectUser);
 
   const handleAddAssistant = async () => {
+    setIsLoading(true);
     if (!email) {
       dispatch(setError("Please enter an email."));
       return;
     }
-    setIsLoading(true);
-    const result = await addAssistantToUser(user.id, email);
-    if (!result.success) {
-      dispatch(setError(result.error));
-      setIsLoading(false);
-      return;
+    try {
+      const { data, error } = await notifyAssistantInvitation(
+        user.id,
+        email,
+      );
+      if (error) {
+        dispatch(setError(error));
+      } else if (data) {
+        dispatch(setError({ message: "Invitation sent to assistant!", type: "success" }));
+      }
+    } catch (e) {
+      dispatch(setError("Failed to send assistant invitation."));
     }
-    dispatch(setError({ message: "Assistant added successfully!", type: "success" }));
     setEmail("");
     setIsLoading(false);
   };

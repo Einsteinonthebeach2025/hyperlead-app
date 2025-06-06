@@ -1,3 +1,4 @@
+import { getEffectiveUserId } from "app/helpers/assistantHelper";
 import { createServerClient } from "app/lib/config/supabaseServer";
 import IndustryStats from "app/pages/dashboard/activities/industryStatistics/IndustryStats";
 
@@ -10,10 +11,18 @@ const IndustryStatisticsPage = async () => {
   } = await supabase.auth.getSession();
   if (!session?.user) return <IndustryStats data={null} />;
 
+  const currentUserId = session.user.id;
+  const currentUserEmail = session.user.email;
+  const { isAssistant, effectiveUserId } = await getEffectiveUserId(
+    currentUserId,
+    currentUserEmail
+  );
+  const userIdsToQuery = isAssistant ? [effectiveUserId] : [session.user.id];
+
   const { data: profile, error: profileError } = await supabase
     .from("profiles")
     .select("preferences")
-    .eq("id", session.user.id)
+    .eq("id", userIdsToQuery)
     .single();
   if (profileError || !profile) {
     return <IndustryStats data={null} />;
@@ -22,7 +31,7 @@ const IndustryStatisticsPage = async () => {
   const { data: userLeads, error: userLeadsError } = await supabase
     .from("user_leads")
     .select("lead_id")
-    .eq("user_id", session.user.id);
+    .eq("user_id", userIdsToQuery);
   if (userLeadsError || !userLeads) {
     return <IndustryStats data={null} />;
   }

@@ -12,9 +12,11 @@ const Preferences = ({ initialPreferences = [] }) => {
   const router = useRouter();
   const dispatch = useDispatch();
   const user = useSelector(selectUser);
+  const regionLength = user?.profile?.region?.length;
+
 
   const handleSuccess = async (selections) => {
-    const { success, error, assignedLeadsCount } = await assignDemoLeads(
+    const { success, error } = await assignDemoLeads(
       user.id,
       user.email,
       selections
@@ -26,11 +28,15 @@ const Preferences = ({ initialPreferences = [] }) => {
     }
     dispatch(
       setError({
-        message: `Preferences updated successfully. You've received ${assignedLeadsCount} demo leads!`,
+        message: "Preferences updated successfully.",
         type: "success",
       })
     );
-    router.push("/regions");
+    if (regionLength > 0) {
+      router.push("/");
+    } else {
+      router.push("/regions");
+    }
   };
 
   return (

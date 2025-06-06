@@ -26,7 +26,8 @@ export const notifyPasswordChange = async (userId) => {
       .insert({
         user_id: userId,
         type: "PASSWORD_RESET_NOTIFY",
-        message: "Your password has been changed successfully",
+        message:
+          "Password has been changed successfully. Visit your profile for reset password timestamps",
         read: false,
         importance: "high",
         metadata: {},
@@ -51,6 +52,7 @@ export const notifyLeadsUsage = async () => {
       .eq("id", user.id)
       .single();
     if (profileError) throw profileError;
+
     const { data: userLeads, error: leadsError } = await supabase
       .from("user_leads")
       .select("used")
@@ -219,6 +221,13 @@ export const deleteNotification = async (notificationId) => {
 export const notifyLeadsFinished = async () => {
   try {
     const user = await getCurrentUser();
+    const { data: profile, error: profileError } = await supabase
+      .from("profiles")
+      .select("last_leads_finished_notification, userName")
+      .eq("id", user.id)
+      .single();
+    if (profileError) throw profileError;
+
     const { data: userLeads, error: leadsError } = await supabase
       .from("user_leads")
       .select("used")
@@ -226,26 +235,105 @@ export const notifyLeadsFinished = async () => {
     if (leadsError) throw leadsError;
     if (!userLeads || userLeads.length === 0)
       return { data: null, error: null };
-
     const allUsed = userLeads.every((lead) => lead.used);
-    if (!allUsed) return { data: null, error: null };
+    const shouldNotify = allUsed && !profile.last_leads_finished_notification;
 
-    const { data, error } = await supabase
-      .from("notifications")
-      .insert({
-        user_id: user.id,
-        type: "leads_finish",
-        message: `${user?.profile?.userName || "Hello"}, you have used all your leads. Subscribe for a new set of leads.`,
-        read: false,
-        importance: "high",
-        metadata: {},
-        action_url: "/dashboard/subscription",
-      })
-      .select()
-      .single();
-    if (error) throw error;
-    return { data, error: null };
+    if (shouldNotify) {
+      const { data, error } = await supabase
+        .from("notifications")
+        .insert({
+          user_id: user.id,
+          type: "leads_finish",
+          message: `${profile?.userName || "Hello"}, you have used all your leads. Subscribe for a new set of leads.`,
+          read: false,
+          importance: "high",
+          metadata: {},
+          action_url: "/dashboard/subscription",
+        })
+        .select()
+        .single();
+      if (error) throw error;
+      const { error: updateError } = await supabase
+        .from("profiles")
+        .update({ last_leads_finished_notification: new Date().toISOString() })
+        .eq("id", user.id);
+      if (updateError) throw updateError;
+      return { data, error: null };
+    }
+    return { data: null, error: null };
   } catch (error) {
     return { data: null, error: error.message };
   }
+};
+
+export const notifyAssistantInvitation = async (bossId, assistantEmail) => {
+  try {
+    const { data: assistantProfile, error: assistantError } = await supabase
+      .from("profiles")
+      .select("id, userName, email")
+      .eq("email", assistantEmail)
+      .single();
+    if (assistantError || !assistantProfile) {
+      throw new Error("This user does not exist.");
+    }
+    const { data: bossProfile, error: bossError } = await supabase
+      .from("profiles")
+      .select("userName, user_assistant")
+      .eq("id", bossId)
+      .single();
+    if (bossError || !bossProfile)
+      throw bossError || new Error("Boss profile not found");
+    const bossName = bossProfile?.userName || "";
+    const assistants = bossProfile?.user_assistant || [];
+    if (assistants.includes(assistantEmail)) {
+      throw new Error("This user is already your assistant.");
+    }
+    const { data: notification, error: notificationError } = await supabase
+      .from("notifications")
+      .insert({
+        user_id: assistantProfile.id,
+        type: "assistancy",
+        message: `${assistantProfile.userName || "Hello"}, ${bossName} wants to add you as an assistant`,
+        read: false,
+        importance: "medium",
+        metadata: { bossId, bossUserName: bossName, assistantEmail },
+        action_url: "",
+      })
+      .select()
+      .single();
+    if (notificationError) throw notificationError;
+    return { data: notification, error: null };
+  } catch (error) {
+    return { data: null, error: error.message };
+  }
+};
+
+export const notifyAssistantAccept = async (bossId, assistantEmail) => {
+  const { data: assistantProfile, error: profileError } = await supabase
+    .from("profiles")
+    .select("userName")
+    .eq("email", assistantEmail)
+    .single();
+  if (profileError) {
+    console.error("Failed to fetch assistant profile:", profileError);
+    return { success: false, error: "Assistant profile not found." };
+  }
+  const { data: notification, error: notificationError } = await supabase
+    .from("notifications")
+    .insert({
+      user_id: bossId,
+      type: "assistancy_response",
+      message: `${assistantProfile.userName} (${assistantEmail}) has accepted your assistancy request.`,
+      read: false,
+      importance: "medium",
+      metadata: {},
+      action_url: "",
+    })
+    .select()
+    .single();
+  if (notificationError) {
+    console.error("Failed to send notification to boss:", notificationError);
+    return { success: false, error: "Failed to notify boss." };
+  }
+  return { success: true, data: notification };
 };

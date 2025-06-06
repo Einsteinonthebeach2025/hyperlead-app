@@ -1,5 +1,6 @@
 import { createServerClient } from "app/lib/config/supabaseServer";
 import Emails from "app/pages/dashboard/emails/Emails";
+import { getEffectiveUserId } from "app/helpers/assistantHelper";
 
 const DashboardEmailsPage = async () => {
   const supabase = await createServerClient();
@@ -9,12 +10,21 @@ const DashboardEmailsPage = async () => {
   } = await supabase.auth.getSession();
   if (!session?.user) return <Emails data={null} />;
 
+  const currentUserId = session.user.id;
+  const currentUserEmail = session.user.email;
+  const { isAssistant, effectiveUserId } = await getEffectiveUserId(
+    currentUserId,
+    currentUserEmail
+  );
+  const userIdsToQuery = isAssistant ? [effectiveUserId] : [session.user.id];
+
   const { data: emails, error: emailsError } = await supabase
     .from("emails")
     .select(
       "id, message, subject, sent_at, delivered, opened_at, lead_id, leads_email"
     )
-    .eq("user_id", session.user.id);
+    .in("user_id", userIdsToQuery)
+    .eq("type", "single_email");
   if (emailsError) {
     return <Emails data={null} />;
   }
@@ -29,7 +39,6 @@ const DashboardEmailsPage = async () => {
   if (leadsError) {
     return <Emails data={null} />;
   }
-
   const emailsWithLeads = emails.map((email) => {
     const leadData = leads.find((lead) => lead.id === email.lead_id);
     return {

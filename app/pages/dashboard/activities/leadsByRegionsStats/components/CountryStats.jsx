@@ -17,7 +17,7 @@ const CountryStats = ({ data, total }) => {
               <SpanText>
                 {item.count} Leads
               </SpanText>
-              <div className="relative h-3 bg-gray-200 rounded-full overflow-hidden">
+              <div className="relative h-3 bg-gray-200 dark:bg-neutral-500 rounded-full overflow-hidden">
                 <motion.div
                   initial={{ width: 0 }}
                   animate={{ width: `${percent}%` }}

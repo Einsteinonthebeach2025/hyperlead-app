@@ -25,7 +25,7 @@ const NotificationsIcon = () => {
     setLoading(true);
     const { data, error } = await supabase
       .from("notifications")
-      .select("importance, read, message, id, created_at")
+      .select("importance, read, message, id, created_at, metadata, action_url, type")
       .eq("user_id", user.id)
       .order("created_at", { ascending: false })
       .limit(10);

@@ -15,7 +15,7 @@ const EmailFormButtons = ({ loading, formData, setFormData, handleClick }) => {
 
   return (
     <div className='space-y-3 flex items-end flex-col'>
-      <FlexBox type="row-between" className="w-full pl-5">
+      <FlexBox type="row-between" className="w-full pl-2">
         <AiCompose handleClick={handleAiClick} />
         <FollowUpEmail
           formData={formData}

@@ -1,3 +1,4 @@
+import { getEffectiveUserId } from "app/helpers/assistantHelper";
 import { createServerClient } from "app/lib/config/supabaseServer";
 import EmployeeStats from "app/pages/dashboard/activities/employeeStatistics/EmployeeStats";
 
@@ -11,10 +12,18 @@ const getEmployeeStatistics = async () => {
     return null;
   }
 
+  const currentUserId = session.user.id;
+  const currentUserEmail = session.user.email;
+  const { isAssistant, effectiveUserId } = await getEffectiveUserId(
+    currentUserId,
+    currentUserEmail
+  );
+  const userIdsToQuery = isAssistant ? [effectiveUserId] : [session.user.id];
+
   const { data: userLeads, error: userLeadsError } = await supabase
     .from("user_leads")
     .select("lead_id")
-    .eq("user_id", session.user.id);
+    .eq("user_id", userIdsToQuery);
   if (userLeadsError || !userLeads) {
     return null;
   }

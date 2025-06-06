@@ -1,5 +1,6 @@
 import { createServerClient } from "app/lib/config/supabaseServer";
 import Leads from "app/pages/dashboard/leads/Leads";
+import { getEffectiveUserId } from "app/helpers/assistantHelper";
 
 export const metadata = {
   title: "Hyperlead | Leads",
@@ -15,10 +16,17 @@ const LeadsPage = async () => {
   } = await supabase.auth.getSession();
   if (!session?.user) return <Leads data={null} />;
 
+  const currentUserId = session.user.id;
+  const currentUserEmail = session.user.email;
+  const { isAssistant, effectiveUserId } = await getEffectiveUserId(
+    currentUserId,
+    currentUserEmail
+  );
+
   const { data: profile, error: profileError } = await supabase
     .from("profiles")
     .select("subscription, subscription_timestamp")
-    .eq("id", session.user.id)
+    .eq("id", effectiveUserId)
     .single();
   if (profileError) {
     return <Leads data={null} message="Please subscribe to get leads" />;
@@ -27,7 +35,7 @@ const LeadsPage = async () => {
   const { data: allUserLeads, error: allUserLeadsError } = await supabase
     .from("user_leads")
     .select("lead_id, used, is_demo")
-    .eq("user_id", session.user.id);
+    .eq("user_id", effectiveUserId);
   if (allUserLeadsError) {
     return <Leads data={null} message="Error loading leads" />;
   }

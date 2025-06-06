@@ -3,6 +3,7 @@ import { AnimatePresence } from 'framer-motion'
 import { useState } from 'react'
 import AssistantResponse from './AssistantResponse';
 import Prompt from './Prompt';
+
 const AssistantPrompt = ({ isOpen, handleClick, setFormData }) => {
   const [prompt, setPrompt] = useState("");
   const [email, setEmail] = useState("");
@@ -13,7 +14,6 @@ const AssistantPrompt = ({ isOpen, handleClick, setFormData }) => {
     setLoading(true);
     setError("");
     setEmail("");
-
     try {
       const res = await fetch("/api/compose-with-ai", {
         method: "POST",
@@ -44,6 +44,12 @@ const AssistantPrompt = ({ isOpen, handleClick, setFormData }) => {
     }
   };
 
+  const clearStates = () => {
+    setPrompt("");
+    setEmail("");
+    setError("");
+  };
+
   return (
     <AnimatePresence>
       {isOpen && (
@@ -52,7 +58,7 @@ const AssistantPrompt = ({ isOpen, handleClick, setFormData }) => {
           className='absolute z-[5] backdrop-blur-sm w-full h-full flex bg-black/80 justify-end'
         >
           <Prompt handleClick={handleClick} prompt={prompt} setPrompt={setPrompt} loading={loading} generateEmail={generateEmail} error={error} />
-          <AssistantResponse handleClick={handleClick} data={email} addToEmail={addToEmail} />
+          <AssistantResponse handleClick={handleClick} data={email} addToEmail={addToEmail} clearStates={clearStates} />
         </MotionContainer>
       )}
     </AnimatePresence>

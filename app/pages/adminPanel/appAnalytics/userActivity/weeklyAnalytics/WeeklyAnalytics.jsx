@@ -26,10 +26,10 @@ const WeeklyAnalytics = ({ weeklyUsers, totalUsers, totalLeads }) => {
       </CardContainer>
       <FlexBox type="row" className="gap-3 *:w-full">
         <CardContainer>
-          <MotionCount data={totalUsers} title="Hyperlead Users" color="green" />
+          <MotionCount data={totalUsers} title="Hyperlead Users" />
         </CardContainer>
         <CardContainer>
-          <MotionCount data={totalLeads} title="Hyperleads" color="gold" />
+          <MotionCount data={totalLeads} title="Hyperleads" />
         </CardContainer>
       </FlexBox>
     </div>

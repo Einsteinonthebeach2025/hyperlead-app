@@ -34,8 +34,8 @@ const IndustryStats = ({ data, col }) => {
   return (
     <CardContainer className="space-y-4">
       <ContentHeadline
+        className="border-bottom"
         type="column-start"
-        className=" mb-3"
         title="Hyperleads"
         desc="According to industries"
       />
@@ -45,7 +45,7 @@ const IndustryStats = ({ data, col }) => {
             <FlexBox
               type="column"
               key={industry}
-              className="p-2 bg-blue-100/50 border-2 dark:bg-blue-900/50 rounded-xl"
+              className="p-2 bg-blue-100/50 dark:bg-blue-900/50 rounded-xl"
             >
               <FlexBox type="column">
                 <SubTitle>{industry}</SubTitle>

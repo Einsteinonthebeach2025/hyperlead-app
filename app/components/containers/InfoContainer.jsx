@@ -11,8 +11,8 @@ const InfoContainer = ({ text, subText }) => {
 
   return (
     <FlexBox type="column-start">
-      <span className="text-[12px] text-neutral-500">{text}</span>
-      <h1 className="font-medium text-sm">{displayText}</h1>
+      <span className="text-[12px] text-neutral-500 dark:text-neutral-300">{text}</span>
+      <h1 className="font-medium text-sm dark:text-neutral-100">{displayText}</h1>
     </FlexBox>
   );
 };

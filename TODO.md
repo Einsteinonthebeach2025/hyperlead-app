@@ -1,7 +1,11 @@
 TODO LIST
 
-neil@structuretech1.com ---> 0f841c02-0051-49b1-8454-71b8627b8dea
-abi.warrell@thundertech.com ---> 114069fd-1c28-419a-ba21-51662d41fc68
+adam@redcircle.com ---> graphchiqovani@yahoo.com
+kaisa@marketer.tech ---> grapchiqovani@gmail.com
+
+revise PASSWORD RESET database storing
+check email sequence in 48 hours
+implement global modal logic
 
 - რამე თესლი ლოადინგ ანიმაციაა საჭირო /auth/callback და მსგავსი ლოადინგებისთვის
 
@@ -60,6 +64,7 @@ abi.warrell@thundertech.com ---> 114069fd-1c28-419a-ba21-51662d41fc68
 - [x] NOTIFY USER: 5 days before subscription expiration
 - [x] NOTIFY USER: About fixed bug he reported
 - [x] NOTIFY USER: When subscription is out
+- [x] NOTIFY USER: When someone wants to add him/her as an assistant
 - [ ] NOTIFY USER: After adding set of LEADS to the database (GLOBAL)
 - [ ] NOTIFY USER: About every new feature is added to application (GLOBAL)
 - [x] USER can report any bug and updates reported bugs count in database (reported_bugs field)
@@ -68,9 +73,9 @@ abi.warrell@thundertech.com ---> 114069fd-1c28-419a-ba21-51662d41fc68
 
 7. SHARING LEADS MANAGEMENT
 
-- [ ] Users can search other users by email
-- [ ] PRO PLAN owner can mark a single user as an assistant
-- [ ] PRO PLAN owner can share his leads to his assistant (with SHAER LEADS? button)
+- [x] Users can add other users as their assistants using emails
+- [x] Assistants can see "BOSSES" data in his/her dashboard
+- [x] Assistants can toggle dashboard between boss's and own data
 
 8. ADMINISTRATION PANEL
 

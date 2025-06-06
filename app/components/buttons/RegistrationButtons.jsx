@@ -13,7 +13,7 @@ const RegistrationButtons = () => {
       className="space-x-3 flex"
     >
       <Link href="/signin">
-        <Button type="light">Sign In</Button>
+        <Button>Sign In</Button>
       </Link>
       <Link href="/signup">
         <Button>Sign Up</Button>

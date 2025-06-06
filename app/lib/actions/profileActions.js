@@ -78,7 +78,12 @@ export const updateWallpaper = async (userId, wallpaperUrl) => {
   }
 };
 
-export const addAssistantToUser = async (userId, assistantEmail) => {
+export const addAssistantToUser = async (
+  userId,
+  assistantEmail,
+  notificationId,
+  bossName
+) => {
   try {
     const { data: assistantUser } = await supabase
       .from("profiles")
@@ -104,9 +109,25 @@ export const addAssistantToUser = async (userId, assistantEmail) => {
     const { error: updateError } = await supabase
       .from("profiles")
       .update({ user_assistant: assistants })
-      .eq("id", userId);
+      .in("id", [userId]);
     if (updateError) {
       return { success: false, error: "Failed to add assistant." };
+    }
+    const { error: updateAssistantError } = await supabase
+      .from("profiles")
+      .update({ is_assistant: true })
+      .eq("id", assistantUser.id);
+    if (updateAssistantError) {
+      return { success: false, error: "Failed to mark user as assistant." };
+    }
+    if (notificationId) {
+      await supabase
+        .from("notifications")
+        .update({
+          read: true,
+          message: `You have accepted ${bossName} assistancy request. You can check dashboard.`,
+        })
+        .eq("id", notificationId);
     }
     return { success: true };
   } catch (error) {

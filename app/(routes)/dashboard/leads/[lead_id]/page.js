@@ -5,7 +5,7 @@ export const generateMetadata = async ({ params }) => {
   const { lead_id } = await params;
   const lead = await fetchLeadById(lead_id);
   return {
-    title: `Hyperlead | ${lead.company_title}`,
+    title: `${lead.company_title}`,
   };
 };
 

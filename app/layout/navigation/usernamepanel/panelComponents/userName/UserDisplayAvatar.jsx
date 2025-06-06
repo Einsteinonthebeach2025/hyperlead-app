@@ -18,7 +18,7 @@ const UserDisplayAvatar = ({ url, className }) => {
         </div>
       ) : (
         <div>
-          <FaUserCircle size={30} />
+          <FaUserCircle size={30} className="text-gray-400" />
         </div>
       )}
     </>

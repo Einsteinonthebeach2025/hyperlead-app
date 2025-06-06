@@ -1,3 +1,4 @@
+import { getEffectiveUserId } from "app/helpers/assistantHelper";
 import { createServerClient } from "app/lib/config/supabaseServer";
 import EmailStats from "app/pages/dashboard/activities/emailStatistics/EmailStats";
 
@@ -12,10 +13,18 @@ const getUserEmailStatistics = async () => {
     return null;
   }
 
+  const currentUserId = session.user.id;
+  const currentUserEmail = session.user.email;
+  const { isAssistant, effectiveUserId } = await getEffectiveUserId(
+    currentUserId,
+    currentUserEmail
+  );
+  const userIdsToQuery = isAssistant ? [effectiveUserId] : [session.user.id];
+
   const { data: emails, error: emailsError } = await supabase
     .from("emails")
     .select("opened_at, delivered, status, sent_at")
-    .eq("user_id", session.user.id);
+    .eq("user_id", userIdsToQuery);
 
   if (emailsError) {
     console.error("Error fetching emails:", emailsError);

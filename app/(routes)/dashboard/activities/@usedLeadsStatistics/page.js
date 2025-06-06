@@ -1,7 +1,8 @@
+import { getEffectiveUserId } from "app/helpers/assistantHelper";
 import { createServerClient } from "app/lib/config/supabaseServer";
 import UsedLeadsInsight from "app/pages/dashboard/activities/usedLeadsStatistics/UsedLeadsInsight";
 
-const getUserStatistics = async () => {
+const getUsedStatistics = async () => {
   const supabase = await createServerClient();
   const {
     data: { session },
@@ -10,10 +11,19 @@ const getUserStatistics = async () => {
   if (sessionError || !session?.user) {
     return null;
   }
+
+  const currentUserId = session.user.id;
+  const currentUserEmail = session.user.email;
+  const { isAssistant, effectiveUserId } = await getEffectiveUserId(
+    currentUserId,
+    currentUserEmail
+  );
+  const userIdsToQuery = isAssistant ? [effectiveUserId] : [session.user.id];
+
   const { data: profile, error: profileError } = await supabase
     .from("profiles")
     .select("id")
-    .eq("id", session.user.id)
+    .eq("id", userIdsToQuery)
     .single();
   if (profileError) {
     return null;
@@ -21,7 +31,7 @@ const getUserStatistics = async () => {
   const { data: userLeads, error: leadsError } = await supabase
     .from("user_leads")
     .select("used")
-    .eq("user_id", session.user.id);
+    .eq("user_id", userIdsToQuery);
   if (leadsError || !userLeads) {
     return { ...profile, used_stats: null };
   }
@@ -38,7 +48,7 @@ const getUserStatistics = async () => {
 };
 
 const UsedLeadsStatisticsPage = async () => {
-  const usedLeadsData = await getUserStatistics();
+  const usedLeadsData = await getUsedStatistics();
   return <UsedLeadsInsight data={usedLeadsData} />;
 };
 

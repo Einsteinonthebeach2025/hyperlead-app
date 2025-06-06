@@ -9,7 +9,9 @@ const QrCode = ({ qrCode, factor }) => {
       {qrCode && qrCode.startsWith("otpauth://") ? (
         <QRCodeSVG value={qrCode} size={200} />
       ) : qrCode.startsWith("data:image") ? (
-        <img src={qrCode} alt="2FA QR Code" className="my-2" />
+        <div className='border dark:bg-neutral-200 rounded-lg'>
+          <img src={qrCode} alt="2FA QR Code" className="my-2" />
+        </div>
       ) : (
         <Spinner />
       )}

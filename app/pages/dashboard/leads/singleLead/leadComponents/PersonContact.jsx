@@ -21,19 +21,19 @@ const PersonContact = ({ data }) => {
             <SubTitle>
               {data?.first_name} {data?.last_name}
             </SubTitle>
-            <p className="text-[12px] text-neutral-600">{data?.person_title}</p>
+            <p className="text-[12px] text-neutral-600 dark:text-neutral-300">{data?.person_title}</p>
           </div>
         </FlexBox>
         <div className="flex items-center gap-3 text-gray-700">
           <SendEmailButton lead={data} type="user" />
         </div>
-        <div className="space-y-2 text-[14px]">
-          <div className="flex items-center gap-3 text-gray-700">
+        <div className="space-y-2 text-[14px] text-neutral-500 dark:text-neutral-200">
+          <div className="flex items-center gap-3 ">
             <FaPhone color="#22c74e" />
             <span>{data?.corporate_phone}</span>
           </div>
           {data?.person_linkedin_url && (
-            <div className="flex items-center gap-3 text-gray-700">
+            <div className="flex items-center gap-3 ">
               <FaLinkedin color="blue" />
               <a
                 href={data?.person_linkedin_url}

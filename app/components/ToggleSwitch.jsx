@@ -2,7 +2,7 @@ import React from "react";
 
 const ToggleSwitch = ({ checked, onChange, disabled = false, small = false }) => (
     <label style={{
-        display: "inline-block",
+        display: "inline-block ",
         width: small ? 35 : 50,
         height: small ? 20 : 28,
         position: "relative",

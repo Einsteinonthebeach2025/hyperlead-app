@@ -4,7 +4,7 @@ import Headline from '../Headline'
 
 const DashboardPageWrapper = ({ title, children }) => {
     return (
-        <div className="py-3 lg:pr-6 space-y-3">
+        <div className="py-3 lg:pr-6 space-y-3 border min-h-screen">
             <MotionContainer animation="fade-in">
                 <Headline className="w-fit">{title}</Headline>
             </MotionContainer>

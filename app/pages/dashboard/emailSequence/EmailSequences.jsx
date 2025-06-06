@@ -20,8 +20,8 @@ const EmailSequences = ({ data }) => {
     return (
       <div className="h-screen center">
         <SectionHeadline
-          title="No emails found"
-          desc="After sending an emails, you will have your outbox here"
+          title="No emails sequences found"
+          desc="After sending an sequenced emails, you will have your outbox here"
         />
       </div>
     );

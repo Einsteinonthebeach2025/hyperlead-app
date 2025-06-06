@@ -25,7 +25,7 @@ const ModalButtons = ({ refresh }) => {
 
   return (
     <FlexBox type="row-between">
-      <Button href="/notifications" className="w-fit">
+      <Button href="/dashboard/notifications" className="w-fit">
         View all notifications
       </Button>
       <Button onClick={handleReadAll}>

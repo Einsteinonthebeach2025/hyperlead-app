@@ -1,5 +1,6 @@
 import { createServerClient } from "app/lib/config/supabaseServer";
 import EmailSequences from "app/pages/dashboard/emailSequence/EmailSequences";
+import { getEffectiveUserId } from "app/helpers/assistantHelper";
 
 const EmailSequencePage = async () => {
   const supabase = await createServerClient();
@@ -9,10 +10,17 @@ const EmailSequencePage = async () => {
   } = await supabase.auth.getSession();
   if (!session?.user) return <EmailSequences />;
 
+  const currentUserId = session.user.id;
+  const currentUserEmail = session.user.email;
+  const { isAssistant, effectiveUserId } = await getEffectiveUserId(
+    currentUserId,
+    currentUserEmail
+  );
+
   const { data: emailSequences, error: emailSequencesError } = await supabase
     .from("emails")
     .select("*")
-    .eq("user_id", session.user.id)
+    .eq("user_id", effectiveUserId)
     .eq("type", "sequenced_email")
     .order("sequence_id", { ascending: true });
 

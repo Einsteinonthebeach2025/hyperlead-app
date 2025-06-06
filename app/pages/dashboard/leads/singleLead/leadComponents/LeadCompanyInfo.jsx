@@ -8,7 +8,7 @@ import SubTitle from "app/components/SubTitle";
 const InfoRow = ({ icon: Icon, content, isLink }) => {
   if (!content) return null;
   return (
-    <FlexBox type="row-start" className="gap-2 items-center">
+    <FlexBox type="row-start" className="gap-2 items-center text-neutral-500 dark:text-neutral-200">
       <Icon className="text-blue-500" />
       {isLink ? (
         <a href={isLink} target="_blank" rel="noopener noreferrer">

@@ -1,5 +1,6 @@
 import { createServerClient } from "app/lib/config/supabaseServer";
 import Notifications from "app/pages/dashboard/notifications/Notifications";
+import { getEffectiveUserId } from "app/helpers/assistantHelper";
 
 export const metadata = {
   title: "Hyperlead | Notifications",
@@ -18,10 +19,17 @@ const NotificationsPage = async () => {
       <Notifications data={null} message="Error occurred" desc={sessionError} />
     );
 
+  const currentUserId = session.user.id;
+  const currentUserEmail = session.user.email;
+  const { isAssistant, effectiveUserId } = await getEffectiveUserId(
+    currentUserId,
+    currentUserEmail
+  );
+
   const { data: notifications, error: notificationsError } = await supabase
     .from("notifications")
     .select("*")
-    .eq("user_id", session.user.id);
+    .eq("user_id", effectiveUserId);
 
   if (notificationsError)
     return (

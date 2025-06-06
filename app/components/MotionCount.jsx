@@ -5,7 +5,7 @@ import FlexBox from 'app/components/containers/FlexBox';
 import SubTitle from './SubTitle';
 import SpanContainer from './containers/SpanContainer';
 
-const MotionCount = ({ data, title, color }) => {
+const MotionCount = ({ data, title }) => {
   const [displayedCount, setDisplayedCount] = useState(0);
   const count = useMotionValue(0);
 
@@ -22,7 +22,7 @@ const MotionCount = ({ data, title, color }) => {
 
   return (
     <FlexBox type="column" className="items-center h-full px-5 gap-2">
-      <SpanContainer color={color}>
+      <SpanContainer >
         <motion.div
           className="text-5xl font-extrabold mb-2"
           initial={{ opacity: 0 }}

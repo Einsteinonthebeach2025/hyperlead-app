@@ -21,7 +21,7 @@ const ProfileHeader = ({ profile }) => {
 
 const UserDetails = ({ profile }) => {
   return (
-    <div className="gap-2 flex capitalize text-sm text-neutral-500">
+    <div className="gap-2 flex capitalize text-sm text-neutral-500 dark:text-neutral-300">
       {profile?.country && profile?.city && (
         <>
           <div className="gap-1 flex">

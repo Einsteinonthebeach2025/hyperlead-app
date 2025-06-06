@@ -2,6 +2,7 @@ import SideBarLinks from "app/components/SideBarLinks";
 import SimulateExpire from "app/SimulateExpire";
 import { MdDashboard, MdLeaderboard, MdEmail, MdOutlineSecurity, MdOutlineAttachEmail } from "react-icons/md";
 import { IoMdNotifications } from "react-icons/io";
+import ToggleDashboardData from "./ToggleDashboardData";
 
 const links = [
   {
@@ -44,7 +45,10 @@ const links = [
 const DashboardSide = () => {
   return (
     <SideBarLinks links={links}>
-      <SimulateExpire />
+      <div className="flex flex-col items-center justify-between w-full">
+        {/* <SimulateExpire /> */}
+        <ToggleDashboardData />
+      </div>
     </SideBarLinks>
 
   );

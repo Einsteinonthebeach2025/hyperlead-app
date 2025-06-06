@@ -1,6 +1,4 @@
 import SpanText from 'app/components/SpanText'
-import { FaUsers } from "react-icons/fa";
-
 
 const WeeksChart = ({ current, last }) => {
 
@@ -23,11 +21,11 @@ const WeeksChart = ({ current, last }) => {
       {/* This Week */}
       <div className="flex flex-col gap-1">
         <SpanText >This Week</SpanText>
-        <h1 className="text-3xl font-bold">{current}</h1>
+        <h1 className="text-3xl font-bold dark:text-stone-100">{current}</h1>
         <div
           className={`inline-flex items-center px-2 py-1 rounded-full text-sm font-medium w-fit ${currentInfo.isPositive
-            ? 'bg-green-100 text-green-700'
-            : 'bg-red-100 text-red-700'
+            ? 'green-style border'
+            : 'red-style border'
             }`}
         >
           {currentInfo.arrow} {currentInfo.percent}%
@@ -37,11 +35,11 @@ const WeeksChart = ({ current, last }) => {
       {/* Last Week */}
       <div className="flex flex-col gap-1">
         <SpanText >Last Week</SpanText>
-        <h1 className="text-3xl font-bold">{last}</h1>
+        <h1 className="text-3xl font-bold dark:text-stone-100">{last}</h1>
         <div
           className={`inline-flex items-center px-2 py-1 rounded-full text-sm font-medium w-fit ${lastInfo.isPositive
-            ? 'bg-green-100 text-green-700'
-            : 'bg-red-100 text-red-700'
+            ? 'green-style border'
+            : 'red-style border'
             }`}
         >
           {lastInfo.arrow} {lastInfo.percent}%

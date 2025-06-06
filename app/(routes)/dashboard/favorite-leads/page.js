@@ -1,5 +1,6 @@
 import { createServerClient } from "app/lib/config/supabaseServer";
 import FavoriteLeads from "app/pages/dashboard/favoriteLeads/FavoriteLeads";
+import { getEffectiveUserId } from "app/helpers/assistantHelper";
 
 export const metadata = {
   title: "Hyperlead | Favorite Leads",
@@ -12,7 +13,6 @@ const FavoriteLeadsPage = async () => {
     data: { session },
     error: sessionError,
   } = await supabase.auth.getSession();
-
   if (!session || sessionError) {
     return (
       <FavoriteLeads
@@ -22,25 +22,30 @@ const FavoriteLeadsPage = async () => {
       />
     );
   }
+  const currentUserId = session.user.id;
+  const currentUserEmail = session.user.email;
+  const { isAssistant, effectiveUserId } = await getEffectiveUserId(
+    currentUserId,
+    currentUserEmail
+  );
 
-  // First get the user's profile with favorite_leads
   const { data: profile, error: profileError } = await supabase
     .from("profiles")
     .select("favorite_leads")
-    .eq("id", session.user.id)
+    .eq("id", effectiveUserId)
     .single();
 
   if (profileError || !profile?.favorite_leads?.length) {
     return (
       <FavoriteLeads
         data={[]}
-        title="second error"
+        title="No favorite leads found"
         desc="You can add leads to your favorite leads by clicking the heart icon on the lead card"
       />
     );
   }
 
-  // Then fetch the leads that match the favorite_leads array
+  // Fetch the leads that match the favorite_leads array
   const { data: favoriteLeads, error: leadsError } = await supabase
     .from("leads")
     .select("*")

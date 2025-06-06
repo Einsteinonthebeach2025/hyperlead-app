@@ -5,13 +5,13 @@ import SubTitle from 'app/components/SubTitle'
 import { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 
-const AssistantResponse = ({ handleClick, data, addToEmail }) => {
+const AssistantResponse = ({ handleClick, data, addToEmail, clearStates }) => {
   return (
     <>
       {data && (
         <FlexBox type="column" className="absolute z-10 inset-0 bg-black items-center p-4 overflow-y-auto">
           <Response data={data} />
-          <Buttons handleClick={handleClick} addToEmail={addToEmail} />
+          <Buttons handleClick={handleClick} addToEmail={addToEmail} clearStates={clearStates} />
         </FlexBox>
       )}
     </>
@@ -46,7 +46,7 @@ const Response = ({ data }) => {
   )
 }
 
-const Buttons = ({ handleClick, addToEmail }) => {
+const Buttons = ({ handleClick, addToEmail, clearStates }) => {
   return (
     <FlexBox type="row-between" className='w-full'>
       <Button
@@ -60,7 +60,10 @@ const Buttons = ({ handleClick, addToEmail }) => {
       </Button>
       <Button
         type="delete"
-        onClick={handleClick}
+        onClick={() => {
+          clearStates();
+          handleClick();
+        }}
       >
         <span>Compose myself</span>
       </Button>

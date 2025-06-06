@@ -19,7 +19,7 @@ const SubscribtionStatus = ({ item }) => {
   const minutes = String(endDateObj.getMinutes()).padStart(2, "0");
   const endDate = `${year}-${month}-${day} ${hours}:${minutes}`;
 
-  const divStyle = `relative text-[12px] gap-2 font-medium px-2 py-1 w-fit border-2 rounded-full ${subs ? "text-green-500 bg-green-100 border-green-400" : "text-red-500 bg-red-100 border-red-400"}`;
+  const divStyle = `relative text-[12px] gap-2 font-medium px-2 py-1 w-fit border-2 rounded-full ${subs ? "green-style" : "red-style"}`;
 
   if (!item) {
     return <Spinner />;
@@ -34,7 +34,7 @@ const SubscribtionStatus = ({ item }) => {
           className={divStyle}
         >
           <FaCheck size={18} />
-          <h1 className="pointer-events-none"><span className="uppercase font-bold">{subs}</span> plan is active</h1>
+          <h1 className="pointer-events-none "><span className="uppercase font-bold">{subs}</span> plan is active</h1>
           <HoverModal
             isOpen={isOpen}
             active={false}
