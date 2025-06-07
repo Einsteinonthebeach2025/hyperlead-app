@@ -29,7 +29,7 @@ const SearchBar = ({ leads = [], onSearch }) => {
   };
 
   return (
-    <div className="relative w-[35%]">
+    <div className="relative">
       <input
         type="text"
         value={searchTerm}

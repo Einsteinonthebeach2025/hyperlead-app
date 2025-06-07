@@ -73,7 +73,7 @@
 /* For Firefox */
 * {
   scrollbar-width: thin;
-  scrollbar-color: #595b5c #2c2a2a;
+  scrollbar-color: #595b5c transparent;
 }
 
 @layer components {

@@ -23,7 +23,7 @@ const LeadCard = ({ leads, onLeadStatusChange, onLeadLikeChange, type }) => {
 
 
   return (
-    <div className="grid grid-cols-1 space-y-4 w-full">
+    <div className="grid grid-cols-1 space-y-4 w-full h-[600px] overflow-y-auto">
       <AnimatePresence>
         {leads?.map((lead) => {
           return (

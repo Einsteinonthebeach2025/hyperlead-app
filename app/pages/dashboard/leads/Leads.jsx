@@ -103,13 +103,14 @@ const Leads = ({
 
   return (
 
-    <DashboardPageWrapper title="Leads" >
+    <DashboardPageWrapper title="Leads">
       <LeadFilter
         leads={allLeads}
         handleFilterChange={handleFilterChange}
         handleReset={handleReset}
         currentFilters={filters}
         onSearchResults={handleSearchResults}
+        currentPageLeads={paginatedLeads}
       />
       <LeadCard
         leads={paginatedLeads}

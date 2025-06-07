@@ -1,8 +1,7 @@
 "use client";
 import { AnimatePresence } from "framer-motion";
 import { FaUser } from "react-icons/fa";
-import { IoIosLogOut } from "react-icons/io";
-import { MdDashboard, MdBusinessCenter } from "react-icons/md";
+import { MdDashboard, MdBusinessCenter, MdAssistant, MdLogout } from "react-icons/md";
 import { useDispatch } from "react-redux";
 import { useRouter } from "next/navigation";
 import { signOut } from "app/lib/actions/authActions";
@@ -58,21 +57,22 @@ const ProfileSettings = ({ isOpen, handleActive }) => {
       type: "link",
     },
     {
+      name: "Add Assistant",
+      href: "/add-assistant",
+      icon: <MdAssistant />,
+      type: "link",
+    },
+    {
       name: "Regions",
       href: "/regions",
       icon: <MdBusinessCenter />,
       type: "link",
     },
-    {
-      name: "Add Assistant",
-      href: "/add-assistant",
-      icon: <MdBusinessCenter />,
-      type: "link",
-    },
+
     {
       name: "Logout",
       href: "/",
-      icon: <IoIosLogOut />,
+      icon: <MdLogout />,
       isLogout: true,
     },
   ];

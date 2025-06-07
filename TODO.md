@@ -5,7 +5,6 @@ kaisa@marketer.tech ---> grapchiqovani@gmail.com
 
 revise PASSWORD RESET database storing
 check email sequence in 48 hours
-implement global modal logic
 
 - რამე თესლი ლოადინგ ანიმაციაა საჭირო /auth/callback და მსგავსი ლოადინგებისთვის
 

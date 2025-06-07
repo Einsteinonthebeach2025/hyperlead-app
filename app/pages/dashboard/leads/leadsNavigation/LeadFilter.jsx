@@ -4,7 +4,8 @@ import FilterBar from "../../../../components/FilterBar";
 import SearchBar from "../../../../components/SearchBar";
 import { useState, useEffect } from "react";
 import { filterConfig } from "app/helpers/filterHelpers";
-import LeadsNaming from "./LeadsNaming";
+import SelectAllButton from "./filderActionButtons/SelectAllButton";
+import NewCampaignButton from "./filderActionButtons/NewCampaignButton";
 
 const LeadFilter = ({
   leads = [],
@@ -12,6 +13,7 @@ const LeadFilter = ({
   handleReset,
   currentFilters = {},
   onSearchResults,
+  currentPageLeads = [],
 }) => {
   const [filteredLeads, setFilteredLeads] = useState(leads);
 
@@ -27,7 +29,7 @@ const LeadFilter = ({
   return (
     <FlexBox type="column-center" className="gap-2">
       <SubTitle>Filter leads as your need</SubTitle>
-      <div className="flex flex-col gap-2">
+      <div className="grid grid-cols-[2fr_0.6fr] gap-2">
         <FilterBar
           data={filteredLeads}
           currentFilters={currentFilters}
@@ -37,7 +39,10 @@ const LeadFilter = ({
         />
         <SearchBar leads={leads} onSearch={handleSearch} />
       </div>
-      {/* <LeadsNaming /> */}
+      <FlexBox type="row-start" className="gap-2">
+        <NewCampaignButton />
+        <SelectAllButton currentPageLeads={currentPageLeads} />
+      </FlexBox>
     </FlexBox>
   );
 };

@@ -41,7 +41,7 @@ export async function getEffectiveUserId(currentUserId, currentUserEmail) {
       };
     } else {
       // Server-side: use cookies
-      const cookieStore = cookies();
+      const cookieStore = await cookies();
       const viewBossData = cookieStore.get("viewBossData")?.value === "true";
       return {
         isAssistant: true,

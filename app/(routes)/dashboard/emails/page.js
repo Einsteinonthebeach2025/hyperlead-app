@@ -2,6 +2,11 @@ import { createServerClient } from "app/lib/config/supabaseServer";
 import Emails from "app/pages/dashboard/emails/Emails";
 import { getEffectiveUserId } from "app/helpers/assistantHelper";
 
+export const metadata = {
+  title: "Hyperlead | Emails",
+  description: "Emails",
+};
+
 const DashboardEmailsPage = async () => {
   const supabase = await createServerClient();
   const {

@@ -87,7 +87,7 @@ export const addAssistantToUser = async (
   try {
     const { data: assistantUser } = await supabase
       .from("profiles")
-      .select("email")
+      .select("id, email")
       .eq("email", assistantEmail)
       .single();
     if (!assistantUser) {
@@ -118,6 +118,7 @@ export const addAssistantToUser = async (
       .update({ is_assistant: true })
       .eq("id", assistantUser.id);
     if (updateAssistantError) {
+      console.error("Failed to update assistant status:", updateAssistantError);
       return { success: false, error: "Failed to mark user as assistant." };
     }
     if (notificationId) {
@@ -125,6 +126,7 @@ export const addAssistantToUser = async (
         .from("notifications")
         .update({
           read: true,
+          type: "accept_assistancy",
           message: `You have accepted ${bossName} assistancy request. You can check dashboard.`,
         })
         .eq("id", notificationId);
