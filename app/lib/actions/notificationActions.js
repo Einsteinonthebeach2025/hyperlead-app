@@ -133,7 +133,7 @@ export const notifyUserOnSubscription = async (assignedLeadsCount) => {
       .insert({
         user_id: user.id,
         type: "SUBSCRIPTION_SUCCESS_NOTIFY",
-        message: `${user?.profile?.userName}, you have successfully subscribed to ${user?.profile?.subscription} plan`,
+        message: `${user?.profile?.userName || "Hello"}, you have successfully subscribed to ${user?.profile?.subscription} plan`,
         read: false,
         importance: "low",
         metadata: {
@@ -323,7 +323,7 @@ export const notifyAssistantAccept = async (bossId, assistantEmail) => {
     .insert({
       user_id: bossId,
       type: "assistancy_response",
-      message: `${assistantProfile.userName} (${assistantEmail}) has accepted your assistancy request.`,
+      message: `${assistantProfile.userName || "Hello"} (${assistantEmail}) has accepted your assistancy request.`,
       read: false,
       importance: "medium",
       metadata: {},

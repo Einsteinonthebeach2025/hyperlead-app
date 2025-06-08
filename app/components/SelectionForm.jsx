@@ -8,7 +8,7 @@ import MotionChildren from "app/components/containers/MotionChildren";
 import Logo from "app/components/Logo";
 import ContentHeadline from "app/components/ContentHeadline";
 import { selectUser, updateUserProfile } from "app/features/userSlice";
-import { setError, setToggle } from "app/features/modalSlice";
+import { setError } from "app/features/modalSlice";
 import { updateProfile } from "app/lib/actions/profileActions";
 import { IoIosArrowForward } from "react-icons/io";
 import GradientContainer from "app/components/containers/GradientContainer";
@@ -22,35 +22,16 @@ const SelectionForm = ({
   initialSelections = [],
   updateField,
   onSuccess,
+  onSkip,
   successMessage,
   minSelections = 0,
   maxSelections = null,
   additionalComponents = null,
 }) => {
-  const router = useRouter();
   const dispatch = useDispatch();
   const user = useSelector(selectUser);
   const [loading, setLoading] = useState(false);
   const [selections, setSelections] = useState(initialSelections);
-  const isNewUser = user?.profile?.is_new_user;
-
-  const modalPopUp = async () => {
-    router.push("/");
-    setTimeout(async () => {
-      if (isNewUser) {
-        dispatch(setToggle({
-          modalType: "global",
-          isOpen: true,
-          data: {
-            title: `welcome ${user?.profile?.userName} to hyperlead`,
-            desc: "you have become a member of the hyperlead family. you have received demo leads and can now begin your journey.",
-          },
-        }));
-        await updateProfile(user.id, { is_new_user: false });
-        dispatch(updateUserProfile({ is_new_user: false }));
-      }
-    }, 1000);
-  };
 
   const handleToggle = (item) => {
     setSelections((prev) => {
@@ -89,7 +70,6 @@ const SelectionForm = ({
           type: "success",
         })
       );
-      modalPopUp();
       dispatch(updateUserProfile({ [updateField]: selections }));
       if (onSuccess) {
         await onSuccess(selections);
@@ -133,11 +113,12 @@ const SelectionForm = ({
       </div>
       <MotionChildren animation="fade-in">
         <FlexBox className="gap-3 relative z-[2]">
-          {updateField === "region" ?
-            <Button onClick={modalPopUp} type="light">
+          {updateField === "region" && onSkip && (
+            <Button onClick={() => onSkip()} type="light">
               <span>Skip for now </span>
               <IoIosArrowForward size={20} />
-            </Button> : "  "}
+            </Button>
+          )}
           <Button
             type="light"
             text="Updating..."

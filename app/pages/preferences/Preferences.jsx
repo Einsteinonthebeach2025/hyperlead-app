@@ -14,6 +14,8 @@ const Preferences = ({ initialPreferences = [] }) => {
   const user = useSelector(selectUser);
   const regionLength = user?.profile?.region?.length;
 
+  console.log(regionLength);
+
 
   const handleSuccess = async (selections) => {
     const { success, error } = await assignDemoLeads(
@@ -32,10 +34,10 @@ const Preferences = ({ initialPreferences = [] }) => {
         type: "success",
       })
     );
-    if (regionLength > 0) {
-      router.push("/");
-    } else {
+    if (!regionLength) {
       router.push("/regions");
+    } else {
+      router.push("/");
     }
   };
 

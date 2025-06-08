@@ -5,7 +5,7 @@ import SendEmailButton from "app/components/buttons/SendEmailButton";
 
 const LeadPersonsName = ({ lead = {} }) => {
   return (
-    <FlexBox type="row" className="gap-5 items-center ">
+    <FlexBox type="row" className="gap-5 items-center">
       <FlexBox type="column" className="gap-2">
         <SendEmailButton lead={lead} />
         <CheckMarkButton lead={lead} />

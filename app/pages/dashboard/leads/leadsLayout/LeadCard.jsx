@@ -17,13 +17,15 @@ const LeadCard = ({ leads, onLeadStatusChange, onLeadLikeChange, type }) => {
 
   if (leads.length === 0) {
     return (
-      <SectionHeadline title="No leads found" desc="You have used all leads or no such leads are available" />
+      <div className="h-screen center">
+        <SectionHeadline title="No leads found" desc="No such leads are available" />
+      </div>
     );
   }
 
 
   return (
-    <div className="grid grid-cols-1 space-y-4 w-full h-[600px] overflow-y-auto">
+    <div className="grid grid-cols-1 space-y-4 w-full">
       <AnimatePresence>
         {leads?.map((lead) => {
           return (
@@ -38,7 +40,7 @@ const LeadCard = ({ leads, onLeadStatusChange, onLeadLikeChange, type }) => {
                 exit={{ opacity: 0, rotateX: 90 }}
                 transition={{ duration: 0.5 }}
               >
-                <CardContainer className={`grid grid-cols-[1.3fr_0.7fr_1.0fr_0.8fr_1.0fr_0.1fr] gap-3 group relative h-28 group ${lead?.used ? "opacity-60" : ""
+                <CardContainer className={`grid grid-cols-[1.3fr_0.7fr_1.0fr_0.8fr_1.0fr_0.1fr] gap-3 place-content-center group relative h-20 group ${lead?.used ? "opacity-60" : ""
                   }`}>
                   <LeadPersonsName lead={lead} />
                   <FlexBox>
@@ -51,7 +53,7 @@ const LeadCard = ({ leads, onLeadStatusChange, onLeadLikeChange, type }) => {
                   </FlexBox>
                   <LeadLocation lead={lead} />
                   <LeadIndustry lead={lead} />
-                  <FlexBox type="center-col" className="gap-1" >
+                  <FlexBox type="row" className="items-center" >
                     {type === "favorite" ? " " : <MarkButton lead={lead} onStatusChange={onLeadStatusChange} />}
                     <LeadLikeButton lead={lead} onLeadLikeChange={onLeadLikeChange} />
                     <AddToFavorite lead={lead} />

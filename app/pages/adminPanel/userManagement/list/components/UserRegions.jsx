@@ -5,6 +5,7 @@ import SubTitle from 'app/components/SubTitle'
 import React from 'react'
 import { FaPhone } from 'react-icons/fa'
 import CheckMarkButton from 'app/components/buttons/CheckMarkButton'
+import Dot from 'app/components/Dot'
 
 const UserRegions = ({ item }) => {
   const { country, city, address, phone, email, id } = item;
@@ -14,8 +15,8 @@ const UserRegions = ({ item }) => {
       <FlexBox type="column-end" className="items-center">
         {country && city ?
           <FlexBox type="row" className="gap-2 items-center">
-            <SubTitle>{city}</SubTitle>  •
-            <SubTitle>{country}</SubTitle>  •
+            <SubTitle>{city}</SubTitle>  <Dot />
+            <SubTitle>{country}</SubTitle> <Dot />
             <CountryFlags className="rounded-full" countryName={country} />
           </FlexBox> : " "}
         {phone && address ?

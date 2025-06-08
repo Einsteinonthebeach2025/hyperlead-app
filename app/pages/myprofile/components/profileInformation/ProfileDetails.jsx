@@ -1,14 +1,22 @@
+"use client";
 import CardContainer from "app/components/containers/CardContainer";
 import InfoContainer from "app/components/containers/InfoContainer";
 import Title from "app/components/Title";
+import RemoveAssistant from "./RemoveAssistant";
+import { useSelector } from "react-redux";
+import { selectUser } from "app/features/userSlice";
 
-const ProfileDetails = ({ profile }) => {
+const ProfileDetails = () => {
+  const user = useSelector(selectUser);
+  const profile = user?.profile;
+
   const personalInfo = [
     { text: "Email", key: "email" },
     { text: "Phone", key: "phone" },
     { text: "Company", key: "company" },
     { text: "Position", key: "position" },
     { text: "Gender", key: "sex" },
+    { text: "Current Assistant", key: "user_assistant" },
   ];
 
   const addressInfo = [
@@ -20,7 +28,14 @@ const ProfileDetails = ({ profile }) => {
 
   const renderInfo = (items) =>
     items.map(({ text, key }) => (
-      <InfoContainer key={key} text={text} subText={profile?.[key]} />
+      <InfoContainer key={key} text={text} subText={profile?.[key]}>
+        {key === "user_assistant" && profile?.[key] && (
+          <RemoveAssistant
+            assistantEmail={profile[key]}
+            onAssistantRemoved={handleAssistantRemoved}
+          />
+        )}
+      </InfoContainer>
     ));
 
   return (
@@ -41,4 +56,4 @@ const ProfileDetails = ({ profile }) => {
   );
 };
 
-export default ProfileDetails;
+export default ProfileDetails; 

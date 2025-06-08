@@ -5,7 +5,6 @@ import SectionHeadline from 'app/components/SectionHeadline';
 import { AnimatePresence, motion } from 'framer-motion';
 
 const UsersList = ({ data }) => {
-  console.log(data);
 
   if (!data || data.length === 0) {
     return (

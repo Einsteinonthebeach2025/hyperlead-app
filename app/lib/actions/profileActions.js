@@ -136,3 +136,58 @@ export const addAssistantToUser = async (
     return { success: false, error: error.message || "Unknown error" };
   }
 };
+
+export const removeAssistantFromUser = async (userId, assistantEmail) => {
+  try {
+    const { data: currentUserProfile, error: profileError } = await supabase
+      .from("profiles")
+      .select("user_assistant, userName")
+      .eq("id", userId)
+      .single();
+    if (profileError) {
+      return { success: false, error: "Could not fetch your profile." };
+    }
+
+    const { data: assistantProfile, error: assistantError } = await supabase
+      .from("profiles")
+      .select("id, email")
+      .eq("email", assistantEmail)
+      .single();
+    if (assistantError) {
+      return { success: false, error: "Could not fetch assistant profile." };
+    }
+
+    const { error: updateError } = await supabase
+      .from("profiles")
+      .update({ user_assistant: null })
+      .eq("id", userId);
+    if (updateError) {
+      return { success: false, error: "Failed to remove assistant." };
+    }
+
+    const { error: updateAssistantError } = await supabase
+      .from("profiles")
+      .update({ is_assistant: false })
+      .eq("id", assistantProfile.id);
+    if (updateAssistantError) {
+      return { success: false, error: "Failed to update assistant status." };
+    }
+
+    const { error: notificationError } = await supabase
+      .from("notifications")
+      .insert({
+        user_id: assistantProfile.id,
+        type: "REMOVE_ASSISTANT",
+        message: `${currentUserProfile.userName} has removed you from his assistants.`,
+        read: false,
+      });
+    if (notificationError) {
+      console.error("Failed to create notification:", notificationError);
+    }
+
+    return { success: true };
+  } catch (error) {
+    console.error("Error removing assistant:", error);
+    return { success: false, error: error.message || "Unknown error" };
+  }
+};

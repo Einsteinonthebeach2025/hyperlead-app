@@ -1,14 +1,11 @@
 TODO LIST
 
-adam@redcircle.com ---> graphchiqovani@yahoo.com
+patricia@tech-to-market.com ---> graphchiqovani@yahoo.com
 kaisa@marketer.tech ---> grapchiqovani@gmail.com
-
-revise PASSWORD RESET database storing
-check email sequence in 48 hours
 
 - რამე თესლი ლოადინგ ანიმაციაა საჭირო /auth/callback და მსგავსი ლოადინგებისთვის
 
-1. USER REGISTRATION
+1. USER REGISTRATION & SECURITY
 
 - [x] CREATE USER (Email, UserName, Password)
 - [x] GOOGLE authentication
@@ -18,6 +15,8 @@ check email sequence in 48 hours
 - [x] SIGN IN USER
 - [x] RESET PASSWORD
 - [x] UPDATE PASSWORD using verified link
+- [x] 2FA Security with QRCODE
+- [x] Track last reset password with timestamp
 
 2. MY PROFILE PAGE
 
@@ -25,6 +24,7 @@ check email sequence in 48 hours
 - [x] User can update his own profile information. Real time update for the UI
 - [x] User can set wallpaper image and store imageURL to database
 - [x] UPDATE PASSWORD using verified link
+- [x] User can remove assitant from profile
 
 3. DASHBOARD LEAD MANAGEMENT
 

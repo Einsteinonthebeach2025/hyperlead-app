@@ -43,12 +43,12 @@ const SignUpForm = () => {
         return;
       }
       router.push("/preferences");
+      dispatch(setUser(data));
+      await notifyUserRegistration();
       setEmail("");
       setUserName("");
       setPassword("");
       setConfirmPassword("");
-      dispatch(setUser(data));
-      await notifyUserRegistration();
     } catch (error) {
       dispatch(setError("An unexpected error occurred. Please try again."));
     } finally {

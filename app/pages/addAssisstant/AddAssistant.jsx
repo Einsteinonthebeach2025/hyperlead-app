@@ -9,9 +9,11 @@ import GradientContainer from 'app/components/containers/GradientContainer'
 import Button from 'app/components/buttons/Button';
 import FormContainer from 'app/components/containers/FormContainer';
 import SubTitle from 'app/components/SubTitle';
+import { useRouter } from 'next/navigation';
 
 const AddAssistant = () => {
   const dispatch = useDispatch();
+  const router = useRouter();
   const [email, setEmail] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const user = useSelector(selectUser);
@@ -35,6 +37,7 @@ const AddAssistant = () => {
     } catch (e) {
       dispatch(setError("Failed to send assistant invitation."));
     }
+    router.push("/");
     setEmail("");
     setIsLoading(false);
   };

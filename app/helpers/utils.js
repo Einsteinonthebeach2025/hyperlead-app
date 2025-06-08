@@ -2,6 +2,20 @@ export const truncateString = (str, maxLength = 12) => {
   return str?.length > maxLength ? str.slice(0, maxLength) + "..." : str;
 };
 
+export const getMembershipDuration = (createdAt) => {
+  if (!createdAt) return "";
+  const createdDate = new Date(createdAt);
+  const now = new Date();
+  const diffTime = Math.abs(now - createdDate);
+  const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+  const diffYears = Math.floor(diffDays / 365);
+  if (diffYears >= 1) {
+    return `${diffYears} Year${diffYears > 1 ? "s" : ""} on our platform`;
+  } else {
+    return `${diffDays} Day${diffDays !== 1 ? "s" : ""} on our platform`;
+  }
+};
+
 export async function fetchAllLeadsFields(supabase, fields) {
   let allLeads = [];
   let from = 0;
