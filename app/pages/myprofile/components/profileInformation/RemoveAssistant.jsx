@@ -7,7 +7,7 @@ import { removeAssistantFromUser } from 'app/lib/actions/profileActions'
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 
-const RemoveAssistant = ({ assistantEmail, onAssistantRemoved }) => {
+const RemoveAssistant = ({ assistantEmail }) => {
     const dispatch = useDispatch()
     const router = useRouter()
     const user = useSelector(selectUser)

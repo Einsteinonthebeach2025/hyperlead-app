@@ -32,7 +32,6 @@ const ProfileDetails = () => {
         {key === "user_assistant" && profile?.[key] && (
           <RemoveAssistant
             assistantEmail={profile[key]}
-            onAssistantRemoved={handleAssistantRemoved}
           />
         )}
       </InfoContainer>
