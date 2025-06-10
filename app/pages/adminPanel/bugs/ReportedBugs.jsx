@@ -17,9 +17,9 @@ const ReportedBugs = ({ bugs, message, desc }) => {
   }
 
   return (
-    <div className="py-3 lg:pr-6 space-y-3">
+    <div className="py-3 lg:pr-6 space-y-3 min-h-screen">
       <MotionContainer animation="fade-in">
-        <Headline className="w-fit">bugs</Headline>
+        <Headline className="w-fit"> Reported bugs</Headline>
       </MotionContainer>
       <BugList bugs={bugs} />
     </div>

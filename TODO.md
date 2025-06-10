@@ -1,7 +1,7 @@
 TODO LIST
 
-patricia@tech-to-market.com ---> graphchiqovani@yahoo.com
-kaisa@marketer.tech ---> grapchiqovani@gmail.com
+billy.snyder@bigfrog.com---> graphchiqovani@yahoo.com
+zamir@jeanswest.co.uk---> grapchiqovani@gmail.com
 
 - რამე თესლი ლოადინგ ანიმაციაა საჭირო /auth/callback და მსგავსი ლოადინგებისთვის
 
@@ -75,6 +75,7 @@ kaisa@marketer.tech ---> grapchiqovani@gmail.com
 - [x] Users can add other users as their assistants using emails
 - [x] Assistants can see "BOSSES" data in his/her dashboard
 - [x] Assistants can toggle dashboard between boss's and own data
+- [ ] is a user tries to add an assistant that is already an assistant for other user, throw an error
 
 8. ADMINISTRATION PANEL
 

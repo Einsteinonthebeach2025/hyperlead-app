@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { setError } from 'app/features/modalSlice';
-import { deleteBug, updateFeedback } from 'app/lib/actions/reportActions';
+import { deleteBug, updateFeedback, deleteFeedback } from 'app/lib/actions/reportActions';
 import { notifyUserOnBugFix } from 'app/lib/actions/notificationActions';
 import Button from 'app/components/buttons/Button';
 import FlexBox from 'app/components/containers/FlexBox'
@@ -13,42 +13,57 @@ const ActionButtons = ({ item, onDelete, type = 'bug' }) => {
 
   const handleDelete = async () => {
     setIsDeleteLoading(true);
-    const { success, error } = await deleteBug(item.id);
-    if (success) {
-      dispatch(setError({ message: `${type === 'bug' ? 'Bug' : 'Feedback'} deleted successfully`, type: "success" }));
+    try {
+      let result;
+      if (type === 'feedback') {
+        result = await deleteFeedback(item.id);
+        if (!result.success) throw new Error(result.error);
+      } else {
+        result = await deleteBug(item.id);
+        if (!result.success) throw new Error(result.error);
+      }
+
+      dispatch(setError({
+        message: `${type === 'bug' ? 'Bug' : 'Feedback'} deleted successfully`,
+        type: "success"
+      }));
       onDelete(item.id);
-    } else {
-      dispatch(setError({ message: error, type: "error" }));
+    } catch (error) {
+      dispatch(setError({
+        message: error.message || 'Failed to delete',
+        type: "error"
+      }));
     }
     setIsDeleteLoading(false);
   };
 
   const handleAction = async () => {
     setIsActionLoading(true);
-    let result;
-
-    if (type === 'bug') {
-      result = await notifyUserOnBugFix(item.id);
-      if (result.data) {
-        dispatch(setError({ message: "Bug marked as fixed and notification sent", type: "success" }));
+    try {
+      if (type === 'bug') {
+        const result = await notifyUserOnBugFix(item.id);
+        if (!result.data) throw new Error(result.error);
+        dispatch(setError({
+          message: "Bug marked as fixed and notification sent",
+          type: "success"
+        }));
         onDelete(item.id);
         await deleteBug(item.id);
-      }
-    } else {
-      result = await updateFeedback(item.id, 'approved');
-      if (result.data) {
-        dispatch(setError({ message: "Feedback approved successfully", type: "success" }));
+      } else {
+        const result = await updateFeedback(item.id, 'approved');
+        if (!result.data) throw new Error(result.error);
+        dispatch(setError({
+          message: "Feedback approved successfully",
+          type: "success"
+        }));
         onDelete(item.id);
       }
-    }
-
-    if (!result.data) {
+    } catch (error) {
       dispatch(setError({
-        message: result.error || `Failed to ${type === 'bug' ? 'mark bug as fixed' : 'approve feedback'}`,
+        message: error.message || `Failed to ${type === 'bug' ? 'mark bug as fixed' : 'approve feedback'}`,
         type: "error"
       }));
     }
-
     setIsActionLoading(false);
   }
 

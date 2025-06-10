@@ -8,6 +8,14 @@ import AssistancyActionButtons from "./AssistancyActionButtons";
 const NotificationList = ({ data }) => {
   const [notifications, setNotifications] = useState(data || []);
 
+  if (notifications.length === 0) {
+    return (
+      <FlexBox type="column" className="grow-1 max-h-[360px] overflow-y-auto">
+        <span className="text-neutral-500 dark:text-stone-300">No notifications</span>
+      </FlexBox>
+    );
+  }
+
   return (
     <FlexBox type="column" className="grow-1 max-h-[360px] overflow-y-auto">
       {notifications?.map((item) => {

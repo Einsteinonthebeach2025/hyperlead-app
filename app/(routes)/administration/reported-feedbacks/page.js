@@ -10,7 +10,14 @@ const ReportedFeedbacksPage = async () => {
   const supabase = await createServerClient();
   const { data, error } = await supabase
     .from("feedback")
-    .select("*")
+    .select(
+      `
+      *,
+      users:user_id (
+        email
+      )
+    `
+    )
     .eq("status", "pending");
   if (error) {
     return (

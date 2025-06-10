@@ -37,9 +37,9 @@ const SelectAllButton = ({ currentPageLeads }) => {
   return (
     <Button type="success" onClick={handleSelectAll}>
       {allSelected ?
-        <span className="w-19">Remove Leads</span>
+        <span className="w-15">Remove All</span>
         :
-        <span className="w-19">Select Leads</span>
+        <span className="w-15">Select All</span>
       }
       <FaCheck size={12} />
     </Button>

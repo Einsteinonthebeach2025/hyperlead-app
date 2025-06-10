@@ -8,36 +8,45 @@ import Stars from 'app/pages/home/feedbackSection/feedbackCard/Stars';
 import { AnimatePresence, motion } from 'framer-motion';
 import ActionButtons from '../bugs/ActionButtons';
 import { useState } from 'react';
+import SpanText from 'app/components/SpanText';
 
 const FeedbackList = ({ data }) => {
   const [feedback, setFeedback] = useState(data);
 
-  const handleBugDelete = (deletedId) => {
+  const handleDelete = (deletedId) => {
     setFeedback(prev => prev.filter(fb => fb.id !== deletedId));
   };
+
+  console.log(feedback);
+
 
   return (
     <div className="grid grid-cols-2 gap-3">
       <AnimatePresence mode="popLayout">
-        {feedback.map((item) => {
-          return (
-            <motion.div
-              key={item.id}
-              initial={{ opacity: 1 }}
-              exit={{ rotateX: 90 }}
-              transition={{ duration: 0.5 }}
-            >
-              <CardContainer key={item.id} className="space-y-3">
-                <Stars item={item} />
-                <SubTitle>{item.header}</SubTitle>
-                <Paragraph>{item.review}</Paragraph>
-                <SpanContainer color="gold" className="w-fit">{formatTime(item.created_at)}</SpanContainer>
-                <span>status: {item.status}</span>
-                <ActionButtons item={item} onDelete={handleBugDelete} type="feedback" />
-              </CardContainer>
-            </motion.div>
-          );
-        })}
+        {feedback.map((item) => (
+          <motion.div
+            key={item.id}
+            initial={{ opacity: 1 }}
+            exit={{ rotateX: 90 }}
+            transition={{ duration: 0.5 }}
+          >
+            <CardContainer key={item.id} className="space-y-3">
+              <Stars item={item} />
+              <SubTitle>{item.header}</SubTitle>
+              <Paragraph>{item.review}</Paragraph>
+              <SpanContainer color="gold" className="w-fit">{formatTime(item.created_at)}</SpanContainer>
+              <div className='space-y-1'>
+                <SpanText>from <strong className='lowercase'>{item.users.email}</strong></SpanText>
+                <SpanText>status: <strong>{item.status}</strong></SpanText>
+                <ActionButtons
+                  item={item}
+                  onDelete={handleDelete}
+                  type="feedback"
+                />
+              </div>
+            </CardContainer>
+          </motion.div>
+        ))}
       </AnimatePresence>
     </div>
   )

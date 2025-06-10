@@ -41,7 +41,7 @@ export const getFeedback = async () => {
       .eq("status", "approved")
       .order("created_at", { ascending: false });
     if (error) throw error;
-    // Transform the data to flatten the profile information
+
     const transformedData = data?.map((feedback) => ({
       ...feedback,
       userName: feedback?.profiles?.userName || "Anonymous User",
@@ -62,14 +62,11 @@ export const getFeedback = async () => {
 
 export const deleteFeedback = async (id) => {
   try {
-    const { data, error } = await supabase
-      .from("feedback")
-      .delete()
-      .eq("id", id);
+    const { error } = await supabase.from("feedback").delete().eq("id", id);
     if (error) throw error;
-    return { data, error: null };
+    return { success: true, error: null };
   } catch (error) {
-    return { data: null, error: error.message };
+    return { success: false, error: error.message };
   }
 };
 
@@ -79,8 +76,7 @@ export const updateFeedback = async (id, status) => {
       .from("feedback")
       .update({ status })
       .eq("id", id)
-      .select()
-      .single();
+      .select();
     if (error) throw error;
     return { data, error: null };
   } catch (error) {

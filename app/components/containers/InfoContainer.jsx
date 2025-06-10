@@ -10,10 +10,14 @@ const InfoContainer = ({ text, subText, children }) => {
       : subText
 
   return (
-    <FlexBox type="column-start">
-      <span className="text-[12px] text-neutral-500 dark:text-neutral-300">{text}</span>
-      <h1 className="font-medium text-sm dark:text-neutral-100">{displayText}</h1>
-      {children}
+    <FlexBox type="row-between" className="items-end">
+      <FlexBox type="column-start">
+        <span className="text-[12px] text-neutral-500 dark:text-neutral-300">{text}</span>
+        <h1 className="font-medium text-sm dark:text-neutral-100">{displayText}</h1>
+      </FlexBox>
+      <div>
+        {children}
+      </div>
     </FlexBox>
   );
 };

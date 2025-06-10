@@ -29,7 +29,7 @@ const LeadsPaginationButtons = ({
         >
           <FaCaretLeft size={20} />
         </SpanContainer>
-        <span className="text-sm font-semibold">
+        <span className="text-sm font-semibold dark:text-neutral-100">
           {currentPage} of {totalPages}
         </span>
         <SpanContainer

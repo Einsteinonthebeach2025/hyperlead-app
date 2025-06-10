@@ -76,7 +76,7 @@ const ProfileAvatar = memo(({ profile: initialProfile = {}, userId }) => {
   );
 
   return (
-    <div className="w-44 h-44 rounded-full absolute p-3 backdrop-blur-3xl bg-white dark:bg-sky-200/30 -top-28">
+    <div className="w-44 h-44 rounded-full absolute p-3 backdrop-blur-3xl -top-28">
       <div className="relative w-full h-full rounded-full overflow-hidden">
         {localProfile?.avatar_url ? (
           <Image

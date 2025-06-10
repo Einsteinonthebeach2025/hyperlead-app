@@ -8,6 +8,9 @@ import SubTitle from "app/components/SubTitle";
 import { infinityScroll } from "app/animationValues/motionVariants";
 
 const FeedbackCard = ({ feedbacks }) => {
+
+  console.log(feedbacks);
+
   return (
     <motion.div
       variants={infinityScroll}

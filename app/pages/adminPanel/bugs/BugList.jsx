@@ -46,10 +46,10 @@ const UserInfo = ({ item }) => {
   return (
     <FlexBox type="row-between" className="items-center">
       <FlexBox type="center-row" className="gap-1">
-        <UserDisplayAvatar url={item?.avatar_url} />
+        <UserDisplayAvatar className="w-10 h-10" url={item?.avatar_url} />
         <div className="mb-1">
-          <SubTitle className="text-green-500">{item.userName}</SubTitle>
-          <SpanText>{item.user_email}</SpanText>
+          <SubTitle>{item.userName}</SubTitle>
+          <SpanText className="lowercase">{item.user_email}</SpanText>
         </div>
       </FlexBox>
       <SpanContainer color="green" className="w-fit">{formatTime(item.created_at)}</SpanContainer>

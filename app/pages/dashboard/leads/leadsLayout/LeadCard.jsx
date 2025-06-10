@@ -25,7 +25,7 @@ const LeadCard = ({ leads, onLeadStatusChange, onLeadLikeChange, type }) => {
 
 
   return (
-    <div className="grid grid-cols-1 space-y-4 w-full">
+    <div className="grid grid-cols-1 space-y-4 w-full ">
       <AnimatePresence>
         {leads?.map((lead) => {
           return (
@@ -40,7 +40,7 @@ const LeadCard = ({ leads, onLeadStatusChange, onLeadLikeChange, type }) => {
                 exit={{ opacity: 0, rotateX: 90 }}
                 transition={{ duration: 0.5 }}
               >
-                <CardContainer className={`grid grid-cols-[1.3fr_0.7fr_1.0fr_0.8fr_1.0fr_0.1fr] gap-3 place-content-center group relative h-20 group ${lead?.used ? "opacity-60" : ""
+                <CardContainer className={`grid grid-cols-[1.3fr_0.7fr_1.0fr_0.7fr_1.0fr_0.1fr] gap-3 place-content-center group relative h-20 group ${lead?.used ? "opacity-60" : ""
                   }`}>
                   <LeadPersonsName lead={lead} />
                   <FlexBox>

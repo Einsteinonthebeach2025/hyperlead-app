@@ -8,7 +8,15 @@ const createOrUpdateProfile = async (user, profile = {}) => {
       {
         id: user.id,
         email: user.email,
-        userName: profile.userName,
+        userName:
+          profile.userName ||
+          user?.user_metadata?.display_name ||
+          user?.user_metadata?.full_name ||
+          user?.user_metadata?.name,
+        avatar_url:
+          profile.avatar_url ||
+          user?.user_metadata?.avatar_url ||
+          user?.user_metadata?.picture,
         updated_at: new Date().toISOString(),
       },
       {
