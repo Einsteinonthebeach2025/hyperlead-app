@@ -278,15 +278,29 @@ export const notifyAssistantInvitation = async (bossId, assistantEmail) => {
     }
     const { data: bossProfile, error: bossError } = await supabase
       .from("profiles")
-      .select("userName, user_assistant")
+      .select("userName, user_assistant, subscription")
       .eq("id", bossId)
       .single();
     if (bossError || !bossProfile)
       throw bossError || new Error("Boss profile not found");
+
     const bossName = bossProfile?.userName || "";
     const assistants = bossProfile?.user_assistant || [];
+
+    // Check if assistant is already in the list
     if (assistants.includes(assistantEmail)) {
       throw new Error("This user is already your assistant.");
+    }
+
+    // Check subscription limits
+    const subscription = bossProfile.subscription;
+    if (subscription === "PRO" && assistants.length >= 1) {
+      throw new Error(
+        "Your PRO plan allows only 1 assistant. Please upgrade to Enterprise for one more assistant."
+      );
+    }
+    if (subscription === "Enterprise" && assistants.length >= 2) {
+      throw new Error("Your Enterprise plan allows maximum 2 assistants.");
     }
     const { data: notification, error: notificationError } = await supabase
       .from("notifications")

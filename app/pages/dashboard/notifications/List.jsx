@@ -8,7 +8,6 @@ import CardContainer from 'app/components/containers/CardContainer'
 import Importance from 'app/components/Importance'
 import Paragraph from 'app/components/Paragraph'
 import SpanText from 'app/components/SpanText'
-import SubTitle from 'app/components/SubTitle'
 
 const List = ({ data: initialData }) => {
   const [data, setData] = useState(initialData);
@@ -30,11 +29,12 @@ const List = ({ data: initialData }) => {
             initial={{ opacity: 1 }}
             exit={{ rotateX: 90 }}
             transition={{ duration: 0.5 }}>
-            <CardContainer>
-              <SubTitle color="gold" className='w-fit'>{item.type}</SubTitle>
-              <Importance item={item?.importance} />
-              <Paragraph>{item.message}</Paragraph>
-              <SpanText>{formatTime(item.created_at)}</SpanText>
+            <CardContainer className='flex flex-col lg:flex-row lg:justify-between'>
+              <div>
+                <Importance item={item?.importance} />
+                <Paragraph>{item.message}</Paragraph>
+                <SpanText>{formatTime(item.created_at)}</SpanText>
+              </div>
               <Delete
                 id={item.id}
                 onDelete={handleDelete}

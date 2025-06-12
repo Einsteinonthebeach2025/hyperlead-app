@@ -15,7 +15,7 @@ const Prompt = ({ handleClick, prompt, setPrompt, loading, generateEmail, error 
             <textarea
                 type="text"
                 value={prompt}
-                className='h-64 rounded-md text-[12px] font-light bg-neutral-200 dark:bg-[#1d2939] mb-5'
+                className='h-64 rounded-md text-[12px] font-light bg-white dark:bg-[#1d2939] mb-5'
                 placeholder="Describe what you want to write..."
                 onChange={(e) => setPrompt(e.target.value)}
             />

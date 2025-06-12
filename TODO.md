@@ -64,7 +64,7 @@ zamir@jeanswest.co.uk---> grapchiqovani@gmail.com
 - [x] NOTIFY USER: About fixed bug he reported
 - [x] NOTIFY USER: When subscription is out
 - [x] NOTIFY USER: When someone wants to add him/her as an assistant
-- [ ] NOTIFY USER: After adding set of LEADS to the database (GLOBAL)
+- [x] NOTIFY USER: After adding set of LEADS to the database (GLOBAL)
 - [ ] NOTIFY USER: About every new feature is added to application (GLOBAL)
 - [x] USER can report any bug and updates reported bugs count in database (reported_bugs field)
 - [x] USER can give feedback with star rating
@@ -75,7 +75,8 @@ zamir@jeanswest.co.uk---> grapchiqovani@gmail.com
 - [x] Users can add other users as their assistants using emails
 - [x] Assistants can see "BOSSES" data in his/her dashboard
 - [x] Assistants can toggle dashboard between boss's and own data
-- [ ] is a user tries to add an assistant that is already an assistant for other user, throw an error
+- [x] is a user tries to add an assistant that is already an assistant for other user, throw an error
+- [x] PRO plans can add 1 assistant, ENTERPRISE plans can add 2 assistant
 
 8. ADMINISTRATION PANEL
 

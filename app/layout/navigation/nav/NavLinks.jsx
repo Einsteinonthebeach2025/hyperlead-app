@@ -1,10 +1,10 @@
 "use client";
-import Link from "next/link";
 import { useDispatch, useSelector } from "react-redux";
+import { selectUser } from "app/features/userSlice";
 import { setToggle } from "app/features/modalSlice";
+import Link from "next/link";
 import MotionChildren from "app/components/containers/MotionChildren";
 import MotionContainer from "app/components/containers/MotionContainer";
-import { selectUser } from "app/features/userSlice";
 
 const navLinks = [
   {

@@ -23,7 +23,7 @@ const LeadsByRegions = ({ data }) => {
   };
 
   return (
-    <CardContainer className="space-y-2 w-full mx-auto relative overflow-hidden">
+    <CardContainer className="space-y-2 w-full mx-auto relative overflow-hidden ">
       <ContentHeadline
         type="column-start"
         title="Geographic Pulse of Your Leads"

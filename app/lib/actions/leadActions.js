@@ -115,65 +115,155 @@ export const assignLeadsToUser = async (
       ...new Set([...previouslyReceivedLeadIds, ...currentlyAssignedLeadIds]),
     ];
 
-    // Calculate leads per industry
-    const leadsPerIndustry = Math.floor(leadCount / preferences.length);
-    const extraLeads = leadCount % preferences.length;
+    // Calculate leads per region (if user has region preferences)
+    let regionLeadsMap = {};
+    let totalRegions = hasRegionPreferences ? userProfile.region.length : 0;
+    let leadsPerRegion = hasRegionPreferences
+      ? Math.floor(leadCount / totalRegions)
+      : 0;
+    let extraLeads = hasRegionPreferences ? leadCount % totalRegions : 0;
     let allAvailableLeads = [];
+    let regionLeadResults = {};
+    let regionShortfall = 0;
+    let regionShortfallRegions = [];
 
-    // Fetch leads for each industry separately
-    for (let i = 0; i < preferences.length; i++) {
-      const industry = preferences[i];
-      const industryLeadCount =
-        i === preferences.length - 1
-          ? leadsPerIndustry + extraLeads
-          : leadsPerIndustry;
-
-      let query = supabase
-        .from("leads")
-        .select("id, industry, country")
-        .contains("industry", [industry]);
-
-      // Add region filter if user has region preferences and we found matching countries
-      if (hasRegionPreferences && availableCountries.length > 0) {
-        query = query.in("country", availableCountries);
+    if (hasRegionPreferences && availableCountries.length > 0) {
+      // First pass: try to get as many leads as possible per region
+      for (let i = 0; i < userProfile.region.length; i++) {
+        const region = userProfile.region[i];
+        let regionQuota =
+          leadsPerRegion +
+          (i === userProfile.region.length - 1 ? extraLeads : 0);
+        let query = supabase
+          .from("leads")
+          .select("id, industry, country")
+          .eq("country", region);
+        // Exclude previously received leads
+        if (allExcludedLeadIds.length > 0) {
+          query = query.not("id", "in", `(${allExcludedLeadIds.join(",")})`);
+        }
+        query = query.limit(regionQuota);
+        const { data: regionLeads, error: regionLeadsError } = await query;
+        if (regionLeadsError) {
+          throw new Error(
+            `Failed to fetch leads for region ${region}: ${regionLeadsError.message}`
+          );
+        }
+        regionLeadsMap[region] = regionLeads || [];
+        if ((regionLeads?.length || 0) < regionQuota) {
+          regionShortfall += regionQuota - (regionLeads?.length || 0);
+          regionShortfallRegions.push(region);
+        }
+        allAvailableLeads = [...allAvailableLeads, ...(regionLeads || [])];
+        regionLeadResults[region] = regionLeads?.length || 0;
       }
-
-      // Exclude previously received leads
-      if (allExcludedLeadIds.length > 0) {
-        query = query.not("id", "in", `(${allExcludedLeadIds.join(",")})`);
+      // Second pass: fill shortfall from other preferred regions (that still have available leads)
+      if (regionShortfall > 0) {
+        for (let i = 0; i < userProfile.region.length; i++) {
+          const region = userProfile.region[i];
+          // If this region already filled its quota, skip
+          if (
+            (regionLeadsMap[region]?.length || 0) >=
+            leadsPerRegion +
+              (i === userProfile.region.length - 1 ? extraLeads : 0)
+          )
+            continue;
+          // Try to get more leads from this region (beyond its quota)
+          let query = supabase
+            .from("leads")
+            .select("id, industry, country")
+            .eq("country", region);
+          // Exclude previously received leads and already selected leads
+          const alreadySelectedIds = allAvailableLeads.map((l) => l.id);
+          const excludeIds = [...allExcludedLeadIds, ...alreadySelectedIds];
+          if (excludeIds.length > 0) {
+            query = query.not("id", "in", `(${excludeIds.join(",")})`);
+          }
+          // Try to get as many as needed to fill the shortfall
+          query = query.limit(regionShortfall);
+          const { data: extraLeadsArr, error: extraLeadsError } = await query;
+          if (extraLeadsError) {
+            throw new Error(
+              `Failed to fetch extra leads for region ${region}: ${extraLeadsError.message}`
+            );
+          }
+          if (extraLeadsArr && extraLeadsArr.length > 0) {
+            allAvailableLeads = [...allAvailableLeads, ...extraLeadsArr];
+            regionShortfall -= extraLeadsArr.length;
+            if (regionShortfall <= 0) break;
+          }
+        }
       }
-
-      query = query.limit(industryLeadCount);
-      const { data: industryLeads, error: leadsError } = await query;
-
-      if (leadsError) {
-        throw new Error(`Failed to fetch leads: ${leadsError.message}`);
-      }
-
-      if (!industryLeads || industryLeads.length < industryLeadCount) {
-        const regionMessage =
-          hasRegionPreferences && availableCountries.length > 0
-            ? ` in available regions (${availableCountries.join(", ")})`
-            : "";
+      // If still not enough leads, throw error
+      if (allAvailableLeads.length < leadCount) {
         throw new Error(
-          `Not enough leads available for industry: ${industry}${regionMessage}. Only ${
-            industryLeads?.length || 0
-          } leads found, needed ${industryLeadCount}`
+          `Not enough leads available in your preferred regions (${userProfile.region.join(", ")}). Only ${allAvailableLeads.length} leads found, needed ${leadCount}`
         );
       }
+      // Deduplicate allAvailableLeads by lead.id
+      const uniqueLeadsMap = new Map();
+      allAvailableLeads.forEach((lead) => {
+        uniqueLeadsMap.set(lead.id, lead);
+      });
+      allAvailableLeads = Array.from(uniqueLeadsMap.values()).slice(
+        0,
+        leadCount
+      );
+    } else {
+      // Calculate leads per industry
+      const leadsPerIndustry = Math.floor(leadCount / preferences.length);
+      const extraLeads = leadCount % preferences.length;
+      let allAvailableLeads = [];
 
-      allAvailableLeads = [...allAvailableLeads, ...industryLeads];
+      // Fetch leads for each industry separately
+      for (let i = 0; i < preferences.length; i++) {
+        const industry = preferences[i];
+        const industryLeadCount =
+          i === preferences.length - 1
+            ? leadsPerIndustry + extraLeads
+            : leadsPerIndustry;
+
+        let query = supabase
+          .from("leads")
+          .select("id, industry, country")
+          .contains("industry", [industry]);
+
+        // Exclude previously received leads
+        if (allExcludedLeadIds.length > 0) {
+          query = query.not("id", "in", `(${allExcludedLeadIds.join(",")})`);
+        }
+
+        query = query.limit(industryLeadCount);
+        const { data: industryLeads, error: leadsError } = await query;
+
+        if (leadsError) {
+          throw new Error(`Failed to fetch leads: ${leadsError.message}`);
+        }
+
+        if (!industryLeads || industryLeads.length < industryLeadCount) {
+          throw new Error(
+            `Not enough leads available for industry: ${industry}. Only ${
+              industryLeads?.length || 0
+            } leads found, needed ${industryLeadCount}`
+          );
+        }
+
+        allAvailableLeads = [...allAvailableLeads, ...industryLeads];
+      }
+
+      // Deduplicate allAvailableLeads by lead.id
+      const uniqueLeadsMap = new Map();
+      allAvailableLeads.forEach((lead) => {
+        uniqueLeadsMap.set(lead.id, lead);
+      });
+      allAvailableLeads = Array.from(uniqueLeadsMap.values()).slice(
+        0,
+        leadCount
+      );
     }
 
-    // Deduplicate allAvailableLeads by lead.id
-    const uniqueLeadsMap = new Map();
-    allAvailableLeads.forEach((lead) => {
-      uniqueLeadsMap.set(lead.id, lead);
-    });
-    const uniqueAvailableLeads = Array.from(uniqueLeadsMap.values());
-
     // Create user_leads entries for the new leads
-    const userLeadsToInsert = uniqueAvailableLeads.map((lead) => ({
+    const userLeadsToInsert = allAvailableLeads.map((lead) => ({
       user_id: userId,
       lead_id: lead.id,
       user_email: userEmail,
@@ -181,7 +271,7 @@ export const assignLeadsToUser = async (
     }));
 
     // Also record these leads in history to avoid future duplicates
-    const historyEntries = uniqueAvailableLeads.map((lead) => ({
+    const historyEntries = allAvailableLeads.map((lead) => ({
       user_id: userId,
       lead_id: lead.id,
       received_at: new Date().toISOString(),

@@ -1,6 +1,6 @@
 const IconContainer = ({ children, size, href, className }) => {
   const sizeClasses = {
-    sm: "w-10 h-10",
+    sm: "md:w-10 w-8 md:h-10 h-8",
     md: "w-12 h-12",
     lg: "w-16 h-16",
   };

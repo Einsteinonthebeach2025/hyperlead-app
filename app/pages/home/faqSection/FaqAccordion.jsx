@@ -9,7 +9,7 @@ const FaqAccordion = () => {
   const { isOpen, toggleState } = useToggleLocal();
 
   return (
-    <div className="space-y-3 w-full max-w-lg mx-auto px-3">
+    <div className="space-y-1 md:space-y-3 w-full max-w-lg mx-auto px-3">
       {faq?.map((item, index) => (
         <div key={index} className="border-bottom pt-3">
           <div

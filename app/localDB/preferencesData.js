@@ -11,7 +11,8 @@ const preferencesData = [
   "legal services",
   "manufacturing",
   "logistics",
-  "media & entertainment",
+  "media",
+  "entertainment",
   "wellness & fitness",
   "retail",
 ];

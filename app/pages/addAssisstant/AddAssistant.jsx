@@ -21,7 +21,8 @@ const AddAssistant = () => {
   const handleAddAssistant = async () => {
     setIsLoading(true);
     if (!email) {
-      dispatch(setError("Please enter an email."));
+      dispatch(setError({ message: "Please enter an email.", type: "error" }));
+      setIsLoading(false);
       return;
     }
     try {
@@ -30,14 +31,14 @@ const AddAssistant = () => {
         email,
       );
       if (error) {
-        dispatch(setError(error));
+        dispatch(setError({ message: error, type: "error" }));
       } else if (data) {
         dispatch(setError({ message: "Invitation sent to assistant!", type: "success" }));
+        router.push("/");
       }
     } catch (e) {
-      dispatch(setError("Failed to send assistant invitation."));
+      dispatch(setError({ message: e.message || "Failed to send assistant invitation.", type: "error" }));
     }
-    router.push("/");
     setEmail("");
     setIsLoading(false);
   };

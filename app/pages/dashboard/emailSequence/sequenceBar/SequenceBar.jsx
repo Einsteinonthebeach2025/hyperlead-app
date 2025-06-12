@@ -11,7 +11,7 @@ const SequenceBar = ({ data, active, setActive }) => {
   }
 
   return (
-    <CardContainer className="w-[30%] space-y-3">
+    <CardContainer className="w-full lg:w-[30%] space-y-3">
       <FlexBox type="row-between" className="items-center border-bottom">
         <Title>Sequences</Title>
         <span className='dark:text-stone-100 font-bold'>{data?.length}</span>

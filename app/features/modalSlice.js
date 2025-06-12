@@ -15,6 +15,7 @@ const initialState = {
   },
   error: "",
   type: "error",
+  sideBar: false,
   link: "",
   title: "",
   leads: [],
@@ -68,6 +69,9 @@ const modalSlice = createSlice({
       state.isDarkMode = !state.isDarkMode;
       localStorage.setItem("theme", state.isDarkMode ? "dark" : "light");
     },
+    toggleSideBar: (state) => {
+      state.sideBar = !state.sideBar;
+    },
   },
 });
 
@@ -78,10 +82,12 @@ export const {
   clearSelectedLeads,
   clearSelectedUsers,
   toggleTheme,
+  toggleSideBar,
 } = modalSlice.actions;
 export const modalReducer = modalSlice.reducer;
 
 export const selectError = (state) => state.modal.error;
+export const selectSideBar = (state) => state.modal.sideBar;
 export const selectLeads = (state) => state.modal.leads;
 export const selectNotificationModal = (state) => state.modal.notificationModal;
 export const selectEmailModal = (state) => state.modal.emailModal;

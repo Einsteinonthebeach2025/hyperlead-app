@@ -5,11 +5,12 @@ import SpanText from 'app/components/SpanText'
 import SubTitle from 'app/components/SubTitle'
 
 const SequenceRecipientsInfo = ({ data }) => {
+
   return (
-    <div className='space-y-2'>
+    <div className='space-y-2 h-96 lg:h-auto overflow-y-auto'>
       <SpanText>Current email sequence recipients</SpanText>
       {data.map((item) => {
-        return <FlexBox type="row-between" key={item.id} className='leading-4 items-center bg-stone-200 hover:bg-stone-300 dark:bg-[#344c63] dark:hover:bg-[#45617d] duration-300 p-1 px-2 rounded-md'>
+        return <div key={item.id} className='leading-4 lg:items-center bg-stone-200 hover:bg-stone-300 dark:bg-[#344c63] dark:hover:bg-[#45617d] duration-300 p-1 px-2 rounded-md flex flex-col lg:flex-row lg:justify-between items-start'>
           <article>
             <FlexBox type="row-start" className="gap-1 items-center">
               <SubTitle className='text-blue-700 font-bold'>{item.company_title}</SubTitle>
@@ -25,7 +26,7 @@ const SequenceRecipientsInfo = ({ data }) => {
           <div>
             <EmailStatus item={item} />
           </div>
-        </FlexBox>
+        </div>
       })}
     </div>
   )

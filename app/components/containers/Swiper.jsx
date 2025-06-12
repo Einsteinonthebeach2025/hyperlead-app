@@ -31,7 +31,7 @@ const Swiper = ({ children, className, items }) => {
 
   return (
     <div
-      className={`relative overflow-hidden flex items-center md:hidden w-full ${className}`}
+      className={`relative overflow-hidden flex md:hidden w-full ${className}`}
     >
       <AnimatePresence initial={false} custom={direction}>
         <motion.div

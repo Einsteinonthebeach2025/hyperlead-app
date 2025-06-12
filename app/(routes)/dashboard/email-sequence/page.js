@@ -68,6 +68,7 @@ const EmailSequencePage = async () => {
       const recipients = emails.map((e) => {
         const lead = leadsMap[e.lead_id] || {};
         return {
+          follow_up_email: e.follow_up_email,
           leads_email: e.leads_email,
           lead_id: e.lead_id,
           opened_at: e.opened_at,

@@ -1,6 +1,6 @@
 import { createServerClient } from "app/lib/config/supabaseServer";
-import Emails from "app/pages/dashboard/emails/Emails";
 import { getEffectiveUserId } from "app/helpers/assistantHelper";
+import Emails from "app/pages/dashboard/emails/Emails";
 
 export const metadata = {
   title: "Hyperlead | Emails",
@@ -26,7 +26,7 @@ const DashboardEmailsPage = async () => {
   const { data: emails, error: emailsError } = await supabase
     .from("emails")
     .select(
-      "id, message, subject, sent_at, delivered, opened_at, lead_id, leads_email"
+      "id, message, subject, sent_at, delivered, opened_at, lead_id, leads_email, follow_up_email"
     )
     .in("user_id", userIdsToQuery)
     .eq("type", "single_email");

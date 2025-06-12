@@ -24,6 +24,7 @@ const MyProfile = memo(({ data }) => {
 
   return (
     <FlexBox type="center-col" className="relative py-10 space-y-10">
+      <GradientContainer />
       <FormContainer className="w-[90%]">
         <BackgroundWallpaper profile={data} />
         <FlexBox type="center-col" className="w-full relative">

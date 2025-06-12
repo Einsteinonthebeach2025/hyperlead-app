@@ -23,7 +23,7 @@ const DisplayUserName = () => {
   return (
     <div className="relative">
       <FlexBox className="gap-1 relative">
-        <FlexBox type="row" className="gap-3">
+        <FlexBox type="center-row" className="gap-3">
           <DarkModeIcon />
           <NotificationsIcon />
         </FlexBox>

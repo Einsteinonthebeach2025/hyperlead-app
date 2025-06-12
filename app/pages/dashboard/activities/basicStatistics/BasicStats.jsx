@@ -40,7 +40,7 @@ const BasicStats = ({ data }) => {
                 {icon}
               </IconContainer>
               <div>
-                <SubTitle>{title}</SubTitle>
+                <SubTitle className="h-10 mg:h-auto">{title}</SubTitle>
                 <Title className="font-thin">{value}</Title>
               </div>
             </CardContainer>

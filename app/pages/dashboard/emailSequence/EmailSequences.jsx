@@ -4,7 +4,6 @@ import DashboardPageWrapper from 'app/components/containers/DashboardPageWrapper
 import SectionHeadline from 'app/components/SectionHeadline';
 import SequenceBar from './sequenceBar/SequenceBar';
 import SequenceContent from './sequenceContent/SequenceContent';
-import FlexBox from 'app/components/containers/FlexBox';
 
 const EmailSequences = ({ data }) => {
   const [sequences, setSequences] = useState(data);
@@ -29,10 +28,10 @@ const EmailSequences = ({ data }) => {
 
   return (
     <DashboardPageWrapper title="My Sequences">
-      <FlexBox type="row" className="gap-4">
+      <div className="flex flex-col lg:flex-row gap-4">
         <SequenceBar data={sequences} active={active} setActive={setActive} />
         <SequenceContent active={active} onDeleteSequence={handleDeleteSequence} />
-      </FlexBox>
+      </div>
     </DashboardPageWrapper>
   );
 };

@@ -3,10 +3,11 @@ import Title from "app/components/Title";
 import ProfileSocialLinks from "./ProfileSocialLinks";
 import CardContainer from "app/components/containers/CardContainer";
 import SubscribtionStatus from "./SubscribtionStatus";
+import Dot from "app/components/Dot";
 
 const ProfileHeader = ({ profile }) => {
   return (
-    <CardContainer className="flex justify-between w-full px-5">
+    <CardContainer className="flex flex-col lg:flex-row justify-between w-full px-5">
       <div className="flex flex-col gap-2">
         <SubscribtionStatus item={profile} />
         <Title className="capitalize">
@@ -21,18 +22,23 @@ const ProfileHeader = ({ profile }) => {
 
 const UserDetails = ({ profile }) => {
   return (
-    <div className="gap-2 flex capitalize text-sm text-neutral-500 dark:text-neutral-300">
+    <div className="gap-2 flex flex-col lg:flex-row capitalize text-[10px] lg:text-sm text-neutral-500 dark:text-neutral-300">
       {profile?.country && profile?.city && (
         <>
-          <div className="gap-1 flex">
+          <div className="gap-1 flex ">
             <CountryFlags countryName={profile?.country} />
             <span>{profile?.country},</span>
             {profile?.city && <span>{profile?.city}</span>}
           </div>
-          •
         </>
       )}
-      <span>{profile?.position}</span> • <span> {profile?.company}</span>
+      <div className="hidden lg:block">
+        <Dot />
+      </div>
+      <div>
+        <span className="">{profile?.position}</span> <Dot /> <span> {profile?.company}</span>
+
+      </div>
     </div>
   );
 };

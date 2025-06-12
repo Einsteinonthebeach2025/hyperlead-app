@@ -1,6 +1,5 @@
 import EmailSearchBar from "./EmailSearchBar";
 import EmailFilterBar from "./EmailFilterBar";
-import FlexBox from "app/components/containers/FlexBox";
 import Paragraph from "app/components/Paragraph";
 
 const EmailFilter = ({
@@ -18,7 +17,7 @@ const EmailFilter = ({
     <div className="space-y-1">
       <Paragraph>Filter emails as your need</Paragraph>
       <Paragraph>You have {data?.length} Emails sent </Paragraph>
-      <FlexBox type="row-between">
+      <div className="flex flex-col lg:flex-row lg:justify-between gap-2">
         <EmailFilterBar
           month={month}
           setMonth={setMonth}
@@ -28,7 +27,7 @@ const EmailFilter = ({
           setOpened={setOpened}
         />
         <EmailSearchBar search={search} setSearch={setSearch} />
-      </FlexBox>
+      </div>
     </div>
   );
 };

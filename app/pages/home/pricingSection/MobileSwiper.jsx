@@ -10,22 +10,26 @@ const MobileSwiper = () => {
   }
 
   return (
-    <Swiper items={pricingData} className="h-[500px]">
-      {pricingData?.map((item, index) => (
-        <div
-          key={index}
-          className={`primary-border flex flex-col max-w-[330px] mx-auto justify-between items-center space-y-5 ${
-            item.color ? "bg-violet-300/30" : "bg-[#f8fafc]"
-          }`}
-        >
-          <div>
-            <PricingTitle item={item} />
-            <Benefits item={item} />
-          </div>
-          <PricingButton item={item} />
-        </div>
-      ))}
-    </Swiper>
+    <>
+      <h1>Annual pricing here</h1>
+      <div className="h-[580px] w-full mt-2">
+        <Swiper items={pricingData} className="h-[570px] items-center">
+          {pricingData?.map((item, index) => (
+            <div
+              key={index}
+              className={`primary-border p-5 flex flex-col max-w-[330px] mx-auto justify-between items-center space-y-5 ${item.color ? "bg-violet-300/30" : "bg-[#f8fafc]"
+                }`}
+            >
+              <div>
+                <PricingTitle item={item} />
+                <Benefits item={item} />
+              </div>
+              <PricingButton item={item} />
+            </div>
+          ))}
+        </Swiper>
+      </div>
+    </>
   );
 };
 

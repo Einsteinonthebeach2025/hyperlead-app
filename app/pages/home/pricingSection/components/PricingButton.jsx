@@ -27,7 +27,8 @@ const PricingButton = ({ item }) => {
     }
     if (
       user?.profile?.subscription === "Starter" ||
-      user?.profile?.subscription === "PRO"
+      user?.profile?.subscription === "PRO" ||
+      user?.profile?.subscription === "Enterprise"
     ) {
       dispatch(
         setError({
@@ -54,7 +55,20 @@ const PricingButton = ({ item }) => {
         );
         return;
       }
-      const monthlyLeads = plan.toLowerCase() === "starter" ? 20 : 40;
+      let monthlyLeads;
+      switch (plan.toLowerCase()) {
+        case "starter":
+          monthlyLeads = 20;
+          break;
+        case "pro":
+          monthlyLeads = 40;
+          break;
+        case "enterprise":
+          monthlyLeads = 60;
+          break;
+        default:
+          monthlyLeads = 20;
+      }
       const {
         success,
         error: leadError,

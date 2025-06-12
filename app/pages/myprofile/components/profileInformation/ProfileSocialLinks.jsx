@@ -19,7 +19,7 @@ const ProfileSocialLinks = ({ profile }) => {
   ].filter((link) => link.href);
 
   return (
-    <div className="items-center flex gap-2 text-2xl">
+    <div className="items-center flex gap-2 text-lg md:text-2xl mt-2">
       {socialLinks.map((link) => (
         <IconContainer key={link.href} href={link.href} size="sm">{link.icon}</IconContainer>
       ))}

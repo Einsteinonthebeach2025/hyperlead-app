@@ -84,7 +84,7 @@ const SelectionForm = ({
   return (
     <MotionContainer
       animation="fade-in"
-      className={`w-full center flex-col space-y-6 relative ${className}`}
+      className={`w-full px-3 center flex-col space-y-6 relative ${className}`}
     >
       <GradientContainer type="sky" />
       <Logo />

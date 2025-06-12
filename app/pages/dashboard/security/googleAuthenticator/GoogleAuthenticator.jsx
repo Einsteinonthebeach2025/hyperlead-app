@@ -54,7 +54,7 @@ const GoogleAuthenticator = () => {
 
 
   return (
-    <CardContainer className="space-y-2 w-fit">
+    <CardContainer className="space-y-2 w-full lg:w-fit">
       <ContentHeadline
         type="column-start"
         title="Two-Factor Authentication"

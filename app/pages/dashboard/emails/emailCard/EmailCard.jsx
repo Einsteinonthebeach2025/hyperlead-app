@@ -1,3 +1,4 @@
+"use client"
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import CardContainer from "app/components/containers/CardContainer";
@@ -13,6 +14,9 @@ const EmailCard = ({ data }) => {
       prevEmails.filter((email) => email.id !== emailId)
     );
   };
+
+  console.log(emails, " emails");
+
 
   return (
     <div className="space-y-4">
