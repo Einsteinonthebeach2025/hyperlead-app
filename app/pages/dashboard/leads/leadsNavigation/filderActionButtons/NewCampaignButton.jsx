@@ -25,7 +25,7 @@ const NewCampaignButton = () => {
     };
 
     return (
-        <div className="relative"
+        <div className="relative w-44"
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
         >

@@ -14,16 +14,13 @@ const SelectAllButton = ({ currentPageLeads }) => {
   const handleSelectAll = (e) => {
     e.preventDefault();
     e.stopPropagation();
-
     if (allSelected) {
-      // If all are selected, deselect all
       currentPageLeads.forEach(lead => {
         if (selectedLeads.some(selectedLead => selectedLead.id === lead.id)) {
           dispatch(toggleSelectedLead(lead));
         }
       });
     } else {
-      // If not all are selected, select all
       currentPageLeads.forEach(lead => {
         if (!selectedLeads.some(selectedLead => selectedLead.id === lead.id)) {
           dispatch(toggleSelectedLead(lead));

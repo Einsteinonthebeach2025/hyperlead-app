@@ -9,6 +9,7 @@ import ErrorMsg from "./components/modals/ErrorMsg";
 import SendNotificationModal from "./pages/modals/notificationModal/SendNotificationModal";
 import GlobalModal from "./components/modals/GlobalModal";
 import ThemeProvider from "./lib/store/ThemeProvider";
+import ExtraLeadOptions from "./pages/dashboard/dashboardSide/extraLeads/ExtraLeadOptions";
 
 export const metadata = {
   title: "Welcome to Hyperlead",
@@ -31,6 +32,7 @@ export default function RootLayout({ children }) {
                 <EmailModal />
                 <GlobalModal />
                 <SendNotificationModal />
+                <ExtraLeadOptions />
                 <Footer />
               </main>
             </body>

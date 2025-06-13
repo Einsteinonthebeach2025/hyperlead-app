@@ -10,7 +10,7 @@ const SideBarLinks = ({ links, children }) => {
   return (
 
     <div className="w-full md:w-[30%] lg:w-[20%] relative py-5">
-      <div className="sticky top-20 w-full px-5">
+      <div className="sticky top-20 w-full px-5 flex flex-col justify-between h-screen">
         <MotionContainer
           animation="fade-in"
           className="w-full grid grid-cols-1 gap-2"
@@ -33,7 +33,7 @@ const SideBarLinks = ({ links, children }) => {
             );
           })}
         </MotionContainer>
-        <div className="center py-2"> {children}</div>
+        <div className="center py-2 mb-24"> {children}</div>
       </div>
     </div>
 

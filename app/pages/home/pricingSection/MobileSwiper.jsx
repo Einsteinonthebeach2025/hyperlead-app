@@ -11,8 +11,7 @@ const MobileSwiper = () => {
 
   return (
     <>
-      <h1>Annual pricing here</h1>
-      <div className="h-[580px] w-full mt-2">
+      <div className="h-[580px] w-full mt-2 block lg:hidden">
         <Swiper items={pricingData} className="h-[570px] items-center">
           {pricingData?.map((item, index) => (
             <div

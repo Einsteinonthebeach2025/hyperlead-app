@@ -9,7 +9,7 @@ const BasicStats = ({ data }) => {
   const basicStats = [
     {
       title: "Current Plan",
-      value: data?.subscription,
+      value: !data?.subscription ? "No Active Plan" : data?.subscription,
       icon: <MdSubscriptions />,
     },
     {
@@ -40,7 +40,7 @@ const BasicStats = ({ data }) => {
                 {icon}
               </IconContainer>
               <div>
-                <SubTitle className="h-10 mg:h-auto">{title}</SubTitle>
+                <SubTitle className="h-10 md:h-auto">{title}</SubTitle>
                 <Title className="font-thin">{value}</Title>
               </div>
             </CardContainer>

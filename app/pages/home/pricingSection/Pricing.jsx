@@ -9,6 +9,8 @@ const SectionPricing = () => {
         title="Simple pricing plans"
         desc="Enjoy the power of the best AI modelson a single platform"
       />
+      <h1>Annual pricing here</h1>
+
       <PricingList />
       <MobileSwiper />
     </section>

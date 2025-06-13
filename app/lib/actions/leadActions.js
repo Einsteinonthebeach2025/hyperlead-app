@@ -546,3 +546,144 @@ export const removeLeadFromFavorites = async (leadId) => {
   if (updateError) throw new Error("Failed to remove from favorites");
   return { favorite_leads: updatedFavorites };
 };
+
+export const addExtraLeads = async (userId) => {
+  try {
+    // Get user's preferences, region, and email
+    const { data: userProfile, error: profileError } = await supabase
+      .from("profiles")
+      .select(
+        "preferences, region, leads_received_this_month, total_leads_received, email"
+      )
+      .eq("id", userId)
+      .single();
+
+    if (profileError) {
+      throw new Error(`Failed to fetch user profile: ${profileError.message}`);
+    }
+
+    const preferences = userProfile.preferences || [];
+    const regions = userProfile.region || [];
+    const userEmail = userProfile.email;
+    const EXTRA_LEADS_COUNT = 100;
+
+    if (!preferences || preferences.length === 0) {
+      throw new Error(
+        "No preferences set. Please set your industry preferences first."
+      );
+    }
+
+    // Get all leads that this user has ever received (to avoid duplicates)
+    const { data: allUserLeads, error: historyError } = await supabase
+      .from("user_leads_history")
+      .select("lead_id")
+      .eq("user_id", userId);
+
+    const previouslyReceivedLeadIds =
+      allUserLeads?.map((lead) => lead.lead_id) || [];
+
+    // Fetch all possible leads matching preferences (and region if set), excluding previously received
+    let leadsQuery = supabase.from("leads").select("id, industry, country");
+
+    if (regions && regions.length > 0) {
+      leadsQuery = leadsQuery.in("country", regions);
+    }
+
+    // Exclude previously received leads
+    if (previouslyReceivedLeadIds.length > 0) {
+      leadsQuery = leadsQuery.not(
+        "id",
+        "in",
+        `(${previouslyReceivedLeadIds.join(",")})`
+      );
+    }
+
+    // Filter by any of the preferences
+    leadsQuery = leadsQuery.or(
+      preferences.map((pref) => `industry.cs.{\"${pref}\"}`).join(",")
+    );
+
+    // Fetch all matching leads (limit high for safety)
+    const { data: allAvailableLeads, error: leadsError } =
+      await leadsQuery.limit(500);
+    if (leadsError) {
+      throw new Error(`Failed to fetch leads: ${leadsError.message}`);
+    }
+
+    if (!allAvailableLeads || allAvailableLeads.length === 0) {
+      throw new Error("No available leads found for your preferences.");
+    }
+
+    // Shuffle the leads for randomness
+    const shuffledLeads = allAvailableLeads.sort(() => Math.random() - 0.5);
+    // Deduplicate by id (should already be unique, but just in case)
+    const uniqueLeadsMap = new Map();
+    shuffledLeads.forEach((lead) => {
+      uniqueLeadsMap.set(lead.id, lead);
+    });
+    const finalLeads = Array.from(uniqueLeadsMap.values()).slice(
+      0,
+      EXTRA_LEADS_COUNT
+    );
+
+    // Create user_leads entries
+    const userLeadsToInsert = finalLeads.map((lead) => ({
+      user_id: userId,
+      lead_id: lead.id,
+      user_email: userEmail,
+      received_at: new Date().toISOString(),
+    }));
+
+    // Record in history
+    const historyEntries = finalLeads.map((lead) => ({
+      user_id: userId,
+      lead_id: lead.id,
+      received_at: new Date().toISOString(),
+    }));
+
+    // Insert all leads at once
+    if (userLeadsToInsert.length > 0) {
+      const { error: insertError } = await supabase
+        .from("user_leads")
+        .insert(userLeadsToInsert);
+      if (insertError) {
+        throw new Error(`Failed to insert leads: ${insertError.message}`);
+      }
+      // Record in history
+      const { error: historyInsertError } = await supabase
+        .from("user_leads_history")
+        .insert(historyEntries);
+      if (historyInsertError) {
+        console.error("Error recording lead history:", historyInsertError);
+      }
+    }
+
+    // Update user's lead counts and reset notification timestamps
+    const { error: updateError } = await supabase
+      .from("profiles")
+      .update({
+        leads_received_this_month:
+          (userProfile.leads_received_this_month || 0) + finalLeads.length,
+        total_leads_received:
+          (userProfile.total_leads_received || 0) + finalLeads.length,
+        last_notification_timestamp: null,
+        last_leads_finished_notification: null,
+      })
+      .eq("id", userId);
+
+    if (updateError) {
+      throw new Error(`Failed to update user profile: ${updateError.message}`);
+    }
+
+    return {
+      success: true,
+      assignedLeadsCount: finalLeads.length,
+    };
+  } catch (error) {
+    console.error("Error in addExtraLeads:", error);
+    return {
+      success: false,
+      error: error.message,
+    };
+  }
+};

@@ -1,8 +1,11 @@
-import SideBarLinks from "app/components/SideBarLinks";
-import SimulateExpire from "app/SimulateExpire";
 import { MdDashboard, MdLeaderboard, MdEmail, MdOutlineSecurity, MdOutlineAttachEmail } from "react-icons/md";
 import { IoMdNotifications } from "react-icons/io";
+import { IoMdAdd } from "react-icons/io";
+import SideBarLinks from "app/components/SideBarLinks";
 import ToggleDashboardData from "./ToggleDashboardData";
+import AddExtraLeads from "./extraLeads/AddExtraLeads";
+import Button from "app/components/buttons/Button";
+import SimulateExpire from "app/SimulateExpire";
 
 const links = [
   {
@@ -45,12 +48,16 @@ const links = [
 const DashboardSide = () => {
   return (
     <SideBarLinks links={links}>
-      <div className="flex flex-col items-center justify-between w-full">
+      <div className="flex flex-col items-start space-y-2 justify-between w-full">
         {/* <SimulateExpire /> */}
         <ToggleDashboardData />
+        <AddExtraLeads />
+        <Button type="success" href="/add-assistant">
+          <span>Add Teammate</span>
+          <IoMdAdd />
+        </Button>
       </div>
     </SideBarLinks>
-
   );
 };
 

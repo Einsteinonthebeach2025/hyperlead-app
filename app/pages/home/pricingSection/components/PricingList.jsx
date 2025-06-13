@@ -14,14 +14,14 @@ const PricingList = () => {
     <MotionContainer
       animation="fade-in"
       type="in-view"
-      className="hidden md:grid md:grid-cols-3 lg:px-[10%] space-x-5"
+      className="hidden md:grid md:grid-cols-3 lg:px-[10%] space-x-5 py-5"
     >
       {pricingData?.map((item) => {
         return (
           <MotionChildren
             animation="fade-in"
             key={item.id}
-            className={`primary-border flex flex-col justify-between items-center space-y-5 ${item.color ? "bg-violet-300/30" : "bg-[#f8fafc] dark:bg-[#1d2939]"
+            className={`primary-border flex flex-col justify-between items-center p-5 space-y-5 ${item.color ? "bg-violet-300/30" : "bg-[#f8fafc] dark:bg-[#1d2939]"
               }`}
           >
             <div>

@@ -5,7 +5,7 @@ const SectionHeadline = ({ title, desc, className, children }) => {
   return (
     <MotionContainer
       animation="zoom-out"
-      className={`${className} space-y-5 center flex-col px-3 py-5 lg:py-20`}
+      className={`${className} space-y-5 center flex-col px-3 py-5 lg:py-10`}
     >
       <MotionChildren
         animation="zoom-out"

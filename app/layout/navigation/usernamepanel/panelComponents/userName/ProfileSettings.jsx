@@ -15,7 +15,6 @@ const ProfileSettings = ({ isOpen, handleActive }) => {
   const dispatch = useDispatch();
   const router = useRouter();
   const user = useSelector(selectUser);
-  const activePlan = user?.profile?.subscription === "PRO" || user?.profile?.subscription === "Enterprise";
 
   const handleSignOut = async (e) => {
     e?.preventDefault();
@@ -35,12 +34,22 @@ const ProfileSettings = ({ isOpen, handleActive }) => {
 
   const handleLinkClick = (e, item) => {
     e.preventDefault();
+    if (item.name === "Add Assistant") {
+      const subscription = user?.profile?.subscription;
+      if (!subscription || subscription === "starter") {
+        dispatch(setError({ message: "Subscribe to PRO or Enterprise plan for this feature." }));
+        return;
+      }
+    }
     if (item.isLogout) {
       handleSignOut(e);
-    } else {
-      handleActive?.();
+      return;
     }
+    handleActive?.();
+    router.push(item.href);
   };
+
+
 
   const links = [
     {
@@ -67,16 +76,13 @@ const ProfileSettings = ({ isOpen, handleActive }) => {
       icon: <MdBusinessCenter />,
       type: "link",
     },
-    ...(activePlan
-      ? [
-        {
-          name: "Add Assistant",
-          href: "/add-assistant",
-          icon: <MdAssistant />,
-          type: "link",
-        },
-      ]
-      : []),
+
+    {
+      name: "Add Assistant",
+      href: "/add-assistant",
+      icon: <MdAssistant />,
+      type: "link",
+    },
     {
       name: "Logout",
       href: "/",
@@ -98,7 +104,11 @@ const ProfileSettings = ({ isOpen, handleActive }) => {
                 <Button
                   onClick={(e) => handleLinkClick(e, item)}
                   type={item.type}
-                  href={item.href}
+                  href={
+                    item.name === "Add Assistant" && (!user?.profile?.subscription || user?.profile?.subscription === "starter")
+                      ? undefined
+                      : item.href
+                  }
                 >
                   <span>{item.name}</span>
                   {item.icon}

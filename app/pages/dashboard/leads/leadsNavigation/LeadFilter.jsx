@@ -2,10 +2,11 @@ import FlexBox from "app/components/containers/FlexBox";
 import SubTitle from "app/components/SubTitle";
 import FilterBar from "../../../../components/FilterBar";
 import SearchBar from "../../../../components/SearchBar";
-import { useState, useEffect } from "react";
-import { filterConfig } from "app/helpers/filterHelpers";
 import SelectAllButton from "./filderActionButtons/SelectAllButton";
 import NewCampaignButton from "./filderActionButtons/NewCampaignButton";
+import AddExtraLeads from "../../dashboardSide/extraLeads/AddExtraLeads";
+import { useState, useEffect } from "react";
+import { filterConfig } from "app/helpers/filterHelpers";
 
 const LeadFilter = ({
   leads = [],
@@ -42,6 +43,7 @@ const LeadFilter = ({
       <FlexBox type="row-start" className="gap-2">
         <NewCampaignButton />
         <SelectAllButton currentPageLeads={currentPageLeads} />
+        <AddExtraLeads type="success" />
       </FlexBox>
     </FlexBox>
   );
