@@ -21,7 +21,7 @@ const PricingList = () => {
           <MotionChildren
             animation="fade-in"
             key={item.id}
-            className={`primary-border flex flex-col justify-between items-center p-5 space-y-5 ${item.color ? "bg-violet-300/30" : "bg-[#f8fafc] dark:bg-[#1d2939]"
+            className={`primary-border hover:shadow-[0_0_4px__rgba(0,0,0,0.3)] duration-300 flex flex-col justify-between items-center p-5 space-y-5 ${item.color ? "bg-violet-300/30" : "bg-neutral-100 dark:bg-[#1d2939]"
               }`}
           >
             <div>

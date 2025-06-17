@@ -19,6 +19,7 @@ const SearchBar = ({ leads = [], onSearch }) => {
         lead.country?.toLowerCase().includes(searchTermLower) ||
         lead.seniority?.toLowerCase().includes(searchTermLower) ||
         lead.city?.toLowerCase().includes(searchTermLower) ||
+        lead.company_title?.toLowerCase().includes(searchTermLower) ||
         lead.industry?.some((industry) =>
           industry.toLowerCase().includes(searchTermLower)
         )

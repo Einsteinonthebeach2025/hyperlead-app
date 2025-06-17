@@ -9,7 +9,7 @@ import {
   zoomOut,
 } from "app/animationValues/motionVariants";
 
-const MotionContainer = ({ children, className, animation, type, onClick }) => {
+const MotionContainer = ({ children, className, animation, type, onClick, onMouseLeave }) => {
   const getVariant = (animation) => {
     switch (animation) {
       case "left":
@@ -31,6 +31,7 @@ const MotionContainer = ({ children, className, animation, type, onClick }) => {
 
   return (
     <motion.div
+      onMouseLeave={onMouseLeave}
       initial="hidden"
       {...(type === "in-view"
         ? { whileInView: "visible" }

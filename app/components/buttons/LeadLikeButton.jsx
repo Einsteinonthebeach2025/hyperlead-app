@@ -4,11 +4,15 @@ import { AiFillLike, AiOutlineLike } from "react-icons/ai";
 import { useSelector } from "react-redux";
 import { selectUser } from "app/features/userSlice";
 import { useEffect, useState } from "react";
+import HoverModal from "../modals/HoverModal";
+import { useToggleLocal } from "app/hooks/useToggleLocal";
+import FlexBox from "../containers/FlexBox";
 
 const LeadLikeButton = ({ lead, onLeadLikeChange }) => {
   const user = useSelector(selectUser);
   const [isClient, setIsClient] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const { isOpen, toggleState } = useToggleLocal();
 
   useEffect(() => {
     setIsClient(true);
@@ -39,16 +43,25 @@ const LeadLikeButton = ({ lead, onLeadLikeChange }) => {
   }
 
   return (
-    <div
-      onClick={(e) => handleLike(lead.id, e)}
-      className={`text-blue-600 cursor-pointer ${isLoading ? 'opacity-50' : ''}`}
-    >
-      {hasLiked ? (
-        <AiFillLike size={20} />
-      ) : (
-        <AiOutlineLike size={20} />
-      )}
-    </div>
+    <>
+      <FlexBox
+        onMouseEnter={() => toggleState(true)}
+        onMouseLeave={() => toggleState(false)}
+        onClick={(e) => handleLike(lead.id, e)}
+        className={`text-blue-600 cursor-pointer ${isLoading ? 'opacity-50' : ''}`}
+      >
+        {hasLiked ? (
+          <AiFillLike size={20} />
+        ) : (
+          <AiOutlineLike size={20} />
+        )}
+      </FlexBox>
+      <HoverModal
+        isOpen={isOpen}
+        className="right-10 -top-4"
+        text={hasLiked ? "Unlike" : "Like"}
+      />
+    </>
   );
 };
 

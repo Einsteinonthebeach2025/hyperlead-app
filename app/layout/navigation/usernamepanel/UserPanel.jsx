@@ -12,9 +12,7 @@ const UserPanel = () => {
       {user ? (
         <DisplayUserName />
       ) : (
-        <div className="hidden md:block">
-          <RegistrationButtons />
-        </div>
+        <RegistrationButtons />
       )}
     </div>
   );

@@ -7,13 +7,13 @@ import { updateLeadUsedStatus } from "app/lib/actions/leadActions";
 import { notifyLeadsUsage, notifyLeadsFinished } from "app/lib/actions/notificationActions";
 import { useEffect, useRef } from "react";
 
-const SingleLead = ({ data = {} }) => {
+const SingleLead = ({ data = {}, table }) => {
   const notifiedRef = useRef(false);
 
   useEffect(() => {
     const markAsUsed = async () => {
       try {
-        const result = await updateLeadUsedStatus(data.id, true);
+        const result = await updateLeadUsedStatus(data.id, true, table);
         if (result.success && !notifiedRef.current) {
           notifiedRef.current = true;
           await notifyLeadsUsage();
@@ -27,7 +27,7 @@ const SingleLead = ({ data = {} }) => {
     if (data?.id) {
       markAsUsed();
     }
-  }, [data?.id]);
+  }, [data?.id, table]);
 
   return (
     <div className="max-w-7xl mx-auto py-5 grid gap-4">

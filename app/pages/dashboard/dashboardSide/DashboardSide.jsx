@@ -1,6 +1,6 @@
-import { MdDashboard, MdLeaderboard, MdEmail, MdOutlineSecurity, MdOutlineAttachEmail } from "react-icons/md";
-import { IoMdNotifications } from "react-icons/io";
-import { IoMdAdd } from "react-icons/io";
+import { MdDashboard, MdLeaderboard, MdEmail, MdOutlineSecurity, MdOutlineAttachEmail, MdHistory } from "react-icons/md";
+import { IoMdNotifications, IoMdAdd } from "react-icons/io";
+import { FaStar } from "react-icons/fa";
 import SideBarLinks from "app/components/SideBarLinks";
 import ToggleDashboardData from "./ToggleDashboardData";
 import AddExtraLeads from "./extraLeads/AddExtraLeads";
@@ -19,9 +19,14 @@ const links = [
     icon: <MdLeaderboard />,
   },
   {
+    href: "/dashboard/history-leads",
+    label: "Old Leads",
+    icon: <MdHistory />,
+  },
+  {
     href: "/dashboard/favorite-leads",
     label: "Favorite Leads",
-    icon: <MdLeaderboard />,
+    icon: <FaStar />,
   },
   {
     href: "/dashboard/emails",

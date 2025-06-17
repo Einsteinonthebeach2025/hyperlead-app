@@ -5,7 +5,7 @@ const LeadIndustry = ({ lead = {} }) => {
   const industries = lead?.industry || [];
 
   return (
-    <FlexBox>
+    <FlexBox type="row-start" className="items-center">
       <SpanContainer color="blue">
         {industries.length > 0 ? industries.join(" • ") : "No Industry"}
       </SpanContainer>

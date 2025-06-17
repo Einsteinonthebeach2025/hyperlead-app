@@ -25,11 +25,13 @@ const fetchLeadById = async (leadId) => {
   return lead;
 };
 
-const SingleLeadPage = async ({ params }) => {
+const SingleLeadPage = async ({ params, searchParams }) => {
   const { lead_id } = await params;
   const lead = await fetchLeadById(lead_id);
-
-  return <SingleLead data={lead} />;
+  // Check for ?history=1 in the query string
+  const table =
+    searchParams?.history === "1" ? "user_leads_history" : "user_leads";
+  return <SingleLead data={lead} table={table} />;
 };
 
 export default SingleLeadPage;

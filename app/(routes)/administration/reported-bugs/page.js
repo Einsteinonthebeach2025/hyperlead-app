@@ -8,9 +8,18 @@ export const metadata = {
 
 const ReportedBugsPage = async () => {
   const supabase = await createServerClient();
+
+  // Get total count
+  const { count } = await supabase
+    .from("bug_reports")
+    .select("*", { count: "exact", head: true });
+
+  // Fetch first 10 bugs
   const { data: bugs, error: bugsError } = await supabase
     .from("bug_reports")
-    .select("*");
+    .select("*")
+    .order("created_at", { ascending: false })
+    .range(0, 9);
 
   const { data: profiles, error: profilesError } = await supabase
     .from("profiles")
@@ -35,7 +44,7 @@ const ReportedBugsPage = async () => {
     };
   });
 
-  return <ReportedBugs bugs={bugsWithUserData} />;
+  return <ReportedBugs bugs={bugsWithUserData} totalCount={count} />;
 };
 
 export default ReportedBugsPage;

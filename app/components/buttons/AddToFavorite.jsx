@@ -6,11 +6,15 @@ import { useSelector } from "react-redux";
 import { selectUser } from "app/features/userSlice";
 import { useState, useEffect } from "react";
 import Spinner from "../Spinner";
+import HoverModal from "../modals/HoverModal";
+import { useToggleLocal } from "app/hooks/useToggleLocal";
+import FlexBox from "../containers/FlexBox";
 
 const AddToFavorite = ({ lead }) => {
   const user = useSelector(selectUser);
   const [isFavorited, setIsFavorited] = useState(false);
   const [loading, setLoading] = useState(true);
+  const { isOpen, toggleState } = useToggleLocal();
 
   useEffect(() => {
     if (user?.profile?.favorite_leads?.includes(lead.id)) {
@@ -38,9 +42,21 @@ const AddToFavorite = ({ lead }) => {
   if (loading) return <Spinner />;
 
   return (
-    <div className="text-blue-600 cursor-pointer" onClick={handleFavorite}>
-      {isFavorited ? <FaStar size={20} /> : <FaRegStar size={20} />}
-    </div>
+    <>
+      <FlexBox
+        onMouseEnter={() => toggleState(true)}
+        onMouseLeave={() => toggleState(false)}
+        onClick={handleFavorite}
+        className="text-blue-600 cursor-pointer"
+      >
+        {isFavorited ? <FaStar size={20} /> : <FaRegStar size={20} />}
+      </FlexBox>
+      <HoverModal
+        isOpen={isOpen}
+        className="right-10 -top-4 w-full"
+        text={isFavorited ? "Remove from favorites" : "Add to favorites"}
+      />
+    </>
   );
 };
 

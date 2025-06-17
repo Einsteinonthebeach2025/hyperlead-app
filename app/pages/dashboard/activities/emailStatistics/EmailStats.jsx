@@ -45,7 +45,7 @@ const EmailStats = ({ data = {} }) => {
           return (
             <div key={i}>
               <SpanText className="font-medium">{item.title}</SpanText>
-              <div className="w-full bg-neutral-200 dark:bg-neutral-700 rounded-md h-6 overflow-hidden relative mt-1">
+              <div className="w-full bg-neutral-300 dark:bg-neutral-700 rounded-md h-6 overflow-hidden relative mt-1">
                 <motion.div
                   initial={{ width: 0 }}
                   viewport={{ once: true }}

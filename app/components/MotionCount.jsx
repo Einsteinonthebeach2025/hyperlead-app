@@ -24,7 +24,7 @@ const MotionCount = ({ data, title }) => {
     <FlexBox type="column" className="items-center h-full px-5 gap-2">
       <SpanContainer >
         <motion.div
-          className="text-5xl font-extrabold mb-2"
+          className="text-5xl font-extrabold mb-1 font-mono"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.4 }}

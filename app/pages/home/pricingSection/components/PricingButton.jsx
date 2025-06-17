@@ -15,7 +15,7 @@ const PricingButton = ({ item }) => {
   const user = useSelector(selectUser);
   const [loadingPlan, setLoadingPlan] = useState(null);
 
-  const handleSubscription = async (plan) => {
+  const handleSubscription = async () => {
     if (!user) {
       dispatch(
         setError({
@@ -38,7 +38,7 @@ const PricingButton = ({ item }) => {
       );
       return;
     }
-    setLoadingPlan(plan);
+    setLoadingPlan(item.title);
     try {
       const {
         data: { session },
@@ -55,20 +55,7 @@ const PricingButton = ({ item }) => {
         );
         return;
       }
-      let monthlyLeads;
-      switch (plan.toLowerCase()) {
-        case "starter":
-          monthlyLeads = 20;
-          break;
-        case "pro":
-          monthlyLeads = 40;
-          break;
-        case "enterprise":
-          monthlyLeads = 60;
-          break;
-        default:
-          monthlyLeads = 20;
-      }
+      const monthlyLeads = item.leads;
       const {
         success,
         error: leadError,
@@ -86,7 +73,7 @@ const PricingButton = ({ item }) => {
       const currentTotal = user.profile.total_leads_received || 0;
       const currentMonthLeads = user.profile.leads_received_this_month || 0;
       const updates = {
-        subscription: plan,
+        subscription: item.title,
         subscription_timestamp: new Date().toISOString(),
         monthly_leads: monthlyLeads,
         leads_received_this_month: currentMonthLeads + assignedLeadsCount,
@@ -112,7 +99,7 @@ const PricingButton = ({ item }) => {
       );
       dispatch(
         setError({
-          message: `Successfully subscribed to ${plan} plan and received ${assignedLeadsCount} leads!`,
+          message: `Successfully subscribed to ${item.title} plan and received ${assignedLeadsCount} leads!`,
           type: "success",
         })
       );
@@ -132,7 +119,7 @@ const PricingButton = ({ item }) => {
   return (
     <Button
       loading={loadingPlan === item.title}
-      onClick={() => handleSubscription(item.title)}
+      onClick={handleSubscription}
     >
       <IoMdHome size={20} />
       <h1>Activate {item.title}</h1>

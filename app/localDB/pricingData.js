@@ -3,7 +3,7 @@ const pricingData = [
     id: 0,
     title: "Starter",
     desc: "Best for solo founders and small teams starting structured outbound.",
-    price: 39,
+    price: 0.01,
     link: "/",
     benefits: [
       "150 high-quality B2B leads/month",
@@ -16,6 +16,7 @@ const pricingData = [
       "Unused leads roll over to the next month",
       "Email support",
     ],
+    leads: 30,
   },
   {
     id: 1,
@@ -37,6 +38,7 @@ const pricingData = [
       "Unused leads roll over to next month",
       "Priority support",
     ],
+    leads: 400,
   },
   {
     id: 2,
@@ -52,6 +54,7 @@ const pricingData = [
       "Team access: multi-user login and collaboration tools",
       "Slack and phone support",
     ],
+    leads: 800,
   },
 ];
 

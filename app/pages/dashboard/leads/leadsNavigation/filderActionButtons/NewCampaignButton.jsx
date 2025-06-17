@@ -32,7 +32,7 @@ const NewCampaignButton = () => {
             <Button
                 type="success"
                 onClick={handleClick}
-                className={`duration-300 ${!hasSelectedLeads ? 'opacity-50 cursor-not-allowed' : 'opacity-100'}`}
+                className={`duration-300 h-full ${!hasSelectedLeads ? 'opacity-50 cursor-not-allowed' : 'opacity-100'}`}
                 disabled={!hasSelectedLeads}
             >
                 <span>Start New Campaign</span>

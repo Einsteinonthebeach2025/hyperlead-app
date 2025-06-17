@@ -1,4 +1,4 @@
-const IconContainer = ({ children, size, href, className }) => {
+const IconContainer = ({ children, text, size, href, className }) => {
   const sizeClasses = {
     sm: "md:w-10 w-8 md:h-10 h-8",
     md: "w-12 h-12",
@@ -11,7 +11,8 @@ const IconContainer = ({ children, size, href, className }) => {
     <div
       className={`${containerSize} ${className} blue-style rounded-full duration-300 flex items-center justify-center`}
     >
-      <a href={href} target="_blank" rel="noopener noreferrer">{children}</a>
+      <a href={href} target="_blank" rel="noopener noreferrer">{text}</a>
+      {children}
     </div>
   );
 };

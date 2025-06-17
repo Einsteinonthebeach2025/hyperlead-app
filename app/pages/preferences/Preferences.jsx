@@ -14,9 +14,6 @@ const Preferences = ({ initialPreferences = [] }) => {
   const user = useSelector(selectUser);
   const regionLength = user?.profile?.region?.length;
 
-  console.log(regionLength);
-
-
   const handleSuccess = async (selections) => {
     const { success, error } = await assignDemoLeads(
       user.id,
@@ -27,13 +24,15 @@ const Preferences = ({ initialPreferences = [] }) => {
       console.error("Demo leads assignment error:", error);
       dispatch(setError("Failed to assign demo leads"));
       return;
+    } else {
+      dispatch(
+        setError({
+          message: "Preferences updated successfully.",
+          type: "success",
+        })
+      );
     }
-    dispatch(
-      setError({
-        message: "Preferences updated successfully.",
-        type: "success",
-      })
-    );
+
     if (!regionLength) {
       router.push("/regions");
     } else {

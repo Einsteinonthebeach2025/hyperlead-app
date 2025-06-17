@@ -12,20 +12,20 @@ const UsedLeadsInsight = ({ data = {} }) => {
     {
       title: "My total leads",
       value: total || 0,
-      OPACITY: OPACITY[1],
+      OPACITY: OPACITY[0],
       width: 10,
     },
     {
       title: "Leads Used",
       value: used,
-      OPACITY: OPACITY[2],
-      width: 9,
+      OPACITY: OPACITY[1],
+      width: 8,
     },
     {
       title: "Remaining leads",
       value: unused,
-      OPACITY: OPACITY[0],
-      width: 8,
+      OPACITY: OPACITY[2],
+      width: 6,
     },
   ];
 

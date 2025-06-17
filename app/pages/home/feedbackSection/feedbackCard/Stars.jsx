@@ -6,7 +6,7 @@ const Stars = ({ item }) => {
     return Array.from({ length: totalStars }, (_, index) => (
       <FaStar
         key={index}
-        className={`text-lg ${index < rating ? "text-yellow-400" : "text-neutral-400"
+        className={`text-sm lg:text-lg ${index < rating ? "text-yellow-400" : "text-neutral-400"
           }`}
       />
     ));

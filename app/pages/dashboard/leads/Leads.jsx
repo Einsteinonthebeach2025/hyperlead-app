@@ -6,6 +6,7 @@ import LeadsPaginationButtons from "./leadsNavigation/LeadsPaginationButtons";
 import LeadFilter from "./leadsNavigation/LeadFilter";
 import SectionHeadline from "app/components/SectionHeadline";
 import DashboardPageWrapper from "app/components/containers/DashboardPageWrapper";
+import { updateLeadUsedStatus } from "app/lib/actions/leadActions";
 
 const Leads = ({
   data,
@@ -75,7 +76,8 @@ const Leads = ({
     window.scrollTo({ top: 0, behavior: "instant" });
   }, [page]);
 
-  const handleLeadStatusChange = (leadId, newStatus, e) => {
+  const handleLeadStatusChange = async (leadId, newStatus, table) => {
+    await updateLeadUsedStatus(leadId, newStatus, table);
     setLeads((prevLeads) =>
       prevLeads?.map((lead) =>
         lead.id === leadId ? { ...lead, used: newStatus } : lead
@@ -114,7 +116,7 @@ const Leads = ({
       />
       <LeadCard
         leads={paginatedLeads}
-        onLeadStatusChange={handleLeadStatusChange}
+        onLeadStatusChange={(leadId, newStatus) => handleLeadStatusChange(leadId, newStatus, "user_leads")}
         onLeadLikeChange={handleLeadLikeChange}
       />
       <LeadsPaginationButtons

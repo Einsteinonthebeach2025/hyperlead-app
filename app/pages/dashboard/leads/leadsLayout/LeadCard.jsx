@@ -8,12 +8,11 @@ import LeadIndustry from "./leadsCardComponents/LeadIndustry";
 import Link from "next/link";
 import SectionHeadline from "app/components/SectionHeadline";
 import CardContainer from "app/components/containers/CardContainer";
-import MarkButton from "app/components/buttons/MarkButtons";
 import LeadPersonsName from "./leadsCardComponents/LeadPersonsName";
-import LeadLikeButton from "app/components/buttons/LeadLikeButton";
-import AddToFavorite from "app/components/buttons/AddToFavorite";
+import SendEmailButton from "app/components/buttons/SendEmailButton";
+import LeadActionButtons from "./leadsCardComponents/LeadActionButtons";
 
-const LeadCard = ({ leads, onLeadStatusChange, onLeadLikeChange, type }) => {
+const LeadCard = ({ leads, onLeadStatusChange, onLeadLikeChange, type, onLeadClick }) => {
 
   if (leads.length === 0) {
     return (
@@ -28,11 +27,18 @@ const LeadCard = ({ leads, onLeadStatusChange, onLeadLikeChange, type }) => {
     <div className="grid grid-cols-1 space-y-4 w-full">
       <AnimatePresence>
         {leads?.map((lead) => {
+          const handleClick = (e) => {
+            if (onLeadClick) {
+              e.preventDefault(); // Prevent default Link navigation
+              onLeadClick(lead.id);
+            }
+          };
           return (
             <Link
               href={`/dashboard/leads/${lead.id}`}
               key={lead.id}
               className="block"
+              onClick={handleClick}
             >
               <motion.div
                 initial={{ opacity: 0, rotateX: -90 }}
@@ -40,23 +46,22 @@ const LeadCard = ({ leads, onLeadStatusChange, onLeadLikeChange, type }) => {
                 exit={{ opacity: 0, rotateX: 90 }}
                 transition={{ duration: 0.5 }}
               >
-                <CardContainer className={`grid grid-cols-[1.3fr_0.7fr_1.0fr_0.7fr_1.0fr_0.1fr] gap-3 place-content-center group relative h-20 group ${lead?.used ? "opacity-60" : ""
+                <CardContainer className={`grid grid-cols-[1.3fr_0.5fr_1.0fr_0.7fr_1.0fr_0.1fr] gap-3 place-content-center group relative h-20 group ${lead?.used ? "opacity-60" : ""
                   }`}>
                   <LeadPersonsName lead={lead} />
-                  <FlexBox>
+                  <FlexBox type="row-start" className="items-center">
                     <SubTitle>{lead?.seniority}</SubTitle>
                   </FlexBox>
-                  <FlexBox>
-                    <SubTitle className="text-center">
+                  <FlexBox type="row-start" className="items-center">
+                    <SubTitle>
                       {truncateString(lead?.company_title, 60)}
                     </SubTitle>
                   </FlexBox>
                   <LeadLocation lead={lead} />
                   <LeadIndustry lead={lead} />
-                  <FlexBox type="row" className="items-center" >
-                    {type === "favorite" ? " " : <MarkButton lead={lead} onStatusChange={onLeadStatusChange} />}
-                    <LeadLikeButton lead={lead} onLeadLikeChange={onLeadLikeChange} />
-                    <AddToFavorite lead={lead} />
+                  <FlexBox type="row" className="items-center gap-1" >
+                    <SendEmailButton lead={lead} />
+                    <LeadActionButtons lead={lead} type={type} onLeadStatusChange={onLeadStatusChange} onLeadLikeChange={onLeadLikeChange} />
                   </FlexBox>
                 </CardContainer>
               </motion.div>

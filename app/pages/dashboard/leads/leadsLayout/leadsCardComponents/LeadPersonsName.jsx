@@ -1,13 +1,12 @@
 import FlexBox from "app/components/containers/FlexBox";
 import SubTitle from "app/components/SubTitle";
 import CheckMarkButton from "../../../../../components/buttons/CheckMarkButton";
-import SendEmailButton from "app/components/buttons/SendEmailButton";
+import { truncateString } from "app/helpers/utils";
 
 const LeadPersonsName = ({ lead = {} }) => {
   return (
     <FlexBox type="row" className="gap-5 items-center">
       <FlexBox type="column" className="gap-2">
-        <SendEmailButton lead={lead} />
         <CheckMarkButton lead={lead} />
       </FlexBox>
       <PersonName lead={lead} />
@@ -23,8 +22,8 @@ const PersonName = ({ lead }) => {
         <SubTitle>
           {lead?.first_name} {lead?.last_name}
         </SubTitle>
-        <span className="text-neutral-500 dark:text-stone-300 font-medium text-[12px]">
-          {lead?.email}
+        <span className="text-neutral-500 dark:text-stone-300 font-medium text-[10px]">
+          {truncateString(lead?.email, 35)}
         </span>
       </FlexBox>
     </div>

@@ -18,6 +18,7 @@ const DisplayUserName = () => {
   };
 
   const avatar = user?.profile?.avatar_url || user?.user_metadata?.avatar_url;
+  const plan = user?.profile?.subscription;
 
 
   return (
@@ -33,7 +34,7 @@ const DisplayUserName = () => {
           className="gap-2 cursor-pointer items-center"
         >
           <UserDisplayName user={user} />
-          <UserDisplayAvatar className="w-10 h-10" url={avatar} />
+          <UserDisplayAvatar className="w-10 h-10" url={avatar} type="main" plan={plan} />
           <div className="dark:text-stone-300">
             {isOpen ? <IoIosArrowUp /> : <IoIosArrowDown />}
           </div>

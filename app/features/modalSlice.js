@@ -13,6 +13,10 @@ const initialState = {
     isOpen: false,
     data: null,
   },
+  transactionsModal: {
+    isOpen: false,
+    data: null,
+  },
   isModalOpen: false,
   error: "",
   type: "error",
@@ -76,6 +80,11 @@ const modalSlice = createSlice({
     toggleModal: (state) => {
       state.isModalOpen = !state.isModalOpen;
     },
+    setTransactionsModal: (state, action) => {
+      const { isOpen, data } = action.payload;
+      state.transactionsModal.isOpen = isOpen;
+      state.transactionsModal.data = data || null;
+    },
   },
 });
 
@@ -88,6 +97,7 @@ export const {
   toggleTheme,
   toggleSideBar,
   toggleModal,
+  setTransactionsModal,
 } = modalSlice.actions;
 export const modalReducer = modalSlice.reducer;
 
@@ -99,3 +109,4 @@ export const selectEmailModal = (state) => state.modal.emailModal;
 export const selectGlobalModal = (state) => state.modal.globalModal;
 export const selectIsDarkMode = (state) => state.modal.isDarkMode;
 export const selectIsModalOpen = (state) => state.modal.isModalOpen;
+export const selectTransactionsModal = (state) => state.modal.transactionsModal;

@@ -7,6 +7,7 @@ import NewCampaignButton from "./filderActionButtons/NewCampaignButton";
 import AddExtraLeads from "../../dashboardSide/extraLeads/AddExtraLeads";
 import { useState, useEffect } from "react";
 import { filterConfig } from "app/helpers/filterHelpers";
+import LeadsNaming from "./LeadsNaming";
 
 const LeadFilter = ({
   leads = [],
@@ -28,7 +29,7 @@ const LeadFilter = ({
   }, [leads]);
 
   return (
-    <FlexBox type="column-center" className="gap-2">
+    <FlexBox type="column-center" className="gap-2 sticky top-17 bg-white py-2 z-20">
       <SubTitle>Filter leads as your need</SubTitle>
       <div className="grid grid-cols-[2fr_0.6fr] gap-2">
         <FilterBar
@@ -40,11 +41,12 @@ const LeadFilter = ({
         />
         <SearchBar leads={leads} onSearch={handleSearch} />
       </div>
-      <FlexBox type="row-start" className="gap-2">
+      <FlexBox type="row-start" className="gap-2 *:w-fit">
         <NewCampaignButton />
         <SelectAllButton currentPageLeads={currentPageLeads} />
         <AddExtraLeads type="success" />
       </FlexBox>
+      <LeadsNaming />
     </FlexBox>
   );
 };

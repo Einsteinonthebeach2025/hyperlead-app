@@ -26,7 +26,7 @@ const FooterSocialLinks = () => {
           return (
             <MotionChildren animation="zoom-out" key={index}>
               <Link href={item.link}>
-                <span className="text-neutral-500 text-2xl hover:text-black dark:text-stone-300 dark:hover:text-stone-100 duration-300">
+                <span className="text-neutral-500 text-2xl hover:text-black dark:text-neutral-100 dark:hover:text-neutral-300 duration-300">
                   {item.icon}
                 </span>
               </Link>

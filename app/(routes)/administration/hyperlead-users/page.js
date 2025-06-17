@@ -7,19 +7,39 @@ export const metadata = {
 };
 
 const HyperleadUsersPage = async () => {
+  // Get total count of users
+  const { count } = await supabase
+    .from("profiles")
+    .select("*", { count: "exact", head: true });
+
+  // Fetch first 20 users ordered by creation date
   const { data: users, error: usersError } = await supabase
     .from("profiles")
-    .select("*");
+    .select(
+      `
+      id, address, avatar_url, city, company, created_at, email, firstName, lastName,
+      leads_received_this_month, linkedin_url, phone, position, country, reported_bugs,
+      sex, subscription, subscription_timestamp, total_leads_received, twitter_url,
+      userBirthDate, userName, web_url, address,
+      transactions (
+        id, order_id, plan_name, amount, status, created_at
+      )
+    `
+    )
+    .order("created_at", { ascending: true }) // oldest first
+    .range(0, 19); // first 20 users
 
   if (usersError) {
-    <UserManagement
-      data={null}
-      message="Error fetching users"
-      desc="Refresh the page and try again"
-    />;
+    return (
+      <UserManagement
+        data={null}
+        message="Error fetching users"
+        desc="Refresh the page and try again"
+      />
+    );
   }
 
-  return <UserManagement data={users} />;
+  return <UserManagement data={users} totalCount={count} />;
 };
 
 export default HyperleadUsersPage;

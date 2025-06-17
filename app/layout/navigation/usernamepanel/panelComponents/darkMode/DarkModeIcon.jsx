@@ -11,7 +11,7 @@ const DarkModeIcon = () => {
     <button
       onClick={() => dispatch(toggleTheme())}
       className={`border p-2 cursor-pointer rounded-full border-stone-300 dark:border-stone-600 transition-all duration-300 ${isDarkMode
-        ? 'text-yellow-400 hover:text-yellow-300'
+        ? 'text-yellow-400 hover:text-yellow-600'
         : 'text-neutral-600 hover:text-neutral-900'
         }`}
     >

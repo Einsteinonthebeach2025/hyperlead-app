@@ -8,7 +8,7 @@ const Dot = ({ hasUnread }) => {
           <motion.div
             className="absolute w-full h-full rounded-full bg-amber-500"
             initial={{ scale: 1, opacity: 0 }}
-            animate={{ scale: [1, 1.7, 1], opacity: [0.6] }}
+            animate={{ scale: [1, 2, 1], opacity: [0.4] }}
             transition={{
               duration: 3,
               repeat: Infinity,

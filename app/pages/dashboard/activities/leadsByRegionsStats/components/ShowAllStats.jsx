@@ -26,7 +26,7 @@ const ShowAllStats = ({ data, isOpen, handleShowAll }) => {
                   <SpanContainer
                     color="blue"
                     key={item.country}
-                    className=" flex-col rounded-lg pointer-events-none"
+                    className=" flex-col rounded-lg pointer-events-none py-1"
                   >
                     <CountryFlags countryName={item.country} />
                     <span className="text-[10px]">{item.country}</span>

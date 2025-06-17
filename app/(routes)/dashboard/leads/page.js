@@ -31,18 +31,25 @@ const LeadsPage = async () => {
   if (profileError) {
     return <Leads data={null} message="Please subscribe to get leads" />;
   }
+
   // Check if user has any leads first
   const { data: allUserLeads, error: allUserLeadsError } = await supabase
     .from("user_leads")
     .select("lead_id, used, is_demo")
     .eq("user_id", effectiveUserId);
+
+  console.log("Current User Leads:", allUserLeads);
+  console.log("Current User Leads Error:", allUserLeadsError);
+
   if (allUserLeadsError) {
     return <Leads data={null} message="Error loading leads" />;
   }
+
   // If user has no leads at all
   if (!allUserLeads || allUserLeads.length === 0) {
     return <Leads data={null} message="No leads available" />;
   }
+
   // Check if user has any non-demo leads
   const hasNonDemoLeads = allUserLeads.some((lead) => !lead.is_demo);
   // If user has non-demo leads, check subscription
@@ -61,14 +68,34 @@ const LeadsPage = async () => {
       );
     }
   }
-  const allLeadIds = allUserLeads.map((ul) => ul.lead_id);
+
+  // Get history leads to exclude them from current leads
+  const { data: historyLeads } = await supabase
+    .from("user_leads_history")
+    .select("lead_id")
+    .eq("user_id", effectiveUserId);
+
+  console.log("History Leads:", historyLeads);
+
+  const historyLeadIds = historyLeads.map((ul) => ul.lead_id);
+
+  // Filter out leads that are in history
+  const currentLeadIds = allUserLeads.map((ul) => ul.lead_id);
+
+  console.log("Current Lead IDs:", currentLeadIds);
+
   const { data: allLeadsData, error: allLeadsError } = await supabase
     .from("leads")
     .select("*")
-    .in("id", allLeadIds);
+    .in("id", currentLeadIds);
+
+  console.log("All Leads Data:", allLeadsData);
+  console.log("All Leads Error:", allLeadsError);
+
   if (allLeadsError) {
     return <Leads data={null} message="Error loading leads" />;
   }
+
   // Merge used status with leads data
   const leadsWithUsedStatus = allLeadsData.map((lead) => {
     const userLead = allUserLeads.find((ul) => ul.lead_id === lead.id);
@@ -78,6 +105,7 @@ const LeadsPage = async () => {
       is_demo: userLead?.is_demo || false,
     };
   });
+
   const paginatedLeads = leadsWithUsedStatus.slice(0, leadsPerPage);
   const totalPages = Math.ceil(leadsWithUsedStatus.length / leadsPerPage);
 

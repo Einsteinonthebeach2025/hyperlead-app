@@ -10,7 +10,7 @@ const SideBarLinks = ({ links, children }) => {
   return (
 
     <div className="w-full md:w-[30%] lg:w-[20%] relative py-5">
-      <div className="sticky top-20 w-full px-5 flex flex-col justify-between h-screen">
+      <div className="sticky top-20 w-full px-5 flex flex-col justify-between lg:h-screen">
         <MotionContainer
           animation="fade-in"
           className="w-full grid grid-cols-1 gap-2"
@@ -22,7 +22,7 @@ const SideBarLinks = ({ links, children }) => {
                 <Link
                   href={link.href}
                   className={`w-full flex items-center justify-start gap-3 px-3 py-2 rounded-lg transition-all duration-300 capitalize relative ${isActive
-                    ? "bg-neutral-800 text-white dark:bg-indigo-900 dark:hover:bg-indigo-900/70"
+                    ? "bg-neutral-800 text-white dark:bg-blue-900 dark:hover:bg-indigo-900/70"
                     : "text-neutral-600 bg-neutral-200 hover:bg-neutral-500/20 dark:bg-blue-900/30 dark:hover:bg-blue-900/50 dark:text-stone-200"
                     }`}
                 >
@@ -33,7 +33,7 @@ const SideBarLinks = ({ links, children }) => {
             );
           })}
         </MotionContainer>
-        <div className="center py-2 mb-24"> {children}</div>
+        <div className="center py-2 lg:mb-24"> {children}</div>
       </div>
     </div>
 

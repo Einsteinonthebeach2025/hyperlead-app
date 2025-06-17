@@ -43,7 +43,7 @@ const FeedbackSlider = () => {
   }
 
   return (
-    <section className="py-5 overflow-hidden center relative w-full border">
+    <section className="py-5 overflow-hidden center relative w-full">
       <div className="flex items-center relative w-max">
         <FeedbackCard feedbacks={feedbacks} />
         <FeedbackCard feedbacks={feedbacks} />

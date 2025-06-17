@@ -26,7 +26,7 @@ const DonutAnimation = ({ data }) => {
             cx="50"
             cy="50"
             r={radius}
-            stroke={isDarkMode ? '#3414d9' : '#3b82f6'}
+            stroke={isDarkMode ? '#175fd4' : '#3b82f6'}
             strokeWidth={activity.width}
             fill="none"
             strokeDasharray={strokeDasharray}

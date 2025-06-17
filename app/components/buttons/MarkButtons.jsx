@@ -37,7 +37,7 @@ const MarkButton = ({ lead, onStatusChange }) => {
       </FlexBox>
       <HoverModal
         isOpen={isOpen}
-        className="right-10 top-1"
+        className="right-10 -top-4"
         text={active ? "Mark as unread" : "Mark as read"}
       />
     </>

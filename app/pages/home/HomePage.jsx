@@ -1,12 +1,16 @@
 "use client"
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { setToggle } from "app/features/modalSlice";
 import FeebackSlider from "./feedbackSection/FeebackSlider";
 import Hero from "./heroSection/Hero";
 import Faq from "./faqSection/Faq";
 import Pricing from "./pricingSection/Pricing";
-import { useEffect } from "react";
-import { useDispatch } from "react-redux";
-import { setToggle } from "app/features/modalSlice";
 import supabase from "app/lib/config/supabaseClient";
+import LogoSlider from "./logoSlider/LogoSlider";
+import QuickInfoSection from "./quickInfoSection/QuickInfoSection";
+import SectionFaq from "./faqSection/Faq";
+import SectionTwo from "./sectionTwo/SectionTwo";
 
 const HomePage = () => {
   const dispatch = useDispatch();
@@ -50,7 +54,10 @@ const HomePage = () => {
     <main className="center flex-col space-y-20">
       <Hero />
       <FeebackSlider />
+      <SectionTwo />
+      <QuickInfoSection />
       <Pricing />
+      <LogoSlider />
       <Faq />
     </main>
   );
