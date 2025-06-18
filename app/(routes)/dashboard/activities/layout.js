@@ -5,6 +5,7 @@ const AnalyticsLayout = ({
   leadsRegionStatistics,
   employeeStatistics,
   industryStatistics,
+  randomTopLead,
   children,
 }) => {
   return (
@@ -18,7 +19,10 @@ const AnalyticsLayout = ({
       </div>
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 pb-4">
         {leadsRegionStatistics}
-        <div>{industryStatistics}</div>
+        <div className="space-y-4 flex flex-col">
+          {industryStatistics}
+          {randomTopLead}
+        </div>
       </div>
     </div>
   );

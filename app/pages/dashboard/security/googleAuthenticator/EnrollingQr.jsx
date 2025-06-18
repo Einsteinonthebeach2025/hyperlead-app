@@ -3,6 +3,7 @@ import Reset2Fa from './Reset2Fa';
 import MotionContainer from 'app/components/containers/MotionContainer';
 import supabase from 'app/lib/config/supabaseClient';
 import QrCode from './QrCode';
+import Paragraph from 'app/components/Paragraph';
 
 const EnrollingQr = ({ enrolling, qrCode, code, setCode, loading, setFactor, setQrCode, setEnrolling, setLoading, factor }) => {
 
@@ -61,7 +62,7 @@ const EnrollingQr = ({ enrolling, qrCode, code, setCode, loading, setFactor, set
     <>
       {enrolling && (
         <MotionContainer animation="fade-in" className="fixed z-20 border backdrop-blur-md  center w-full top-0 left-0 h-screen flex-col">
-          <p className="text-white">Scan this QR code in your Authenticator app</p>
+          <Paragraph >Scan this QR code in your Authenticator app</Paragraph>
           <QrCode qrCode={qrCode} factor={factor} />
           <form onSubmit={verifyEnrollment} className="space-y-2 mb-2 center flex-col">
             <input

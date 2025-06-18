@@ -2,7 +2,6 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { truncateString } from "app/helpers/utils";
 import FlexBox from "app/components/containers/FlexBox";
-import SubTitle from "app/components/SubTitle";
 import LeadLocation from "./leadsCardComponents/LeadLocation";
 import LeadIndustry from "./leadsCardComponents/LeadIndustry";
 import Link from "next/link";
@@ -11,6 +10,7 @@ import CardContainer from "app/components/containers/CardContainer";
 import LeadPersonsName from "./leadsCardComponents/LeadPersonsName";
 import SendEmailButton from "app/components/buttons/SendEmailButton";
 import LeadActionButtons from "./leadsCardComponents/LeadActionButtons";
+import CopyEmail from "./leadsCardComponents/CopyEmail";
 
 const LeadCard = ({ leads, onLeadStatusChange, onLeadLikeChange, type, onLeadClick }) => {
 
@@ -50,16 +50,17 @@ const LeadCard = ({ leads, onLeadStatusChange, onLeadLikeChange, type, onLeadCli
                   }`}>
                   <LeadPersonsName lead={lead} />
                   <FlexBox type="row-start" className="items-center">
-                    <SubTitle>{lead?.seniority}</SubTitle>
+                    <h1 className="text-xs font-medium dark:text-white">{lead?.seniority}</h1>
                   </FlexBox>
                   <FlexBox type="row-start" className="items-center">
-                    <SubTitle>
+                    <h1 className="text-xs font-bold dark:text-white">
                       {truncateString(lead?.company_title, 60)}
-                    </SubTitle>
+                    </h1>
                   </FlexBox>
                   <LeadLocation lead={lead} />
                   <LeadIndustry lead={lead} />
                   <FlexBox type="row" className="items-center gap-2" >
+                    <CopyEmail lead={lead} />
                     <SendEmailButton lead={lead} />
                     <LeadActionButtons lead={lead} type={type} onLeadStatusChange={onLeadStatusChange} onLeadLikeChange={onLeadLikeChange} />
                   </FlexBox>

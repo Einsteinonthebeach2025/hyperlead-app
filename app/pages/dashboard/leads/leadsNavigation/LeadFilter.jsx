@@ -30,12 +30,12 @@ const LeadFilter = ({
   }, [leads]);
 
   return (
-    <FlexBox type="column-center" className="gap-2 sticky top-17 bg-white py-2 z-20">
+    <FlexBox type="column-center" className="gap-2 sticky top-17 bg-white dark:bg-[#151e27] pb-2 z-20">
       <FlexBox type="column-center">
         <SubTitle>Filter Leads Based on Your Criteria</SubTitle>
         <SpanText> Use the filters below to narrow down your ideal prospects by country, company size, industry, city, or seniority level.</SpanText>
       </FlexBox>
-      <div className="grid grid-cols-[2fr_0.6fr] gap-2">
+      <div className="flex place-content-between gap-2">
         <FilterBar
           data={filteredLeads}
           currentFilters={currentFilters}

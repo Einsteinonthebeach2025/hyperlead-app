@@ -53,7 +53,7 @@
     @apply bg-gradient-to-br from-neutral-900 from-10% to-neutral-800;
   }
   .ai-style {
-    @apply text-transparent bg-clip-text bg-gradient-to-r font-medium from-violet-500 to-amber-500 dark:from-green-400 text-sm;
+    @apply text-transparent bg-clip-text bg-gradient-to-r from-violet-400 to-teal-500 text-sm;
   }
 }
 
@@ -91,10 +91,10 @@ html {
     transform: scale(1.1);
     border-radius: inherit;
     z-index: -1;
-    background: linear-gradient(270deg, #7c3aed, #fbbf24, #7c3aed);
+    background: linear-gradient(270deg, #7c3aed, #10c7b8, #7c3aed);
     background-size: 400% 400%;
     animation: gradient-glow 6s ease infinite;
-    opacity: 0.5;
+    opacity: 0.9;
     filter: blur(7px); /* Creates the soft shadow effect */
     pointer-events: none;
   }

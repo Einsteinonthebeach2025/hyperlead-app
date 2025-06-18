@@ -9,7 +9,6 @@ import Pricing from "./pricingSection/Pricing";
 import supabase from "app/lib/config/supabaseClient";
 import LogoSlider from "./logoSlider/LogoSlider";
 import QuickInfoSection from "./quickInfoSection/QuickInfoSection";
-import SectionFaq from "./faqSection/Faq";
 import SectionTwo from "./sectionTwo/SectionTwo";
 
 const HomePage = () => {
@@ -53,10 +52,10 @@ const HomePage = () => {
   return (
     <main className="center flex-col space-y-20">
       <Hero />
-      <FeebackSlider />
       <SectionTwo />
-      <QuickInfoSection />
       <Pricing />
+      <FeebackSlider />
+      <QuickInfoSection />
       <LogoSlider />
       <Faq />
     </main>

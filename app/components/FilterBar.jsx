@@ -1,5 +1,7 @@
 import Button from "app/components/buttons/Button";
 import { FaRotateLeft } from "react-icons/fa6";
+import { IoIosArrowDown } from "react-icons/io";
+
 
 const FilterBar = ({
   data,
@@ -24,6 +26,7 @@ const FilterBar = ({
               name={filter.id}
               value={value}
               onChange={(e) => handleFilterChange(filter.type, e.target.value)}
+              className="appearance-none pr-8"
             >
               <option value="all">{filter.label === "Users" ? "All Users" : filter.label}</option>
               {options?.map((option) => (
@@ -35,6 +38,9 @@ const FilterBar = ({
                 </option>
               ))}
             </select>
+            <div className="absolute right-2 top-1/2 transform -translate-y-1/2 pointer-events-none">
+              <IoIosArrowDown size={16} className="text-gray-500" />
+            </div>
           </div>
         );
       })}

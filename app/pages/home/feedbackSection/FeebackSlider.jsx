@@ -34,12 +34,7 @@ const FeedbackSlider = () => {
   }
 
   if (!feedbacks || feedbacks.length === 0) {
-    return (
-      <SectionHeadline
-        title="No feedbacks found"
-        desc="users feedbacks are not reported yet"
-      />
-    );
+    return
   }
 
   return (

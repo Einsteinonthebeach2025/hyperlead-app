@@ -1,5 +1,5 @@
 import MotionContainer from "app/components/containers/MotionContainer";
-import Headline from "app/components/Headline";
+import Title from "app/components/Title";
 
 export const metadata = {
   title: "Hyperlead | My Analytics",
@@ -8,8 +8,8 @@ export const metadata = {
 
 const ActivitiesPage = () => {
   return (
-    <MotionContainer animation="fade-in" className="mb-2">
-      <Headline className="w-fit">Activities</Headline>
+    <MotionContainer animation="fade-in">
+      <Title className="w-fit">Activities</Title>
     </MotionContainer>
   );
 };

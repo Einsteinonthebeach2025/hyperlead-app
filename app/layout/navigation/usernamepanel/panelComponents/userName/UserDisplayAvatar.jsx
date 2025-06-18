@@ -3,9 +3,6 @@ import { FaUserCircle } from "react-icons/fa";
 
 const UserDisplayAvatar = ({ url, className, type, plan }) => {
 
-  console.log(plan);
-
-
   const getGradient = (plan) => {
     switch (plan) {
       case "PRO":
