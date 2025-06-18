@@ -8,6 +8,7 @@ import AddExtraLeads from "../../dashboardSide/extraLeads/AddExtraLeads";
 import { useState, useEffect } from "react";
 import { filterConfig } from "app/helpers/filterHelpers";
 import LeadsNaming from "./LeadsNaming";
+import SpanText from "app/components/SpanText";
 
 const LeadFilter = ({
   leads = [],
@@ -30,7 +31,10 @@ const LeadFilter = ({
 
   return (
     <FlexBox type="column-center" className="gap-2 sticky top-17 bg-white py-2 z-20">
-      <SubTitle>Filter leads as your need</SubTitle>
+      <FlexBox type="column-center">
+        <SubTitle>Filter Leads Based on Your Criteria</SubTitle>
+        <SpanText> Use the filters below to narrow down your ideal prospects by country, company size, industry, city, or seniority level.</SpanText>
+      </FlexBox>
       <div className="grid grid-cols-[2fr_0.6fr] gap-2">
         <FilterBar
           data={filteredLeads}

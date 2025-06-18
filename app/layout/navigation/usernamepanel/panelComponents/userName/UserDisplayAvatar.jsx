@@ -3,11 +3,14 @@ import { FaUserCircle } from "react-icons/fa";
 
 const UserDisplayAvatar = ({ url, className, type, plan }) => {
 
+  console.log(plan);
+
+
   const getGradient = (plan) => {
     switch (plan) {
       case "PRO":
         return "bg-gradient-to-r from-cyan-200 to-sky-600 text-sky-500 dark:from-red-800 dark:to-amber-600 dark:text-amber-500";
-      case "Starter":
+      case "Plus":
         return "bg-gradient-to-r from-violet-400 to-blue-600 text-violet-500";
       case "Hyper":
         return "bg-gradient-to-r from-teal-300 to-teal-500 text-teal-500";
@@ -17,9 +20,9 @@ const UserDisplayAvatar = ({ url, className, type, plan }) => {
   const gradient = getGradient(plan);
 
   return (
-    <>
+    <div className={`${gradient} rounded-full p-[2px] relative`}>
       {url ? (
-        <div className={`relative rounded-full p-[2px] ${gradient}`}>
+        <div className="rounded-full">
           <div className={`rounded-full overflow-hidden bg-white dark:bg-neutral-900 mr-[0.5px] mb-[0.5px] ${className}`}>
             <Image
               className="w-full h-full object-cover"
@@ -31,14 +34,15 @@ const UserDisplayAvatar = ({ url, className, type, plan }) => {
               priority
             />
           </div>
-          <PlanBadge plan={plan} type={type} gradient={gradient} />
         </div>
       ) : (
         <div>
-          <FaUserCircle size={30} className="text-gray-400" />
+          <FaUserCircle className="text-gray-400 w-10 h-10" />
         </div>
       )}
-    </>
+      <PlanBadge plan={plan} type={type} gradient={gradient} />
+
+    </div>
   );
 };
 

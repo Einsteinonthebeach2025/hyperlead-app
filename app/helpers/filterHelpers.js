@@ -3,7 +3,7 @@ export const filterConfig = [
   {
     id: "country",
     type: "country",
-    label: "Countries",
+    label: "Country",
     getOptions: (leads) => [
       ...new Set(leads.map((lead) => lead.country).filter(Boolean)),
     ],
@@ -11,7 +11,7 @@ export const filterConfig = [
   {
     id: "employees",
     type: "employees",
-    label: "Employees",
+    label: "Employee",
     getOptions: () => [
       { label: "0-50", value: "0-50" },
       { label: "50-100", value: "50-100" },
@@ -24,7 +24,7 @@ export const filterConfig = [
   {
     id: "industry",
     type: "industry",
-    label: "Industries",
+    label: "Industry",
     getOptions: (leads) => [
       ...new Set(leads.flatMap((lead) => lead.industry || []).filter(Boolean)),
     ],
@@ -32,7 +32,7 @@ export const filterConfig = [
   {
     id: "city",
     type: "city",
-    label: "Cities",
+    label: "City",
     getOptions: (leads) => [
       ...new Set(
         leads
@@ -47,7 +47,7 @@ export const filterConfig = [
   {
     id: "seniority",
     type: "seniority",
-    label: "Seniority Levels",
+    label: "position",
     getOptions: (leads) => [
       ...new Set(leads.map((lead) => lead.seniority).filter(Boolean)),
     ],
@@ -55,7 +55,7 @@ export const filterConfig = [
   {
     id: "used",
     type: "used",
-    label: "All Leads",
+    label: "Lead Status",
     getOptions: () => [
       { label: "Used", value: "true" },
       { label: "Unused", value: "false" },
@@ -158,7 +158,7 @@ export const userFilterConfig = [
       { label: "Active Users", value: "active" },
       { label: "Inactive Users", value: "inactive" },
       { label: "PRO plan", value: "pro" },
-      { label: "STARTER plan", value: "starter" },
+      { label: "Plus plan", value: "plus" },
     ],
   },
 ];

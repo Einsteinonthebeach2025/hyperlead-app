@@ -8,32 +8,32 @@ const sectionTwoData = [
   {
     id: 0,
     image: image4,
-    title: "Prompt Library",
-    desc: "Enjoy exclusive prompts categorized by marketing, social media, HR, sales, and much more.",
+    title: "Time Saving",
+    desc: "Automate prospecting, outreach, and follow-ups—no spreadsheets, no manual work. Everything happens inside your dashboard",
   },
   {
     id: 1,
     image: image2,
-    title: "Web Search",
-    desc: "Unleash the potential of cutting-edge AI through a seamless internet experience.",
+    title: "Lead Discovery",
+    desc: "Tap into millions of verified B2B contacts. Filter by industry, role, company size, and more to find your ideal clients fast.",
   },
   {
     id: 2,
     image: image3,
-    title: "Multiple Models",
-    desc: "Switch between models in the same chat: Text, images, web search.",
+    title: "Smart Campaigns",
+    desc: "Launch personalized campaigns. Track opens, replies, and conversions—all without switching tools.",
   },
   {
     id: 3,
     image: image1,
-    title: "Time Saving",
-    desc: "Search for discussions, create folders, add tags, export data, and much more.",
+    title: "Multiple Workflows",
+    desc: "Easily switch between lead lists, campaigns, and email templates. Everything is customizable and built to scale.",
   },
   {
     id: 4,
     image: image5,
-    title: "Chat Synchronization",
-    desc: "Sync and back up your chat data across multiple devices.",
+    title: "AI-Powered Writing",
+    desc: "Use built-in AI to generate cold emails, subject lines, and follow-ups tailored to your audience",
   },
 ];
 

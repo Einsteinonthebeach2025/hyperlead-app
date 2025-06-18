@@ -1,24 +1,24 @@
 import { HiOutlineBolt } from "react-icons/hi2";
-import { IoRocketOutline, IoDocumentOutline } from "react-icons/io5";
+import { IoRocketOutline, IoStatsChart } from "react-icons/io5";
 
 const quickInfoData = [
   {
     id: 1,
     icon: <HiOutlineBolt />,
     title: "Get instant answers",
-    desc: "Say goodbye to endless searching and waiting for replies with our tool.",
+    desc: "Stop wasting time searching. Hyperlead delivers high-quality, ready-to-use leads tailored to your business—instantly.",
   },
   {
     id: 2,
     icon: <IoRocketOutline />,
-    title: "Find creative inspiration",
-    desc: "Our tool empowers you to break through creatives and discover fresh ideas.",
+    title: "Unlock AI-powered growth",
+    desc: "Our platform helps you scale fast with AI-driven outreach, automated campaigns, and smart targeting—zero manual work.",
   },
   {
     id: 3,
-    icon: <IoDocumentOutline />,
-    title: "Chat with any type of document",
-    desc: "Simply upload your document, ask questions, seek clarification, or discuss ideas.",
+    icon: <IoStatsChart />,
+    title: "Run smarter campaigns",
+    desc: "SLaunch personalized email campaigns, track replies, and manage all outreach in one place—directly from your dashboard.",
   },
 ];
 

@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import Button from "app/components/buttons/Button";
@@ -13,10 +12,12 @@ import { updateProfile } from "app/lib/actions/profileActions";
 import { IoIosArrowForward } from "react-icons/io";
 import GradientContainer from "app/components/containers/GradientContainer";
 import FlexBox from "./containers/FlexBox";
+import SpanText from "./SpanText";
 
 const SelectionForm = ({
   data,
   title,
+  subText,
   className,
   description,
   initialSelections = [],
@@ -110,6 +111,7 @@ const SelectionForm = ({
             );
           })}
         </div>
+        {subText && <SpanText className="text-center">{subText}</SpanText>}
       </div>
       <MotionChildren animation="fade-in">
         <FlexBox className="gap-3 relative z-[2]">

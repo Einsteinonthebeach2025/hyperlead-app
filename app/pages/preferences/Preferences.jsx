@@ -43,8 +43,9 @@ const Preferences = ({ initialPreferences = [] }) => {
   return (
     <SelectionForm
       updateField="preferences"
-      title="Select Your Preferences"
-      description="Choose any preferences that best match your industry focus"
+      title="Choose Your Industry Focus"
+      description=" Select the industries you want leads from. We’ll tailor your recommendations to match your business goals.
+You can update preferences anytime."
       className="h-screen"
       minSelections={1}
       data={preferencesData}

@@ -28,7 +28,7 @@ const ToggleSwitch = ({ checked, onChange, disabled = false, small = false }) =>
         }} />
         <span style={{
             position: "absolute",
-            top: small ? 3 : 3,
+            top: small ? 2 : 3,
             left: checked ? (small ? 16 : 26) : 3,
             width: small ? 15 : 22,
             height: small ? 15 : 22,

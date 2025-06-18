@@ -53,7 +53,6 @@ export const processSubscription = async (
       true
     );
     if (!success) throw new Error(leadError || "Failed to assign leads");
-
     // Update profile
     const currentMonthLeads = userProfile.leads_received_this_month || 0;
     const updates = {
@@ -65,13 +64,10 @@ export const processSubscription = async (
       last_notification_timestamp: null,
       last_leads_finished_notification: null,
     };
-
     const { error: updateError } = await updateProfile(userId, updates);
     if (updateError) throw updateError;
-
     // Send notification
     await notifyUserOnSubscription(leads);
-
     return { success: true };
   } catch (error) {
     console.error("Error processing subscription:", error);

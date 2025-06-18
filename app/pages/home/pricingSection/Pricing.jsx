@@ -4,10 +4,10 @@ import SectionHeadline from "app/components/SectionHeadline";
 
 const SectionPricing = () => {
   return (
-    <section className="w-full center flex-col">
+    <section id="pricing" className="w-full center flex-col">
       <SectionHeadline
-        title="Simple pricing plans"
-        desc="Enjoy the power of the best AI modelson a single platform"
+        title="Simple Pricing. Powerful Results."
+        desc="Get verified B2B leads, AI outreach tools, and campaign automation—all in one simple plan."
       />
       <h1>Annual pricing here</h1>
 

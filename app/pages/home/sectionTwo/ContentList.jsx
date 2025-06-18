@@ -67,7 +67,7 @@ const ContentList = () => {
                   quality={85}
                 />
               </div>
-              <article className="space-y-1">
+              <article className="space-y-1 h-24">
                 <Title>{item.title}</Title>
                 <Paragraph>{item.desc}</Paragraph>
               </article>

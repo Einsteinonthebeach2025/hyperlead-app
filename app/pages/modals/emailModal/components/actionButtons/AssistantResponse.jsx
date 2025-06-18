@@ -90,7 +90,7 @@ const Buttons = ({ handleClick, addToEmail, clearStates, refineEmail, shortenEma
           handleClick();
         }}
       >
-        <span>Compose myself</span>
+        <span>Write My Own</span>
       </Button>
     </FlexBox>
   )

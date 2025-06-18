@@ -45,7 +45,7 @@ const ExtraLeadOptions = () => {
           <div className='bg-stone-100 dark:bg-[#1d2939] primary-outline p-6 rounded-lg shadow-lg w-96 center flex-col'>
             <Title>Need more?</Title>
             <p className="text-center text-sm text-muted-foreground mb-4">
-              If you've reached your current lead limit, instantly purchase 100 additional leads tailored to your preferences for just <span className="font-semibold text-primary">$29</span>. No subscription required.
+              Purchase 100 additional leads tailored to your preferences for just <span className="font-semibold text-primary">$29</span>. No subscription required.
             </p>
 
             <Button

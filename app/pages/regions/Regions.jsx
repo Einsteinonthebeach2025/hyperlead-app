@@ -68,8 +68,8 @@ const Regions = ({ initialRegions = [] }) => {
   return (
     <SelectionForm
       className="h-screen"
-      title="Define Your Target Regions"
-      description="By selecting one or more regions, your lead recommendations will be filtered accordingly. If no regions are selected, you'll automatically receive unfiltered leads from all available areas nationwide."
+      title="Choose Your Ideal Lead Regions"
+      description="Tell us where you want your leads from. We'll filter results based on your selections—so you only get what's relevant to your business."
       data={regionsData}
       initialSelections={initialRegions}
       updateField="region"
@@ -77,6 +77,7 @@ const Regions = ({ initialRegions = [] }) => {
       additionalComponents={<WorldMap sortedData={[]} />}
       onSuccess={handleSuccess}
       onSkip={handleSkip}
+      subText="If you don't pick any regions, we'll send you high-quality leads from across the globe."
     />
   );
 };

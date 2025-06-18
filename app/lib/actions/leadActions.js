@@ -82,7 +82,7 @@ export const assignLeadsToUser = async (
       ];
     }
     if (isNewSubscription) {
-      // Get all current leads
+      // 1. Get all current leads
       const { data: currentUserLeads, error: currentLeadsError } =
         await supabase
           .from("user_leads")
@@ -90,7 +90,7 @@ export const assignLeadsToUser = async (
           .eq("user_id", userId);
 
       if (currentUserLeads && currentUserLeads.length > 0) {
-        // Prepare history entries for any not already in history
+        // 2. Prepare history entries for any not already in history
         const { data: alreadyInHistory } = await supabase
           .from("user_leads_history")
           .select("lead_id")
@@ -110,10 +110,17 @@ export const assignLeadsToUser = async (
           }));
 
         if (historyEntries.length > 0) {
-          await supabase.from("user_leads_history").insert(historyEntries);
+          const { error: insertHistoryError } = await supabase
+            .from("user_leads_history")
+            .insert(historyEntries);
+          if (insertHistoryError) {
+            throw new Error(
+              `Failed to insert into user_leads_history: ${insertHistoryError.message}`
+            );
+          }
         }
 
-        // Delete all current leads
+        // 3. Delete all current leads
         await supabase.from("user_leads").delete().eq("user_id", userId);
       }
     }
@@ -179,6 +186,30 @@ export const assignLeadsToUser = async (
         "No available leads to assign. Please update your preferences or contact support."
       );
     }
+    // 4. Update total_leads_received (increment, not overwrite)
+    const { data: profile, error: profileFetchError } = await supabase
+      .from("profiles")
+      .select("total_leads_received")
+      .eq("id", userId)
+      .single();
+    if (profileFetchError) {
+      throw new Error(
+        `Failed to fetch user profile: ${profileFetchError.message}`
+      );
+    }
+    const currentTotal = profile.total_leads_received || 0;
+    const updatedTotal = currentTotal + allAvailableLeads.length;
+    const { error: updateError } = await supabase
+      .from("profiles")
+      .update({ total_leads_received: updatedTotal })
+      .eq("id", userId);
+
+    if (updateError) {
+      throw new Error(
+        `Failed to update total leads received: ${updateError.message}`
+      );
+    }
+
     return {
       success: true,
       assignedLeadsCount: allAvailableLeads.length,

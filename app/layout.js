@@ -9,9 +9,10 @@ import SendNotificationModal from "./pages/modals/notificationModal/SendNotifica
 import GlobalModal from "./components/modals/GlobalModal";
 import ThemeProvider from "./lib/store/ThemeProvider";
 import ExtraLeadOptions from "./pages/dashboard/dashboardSide/extraLeads/ExtraLeadOptions";
-import { StoreProvider } from "./lib/store/StoreProvider";
 import PayPalProviderWrapper from "./lib/store/PaypalProviderWrapper";
 import TransactionsData from "./pages/adminPanel/userManagement/list/components/userTransactions/TransactionsData";
+import PayPalPaymentModal from "./components/modals/paypalModal/PayPalPaymentModal";
+import { StoreProvider } from "./lib/store/StoreProvider";
 import { Inter_Tight } from "next/font/google";
 
 const interTight = Inter_Tight({
@@ -43,6 +44,7 @@ export default function RootLayout({ children }) {
                   <SendNotificationModal />
                   <TransactionsData />
                   <ExtraLeadOptions />
+                  <PayPalPaymentModal />
                   <Footer />
                 </main>
               </PayPalProviderWrapper>

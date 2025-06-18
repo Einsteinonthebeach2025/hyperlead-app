@@ -26,8 +26,7 @@ const Button = ({
       case "success":
         return "text-green-500 bg-green-100 border border-green-500 hover:bg-green-200 dark:bg-green-900 dark:text-green-200 dark:hover:bg-green-800 px-2";
       case "compose":
-        return "bg-neutral-900 dark:bg-[#344c63] hover:shadow-[0_0_10px_2px] hover:shadow-violet-500/60 hover:dark:shadow-amber-500/50 px-2 py-1 font-medium transition duration-200"
-          ;
+        return "bg-neutral-900 dark:bg-[#344c63] hover:shadow-[0_0_10px_2px] hover:shadow-violet-500/60 hover:dark:shadow-amber-500/50 px-2 py-1 font-medium transition duration-200";
       default:
         return "black-style py-1 px-4 lg:py-2 md:text-sm md:text-sm";
     }

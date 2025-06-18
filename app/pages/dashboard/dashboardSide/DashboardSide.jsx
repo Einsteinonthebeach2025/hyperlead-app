@@ -15,27 +15,27 @@ const links = [
   },
   {
     href: "/dashboard/leads",
-    label: "My Leads",
+    label: "Lead Dashboard",
     icon: <MdLeaderboard />,
   },
   {
     href: "/dashboard/history-leads",
-    label: "Old Leads",
+    label: "Archived Leads",
     icon: <MdHistory />,
   },
   {
     href: "/dashboard/favorite-leads",
-    label: "Favorite Leads",
+    label: "Saved Leads",
     icon: <FaStar />,
   },
   {
     href: "/dashboard/emails",
-    label: "Emails",
+    label: "Inbox",
     icon: <MdEmail />,
   },
   {
     href: "/dashboard/email-sequence",
-    label: "Email Sequences",
+    label: "Campaigns",
     icon: <MdOutlineAttachEmail />,
   },
   {
@@ -45,7 +45,7 @@ const links = [
   },
   {
     href: "/dashboard/security",
-    label: "Account security",
+    label: "Security",
     icon: <MdOutlineSecurity />,
   },
 ];
@@ -54,7 +54,7 @@ const DashboardSide = () => {
   return (
     <SideBarLinks links={links}>
       <div className="flex flex-col items-start space-y-2 justify-between w-full">
-        {/* <SimulateExpire /> */}
+        <SimulateExpire />
         <ToggleDashboardData />
         <AddExtraLeads />
         <Button type="success" href="/add-assistant">

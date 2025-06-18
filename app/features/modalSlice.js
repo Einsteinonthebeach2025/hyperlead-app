@@ -17,6 +17,10 @@ const initialState = {
     isOpen: false,
     data: null,
   },
+  paypalPaymentModal: {
+    isOpen: false,
+    selectedPlan: null,
+  },
   isModalOpen: false,
   error: "",
   type: "error",
@@ -42,6 +46,9 @@ const modalSlice = createSlice({
       } else if (modalType === "global") {
         state.globalModal.isOpen = isOpen;
         state.globalModal.data = data || null;
+      } else if (modalType === "paypalPayment") {
+        state.paypalPaymentModal.isOpen = isOpen;
+        state.paypalPaymentModal.selectedPlan = data || null;
       }
     },
     setError: (state, action) => {
@@ -99,7 +106,9 @@ export const {
   toggleModal,
   setTransactionsModal,
 } = modalSlice.actions;
+
 export const modalReducer = modalSlice.reducer;
+export default modalSlice.reducer;
 
 export const selectError = (state) => state.modal.error;
 export const selectSideBar = (state) => state.modal.sideBar;
@@ -110,3 +119,5 @@ export const selectGlobalModal = (state) => state.modal.globalModal;
 export const selectIsDarkMode = (state) => state.modal.isDarkMode;
 export const selectIsModalOpen = (state) => state.modal.isModalOpen;
 export const selectTransactionsModal = (state) => state.modal.transactionsModal;
+export const selectPayPalPaymentModal = (state) =>
+  state.modal.paypalPaymentModal;

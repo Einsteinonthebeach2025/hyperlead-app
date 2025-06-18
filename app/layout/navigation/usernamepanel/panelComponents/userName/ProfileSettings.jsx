@@ -36,8 +36,8 @@ const ProfileSettings = ({ isOpen, handleActive }) => {
     e.preventDefault();
     if (item.name === "Add Assistant") {
       const subscription = user?.profile?.subscription;
-      if (!subscription || subscription === "starter") {
-        dispatch(setError({ message: "Subscribe to PRO or Enterprise plan for this feature." }));
+      if (!subscription || subscription === "plus") {
+        dispatch(setError({ message: "Subscribe to PRO or Hyper plan for this feature." }));
         return;
       }
     }
@@ -59,26 +59,27 @@ const ProfileSettings = ({ isOpen, handleActive }) => {
       type: "link",
     },
     {
-      name: "Regions",
-      href: "/regions",
-      icon: <MdBusinessCenter />,
-      type: "link",
-    },
-    {
       name: "Dashboard",
       icon: <MdDashboard />,
       href: "/dashboard/activities",
       type: "link",
     },
     {
-      name: "Preferences",
+      name: "Lead Regions",
+      href: "/regions",
+      icon: <MdBusinessCenter />,
+      type: "link",
+    },
+
+    {
+      name: "Intustry Preferences",
       href: "/preferences",
       icon: <MdBusinessCenter />,
       type: "link",
     },
 
     {
-      name: "Add Assistant",
+      name: "Add Teammate",
       href: "/add-assistant",
       icon: <MdAssistant />,
       type: "link",
@@ -97,7 +98,7 @@ const ProfileSettings = ({ isOpen, handleActive }) => {
         <MotionContainer animation="bottom">
           <CardContainer
             onMouseLeave={handleActive}
-            className="absolute z-10 top-14 right-0 w-44 space-y-1 border shadow-md dark:shadow-stone-700 *:flex *:justify-end"
+            className="absolute z-10 top-14 right-0 w-52 space-y-1 border shadow-md dark:shadow-stone-700 *:flex *:justify-end"
           >
             {links.map((item, index) => (
               <div key={index}>
@@ -105,7 +106,7 @@ const ProfileSettings = ({ isOpen, handleActive }) => {
                   onClick={(e) => handleLinkClick(e, item)}
                   type={item.type}
                   href={
-                    item.name === "Add Assistant" && (!user?.profile?.subscription || user?.profile?.subscription === "starter")
+                    item.name === "Add Assistant" && (!user?.profile?.subscription || user?.profile?.subscription === "plus")
                       ? undefined
                       : item.href
                   }

@@ -9,8 +9,8 @@ import MotionContainer from "app/components/containers/MotionContainer";
 const navLinks = [
   {
     id: 0,
-    name: "features",
-    link: "/",
+    name: "Pricing",
+    link: "#pricing",
   },
   {
     id: 1,

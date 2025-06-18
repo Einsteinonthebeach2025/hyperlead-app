@@ -59,7 +59,7 @@ const LeadCard = ({ leads, onLeadStatusChange, onLeadLikeChange, type, onLeadCli
                   </FlexBox>
                   <LeadLocation lead={lead} />
                   <LeadIndustry lead={lead} />
-                  <FlexBox type="row" className="items-center gap-1" >
+                  <FlexBox type="row" className="items-center gap-2" >
                     <SendEmailButton lead={lead} />
                     <LeadActionButtons lead={lead} type={type} onLeadStatusChange={onLeadStatusChange} onLeadLikeChange={onLeadLikeChange} />
                   </FlexBox>
