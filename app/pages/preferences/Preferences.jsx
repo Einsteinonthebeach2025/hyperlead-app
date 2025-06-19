@@ -31,15 +31,14 @@ const Preferences = ({ initialPreferences = [] }) => {
           type: "success",
         })
       );
+      if (!regionLength) {
+        router.push("/regions");
+      } else {
+        router.push("/");
+      }
     }
 
-    if (!regionLength) {
-      router.push("/regions");
-    } else {
-      router.push("/");
-    }
   };
-
   return (
     <SelectionForm
       updateField="preferences"
@@ -54,5 +53,6 @@ You can update preferences anytime."
     />
   );
 };
+
 
 export default Preferences;

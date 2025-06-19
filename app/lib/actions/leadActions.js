@@ -104,7 +104,7 @@ export const assignLeadsToUser = async (
           .map((l) => ({
             user_id: l.user_id,
             lead_id: l.lead_id,
-            user_email: l.user_email,
+            user_email: userEmail,
             received_at: l.received_at,
             is_demo: l.is_demo,
           }));
@@ -119,7 +119,6 @@ export const assignLeadsToUser = async (
             );
           }
         }
-
         // 3. Delete all current leads
         await supabase.from("user_leads").delete().eq("user_id", userId);
       }
@@ -145,7 +144,18 @@ export const assignLeadsToUser = async (
     ];
     // 4. Fetch available leads for preferences
     let allAvailableLeads = [];
-    for (const industry of preferences) {
+    // Calculate how many leads per preference
+    const numPrefs = preferences.length;
+    const baseLeadsPerPref = Math.floor(leadCount / numPrefs);
+    let remainder = leadCount % numPrefs;
+    // Shuffle preferences for fairness
+    const shuffledPrefs = [...preferences].sort(() => Math.random() - 0.5);
+    const leadsPerPref = shuffledPrefs.map((pref, idx) =>
+      idx < remainder ? baseLeadsPerPref + 1 : baseLeadsPerPref
+    );
+    for (let i = 0; i < shuffledPrefs.length; i++) {
+      const industry = shuffledPrefs[i];
+      const limit = leadsPerPref[i];
       let query = supabase
         .from("leads")
         .select("id, industry, country")
@@ -153,8 +163,13 @@ export const assignLeadsToUser = async (
       if (allExcludedLeadIds.length > 0) {
         query = query.not("id", "in", `(${allExcludedLeadIds.join(",")})`);
       }
-      query = query.limit(leadCount);
+      query = query.limit(limit);
       const { data: industryLeads, error: leadsError } = await query;
+      if (leadsError) {
+        throw new Error(
+          `Failed to fetch leads for ${industry}: ${leadsError.message}`
+        );
+      }
       if (industryLeads) {
         allAvailableLeads = [...allAvailableLeads, ...industryLeads];
       }
@@ -332,7 +347,9 @@ export const assignDemoLeads = async (userId, userEmail, preferences) => {
     const historyEntries = uniqueDemoLeads.map((lead) => ({
       user_id: userId,
       lead_id: lead.id,
+      user_email: userEmail,
       received_at: new Date().toISOString(),
+      is_demo: true,
     }));
     // Insert all leads at once
     const { error: insertError } = await supabase
@@ -556,6 +573,7 @@ export const addExtraLeads = async (userId) => {
       lead_id: lead.id,
       user_email: userEmail,
       received_at: new Date().toISOString(),
+      is_demo: false,
     }));
 
     // Record in history
@@ -563,6 +581,7 @@ export const addExtraLeads = async (userId) => {
       user_id: userId,
       lead_id: lead.id,
       received_at: new Date().toISOString(),
+      is_demo: false,
     }));
 
     // Insert all leads at once

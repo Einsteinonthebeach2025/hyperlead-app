@@ -18,7 +18,7 @@ const Button = ({
       case "light":
         return "light-style px-4 py-1 lg:py-2 md:text-sm";
       case "extra":
-        return "bg-green-300/70 hover:bg-green-300 px-7 py-1 space-x-2 rounded-lg border-2 border-green-500";
+        return "bg-green-300/50 hover:bg-green-300 px-3 py-1 space-x-1 rounded-lg border border-green-500";
       case "blue":
         return "blue-style text-sm border px-4 py-1 lg:py-2 md:text-sm";
       case "link":

@@ -24,8 +24,8 @@ const PersonName = ({ lead }) => {
         <SubTitle>
           {lead?.first_name} {lead?.last_name}
         </SubTitle>
-        <FlexBox className="gap-1 items-center bg-neutral-300 dark:bg-transparent px-2 rounded-full">
-          <SpanText className="mt-[1px]">
+        <FlexBox className="gap-1 items-center bg-neutral-200 dark:bg-transparent px-2 rounded-full">
+          <SpanText className="mt-[1px] lowercase">
             {truncateString(lead?.email, 35)}
           </SpanText>
           <CopyEmail lead={lead} />

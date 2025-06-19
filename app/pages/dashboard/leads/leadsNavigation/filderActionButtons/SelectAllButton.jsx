@@ -35,9 +35,9 @@ const SelectAllButton = ({ currentPageLeads }) => {
     <Button type="extra" onClick={handleSelectAll}>
       <FaPlus size={12} />
       {allSelected ?
-        <span className="w-15">Remove All</span>
+        <span>Remove All</span>
         :
-        <span className="w-15">Select All</span>
+        <span>Select All</span>
       }
     </Button>
   );

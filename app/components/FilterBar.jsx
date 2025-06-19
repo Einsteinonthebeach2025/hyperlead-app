@@ -28,7 +28,7 @@ const FilterBar = ({
               onChange={(e) => handleFilterChange(filter.type, e.target.value)}
               className="appearance-none pr-8 hover:bg-neutral-200 duration-300"
             >
-              <option value="all">{filter.label === "Users" ? "All Users" : filter.label}</option>
+              <option value="">{filter.label === "Users" ? "All Users" : filter.label}</option>
               {options?.map((option) => (
                 <option
                   key={typeof option === "object" ? option.value : option}

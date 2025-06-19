@@ -30,7 +30,6 @@ const colClassMap = {
 };
 
 const IndustryStats = ({ data, col }) => {
-
   return (
     <CardContainer className="space-y-4">
       <ContentHeadline

@@ -15,11 +15,8 @@ const EmailCard = ({ data }) => {
     );
   };
 
-  console.log(emails, " emails");
-
-
   return (
-    <div className="space-y-4">
+    <div className="space-y-4 mt-2">
       <AnimatePresence mode="popLayout">
         {emails.map((item) => {
           return (

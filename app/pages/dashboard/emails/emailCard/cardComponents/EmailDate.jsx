@@ -3,7 +3,10 @@ import { formatTime } from "app/helpers/utils";
 
 const EmailDate = ({ item }) => {
   const sent = formatTime(item?.sent_at);
-  const opened = formatTime(item?.opened_at);
+  const opened = item?.opened_at;
+
+  console.log(opened);
+
 
   return (
     <FlexBox
@@ -14,10 +17,12 @@ const EmailDate = ({ item }) => {
         <span className="font-bold">Sent:</span> {sent}
       </p>
       •{" "}
-      <p>
-        <span className="font-bold">Opened: </span>
-        {opened}
-      </p>
+      {opened && (
+        <p>
+          <span className="font-bold">Opened: </span>
+          {formatTime(opened)}
+        </p>
+      )}
     </FlexBox>
   );
 };

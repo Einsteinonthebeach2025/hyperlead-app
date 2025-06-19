@@ -16,6 +16,9 @@ const HistoryLeads = ({
     currentPage = 1,
     allLeads: initialAllLeads,
 }) => {
+
+    console.log(data, "data");
+
     const [filters, setFilters] = useState({});
     const [page, setPage] = useState(currentPage);
     const leadsPerPage = 20;

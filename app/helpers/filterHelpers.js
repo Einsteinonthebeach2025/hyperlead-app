@@ -5,7 +5,9 @@ export const filterConfig = [
     type: "country",
     label: "Country",
     getOptions: (leads) => [
-      ...new Set(leads.map((lead) => lead.country).filter(Boolean)),
+      ...[...new Set(leads.map((lead) => lead.country).filter(Boolean))].map(
+        (country) => ({ label: country, value: country })
+      ),
     ],
   },
   {
@@ -26,7 +28,11 @@ export const filterConfig = [
     type: "industry",
     label: "Industry",
     getOptions: (leads) => [
-      ...new Set(leads.flatMap((lead) => lead.industry || []).filter(Boolean)),
+      ...[
+        ...new Set(
+          leads.flatMap((lead) => lead.industry || []).filter(Boolean)
+        ),
+      ].map((industry) => ({ label: industry, value: industry })),
     ],
   },
   {
@@ -34,22 +40,26 @@ export const filterConfig = [
     type: "city",
     label: "City",
     getOptions: (leads) => [
-      ...new Set(
-        leads
-          .map((lead) => lead.city)
-          .filter(Boolean)
-          .map((city) =>
-            city.length > 17 ? city.slice(0, 17).trim() + "..." : city
-          )
-      ),
+      ...[
+        ...new Set(
+          leads
+            .map((lead) => lead.city)
+            .filter(Boolean)
+            .map((city) =>
+              city.length > 17 ? city.slice(0, 17).trim() + "..." : city
+            )
+        ),
+      ].map((city) => ({ label: city, value: city })),
     ],
   },
   {
     id: "seniority",
     type: "seniority",
-    label: "position",
+    label: "Position",
     getOptions: (leads) => [
-      ...new Set(leads.map((lead) => lead.seniority).filter(Boolean)),
+      ...[...new Set(leads.map((lead) => lead.seniority).filter(Boolean))].map(
+        (seniority) => ({ label: seniority, value: seniority })
+      ),
     ],
   },
   {

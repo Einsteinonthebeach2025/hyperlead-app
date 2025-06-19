@@ -33,28 +33,40 @@ const HistoryLeadsPage = async () => {
   const { data: allUserHistoryLeads, error: allUserHistoryLeadsError } =
     await supabase
       .from("user_leads_history")
-      .select("lead_id, used")
+      .select("lead_id, used, is_demo")
       .eq("user_id", effectiveUserId);
   if (allUserHistoryLeadsError) {
     return <HistoryLeads data={null} message="Error loading history leads" />;
   }
-  // If user has no history leads at all
-  if (!allUserHistoryLeads || allUserHistoryLeads.length === 0) {
-    return <HistoryLeads data={null} message="No history leads available" />;
+  if (allUserHistoryLeads && allUserHistoryLeads.length > 0) {
+    const allDemoLeads = allUserHistoryLeads.every((lead) => lead.is_demo);
+    if (allDemoLeads) {
+      return (
+        <HistoryLeads
+          data={null}
+          message="No History Leads"
+          desc="After getting new leads, existing leads will be available here"
+        />
+      );
+    }
   }
-  // Check subscription for history leads
-  const subscriptionDate = new Date(profile.subscription_timestamp);
-  const now = new Date();
-  const oneMonthLater = new Date(subscriptionDate);
-  oneMonthLater.setMonth(oneMonthLater.getMonth() + 1);
-  if (now > oneMonthLater) {
-    return (
-      <HistoryLeads
-        data={null}
-        message="subscription has expired"
-        desc="Please renew to view history leads"
-      />
-    );
+  const hasNonDemoHistoryLeads = allUserHistoryLeads.some(
+    (lead) => !lead.is_demo
+  );
+  if (hasNonDemoHistoryLeads) {
+    const subscriptionDate = new Date(profile.subscription_timestamp);
+    const now = new Date();
+    const oneMonthLater = new Date(subscriptionDate);
+    oneMonthLater.setMonth(oneMonthLater.getMonth() + 1);
+    if (now > oneMonthLater) {
+      return (
+        <HistoryLeads
+          data={null}
+          message="subscription has expired"
+          desc="Please renew to view history leads"
+        />
+      );
+    }
   }
   const historyLeadIds = allUserHistoryLeads.map((ul) => ul.lead_id);
   const { data: allHistoryLeadsData, error: allHistoryLeadsError } =

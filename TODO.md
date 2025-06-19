@@ -1,7 +1,7 @@
 TODO LIST
 
-billy.snyder@bigfrog.com---> graphchiqovani@yahoo.com
-zamir@jeanswest.co.uk---> grapchiqovani@gmail.com
+---> graphchiqovani@yahoo.com
+---> grapchiqovani@gmail.com
 
 - რამე თესლი ლოადინგ ანიმაციაა საჭირო /auth/callback და მსგავსი ლოადინგებისთვის
 
