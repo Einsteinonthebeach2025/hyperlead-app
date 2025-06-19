@@ -27,7 +27,7 @@ const GoogleButton = () => {
   return (
     <Button type="light" onClick={handleGoogleSignIn} loading={loading}>
       <FcGoogle size={20} />
-      <span>Sign in with GOOGLE</span>
+      <span>GOOGLE</span>
     </Button>
   );
 };

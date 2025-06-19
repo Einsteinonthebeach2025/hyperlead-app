@@ -25,9 +25,11 @@ const LeadsByRegions = ({ data }) => {
   return (
     <CardContainer className="space-y-2 w-full mx-auto relative overflow-hidden ">
       <ContentHeadline
+        className="border-bottom"
         type="column-start"
-        title="Geographic Pulse of Your Leads"
-        desc=" Visual breakdown of where your most leads are coming from this month"
+        title="Lead Distribution by Region"
+        desc="See where your leads are coming from—grouped by country or region.
+Updated in real-time. Geographic AI insights coming soon"
       />
       <Button onClick={handleShowAll} type="blue">
         show all

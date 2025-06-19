@@ -10,7 +10,6 @@ import CardContainer from "app/components/containers/CardContainer";
 import LeadPersonsName from "./leadsCardComponents/LeadPersonsName";
 import SendEmailButton from "app/components/buttons/SendEmailButton";
 import LeadActionButtons from "./leadsCardComponents/LeadActionButtons";
-import CopyEmail from "./leadsCardComponents/CopyEmail";
 
 const LeadCard = ({ leads, onLeadStatusChange, onLeadLikeChange, type, onLeadClick }) => {
 
@@ -60,7 +59,6 @@ const LeadCard = ({ leads, onLeadStatusChange, onLeadLikeChange, type, onLeadCli
                   <LeadLocation lead={lead} />
                   <LeadIndustry lead={lead} />
                   <FlexBox type="row" className="items-center gap-2" >
-                    <CopyEmail lead={lead} />
                     <SendEmailButton lead={lead} />
                     <LeadActionButtons lead={lead} type={type} onLeadStatusChange={onLeadStatusChange} onLeadLikeChange={onLeadLikeChange} />
                   </FlexBox>

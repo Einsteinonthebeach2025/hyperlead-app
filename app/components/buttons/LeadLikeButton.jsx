@@ -1,11 +1,11 @@
 "use client"
 import { likeLead } from "app/lib/actions/leadActions";
-import { AiFillLike, AiOutlineLike } from "react-icons/ai";
+import { FaHeart, FaRegHeart } from "react-icons/fa";
 import { useSelector } from "react-redux";
 import { selectUser } from "app/features/userSlice";
 import { useEffect, useState } from "react";
-import HoverModal from "../modals/HoverModal";
 import { useToggleLocal } from "app/hooks/useToggleLocal";
+import HoverModal from "../modals/HoverModal";
 import FlexBox from "../containers/FlexBox";
 
 const LeadLikeButton = ({ lead, onLeadLikeChange }) => {
@@ -51,9 +51,9 @@ const LeadLikeButton = ({ lead, onLeadLikeChange }) => {
         className={`text-blue-600 cursor-pointer ${isLoading ? 'opacity-50' : ''}`}
       >
         {hasLiked ? (
-          <AiFillLike size={20} />
+          <FaHeart size={18} />
         ) : (
-          <AiOutlineLike size={20} />
+          <FaRegHeart size={18} />
         )}
       </FlexBox>
       <HoverModal

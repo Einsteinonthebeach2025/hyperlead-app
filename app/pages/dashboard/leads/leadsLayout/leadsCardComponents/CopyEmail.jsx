@@ -30,7 +30,7 @@ const CopyEmail = ({ lead }) => {
             onClick={handleCopyEmail}
             className='cursor-pointer text-blue-600 hover:text-blue-800 relative'
         >
-            <MdContentCopy />
+            <MdContentCopy size={10} />
             <HoverModal
                 isOpen={isHovered}
                 text="Copy Email"

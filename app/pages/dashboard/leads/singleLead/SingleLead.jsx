@@ -30,7 +30,7 @@ const SingleLead = ({ data = {}, table }) => {
   }, [data?.id, table]);
 
   return (
-    <div className="max-w-7xl mx-auto py-5 grid gap-4">
+    <div className="max-w-7xl mx-auto py-5 grid gap-4 px-3">
       <LeadHeader data={data} />
       <div className="grid gap-4">
         <LeadCompanyInfo data={data} />

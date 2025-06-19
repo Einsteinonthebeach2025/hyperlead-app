@@ -1,7 +1,8 @@
 "use client"
 import Button from 'app/components/buttons/Button';
 import { useToggle } from 'app/hooks/useToggle';
-import { IoMdAdd } from "react-icons/io";
+import { AiOutlineThunderbolt } from "react-icons/ai";
+
 
 const AddExtraLeads = ({ type = "success" }) => {
   const { toggle } = useToggle();
@@ -9,8 +10,8 @@ const AddExtraLeads = ({ type = "success" }) => {
   return (
     <div className="w-full">
       <Button type={type} onClick={toggle}>
+        <AiOutlineThunderbolt />
         <span>Add extra leads</span>
-        <IoMdAdd />
       </Button>
     </div>
   )

@@ -1,7 +1,9 @@
 "use client"
-import { MdDashboard, MdLeaderboard, MdEmail, MdOutlineSecurity, MdOutlineAttachEmail, MdHistory } from "react-icons/md";
-import { IoMdNotifications, IoMdAdd } from "react-icons/io";
-import { FaStar } from "react-icons/fa";
+import { IoMdNotifications } from "react-icons/io";
+import { FaStar, FaChartLine, FaDatabase, FaInbox, FaLock } from "react-icons/fa";
+import { FaRegFolderClosed } from "react-icons/fa6";
+import { PiShootingStarFill } from "react-icons/pi";
+import { BsPersonAdd } from "react-icons/bs";
 import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
 import { setError } from "app/features/modalSlice";
@@ -16,17 +18,17 @@ const links = [
   {
     href: "/dashboard/activities",
     label: "Activities",
-    icon: <MdDashboard />,
+    icon: <FaChartLine />,
   },
   {
     href: "/dashboard/leads",
     label: "Lead Dashboard",
-    icon: <MdLeaderboard />,
+    icon: <FaDatabase />,
   },
   {
     href: "/dashboard/history-leads",
     label: "Archived Leads",
-    icon: <MdHistory />,
+    icon: <FaRegFolderClosed />,
   },
   {
     href: "/dashboard/favorite-leads",
@@ -36,12 +38,12 @@ const links = [
   {
     href: "/dashboard/emails",
     label: "Inbox",
-    icon: <MdEmail />,
+    icon: <FaInbox />,
   },
   {
     href: "/dashboard/email-sequence",
     label: "Campaigns",
-    icon: <MdOutlineAttachEmail />,
+    icon: <PiShootingStarFill />,
   },
   {
     href: "/dashboard/notifications",
@@ -51,7 +53,7 @@ const links = [
   {
     href: "/dashboard/security",
     label: "Security",
-    icon: <MdOutlineSecurity />,
+    icon: <FaLock />,
   },
 ];
 
@@ -75,13 +77,13 @@ const DashboardSide = () => {
       <div className="flex flex-col items-start space-y-2 justify-between w-full">
         <SimulateExpire />
         <ToggleDashboardData />
-        <AddExtraLeads />
+        <AddExtraLeads type="extra" />
         <Button
-          type="success"
+          type="extra"
           onClick={handleAddTeammateClick}
         >
-          <span>Add Teammate</span>
-          <IoMdAdd />
+          <BsPersonAdd />
+          <span> Add Teammate</span>
         </Button>
       </div>
     </SideBarLinks>

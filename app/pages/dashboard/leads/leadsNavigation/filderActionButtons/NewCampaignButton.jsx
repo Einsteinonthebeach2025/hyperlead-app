@@ -1,10 +1,10 @@
 "use client";
-import Button from 'app/components/buttons/Button'
-import { SiMinutemailer } from "react-icons/si";
+import { useState } from 'react';
+import { PiShootingStarLight } from "react-icons/pi";
 import { useSelector, useDispatch } from "react-redux";
 import { selectLeads, setToggle } from "app/features/modalSlice";
+import Button from 'app/components/buttons/Button'
 import HoverModal from 'app/components/modals/HoverModal';
-import { useState } from 'react';
 
 const NewCampaignButton = () => {
     const dispatch = useDispatch();
@@ -30,13 +30,13 @@ const NewCampaignButton = () => {
             onMouseLeave={() => setIsHovered(false)}
         >
             <Button
-                type="success"
+                type="extra"
                 onClick={handleClick}
                 className={`duration-300 h-full ${!hasSelectedLeads ? 'opacity-50 cursor-not-allowed' : 'opacity-100'}`}
                 disabled={!hasSelectedLeads}
             >
+                <PiShootingStarLight size={12} />
                 <span>Start New Campaign</span>
-                <SiMinutemailer size={12} />
             </Button>
             <HoverModal
                 isOpen={isHovered && !hasSelectedLeads}

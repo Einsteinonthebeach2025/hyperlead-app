@@ -3,7 +3,6 @@ import Spinner from "app/components/Spinner";
 import { getFeedback } from "app/lib/actions/reportActions";
 import { useEffect, useState } from "react";
 import FeedbackCard from "./feedbackCard/FeedbackCard";
-import SectionHeadline from "app/components/SectionHeadline";
 
 const FeedbackSlider = () => {
   const [feedbacks, setFeedbacks] = useState([]);
@@ -28,10 +27,6 @@ const FeedbackSlider = () => {
     };
     fetchFeedbacks();
   }, []);
-
-  if (loading) {
-    return <Spinner />;
-  }
 
   if (!feedbacks || feedbacks.length === 0) {
     return

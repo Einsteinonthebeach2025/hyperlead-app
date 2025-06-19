@@ -36,8 +36,8 @@ const IndustryStats = ({ data, col }) => {
       <ContentHeadline
         className="border-bottom"
         type="column-start"
-        title="Hyperleads"
-        desc="According to industries"
+        title="Lead Breakdown by Industry"
+        desc="See how your leads are distributed across selected industries."
       />
       <div className={`grid ${colClassMap[col] || "grid-cols-2"} gap-3`}>
         {data &&

@@ -35,9 +35,11 @@ const EmailStats = ({ data = {} }) => {
   return (
     <CardContainer className="space-y-4">
       <ContentHeadline
+        className="border-bottom"
         type="column-start"
-        title="Email Statistics"
-        desc="your email statistics are displayed below"
+        title="Email & Campaign Performance"
+        desc="Track how your emails are performing—sent, opened, and delivered.
+Use built-in AI to generate high-converting messages faster."
       />
       <div className="space-y-2">
         {donutData.map((item, i) => {

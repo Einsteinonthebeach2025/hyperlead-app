@@ -48,7 +48,7 @@ const LeadFilter = ({
       <FlexBox type="row-start" className="gap-2 *:w-fit">
         <NewCampaignButton />
         <SelectAllButton currentPageLeads={currentPageLeads} />
-        <AddExtraLeads type="success" />
+        <AddExtraLeads type="extra" />
       </FlexBox>
       <LeadsNaming />
     </FlexBox>

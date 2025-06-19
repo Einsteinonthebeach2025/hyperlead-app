@@ -2,6 +2,8 @@ import FlexBox from "app/components/containers/FlexBox";
 import SubTitle from "app/components/SubTitle";
 import CheckMarkButton from "../../../../../components/buttons/CheckMarkButton";
 import { truncateString } from "app/helpers/utils";
+import CopyEmail from "./CopyEmail";
+import SpanText from "app/components/SpanText";
 
 const LeadPersonsName = ({ lead = {} }) => {
   return (
@@ -22,9 +24,12 @@ const PersonName = ({ lead }) => {
         <SubTitle>
           {lead?.first_name} {lead?.last_name}
         </SubTitle>
-        <span className="text-neutral-500 dark:text-stone-300 font-medium text-[10px]">
-          {truncateString(lead?.email, 35)}
-        </span>
+        <FlexBox className="gap-1 items-center bg-neutral-300 dark:bg-transparent px-2 rounded-full">
+          <SpanText className="mt-[1px]">
+            {truncateString(lead?.email, 35)}
+          </SpanText>
+          <CopyEmail lead={lead} />
+        </FlexBox>
       </FlexBox>
     </div>
   );
@@ -41,3 +46,5 @@ const PersonInitials = ({ lead }) => {
 };
 
 export default LeadPersonsName;
+101001000
+200010 / 2070917

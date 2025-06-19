@@ -3,29 +3,31 @@ import IconContainer from "app/components/containers/IconContainer";
 import MotionChildren from "app/components/containers/MotionChildren";
 import SubTitle from "app/components/SubTitle";
 import Title from "app/components/Title";
-import { MdLeaderboard, MdSubscriptions } from "react-icons/md";
+import { LuBadgeCheck } from "react-icons/lu";
+import { RiBarChartBoxAiLine } from "react-icons/ri";
+import { TbCalendarPlus, TbWorldDownload } from "react-icons/tb";
 
 const BasicStats = ({ data }) => {
   const basicStats = [
     {
       title: "Current Plan",
       value: !data?.subscription ? "No Active Plan" : data?.subscription,
-      icon: <MdSubscriptions />,
+      icon: <LuBadgeCheck />,
     },
     {
       title: "Monthly Leads for current plan",
       value: data?.monthly_leads,
-      icon: <MdLeaderboard />,
+      icon: <RiBarChartBoxAiLine />,
     },
     {
       title: "Leads Received This Month",
       value: data?.leads_received_this_month,
-      icon: <MdLeaderboard />,
+      icon: <TbCalendarPlus />,
     },
     {
       title: "Total Leads Received",
       value: data?.total_leads_received,
-      icon: <MdLeaderboard />,
+      icon: <TbWorldDownload />,
     },
   ];
 

@@ -10,8 +10,9 @@ const RandomTopLeads = ({ data }) => {
       <ContentHeadline
         className="border-bottom"
         type="column-start"
-        title="Hyperleads"
-        desc="Recommended leads"
+        title="Top Recommended Leads"
+        desc="Your highest-quality leads, ranked by match relevance and recent activity.
+Smartly filtered by Hyperlead. AI-powered scoring coming soon."
       />
       <RandomLeadList data={data} />
     </CardContainer>
