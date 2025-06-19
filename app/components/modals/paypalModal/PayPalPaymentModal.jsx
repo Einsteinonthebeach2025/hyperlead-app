@@ -9,8 +9,8 @@ import { SUBSCRIPTION_PLANS } from "app/lib/config/paypalConfig";
 import ModalWrapper from "app/components/containers/ModalWrapper";
 import SubTitle from "app/components/SubTitle";
 import Paragraph from "app/components/Paragraph";
-import PlanDetails from "./PlanDetails";
 import Spinner from "app/components/Spinner";
+import PlanDetails from "./PlanDetails";
 
 const PayPalPaymentModal = () => {
   const dispatch = useDispatch();
@@ -152,10 +152,13 @@ const PayPalPaymentModal = () => {
               }}
               onApprove={async (data, actions) => {
                 const order = await actions.order.capture();
+
                 // Show your app's spinner/modal
                 setShowAppProcessing(true);
+
                 // Start backend processing, but don't await it here
                 handlePaymentSuccess(order.id);
+
                 // Return immediately so PayPal closes its modal
                 return;
               }}

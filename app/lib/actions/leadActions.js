@@ -581,7 +581,7 @@ export const addExtraLeads = async (userId) => {
       user_id: userId,
       lead_id: lead.id,
       received_at: new Date().toISOString(),
-      is_demo: false,
+      is_demo: true,
     }));
 
     // Insert all leads at once
