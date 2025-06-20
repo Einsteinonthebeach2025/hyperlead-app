@@ -3,38 +3,31 @@ import Button from 'app/components/buttons/Button';
 import Close from 'app/components/buttons/Close';
 import MotionContainer from 'app/components/containers/MotionContainer';
 import Title from 'app/components/Title';
-import { selectIsModalOpen, setError } from 'app/features/modalSlice';
+import { selectIsModalOpen, setError, setToggle } from 'app/features/modalSlice';
 import { useToggle } from 'app/hooks/useToggle';
-import { addExtraLeads } from 'app/lib/actions/leadActions';
 import { AnimatePresence } from 'framer-motion';
 import { useDispatch, useSelector } from 'react-redux';
-import { useState } from 'react';
 import { selectUser } from 'app/features/userSlice';
 
 const ExtraLeadOptions = () => {
   const dispatch = useDispatch();
   const { toggle } = useToggle();
-  const [isLoading, setIsLoading] = useState(false);
   const isModalOpen = useSelector(selectIsModalOpen);
   const user = useSelector(selectUser);
 
-  const handlePurchase = async () => {
-    if (!user) return;
-    setIsLoading(true);
-    setError(null);
-    try {
-      const result = await addExtraLeads(user.id);
-      if (result.success) {
-        toggle();
-        dispatch(setError({ message: "Leads purchased successfully", type: "success" }))
-      } else {
-        dispatch(setError({ message: result.error, type: "error" }))
-      }
-    } catch (err) {
-      dispatch(setError({ message: err.message, type: "error" }))
-    } finally {
-      setIsLoading(false);
+  const handleExtraLeadsPurchase = () => {
+    if (!user) {
+      dispatch(setError({ message: "Please login to purchase leads", type: "error" }));
+      return;
     }
+    dispatch(
+      setToggle({
+        modalType: "paypalPayment",
+        isOpen: true,
+        data: "EXTRA_100",
+      })
+    );
+    toggle();
   };
 
   return (
@@ -50,10 +43,9 @@ const ExtraLeadOptions = () => {
 
             <Button
               type="blue"
-              onClick={handlePurchase}
-              loading={isLoading}
+              onClick={handleExtraLeadsPurchase}
             >
-              {isLoading ? 'Processing...' : 'Buy 100 Leads'}
+              Add 100 Leads
             </Button>
           </div>
         </MotionContainer>

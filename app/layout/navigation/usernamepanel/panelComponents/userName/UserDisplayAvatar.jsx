@@ -6,7 +6,7 @@ const UserDisplayAvatar = ({ url, className, type, plan }) => {
   const getGradient = (plan) => {
     switch (plan) {
       case "PRO":
-        return "bg-gradient-to-r from-cyan-200 to-sky-600 text-sky-500 dark:from-red-800 dark:to-amber-600 dark:text-amber-500";
+        return "bg-gradient-to-r from-cyan-200 to-sky-600 text-sky-500";
       case "Plus":
         return "bg-gradient-to-r from-violet-400 to-blue-600 text-violet-500";
       case "Hyper":

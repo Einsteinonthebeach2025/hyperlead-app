@@ -1,9 +1,9 @@
 import FlexBox from "app/components/containers/FlexBox";
 import SubTitle from "app/components/SubTitle";
 import CheckMarkButton from "../../../../../components/buttons/CheckMarkButton";
-import { truncateString } from "app/helpers/utils";
 import CopyEmail from "./CopyEmail";
 import SpanText from "app/components/SpanText";
+import { truncateString } from "app/helpers/utils";
 
 const LeadPersonsName = ({ lead = {} }) => {
   return (
@@ -24,7 +24,7 @@ const PersonName = ({ lead }) => {
         <SubTitle>
           {lead?.first_name} {lead?.last_name}
         </SubTitle>
-        <FlexBox className="gap-1 items-center bg-neutral-200 dark:bg-transparent px-2 rounded-full">
+        <FlexBox className="gap-1 items-center bg-neutral-200 dark:bg-transparent px-2 dark:px-0 rounded-full">
           <SpanText className="mt-[1px] lowercase">
             {truncateString(lead?.email, 35)}
           </SpanText>
@@ -39,12 +39,10 @@ const PersonInitials = ({ lead }) => {
   const initials = `${lead.first_name?.[0] ?? ""}${lead.last_name?.[0] ?? ""
     }`.toUpperCase();
   return (
-    <span className="text-black bg-blue-300 group-hover:bg-blue-400 dark:bg-blue-400/60 group-hover:dark:bg-blue-800 w-8 h-8 flex items-center justify-center duration-300 rounded-full w font-medium text-[14px]">
+    <span className="text-rose-500 dark:text-rose-100 bg-rose-200 group-hover:bg-rose-300 dark:bg-rose-400 group-hover:dark:bg-rose-500 w-8 h-8 flex items-center justify-center duration-300 rounded-full w font-medium text-[14px]">
       {initials}
     </span>
   );
 };
 
 export default LeadPersonsName;
-101001000
-200010 / 2070917

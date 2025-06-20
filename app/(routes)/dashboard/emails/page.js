@@ -29,7 +29,8 @@ const DashboardEmailsPage = async () => {
       "id, message, subject, sent_at, delivered, opened_at, lead_id, leads_email, follow_up_email"
     )
     .in("user_id", userIdsToQuery)
-    .eq("type", "single_email");
+    .eq("type", "single_email")
+    .order("sent_at", { ascending: false });
   if (emailsError) {
     return <Emails data={null} />;
   }

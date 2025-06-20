@@ -51,8 +51,8 @@ const links = [
     icon: <IoMdNotifications />,
   },
   {
-    href: "/dashboard/security",
-    label: "Security",
+    href: "/dashboard/settings",
+    label: "Settings",
     icon: <FaLock />,
   },
 ];
@@ -77,7 +77,7 @@ const DashboardSide = () => {
       <div className="flex flex-col items-start space-y-2 justify-between w-full">
         <SimulateExpire />
         <ToggleDashboardData />
-        <AddExtraLeads type="extra" />
+        <AddExtraLeads />
         <Button
           type="extra"
           onClick={handleAddTeammateClick}

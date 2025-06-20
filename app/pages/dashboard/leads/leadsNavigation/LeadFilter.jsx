@@ -46,8 +46,8 @@ const LeadFilter = ({
         <SearchBar leads={leads} onSearch={handleSearch} />
       </div>
       <FlexBox type="row-start" className="gap-2 *:w-fit">
-        <NewCampaignButton />
         <SelectAllButton currentPageLeads={currentPageLeads} />
+        <NewCampaignButton />
         <AddExtraLeads type="extra" />
       </FlexBox>
       <LeadsNaming />

@@ -4,12 +4,12 @@ import { useToggle } from 'app/hooks/useToggle';
 import { AiOutlineThunderbolt } from "react-icons/ai";
 
 
-const AddExtraLeads = ({ type = "success" }) => {
+const AddExtraLeads = () => {
   const { toggle } = useToggle();
 
   return (
     <div className="w-full">
-      <Button type={type} onClick={toggle}>
+      <Button type="extra" onClick={toggle}>
         <AiOutlineThunderbolt />
         <span>Add extra leads</span>
       </Button>

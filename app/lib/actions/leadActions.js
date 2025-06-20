@@ -225,6 +225,21 @@ export const assignLeadsToUser = async (
       );
     }
 
+    // After successfully assigning new leads, update historical demo leads to be part of history
+    const { error: updateHistoryError } = await supabase
+      .from("user_leads_history")
+      .update({ is_demo: false })
+      .eq("user_id", userId)
+      .eq("is_demo", true);
+
+    if (updateHistoryError) {
+      // Log the error but don't fail the entire process, as leads have been assigned.
+      console.error(
+        `Failed to update demo lead status in history for user ${userId}:`,
+        updateHistoryError.message
+      );
+    }
+
     return {
       success: true,
       assignedLeadsCount: allAvailableLeads.length,
@@ -519,53 +534,88 @@ export const addExtraLeads = async (userId) => {
       .from("user_leads_history")
       .select("lead_id")
       .eq("user_id", userId);
-
-    const previouslyReceivedLeadIds =
-      allUserLeads?.map((lead) => lead.lead_id) || [];
-
-    // Fetch all possible leads matching preferences (and region if set), excluding previously received
-    let leadsQuery = supabase.from("leads").select("id, industry, country");
-
-    if (regions && regions.length > 0) {
-      leadsQuery = leadsQuery.in("country", regions);
+    if (historyError) {
+      throw new Error(`Failed to fetch lead history: ${historyError.message}`);
     }
 
-    // Exclude previously received leads
-    if (previouslyReceivedLeadIds.length > 0) {
-      leadsQuery = leadsQuery.not(
-        "id",
-        "in",
-        `(${previouslyReceivedLeadIds.join(",")})`
+    const { data: currentUserLeads, error: currentLeadsError } = await supabase
+      .from("user_leads")
+      .select("lead_id")
+      .eq("user_id", userId);
+    if (currentLeadsError) {
+      throw new Error(
+        `Failed to fetch current leads: ${currentLeadsError.message}`
       );
     }
 
-    // Filter by any of the preferences
-    leadsQuery = leadsQuery.or(
-      preferences.map((pref) => `industry.cs.{\"${pref}\"}`).join(",")
+    const previouslyReceivedLeadIds =
+      allUserLeads?.map((lead) => lead.lead_id) || [];
+    const currentlyAssignedLeadIds =
+      currentUserLeads?.map((lead) => lead.lead_id) || [];
+    const allExcludedLeadIds = [
+      ...new Set([...previouslyReceivedLeadIds, ...currentlyAssignedLeadIds]),
+    ];
+
+    let allAvailableLeads = [];
+    const numPrefs = preferences.length;
+    const baseLeadsPerPref = Math.floor(EXTRA_LEADS_COUNT / numPrefs);
+    let remainder = EXTRA_LEADS_COUNT % numPrefs;
+
+    const shuffledPrefs = [...preferences].sort(() => Math.random() - 0.5);
+    const leadsPerPref = shuffledPrefs.map((pref, idx) =>
+      idx < remainder ? baseLeadsPerPref + 1 : baseLeadsPerPref
     );
 
-    // Fetch all matching leads (limit high for safety)
-    const { data: allAvailableLeads, error: leadsError } =
-      await leadsQuery.limit(500);
-    if (leadsError) {
-      throw new Error(`Failed to fetch leads: ${leadsError.message}`);
+    for (let i = 0; i < shuffledPrefs.length; i++) {
+      const industry = shuffledPrefs[i];
+      const limit = leadsPerPref[i];
+      if (limit === 0) continue;
+
+      let query = supabase
+        .from("leads")
+        .select("id, industry, country")
+        .contains("industry", [industry]);
+
+      if (regions && regions.length > 0) {
+        query = query.in("country", regions);
+      }
+
+      // Exclude leads already assigned or in history
+      const currentExcludedIds = [
+        ...allExcludedLeadIds,
+        ...allAvailableLeads.map((l) => l.id),
+      ];
+      if (currentExcludedIds.length > 0) {
+        query = query.not("id", "in", `(${currentExcludedIds.join(",")})`);
+      }
+
+      const { data: industryLeads, error: leadsError } =
+        await query.limit(limit);
+
+      if (leadsError) {
+        console.error(
+          `Failed to fetch extra leads for ${industry}: ${leadsError.message}`
+        );
+        continue;
+      }
+      if (industryLeads) {
+        allAvailableLeads.push(...industryLeads);
+      }
     }
 
-    if (!allAvailableLeads || allAvailableLeads.length === 0) {
-      throw new Error("No available leads found for your preferences.");
-    }
-
-    // Shuffle the leads for randomness
-    const shuffledLeads = allAvailableLeads.sort(() => Math.random() - 0.5);
-    // Deduplicate by id (should already be unique, but just in case)
+    // Deduplicate and slice to ensure correct count
     const uniqueLeadsMap = new Map();
-    shuffledLeads.forEach((lead) => {
+    allAvailableLeads.forEach((lead) => {
       uniqueLeadsMap.set(lead.id, lead);
     });
     const finalLeads = Array.from(uniqueLeadsMap.values()).slice(
       0,
       EXTRA_LEADS_COUNT
     );
+
+    if (finalLeads.length === 0) {
+      throw new Error("No available leads found for your preferences.");
+    }
 
     // Create user_leads entries
     const userLeadsToInsert = finalLeads.map((lead) => ({
@@ -576,14 +626,6 @@ export const addExtraLeads = async (userId) => {
       is_demo: false,
     }));
 
-    // Record in history
-    const historyEntries = finalLeads.map((lead) => ({
-      user_id: userId,
-      lead_id: lead.id,
-      received_at: new Date().toISOString(),
-      is_demo: true,
-    }));
-
     // Insert all leads at once
     if (userLeadsToInsert.length > 0) {
       const { error: insertError } = await supabase
@@ -591,13 +633,6 @@ export const addExtraLeads = async (userId) => {
         .insert(userLeadsToInsert);
       if (insertError) {
         throw new Error(`Failed to insert leads: ${insertError.message}`);
-      }
-      // Record in history
-      const { error: historyInsertError } = await supabase
-        .from("user_leads_history")
-        .insert(historyEntries);
-      if (historyInsertError) {
-        console.error("Error recording lead history:", historyInsertError);
       }
     }
 

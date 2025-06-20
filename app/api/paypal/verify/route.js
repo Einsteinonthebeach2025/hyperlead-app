@@ -1,5 +1,8 @@
 import { NextResponse } from "next/server";
-import { SUBSCRIPTION_PLANS } from "app/lib/config/paypalConfig";
+import {
+  SUBSCRIPTION_PLANS,
+  EXTRA_LEADS_PLAN,
+} from "app/lib/config/paypalConfig";
 
 export async function POST(req) {
   console.log("==== PayPal VERIFY API called ====");
@@ -61,9 +64,28 @@ export async function POST(req) {
       );
     }
 
-    // Verify amount matches plan
-    const plan = SUBSCRIPTION_PLANS[planName.toUpperCase()];
+    if (
+      !data.purchase_units ||
+      !Array.isArray(data.purchase_units) ||
+      !data.purchase_units[0]?.amount?.value
+    ) {
+      return NextResponse.json(
+        { error: "Invalid PayPal order data" },
+        { status: 500 }
+      );
+    }
     const amount = data.purchase_units[0].amount.value;
+
+    // Verify amount matches plan
+    let plan;
+    if (planName === "EXTRA_100") {
+      plan = EXTRA_LEADS_PLAN;
+    } else {
+      plan = SUBSCRIPTION_PLANS[planName.toUpperCase()];
+    }
+    if (!plan) {
+      return NextResponse.json({ error: "Invalid plan" }, { status: 400 });
+    }
 
     if (amount !== plan.price) {
       return NextResponse.json(

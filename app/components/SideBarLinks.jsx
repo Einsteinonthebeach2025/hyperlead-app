@@ -9,7 +9,7 @@ const SideBarLinks = ({ links, children }) => {
 
   return (
 
-    <div className="w-full md:w-[30%] lg:w-[20%] relative py-5 lg:border-r border-neutral-200 dark:border-[#344c63]">
+    <div className="w-full md:w-[30%] lg:w-[20%] relative py-3 lg:border-r border-neutral-200 dark:border-[#344c63]">
       <div className="sticky top-20 w-full px-3 flex flex-col justify-between lg:h-screen">
         <MotionContainer
           animation="fade-in"

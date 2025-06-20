@@ -1,7 +1,7 @@
 TODO LIST
 
----> graphchiqovani@yahoo.com
----> grapchiqovani@gmail.com
+william@foxgrant.com ---> graphchiqovani@yahoo.com
+rjwsmith@glamis-invest.co.uk ---> grapchiqovani@gmail.com
 
 - რამე თესლი ლოადინგ ანიმაციაა საჭირო /auth/callback და მსგავსი ლოადინგებისთვის
 

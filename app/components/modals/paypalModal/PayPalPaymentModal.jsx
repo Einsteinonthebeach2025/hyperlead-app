@@ -5,7 +5,8 @@ import { PayPalButtons } from "@paypal/react-paypal-js";
 import { selectUser, setUser } from "app/features/userSlice";
 import { setError, setToggle, selectPayPalPaymentModal } from "app/features/modalSlice";
 import { createTransaction, processSubscription } from "app/lib/actions/transactionActions";
-import { SUBSCRIPTION_PLANS } from "app/lib/config/paypalConfig";
+import { addExtraLeads } from "app/lib/actions/leadActions";
+import { SUBSCRIPTION_PLANS, EXTRA_LEADS_PLAN } from "app/lib/config/paypalConfig";
 import ModalWrapper from "app/components/containers/ModalWrapper";
 import SubTitle from "app/components/SubTitle";
 import Paragraph from "app/components/Paragraph";
@@ -31,7 +32,9 @@ const PayPalPaymentModal = () => {
 
   if (!isOpen || !selectedPlan) return null;
 
-  const plan = SUBSCRIPTION_PLANS[selectedPlan.toUpperCase()];
+  const plan = selectedPlan === "EXTRA_100"
+    ? EXTRA_LEADS_PLAN
+    : SUBSCRIPTION_PLANS[selectedPlan.toUpperCase()];
   if (!plan) return null;
 
   const handlePaymentSuccess = async (orderID) => {
@@ -39,9 +42,7 @@ const PayPalPaymentModal = () => {
     try {
       const verifyResponse = await fetch("/api/paypal/verify", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           orderID,
           planName: selectedPlan,
@@ -51,7 +52,7 @@ const PayPalPaymentModal = () => {
       if (!verifyData.success) {
         throw new Error(verifyData.error || "Payment verification failed");
       }
-      // Create transaction record
+      // Always create a transaction record
       const transactionResult = await createTransaction(
         user.id,
         orderID,
@@ -61,36 +62,37 @@ const PayPalPaymentModal = () => {
       if (!transactionResult.success) {
         throw new Error(transactionResult.error || "Failed to create transaction");
       }
-      // Process subscription and assign leads
-      const subscriptionResult = await processSubscription(
-        user.id,
-        user.email,
-        selectedPlan,
-        plan.leads
-      );
-      if (!subscriptionResult.success) {
-        throw new Error(subscriptionResult.error || "Failed to process subscription");
+
+      if (selectedPlan === "EXTRA_100") {
+        // Assign extra leads
+        const extraLeadsResult = await addExtraLeads(user.id);
+        if (!extraLeadsResult.success) {
+          throw new Error(extraLeadsResult.error || "Failed to assign extra leads");
+        }
+        dispatch(
+          setError({
+            message: `Successfully purchased 100 extra leads!`,
+            type: "success",
+          })
+        );
+      } else {
+        // Process subscription and assign leads
+        const subscriptionResult = await processSubscription(
+          user.id,
+          user.email,
+          selectedPlan,
+          plan.leads
+        );
+        if (!subscriptionResult.success) {
+          throw new Error(subscriptionResult.error || "Failed to process subscription");
+        }
+        dispatch(
+          setError({
+            message: `Successfully subscribed to ${selectedPlan} plan and received ${plan.leads} leads!`,
+            type: "success",
+          })
+        );
       }
-      // Update user state
-      dispatch(
-        setUser({
-          ...user,
-          profile: {
-            ...user.profile,
-            subscription: selectedPlan,
-            subscription_timestamp: new Date().toISOString(),
-            monthly_leads: plan.leads,
-            leads_received_this_month: (user.profile.leads_received_this_month || 0) + plan.leads,
-            last_lead_reset_date: new Date().toISOString(),
-          },
-        })
-      );
-      dispatch(
-        setError({
-          message: `Successfully subscribed to ${selectedPlan} plan and received ${plan.leads} leads!`,
-          type: "success",
-        })
-      );
       handleClose();
     } catch (error) {
       console.error("Payment processing error:", error);

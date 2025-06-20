@@ -8,7 +8,7 @@ export const metadata = {
 
 const ActivitiesPage = () => {
   return (
-    <MotionContainer animation="fade-in">
+    <MotionContainer animation="fade-in" className="mt-2">
       <Title className="w-fit">Activities</Title>
     </MotionContainer>
   );

@@ -8,7 +8,7 @@ const LeadLocation = ({ lead = {} }) => {
     <FlexBox type="column-start" className="items-center ">
       {country && <CountryFlags countryName={country} />}
       {country && <h1 className="dark:text-neutral-100  text-xs font-bold">{country}</h1>}
-      <FlexBox type="row-start" className="text-blue-800 dark:text-blue-600 space-x-1 items-center font-medium text-[10px]">
+      <FlexBox type="row-start" className="text-rose-500  space-x-1 items-center font-medium text-[10px]">
         {city && <h1>{city}</h1>}
         {city && <Dot />}
         {state && (

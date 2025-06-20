@@ -232,3 +232,90 @@ export const updatePassword = async (newPassword) => {
     };
   }
 };
+
+export const verifyCurrentPassword = async (currentPassword) => {
+  try {
+    const {
+      data: { user },
+      error,
+    } = await supabase.auth.getUser();
+    if (error) throw error;
+
+    // Test the current password by attempting to sign in
+    const { error: signInError } = await supabase.auth.signInWithPassword({
+      email: user.email,
+      password: currentPassword,
+    });
+
+    if (signInError) {
+      return {
+        error: "Current password is incorrect",
+        isValid: false,
+      };
+    }
+
+    return {
+      error: null,
+      isValid: true,
+    };
+  } catch (error) {
+    return {
+      error: "Failed to verify current password",
+      isValid: false,
+    };
+  }
+};
+
+export const changePassword = async (currentPassword, newPassword) => {
+  try {
+    // First verify the current password
+    const { error: verifyError, isValid } =
+      await verifyCurrentPassword(currentPassword);
+    if (verifyError || !isValid) {
+      return {
+        error: verifyError || "Current password verification failed",
+        message: null,
+      };
+    }
+    // If current password is valid, proceed with password update
+    const {
+      data: { user },
+      error,
+    } = await supabase.auth.updateUser({
+      password: newPassword,
+    });
+    if (error) {
+      if (error.status === 429) {
+        return {
+          error: "Too many requests. Please wait a moment before trying again.",
+          message: null,
+        };
+      }
+      throw error;
+    }
+    await notifyPasswordChange(user.id);
+    const { error: resetError } = await supabase
+      .from("password_resets")
+      .insert({
+        user_id: user.id,
+        reset_at: new Date().toISOString(),
+      });
+    return {
+      error: null,
+      message: "Password changed successfully.",
+    };
+  } catch (error) {
+    if (error.message && error.message.includes("429")) {
+      return {
+        error: "Too many requests. Please wait a moment before trying again.",
+        message: null,
+      };
+    }
+    return {
+      error: handleAuthError
+        ? handleAuthError(error)
+        : "Failed to change password. Please try again.",
+      message: null,
+    };
+  }
+};

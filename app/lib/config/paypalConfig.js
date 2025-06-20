@@ -21,6 +21,13 @@ export const SUBSCRIPTION_PLANS = {
   },
 };
 
+export const EXTRA_LEADS_PLAN = {
+  name: "Extra 100 Leads",
+  price: "29.00",
+  leads: 100,
+  description: "One-time purchase of 100 additional leads.",
+};
+
 export const getPlanDetails = (planName) => {
   return SUBSCRIPTION_PLANS[planName.toUpperCase()] || SUBSCRIPTION_PLANS.PLUS;
 };
