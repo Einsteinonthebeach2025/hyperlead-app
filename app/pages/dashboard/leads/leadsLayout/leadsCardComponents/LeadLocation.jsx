@@ -1,19 +1,39 @@
 import FlexBox from "app/components/containers/FlexBox";
-import { CountryFlags } from "app/components/CountryFlags";
 import Dot from "app/components/Dot";
+import { CountryFlags } from "app/components/CountryFlags";
+import { truncateString } from "app/helpers/utils";
 
-const LeadLocation = ({ lead = {} }) => {
+const LeadLocation = ({ lead = {}, colorTheme }) => {
   const { country = "", city = "", state = "" } = lead;
+
+  const colorClass = {
+    violet: 'text-violet-500',
+    green: 'text-green-500',
+    blue: 'text-blue-500',
+  }[colorTheme] || 'text-rose-500';
+
   return (
     <FlexBox type="column-start" className="items-center ">
-      {country && <CountryFlags countryName={country} />}
-      {country && <h1 className="dark:text-neutral-100  text-xs font-bold">{country}</h1>}
-      <FlexBox type="row-start" className="text-rose-500  space-x-1 items-center font-medium text-[10px]">
-        {city && <h1>{city}</h1>}
-        {city && <Dot />}
-        {state && (
-          <h1>{state}</h1>
-        )}
+      <FlexBox type="row-start" className="items-center">
+        <h1 className="text-xs font-bold dark:text-white">
+          {truncateString(lead?.company_title, 60)}
+        </h1>
+      </FlexBox>
+      <FlexBox type="row-start" className="items-center gap-1">
+        {country &&
+          <div className="p-1 w-7 h-7 center bg-blue-400/40 rounded-md">
+            <CountryFlags style={{ width: '18px', height: '18px' }} countryName={country} /></div>
+        }
+        <FlexBox type="column-start" className="items-center">
+          {country && <h1 className="dark:text-neutral-100  text-xs font-bold">{country}</h1>}
+          <FlexBox type="row-start" className={`${colorClass} space-x-1 items-center font-medium text-[10px]`}>
+            {city && <h1>{city}</h1>}
+            {city && <Dot />}
+            {state && (
+              <h1>{state}</h1>
+            )}
+          </FlexBox>
+        </FlexBox>
       </FlexBox>
     </FlexBox>
   );

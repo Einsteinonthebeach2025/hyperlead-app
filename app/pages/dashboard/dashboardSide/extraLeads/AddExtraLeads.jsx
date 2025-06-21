@@ -9,7 +9,7 @@ const AddExtraLeads = () => {
 
   return (
     <div className="w-full">
-      <Button type="extra" onClick={toggle}>
+      <Button type="extra" onClick={toggle} className="w-full center">
         <AiOutlineThunderbolt />
         <span>Add extra leads</span>
       </Button>

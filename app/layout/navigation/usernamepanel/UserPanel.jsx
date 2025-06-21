@@ -7,6 +7,8 @@ import RegistrationButtons from "app/components/buttons/RegistrationButtons";
 const UserPanel = () => {
   const user = useSelector(selectUser);
 
+  console.log(user);
+
   return (
     <div>
       {user ? (

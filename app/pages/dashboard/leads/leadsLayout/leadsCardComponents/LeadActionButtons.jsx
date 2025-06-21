@@ -1,6 +1,4 @@
 import AddToFavorite from 'app/components/buttons/AddToFavorite'
-import LeadLikeButton from 'app/components/buttons/LeadLikeButton'
-import MarkButton from 'app/components/buttons/MarkButtons'
 import FlexBox from 'app/components/containers/FlexBox'
 import HoverModal from 'app/components/modals/HoverModal'
 import { HiDotsHorizontal } from "react-icons/hi";
@@ -44,10 +42,6 @@ const LeadActionButtons = ({ lead, type, onLeadStatusChange, onLeadLikeChange })
               onMouseLeave={() => setIsDropdownOpen(false)}
             >
               <FlexBox type="row-center" className="gap-1">
-                {type === "favorite" ? null : (
-                  <MarkButton lead={lead} onStatusChange={onLeadStatusChange} />
-                )}
-                <LeadLikeButton lead={lead} onLeadLikeChange={onLeadLikeChange} />
                 <AddToFavorite lead={lead} />
               </FlexBox>
             </MotionContainer>

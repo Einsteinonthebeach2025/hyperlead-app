@@ -29,17 +29,17 @@ const MarkButton = ({ lead, onStatusChange }) => {
         onMouseEnter={() => toggleState(true)}
         onMouseLeave={() => toggleState(false)}
         onClick={handleUsedStatus}
-        className="pt-1"
+        className="bg-green-200/50 relative p-2 duration-300 hover:bg-green-200 rounded-lg"
       >
-        <div className="text-blue-600">
+        <div className="text-green-600">
           {active ? <FaBookmark /> : <FaRegBookmark />}
         </div>
+        <HoverModal
+          isOpen={isOpen}
+          className="right-1 -top-8 w-24"
+          text={active ? "Mark as unread" : "Mark as read"}
+        />
       </FlexBox>
-      <HoverModal
-        isOpen={isOpen}
-        className="right-10 -top-4 w-24"
-        text={active ? "Mark as unread" : "Mark as read"}
-      />
     </>
   );
 };

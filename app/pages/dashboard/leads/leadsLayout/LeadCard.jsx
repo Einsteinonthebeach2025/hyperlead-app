@@ -1,6 +1,5 @@
 "use client"
 import { AnimatePresence, motion } from "framer-motion";
-import { truncateString } from "app/helpers/utils";
 import FlexBox from "app/components/containers/FlexBox";
 import LeadLocation from "./leadsCardComponents/LeadLocation";
 import LeadIndustry from "./leadsCardComponents/LeadIndustry";
@@ -10,6 +9,8 @@ import CardContainer from "app/components/containers/CardContainer";
 import LeadPersonsName from "./leadsCardComponents/LeadPersonsName";
 import SendEmailButton from "app/components/buttons/SendEmailButton";
 import LeadActionButtons from "./leadsCardComponents/LeadActionButtons";
+import LeadLikeButton from "app/components/buttons/LeadLikeButton";
+import MarkButton from "app/components/buttons/MarkButtons";
 
 const LeadCard = ({ leads, onLeadStatusChange, onLeadLikeChange, type, onLeadClick }) => {
 
@@ -21,11 +22,13 @@ const LeadCard = ({ leads, onLeadStatusChange, onLeadLikeChange, type, onLeadCli
     );
   }
 
+  const colorThemes = ["violet", "green", "blue"];
 
   return (
-    <div className="grid grid-cols-1 space-y-4 w-full">
+    <div className="grid grid-cols-1 space-y-4 w-full py-5">
       <AnimatePresence>
-        {leads?.map((lead) => {
+        {leads?.map((lead, index) => {
+          const colorTheme = colorThemes[index % colorThemes.length];
           const handleClick = (e) => {
             if (onLeadClick) {
               e.preventDefault(); // Prevent default Link navigation
@@ -45,21 +48,20 @@ const LeadCard = ({ leads, onLeadStatusChange, onLeadLikeChange, type, onLeadCli
                 exit={{ opacity: 0, rotateX: 90 }}
                 transition={{ duration: 0.5 }}
               >
-                <CardContainer className={`grid grid-cols-[1.3fr_0.5fr_1.0fr_0.7fr_1.0fr_0.1fr] gap-3 place-content-center group relative h-20 group ${lead?.used ? "opacity-60" : ""
+                <CardContainer className={`grid grid-cols-[1.3fr_0.5fr_1.2fr_1.5fr_0.8fr] gap-3 place-content-center group relative h-20 group ${lead?.used ? "opacity-60" : ""
                   }`}>
-                  <LeadPersonsName lead={lead} />
+                  <LeadPersonsName lead={lead} colorTheme={colorTheme} />
                   <FlexBox type="row-start" className="items-center">
                     <h1 className="text-xs font-medium dark:text-white">{lead?.seniority}</h1>
                   </FlexBox>
-                  <FlexBox type="row-start" className="items-center">
-                    <h1 className="text-xs font-bold dark:text-white">
-                      {truncateString(lead?.company_title, 60)}
-                    </h1>
-                  </FlexBox>
-                  <LeadLocation lead={lead} />
+                  <LeadLocation lead={lead} colorTheme={colorTheme} />
                   <LeadIndustry lead={lead} />
                   <FlexBox type="row" className="items-center gap-2" >
                     <SendEmailButton lead={lead} />
+                    {type === "favorite" ? null : (
+                      <MarkButton lead={lead} onStatusChange={onLeadStatusChange} />
+                    )}
+                    <LeadLikeButton lead={lead} onLeadLikeChange={onLeadLikeChange} />
                     <LeadActionButtons lead={lead} type={type} onLeadStatusChange={onLeadStatusChange} onLeadLikeChange={onLeadLikeChange} />
                   </FlexBox>
                 </CardContainer>

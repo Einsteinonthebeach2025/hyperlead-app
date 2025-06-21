@@ -175,7 +175,7 @@ export const getCountryCode = (countryName) => {
 };
 
 // Country Flag Component
-export const CountryFlags = ({ countryName, className }) => {
+export const CountryFlags = ({ countryName, className, style }) => {
   if (!countryName) return null;
 
   const countryCode = getCountryCode(countryName);
@@ -184,10 +184,7 @@ export const CountryFlags = ({ countryName, className }) => {
       className={className}
       countryCode={countryCode}
       svg
-      style={{
-        width: "1.5em",
-        height: "1.5em",
-      }}
+      style={style}
       title={countryName}
     />
   );

@@ -44,21 +44,14 @@ const LeadsPage = async () => {
   }
   // Check if user has any non-demo leads
   const hasNonDemoLeads = allUserLeads.some((lead) => !lead.is_demo);
-  // If user has non-demo leads, check subscription
-  if (hasNonDemoLeads) {
-    const subscriptionDate = new Date(profile.subscription_timestamp);
-    const now = new Date();
-    const oneMonthLater = new Date(subscriptionDate);
-    oneMonthLater.setMonth(oneMonthLater.getMonth() + 1);
-    if (now > oneMonthLater) {
-      return (
-        <Leads
-          data={null}
-          message="subscription has expired"
-          desc="Please renew to view leads"
-        />
-      );
-    }
+  if (hasNonDemoLeads && !profile.subscription) {
+    return (
+      <Leads
+        data={null}
+        message="subscription has expired"
+        desc="Please renew to view leads"
+      />
+    );
   }
   // Get history leads to exclude them from current leads
   const { data: historyLeads } = await supabase

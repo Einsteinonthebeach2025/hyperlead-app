@@ -53,20 +53,14 @@ const HistoryLeadsPage = async () => {
   const hasNonDemoHistoryLeads = allUserHistoryLeads.some(
     (lead) => !lead.is_demo
   );
-  if (hasNonDemoHistoryLeads) {
-    const subscriptionDate = new Date(profile.subscription_timestamp);
-    const now = new Date();
-    const oneMonthLater = new Date(subscriptionDate);
-    oneMonthLater.setMonth(oneMonthLater.getMonth() + 1);
-    if (now > oneMonthLater) {
-      return (
-        <HistoryLeads
-          data={null}
-          message="subscription has expired"
-          desc="Please renew to view history leads"
-        />
-      );
-    }
+  if (hasNonDemoHistoryLeads && !profile.subscription) {
+    return (
+      <HistoryLeads
+        data={null}
+        message="subscription has expired"
+        desc="Please renew to view history leads"
+      />
+    );
   }
   const historyLeadIds = allUserHistoryLeads.map((ul) => ul.lead_id);
   const { data: allHistoryLeadsData, error: allHistoryLeadsError } =

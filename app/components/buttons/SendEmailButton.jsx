@@ -1,6 +1,6 @@
 "use client";
 import { selectLeads, setToggle } from "app/features/modalSlice";
-import { FaEnvelope } from "react-icons/fa";
+import { GoPencil } from "react-icons/go";
 import { useSelector, useDispatch } from "react-redux";
 import { useToggleLocal } from "app/hooks/useToggleLocal";
 import Button from "app/components/buttons/Button";
@@ -46,15 +46,15 @@ const SendEmailButton = ({ lead, type = 'lead' }) => {
             onMouseEnter={() => toggleState(true)}
             onMouseLeave={() => toggleState(false)}
             onClick={emailModal}
-            className="cursor-pointer duration-300 text-blue-600 hover:text-blue-800"
+            className="cursor-pointer p-2 bg-blue-200/50 duration-300 relative text-blue-600 hover:bg-blue-200 rounded-lg"
           >
-            <FaEnvelope />
+            <GoPencil />
+            <HoverModal
+              isOpen={isOpen}
+              className="right-2 -top-8 w-20"
+              text="Send email"
+            />
           </FlexBox>
-          <HoverModal
-            isOpen={isOpen}
-            className="right-10 top-1"
-            text="Send email"
-          />
         </>
       )}
     </>

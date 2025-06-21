@@ -1,5 +1,5 @@
 "use client"
-import { IoMdNotifications } from "react-icons/io";
+import { IoMdNotifications, IoMdSettings } from "react-icons/io";
 import { FaStar, FaChartLine, FaDatabase, FaInbox, FaLock } from "react-icons/fa";
 import { FaRegFolderClosed } from "react-icons/fa6";
 import { PiShootingStarFill } from "react-icons/pi";
@@ -53,7 +53,7 @@ const links = [
   {
     href: "/dashboard/settings",
     label: "Settings",
-    icon: <FaLock />,
+    icon: <IoMdSettings />,
   },
 ];
 
@@ -80,6 +80,7 @@ const DashboardSide = () => {
         <AddExtraLeads />
         <Button
           type="extra"
+          className="w-full center"
           onClick={handleAddTeammateClick}
         >
           <BsPersonAdd />
