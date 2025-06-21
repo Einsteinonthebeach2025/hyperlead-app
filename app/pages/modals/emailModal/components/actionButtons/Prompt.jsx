@@ -3,7 +3,7 @@ import Close from 'app/components/buttons/Close'
 import FlexBox from 'app/components/containers/FlexBox'
 import SubTitle from 'app/components/SubTitle'
 import React from 'react'
-import { MdElectricBolt } from 'react-icons/md'
+import { VscSparkle } from "react-icons/vsc";
 
 const Prompt = ({ handleClick, prompt, setPrompt, loading, generateEmail, error }) => {
     return (
@@ -25,7 +25,7 @@ const Prompt = ({ handleClick, prompt, setPrompt, loading, generateEmail, error 
                 onClick={generateEmail}
                 disabled={loading || !prompt.trim()}
             >
-                <MdElectricBolt />
+                <VscSparkle />
             </AiButton>
             {error && <p className="text-red-500">{error}</p>}
         </div>

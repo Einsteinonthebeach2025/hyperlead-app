@@ -5,6 +5,7 @@ import CardContainer from "app/components/containers/CardContainer";
 import ContentHeadline from "app/components/ContentHeadline";
 import ToggleButton from "./ToggleButton";
 import EnrollingQr from "./EnrollingQr";
+import MidInfo from "./MidInfo";
 
 const GoogleAuthenticator = () => {
   const [factor, setFactor] = useState(null); // Current TOTP factor (verified or unverified)
@@ -54,12 +55,14 @@ const GoogleAuthenticator = () => {
 
 
   return (
-    <CardContainer className="space-y-2 w-full lg:w-fit">
+    <CardContainer className="space-y-2 w-full lg:w-2/4">
       <ContentHeadline
+        className=""
         type="column-start"
         title="Two-Factor Authentication"
-        desc="Enable 2FA to secure your account"
+        desc="Secure your account with an extra layer of protection. When enabled, you'll be required to enter a one-time code sent to your email or device each time you log in."
       />
+      <MidInfo />
       <ToggleButton
         factor={factor}
         enrolling={enrolling}

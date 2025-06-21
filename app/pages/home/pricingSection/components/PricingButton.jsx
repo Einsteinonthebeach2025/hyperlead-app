@@ -19,7 +19,6 @@ const PricingButton = ({ item }) => {
       );
       return;
     }
-
     if (!user?.profile?.preferences?.length) {
       dispatch(
         setError({
@@ -31,7 +30,6 @@ const PricingButton = ({ item }) => {
       );
       return;
     }
-
     // Open PayPal payment modal with selected plan
     dispatch(
       setToggle({

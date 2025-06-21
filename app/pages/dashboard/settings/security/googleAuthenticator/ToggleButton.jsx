@@ -1,4 +1,5 @@
 import FlexBox from 'app/components/containers/FlexBox';
+import Paragraph from 'app/components/Paragraph';
 import ToggleSwitch from 'app/components/ToggleSwitch'
 import supabase from 'app/lib/config/supabaseClient'
 
@@ -83,16 +84,19 @@ const ToggleButton = ({
   };
 
   return (
-    <FlexBox type="row-between" className="gap-1">
-      <ToggleSwitch
-        checked={twoFaEnabled}
-        onChange={handleToggle}
-        color={twoFaEnabled ? "#4CAF50" : "#ccc"}
-        disabled={loading}
-      />
-      <span className='font-medium text-blue-500 ml-3'>
-        {twoFaEnabled ? "Disable 2FA" : "Enable 2FA"}
-      </span>
+    <FlexBox type="column" className="gap-1 mt-5">
+      <Paragraph>Enable 2Fa to secure your account</Paragraph>
+      <FlexBox type="row-between" className="gap-1">
+        <ToggleSwitch
+          checked={twoFaEnabled}
+          onChange={handleToggle}
+          color={twoFaEnabled ? "#4CAF50" : "#ccc"}
+          disabled={loading}
+        />
+        <span className='font-medium text-blue-500 ml-3'>
+          {twoFaEnabled ? "Disable 2FA" : "Enable 2FA"}
+        </span>
+      </FlexBox>
     </FlexBox>
   )
 }

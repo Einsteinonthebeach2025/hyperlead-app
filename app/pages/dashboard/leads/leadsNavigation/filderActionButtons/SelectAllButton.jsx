@@ -1,7 +1,7 @@
 "use client";
 import { useDispatch, useSelector } from "react-redux";
 import { selectLeads, toggleSelectedLead } from "app/features/modalSlice";
-import { FaPlus } from "react-icons/fa6";
+import { FaPlus, FaMinus } from "react-icons/fa6";
 import Button from "app/components/buttons/Button";
 
 const SelectAllButton = ({ currentPageLeads }) => {
@@ -33,7 +33,7 @@ const SelectAllButton = ({ currentPageLeads }) => {
 
   return (
     <Button type="extra" onClick={handleSelectAll}>
-      <FaPlus size={12} />
+      {allSelected ? <FaMinus size={12} /> : <FaPlus size={12} />}
       {allSelected ?
         <span>Remove All</span>
         :

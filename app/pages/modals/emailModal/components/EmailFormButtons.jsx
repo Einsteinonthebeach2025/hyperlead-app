@@ -1,4 +1,4 @@
-import { MdElectricBolt } from 'react-icons/md'
+import { VscSparkle } from "react-icons/vsc";
 import { FaEnvelope } from 'react-icons/fa'
 import { useState } from "react";
 import Button from 'app/components/buttons/Button'
@@ -35,7 +35,7 @@ const EmailFormButtons = ({ loading, formData, setFormData, handleClick }) => {
 const AiCompose = ({ handleClick }) => {
   return (
     <AiButton text="compose with ai" onClick={handleClick} >
-      <MdElectricBolt />
+      <VscSparkle />
     </AiButton>
   )
 }
