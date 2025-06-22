@@ -1,17 +1,16 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { PayPalButtons } from "@paypal/react-paypal-js";
-import { selectUser, setUser } from "app/features/userSlice";
+import { selectUser } from "app/features/userSlice";
 import { setError, setToggle, selectPayPalPaymentModal } from "app/features/modalSlice";
 import { createTransaction, processSubscription } from "app/lib/actions/transactionActions";
 import { addExtraLeads } from "app/lib/actions/leadActions";
 import { SUBSCRIPTION_PLANS, EXTRA_LEADS_PLAN } from "app/lib/config/paypalConfig";
 import ModalWrapper from "app/components/containers/ModalWrapper";
-import SubTitle from "app/components/SubTitle";
-import Paragraph from "app/components/Paragraph";
-import Spinner from "app/components/Spinner";
-import PlanDetails from "./PlanDetails";
+import PlanDetails from "./components/PlanDetails";
+import TwoFactorAuthModal from "app/components/modals/TwoFactorAuthModal";
+import ButtonSection from "./components/ButtonSection";
+import ProcessingSection from "./components/ProcessingSection";
 
 const PayPalPaymentModal = () => {
   const dispatch = useDispatch();
@@ -19,6 +18,10 @@ const PayPalPaymentModal = () => {
   const { isOpen, selectedPlan } = useSelector(selectPayPalPaymentModal);
   const [loading, setLoading] = useState(false);
   const [showAppProcessing, setShowAppProcessing] = useState(false);
+  const [show2FAModal, setShow2FAModal] = useState(false);
+  const [is2FAVerified, setIs2FAVerified] = useState(false);
+  const [twoFARequired, setTwoFARequired] = useState(false);
+  const [isChecking2FA, setIsChecking2FA] = useState(true);
 
   const handleClose = () => {
     dispatch(
@@ -28,6 +31,55 @@ const PayPalPaymentModal = () => {
         data: null,
       })
     );
+    setShow2FAModal(false);
+    setIs2FAVerified(false);
+    setTwoFARequired(false);
+    setIsChecking2FA(true);
+  };
+
+  // Check if 2FA is required for this user
+  useEffect(() => {
+    const check2FARequirement = async () => {
+      if (!user) {
+        setIsChecking2FA(false);
+        return;
+      };
+      try {
+        const res = await fetch('/api/auth/check-2fa-payment', { method: 'GET' });
+        const data = await res.json();
+        if (data.requires2FA) {
+          setTwoFARequired(true);
+        }
+      } catch (err) {
+        console.error('Error checking 2FA requirement:', err);
+      } finally {
+        setIsChecking2FA(false);
+      }
+    };
+
+    if (isOpen) {
+      check2FARequirement();
+    }
+  }, [isOpen, user]);
+
+  // Handle 2FA code submission
+  const handle2FASubmit = async (code) => {
+    try {
+      const res = await fetch("/api/auth/verify-2fa-payment", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ token: code }),
+      });
+      const result = await res.json();
+      if (result.verified) {
+        setIs2FAVerified(true);
+        setShow2FAModal(false);
+      } else {
+        dispatch(setError({ message: result.error || "Invalid 2FA code.", type: "error" }));
+      }
+    } catch {
+      dispatch(setError({ message: "2FA verification failed.", type: "error" }));
+    }
   };
 
   if (!isOpen || !selectedPlan) return null;
@@ -49,72 +101,45 @@ const PayPalPaymentModal = () => {
         }),
       });
       const verifyData = await verifyResponse.json();
-      if (!verifyData.success) {
-        throw new Error(verifyData.error || "Payment verification failed");
-      }
-      // Always create a transaction record
+      if (!verifyData.success) throw new Error(verifyData.error || "Payment verification failed");
+
       const transactionResult = await createTransaction(
         user.id,
         orderID,
         selectedPlan,
         plan.price
       );
-      if (!transactionResult.success) {
-        throw new Error(transactionResult.error || "Failed to create transaction");
-      }
+      if (!transactionResult.success) throw new Error(transactionResult.error);
 
       if (selectedPlan === "EXTRA_100") {
-        // Assign extra leads
         const extraLeadsResult = await addExtraLeads(user.id);
-        if (!extraLeadsResult.success) {
-          throw new Error(extraLeadsResult.error || "Failed to assign extra leads");
-        }
-        dispatch(
-          setError({
-            message: `Successfully purchased 100 extra leads!`,
-            type: "success",
-          })
-        );
+        if (!extraLeadsResult.success) throw new Error(extraLeadsResult.error);
+        dispatch(setError({ message: "Successfully purchased 100 extra leads!", type: "success" }));
       } else {
-        // Process subscription and assign leads
         const subscriptionResult = await processSubscription(
           user.id,
           user.email,
           selectedPlan,
           plan.leads
         );
-        if (!subscriptionResult.success) {
-          throw new Error(subscriptionResult.error || "Failed to process subscription");
-        }
-        dispatch(
-          setError({
-            message: `Successfully subscribed to ${selectedPlan} plan and received ${plan.leads} leads!`,
-            type: "success",
-          })
-        );
+        if (!subscriptionResult.success) throw new Error(subscriptionResult.error);
+        dispatch(setError({
+          message: `Subscribed to ${selectedPlan} and received ${plan.leads} leads!`,
+          type: "success",
+        }));
       }
       handleClose();
     } catch (error) {
-      console.error("Payment processing error:", error);
-      dispatch(
-        setError({
-          message: error.message || "Payment processing failed",
-          type: "error",
-        })
-      );
+      console.error("Payment error:", error);
+      dispatch(setError({ message: error.message, type: "error" }));
     } finally {
       setLoading(false);
     }
   };
 
   const handlePaymentError = (error) => {
-    console.error("PayPal payment error:", error);
-    dispatch(
-      setError({
-        message: "Payment failed. Please try again.",
-        type: "error",
-      })
-    );
+    console.error("PayPal error:", error);
+    dispatch(setError({ message: "Payment failed.", type: "error" }));
   };
 
   return (
@@ -123,69 +148,30 @@ const PayPalPaymentModal = () => {
       onClose={handleClose}
       title={`Subscribe to ${selectedPlan} Plan`}
     >
-      <div className="space-y-6 p-6">
+      <div className="space-y-5 w-full ">
         <PlanDetails plan={plan} />
-        <div className="space-y-4">
-          <SubTitle>Complete Payment</SubTitle>
-          <Paragraph>
-            Choose your preferred payment method below. You'll receive {plan.leads} leads immediately after payment.
-          </Paragraph>
-          <div className="flex justify-center max-h-[20vh]">
-            <PayPalButtons
-              style={{
-                layout: "vertical",
-                color: "blue",
-                shape: "rect",
-                label: "pay"
-              }}
-              fundingSource={undefined} // This allows both PayPal and card payments
-              createOrder={(data, actions) => {
-                return actions.order.create({
-                  purchase_units: [
-                    {
-                      amount: {
-                        value: plan.price,
-                        currency_code: "USD",
-                      },
-                      description: `${plan.name} Plan - ${plan.leads} leads per month`,
-                    },
-                  ],
-                });
-              }}
-              onApprove={async (data, actions) => {
-                const order = await actions.order.capture();
-
-                // Show your app's spinner/modal
-                setShowAppProcessing(true);
-
-                // Start backend processing, but don't await it here
-                handlePaymentSuccess(order.id);
-
-                // Return immediately so PayPal closes its modal
-                return;
-              }}
-              onError={handlePaymentError}
-              onCancel={() => {
-                dispatch(
-                  setError({
-                    message: "Payment cancelled",
-                    type: "error",
-                  })
-                );
-              }}
-            />
-          </div>
-        </div>
-
-        {loading && (
-          <div className="text-center py-4">
-            <Spinner />
-            <Paragraph className="mt-2">Processing your payment...</Paragraph>
-          </div>
-        )}
+        <ButtonSection
+          plan={plan}
+          isChecking2FA={isChecking2FA}
+          twoFARequired={twoFARequired}
+          is2FAVerified={is2FAVerified}
+          setShow2FAModal={setShow2FAModal}
+          handlePaymentSuccess={handlePaymentSuccess}
+          handlePaymentError={handlePaymentError}
+          setShowAppProcessing={setShowAppProcessing}
+        />
+        <ProcessingSection loading={loading} />
       </div>
+      <TwoFactorAuthModal
+        isOpen={show2FAModal}
+        onClose={() => setShow2FAModal(false)}
+        onSubmit={handle2FASubmit}
+        loading={loading}
+        type="payment"
+      />
     </ModalWrapper>
   );
 };
 
-export default PayPalPaymentModal; 
+
+export default PayPalPaymentModal;

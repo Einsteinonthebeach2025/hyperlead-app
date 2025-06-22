@@ -6,6 +6,7 @@ import { useToggleLocal } from "app/hooks/useToggleLocal";
 import Button from "app/components/buttons/Button";
 import HoverModal from "../modals/HoverModal";
 import FlexBox from "../containers/FlexBox";
+import { FaEnvelope } from "react-icons/fa6";
 
 const SendEmailButton = ({ lead, type = 'lead' }) => {
   const dispatch = useDispatch();
@@ -46,7 +47,7 @@ const SendEmailButton = ({ lead, type = 'lead' }) => {
             onMouseEnter={() => toggleState(true)}
             onMouseLeave={() => toggleState(false)}
             onClick={emailModal}
-            className="cursor-pointer p-2 bg-blue-200/50 duration-300 relative text-blue-600 hover:bg-blue-200 rounded-lg"
+            className="cursor-pointer p-2 bg-blue-200/50 dark:bg-blue-500/50 duration-300 relative text-blue-500 hover:bg-blue-200 rounded-lg"
           >
             <GoPencil />
             <HoverModal

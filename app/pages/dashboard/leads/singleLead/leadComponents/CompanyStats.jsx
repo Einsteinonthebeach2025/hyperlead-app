@@ -12,7 +12,7 @@ const CompanyStats = ({ data }) => {
       <div className="space-y-4 mt-4">
         <div className="flex items-center gap-3">
           <IconContainer size="md">
-            <FaUsers size={25} />
+            <FaUsers />
           </IconContainer>
           <div>
             <SubTitle>Employees</SubTitle>
@@ -21,7 +21,7 @@ const CompanyStats = ({ data }) => {
         </div>
         <div className="flex items-center gap-3">
           <IconContainer size="md">
-            <FaDollarSign size={25} />
+            <FaDollarSign />
           </IconContainer>
           <div>
             <SubTitle>Annual Revenue</SubTitle>
@@ -32,7 +32,7 @@ const CompanyStats = ({ data }) => {
         </div>
         <div className="flex items-center gap-3">
           <IconContainer size="md">
-            <FaIndustry size={25} />
+            <FaIndustry />
           </IconContainer>
           <div>
             <SubTitle>Industry</SubTitle>
@@ -41,7 +41,7 @@ const CompanyStats = ({ data }) => {
         </div>
         <div className="flex items-center gap-3">
           <IconContainer size="md">
-            <FaBriefcase size="25" />
+            <FaBriefcase />
           </IconContainer>
           <div>
             <SubTitle>Location</SubTitle>

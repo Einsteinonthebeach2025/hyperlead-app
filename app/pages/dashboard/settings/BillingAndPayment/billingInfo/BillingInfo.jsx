@@ -11,7 +11,7 @@ const BillingInfo = () => {
         <CardContainer className="space-y-4">
             <div className="flex items-center gap-3">
                 <IconContainer size="sm">
-                    <IoCardOutline size={20} />
+                    <IoCardOutline />
                 </IconContainer>
                 <SubTitle>Billing Information</SubTitle>
             </div>
@@ -20,7 +20,7 @@ const BillingInfo = () => {
                 <BillingInfoCard
                     title="Payment Methods"
                     description="Manage your payment methods and billing preferences"
-                    icon={<IoCardOutline size={24} />}
+                    icon={<IoCardOutline />}
                     actionText="Manage Payment Methods"
                     onClick={() => {/* TODO: Implement payment method management */ }}
                 />
@@ -28,7 +28,7 @@ const BillingInfo = () => {
                 <BillingInfoCard
                     title="Billing Address"
                     description="Update your billing address for invoices"
-                    icon={<IoReceiptOutline size={24} />}
+                    icon={<IoReceiptOutline />}
                     actionText="Update Address"
                     onClick={() => {/* TODO: Implement billing address update */ }}
                 />

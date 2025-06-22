@@ -25,12 +25,12 @@ const TwoFactorAuthModal = ({ isOpen, onClose, onSubmit, loading, type }) => {
   return (
     <AnimatePresence>
       {isOpen && (
-        <MotionContainer animation='fade-in' className='fixed inset-0 top-0 bg-neutral-400/80 backdrop-blur-sm dark:bg-[#1d2939]/90 z-50 flex items-center justify-center'>
+        <MotionContainer animation='fade-in' className='fixed inset-0 top-0 bg-neutral-400/10 dark:bg-[#1d2939]/90 z-50 flex items-center justify-center'>
           <div className='bg-neutral-100 dark:bg-[#151e27] p-6 rounded-lg shadow-[0_10px_25px_rgba(0,0,0,0.5)] max-w-md w-full center flex-col space-y-4 relative'>
             <Close onClick={onClose} className='absolute top-4 right-4' />
             <div className="center flex-col w-full space-y-2">
               <IconContainer size='md'>
-                <FaShieldAlt size={28} />
+                <FaShieldAlt />
               </IconContainer>
               <Title className='capitalize'>Two-Factor Authentication</Title>
               <Paragraph className="text-center">
@@ -72,13 +72,26 @@ const TrustedDeviceModal = ({ type }) => {
         <div className="bg-blue-50 dark:bg-[#1d2939] border border-blue-300 flex flex-col text-sm p-4 rounded-md items-start shadow-sm gap-2">
           <FlexBox tyype='row' className="gap-1">
             <IconContainer size="sm">
-              <MdDevices size={20} className='text-blue-500' />
+              <MdDevices />
             </IconContainer>
             <SubTitle className="text-blue-600">New Device Detected</SubTitle>
           </FlexBox>
           <p className='text-blue-500'>
-            For your security, we’ve detected that you are signing in from an unrecognized device.
+            For your security, we've detected that you are signing in from an unrecognized device.
             Please complete the Two-Factor Authentication process to continue. You can choose to trust this device for faster logins in the future.
+          </p>
+        </div>
+      )}
+      {type === "payment" && (
+        <div className="bg-green-50 dark:bg-[#1d2939] border border-green-300 flex flex-col text-sm p-4 rounded-md items-start shadow-sm gap-2">
+          <FlexBox tyype='row' className="gap-1">
+            <IconContainer size="sm" color="green">
+              <FaShieldAlt />
+            </IconContainer>
+            <SubTitle className="text-green-600">Secure Payment Verification</SubTitle>
+          </FlexBox>
+          <p className='text-green-500'>
+            For your security, we require an extra verification step to protect your payment information and authorize this transaction.
           </p>
         </div>
       )}

@@ -9,8 +9,8 @@ const LeadHeader = ({ data }) => {
   return (
     <CardContainer className="flex space-x-2">
       <div className="center">
-        <IconContainer>
-          <FaBuilding size={24} />
+        <IconContainer sieze="md">
+          <FaBuilding />
         </IconContainer>
       </div>
       <div className="space-y-1">

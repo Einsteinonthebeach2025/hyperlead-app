@@ -37,8 +37,8 @@ const BasicStats = ({ data }) => {
         const { icon, title, value } = stats;
         return (
           <MotionChildren key={index} animation="fade-in">
-            <CardContainer className="space-y-1 capitalize ">
-              <IconContainer size="sm" className="text-xl">
+            <CardContainer className="space-y-1 capitalize">
+              <IconContainer size="md">
                 {icon}
               </IconContainer>
               <div>

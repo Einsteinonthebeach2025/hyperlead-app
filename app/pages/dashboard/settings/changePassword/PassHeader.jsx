@@ -11,7 +11,7 @@ const PassHeader = () => {
     <MotionContainer animation="zoom-out">
       <FlexBox type="center-col">
         <IconContainer size="sm">
-          <IoLockClosed size="20" />
+          <IoLockClosed />
         </IconContainer>
         <Title>Change Password</Title>
         <Paragraph> Update your password to keep your account secure</Paragraph>

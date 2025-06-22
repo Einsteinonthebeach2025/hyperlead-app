@@ -20,9 +20,9 @@ const DashboardSettingsNavBar = () => {
         return (
           <Link key={tab.name} href={tab.href}>
             <span
-              className={` px-2 py-2 text-sm font-medium rounded-lg cursor-pointer transition-colors duration-200 ${isActive
-                ? 'bg-blue-500 text-white hover:bg-blue-600'
-                : 'bg-neutral-200 hover:bg-neutral-300  dark:bg-[#344c63] dark:hover:bg-[#476581] dark:text-neutral-200'
+              className={` px-2 text-sm font-medium rounded-lg text-black py-2 space-x-1 border cursor-pointer transition-colors duration-200 ${isActive
+                ? 'bg-sky-300/50 hover:bg-sky-300 dark:bg-sky-400 border-sky-500'
+                : 'bg-neutral-200 hover:bg-neutral-300  dark:bg-[#344c63] dark:hover:bg-[#476581] dark:text-neutral-200 primary-border'
                 }`}
             >
               {tab.name}

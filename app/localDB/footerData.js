@@ -23,11 +23,11 @@ const footerData = [
     links: [
       {
         title: "privacy policy",
-        link: "/",
+        link: "/privacy-policy",
       },
       {
         title: "terms of use",
-        link: "/",
+        link: "/terms-of-use",
       },
     ],
   },

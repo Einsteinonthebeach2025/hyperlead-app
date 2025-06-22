@@ -4,8 +4,9 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { IoMdLogIn } from "react-icons/io";
 import { signIn } from "app/lib/actions/authActions";
-import Link from "next/link";
 import { setError } from "app/features/modalSlice";
+import { UAParser } from 'ua-parser-js';
+import Link from "next/link";
 import Button from "app/components/buttons/Button";
 import GoogleButton from "app/components/buttons/GoogleButton";
 import TwoFactorAuthModal from "app/components/modals/TwoFactorAuthModal";
@@ -26,13 +27,11 @@ const SignInForm = () => {
     try {
       setLoading(true);
       const { error } = await signIn({ email, password });
-
       if (error) {
         dispatch(setError(error));
         setLoading(false);
         return;
       }
-      // After sign-in, check for trusted device or 2FA need
       setCheckingTrust(true);
       const res = await fetch('/api/auth/check-trust', { method: 'POST' });
       const result = await res.json();
@@ -55,17 +54,24 @@ const SignInForm = () => {
     setLoading(true);
     setTwoFAError("");
     try {
+      const parser = new UAParser();
+      const result = parser.getResult();
+      const deviceInfo = {
+        device: `${result.device.vendor || 'Desktop'} ${result.device.model || ''}`.trim(),
+        os: `${result.os.name || 'Unknown'} ${result.os.version || ''}`.trim(),
+        browser: `${result.browser.name || 'Unknown'} ${result.browser.version || ''}`.trim(),
+      };
       const res = await fetch('/api/auth/verify-2fa', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ code }),
+        body: JSON.stringify({ code, deviceInfo }),
       });
-      const result = await res.json();
+      const resultData = await res.json();
       if (res.ok) {
         setShow2FAModal(false);
         router.push("/");
       } else {
-        setTwoFAError(result.error || "Invalid 2FA code.");
+        setTwoFAError(resultData.error || "Invalid 2FA code.");
       }
     } catch (error) {
       setTwoFAError("An error occurred during 2FA verification.");

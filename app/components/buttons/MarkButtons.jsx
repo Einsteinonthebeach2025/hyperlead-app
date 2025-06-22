@@ -29,7 +29,7 @@ const MarkButton = ({ lead, onStatusChange }) => {
         onMouseEnter={() => toggleState(true)}
         onMouseLeave={() => toggleState(false)}
         onClick={handleUsedStatus}
-        className="bg-green-200/50 relative p-2 duration-300 hover:bg-green-200 rounded-lg"
+        className="bg-green-200/50 dark:bg-green-500/50 relative p-2 duration-300 hover:bg-green-200 rounded-lg"
       >
         <div className="text-green-600">
           {active ? <FaBookmark /> : <FaRegBookmark />}

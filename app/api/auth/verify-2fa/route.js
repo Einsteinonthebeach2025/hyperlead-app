@@ -8,7 +8,7 @@ const hashToken = (token) =>
 
 export async function POST(request) {
   try {
-    const { code } = await request.json();
+    const { code, deviceInfo } = await request.json();
     const cookieStore = cookies();
     const supabase = await createServerClient();
 
@@ -25,7 +25,6 @@ export async function POST(request) {
 
     const { user } = session;
 
-    // ✅ Use "factors" not "amr"!
     const factorId = user.factors?.find(
       (factor) => factor.factor_type === "totp" && factor.status === "verified"
     )?.id;
@@ -37,22 +36,19 @@ export async function POST(request) {
       );
     }
 
-    // Start challenge
     await supabase.auth.mfa.challenge({ factorId });
-
-    // Verify provided code
     await supabase.auth.mfa.verify({ factorId, code });
 
-    // Trusted device token generation
     const token = crypto.randomBytes(32).toString("hex");
     const tokenHash = hashToken(token);
     const expiresAt = new Date();
-    expiresAt.setDate(expiresAt.getDate() + 30); // 30 days trust
+    expiresAt.setDate(expiresAt.getDate() + 30); // Trust 30 days
 
     const { error: dbError } = await supabase.from("trusted_devices").insert({
       user_id: user.id,
       token_hash: tokenHash,
       expires_at: expiresAt.toISOString(),
+      device_info: `${deviceInfo.device} | ${deviceInfo.os} | ${deviceInfo.browser}`,
     });
 
     if (dbError) {

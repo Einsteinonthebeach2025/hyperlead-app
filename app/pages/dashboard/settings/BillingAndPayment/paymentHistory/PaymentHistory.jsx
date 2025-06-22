@@ -9,7 +9,7 @@ const PaymentHistory = ({ transactions }) => {
         <CardContainer className="space-y-4">
             <div className="flex items-center gap-3">
                 <IconContainer size="sm">
-                    <IoReceiptOutline size={20} />
+                    <IoReceiptOutline />
                 </IconContainer>
                 <SubTitle>Transaction History</SubTitle>
             </div>

@@ -10,12 +10,12 @@ const SocialLinks = ({ data }) => {
       <FlexBox className="w-fit space-x-2">
         {data?.company_linkedin_url && (
           <IconContainer href={data?.company_linkedin_url} size="sm">
-            <FaLinkedin size={20} />
+            <FaLinkedin />
           </IconContainer>
         )}
         {data?.twitter_url && (
           <IconContainer href={data?.twitter_url} size="sm">
-            <FaTwitter size={20} />
+            <FaTwitter />
           </IconContainer>
         )}
       </FlexBox>

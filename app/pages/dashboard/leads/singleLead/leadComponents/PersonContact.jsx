@@ -17,7 +17,7 @@ const PersonContact = ({ data }) => {
         <FlexBox type="row-start" className="gap-2 items-center">
           <div>
             <IconContainer size="sm">
-              <FaUserTie size={20} />
+              <FaUserTie />
             </IconContainer>
           </div>
           <div>

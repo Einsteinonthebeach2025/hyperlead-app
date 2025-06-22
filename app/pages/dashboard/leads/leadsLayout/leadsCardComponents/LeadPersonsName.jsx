@@ -42,9 +42,9 @@ const PersonInitials = ({ lead, colorTheme }) => {
     }`.toUpperCase();
 
   const colorClasses = {
-    violet: "text-violet-500 dark:text-violet-100 bg-violet-200 group-hover:bg-violet-300 dark:bg-violet-400 group-hover:dark:bg-violet-500",
-    green: "text-green-500 dark:text-green-100 bg-green-200 group-hover:bg-green-300 dark:bg-green-400 group-hover:dark:bg-green-500",
-    blue: "text-blue-500 dark:text-blue-100 bg-blue-200 group-hover:bg-blue-300 dark:bg-blue-400 group-hover:dark:bg-blue-500",
+    violet: "text-violet-500 dark:text-violet-800 bg-violet-200 group-hover:bg-violet-300 dark:bg-violet-400 group-hover:dark:bg-violet-500",
+    green: "text-green-500 dark:text-green-800 bg-green-200 group-hover:bg-green-300 dark:bg-green-400 group-hover:dark:bg-green-500",
+    blue: "text-blue-500 dark:text-blue-800 bg-blue-200 group-hover:bg-blue-300 dark:bg-blue-400 group-hover:dark:bg-blue-500",
   };
 
   const selectedColorClass = colorClasses[colorTheme] || "text-rose-500 dark:text-rose-100 bg-rose-200 group-hover:bg-rose-300 dark:bg-rose-400 group-hover:dark:bg-rose-500";
