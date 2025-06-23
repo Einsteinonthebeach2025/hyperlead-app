@@ -88,6 +88,7 @@ const ChangePwdForm = () => {
               value={form[name]}
               onChange={(e) => handleChange(name, e.target.value)}
               placeholder={`Enter ${label.toLowerCase()}`}
+              className='bg-neutral-200'
               required
             />
             <button

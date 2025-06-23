@@ -107,7 +107,8 @@ const PayPalPaymentModal = () => {
         user.id,
         orderID,
         selectedPlan,
-        plan.price
+        plan.price,
+        verifyData.paymentMethod
       );
       if (!transactionResult.success) throw new Error(transactionResult.error);
 

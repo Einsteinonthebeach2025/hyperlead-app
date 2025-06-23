@@ -3,18 +3,33 @@ import { assignLeadsToUser } from "./leadActions";
 import { updateProfile } from "./profileActions";
 import { notifyUserOnSubscription } from "./notificationActions";
 
-export const createTransaction = async (userId, orderID, planName, amount) => {
+export const createTransaction = async (
+  userId,
+  orderID,
+  planName,
+  amount,
+  paymentMethod = null
+) => {
   try {
+    const transactionData = {
+      user_id: userId,
+      order_id: orderID,
+      plan_name: planName,
+      amount: amount,
+      status: "completed",
+      created_at: new Date().toISOString(),
+    };
+
+    // Add payment method details if available
+    if (paymentMethod) {
+      transactionData.card_brand = paymentMethod.brand;
+      transactionData.card_last4 = paymentMethod.last4;
+      transactionData.masked_card = paymentMethod.maskedCard;
+    }
+
     const { data, error } = await supabase
       .from("transactions")
-      .insert({
-        user_id: userId,
-        order_id: orderID,
-        plan_name: planName,
-        amount: amount,
-        status: "completed",
-        created_at: new Date().toISOString(),
-      })
+      .insert(transactionData)
       .select()
       .single();
 

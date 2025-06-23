@@ -48,7 +48,7 @@ const LeadCard = ({ leads, onLeadStatusChange, onLeadLikeChange, type, onLeadCli
                 exit={{ opacity: 0, rotateX: 90 }}
                 transition={{ duration: 0.5 }}
               >
-                <CardContainer className={`grid grid-cols-[1.3fr_0.5fr_1.2fr_1.5fr_0.8fr] gap-3 place-content-center group relative h-20 group ${lead?.used ? "opacity-60" : ""
+                <CardContainer className={`grid grid-cols-[1.7fr_0.3fr_1.2fr_1.5fr_0.8fr] gap-3 place-content-center group relative h-20 group ${lead?.used ? "opacity-60" : ""
                   }`}>
                   <LeadPersonsName lead={lead} colorTheme={colorTheme} />
                   <FlexBox type="row-start" className="items-center">

@@ -2,7 +2,6 @@
 import CardContainer from 'app/components/containers/CardContainer'
 import FlexBox from 'app/components/containers/FlexBox';
 import IconContainer from 'app/components/containers/IconContainer';
-import Paragraph from 'app/components/Paragraph';
 import SubTitle from 'app/components/SubTitle';
 import { IoCardOutline, IoReceiptOutline } from 'react-icons/io5'
 

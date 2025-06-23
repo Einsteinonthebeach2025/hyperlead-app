@@ -25,12 +25,12 @@ const LeadLocation = ({ lead = {}, colorTheme }) => {
             <CountryFlags style={{ width: '18px', height: '18px' }} countryName={country} /></div>
         }
         <FlexBox type="column-start" className="items-center">
-          {country && <h1 className="dark:text-neutral-100  text-xs font-bold">{country}</h1>}
+          {city && <h1 className="dark:text-neutral-100  text-xs font-bold">{city}</h1>}
           <FlexBox type="row-start" className={`${colorClass} space-x-1 items-center font-medium text-[10px]`}>
-            {city && <h1>{city}</h1>}
+            {state && <h1>{state}</h1>}
             {city && <Dot />}
-            {state && (
-              <h1>{state}</h1>
+            {country && (
+              <h1>{country}</h1>
             )}
           </FlexBox>
         </FlexBox>

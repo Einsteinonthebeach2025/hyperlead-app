@@ -76,6 +76,25 @@ export async function POST(req) {
     }
     const amount = data.purchase_units[0].amount.value;
 
+    // Extract payment method details
+    let paymentMethod = {
+      brand: "PAYPAL",
+      last4: "PAYPAL",
+      maskedCard: "PAYPAL",
+    };
+
+    // Check if payment was made with a card (not PayPal balance)
+    if (data.payment_source) {
+      const cardPayment = data.payment_source.card;
+      if (cardPayment) {
+        paymentMethod = {
+          brand: cardPayment.brand?.toUpperCase() || "CARD",
+          last4: cardPayment.last_4_digits || "****",
+          maskedCard: `${cardPayment.brand?.toUpperCase() || "CARD"} / **** **** **** ${cardPayment.last_4_digits || "****"}`,
+        };
+      }
+    }
+
     // Verify amount matches plan
     let plan;
     if (planName === "EXTRA_100") {
@@ -99,6 +118,7 @@ export async function POST(req) {
       orderID: data.id,
       plan: planName,
       leads: plan.leads,
+      paymentMethod: paymentMethod,
     });
   } catch (error) {
     console.error("PayPal verification error:", error);
