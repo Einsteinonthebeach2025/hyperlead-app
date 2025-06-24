@@ -28,6 +28,22 @@ export const EXTRA_LEADS_PLAN = {
   description: "One-time purchase of 100 additional leads.",
 };
 
+export const SINGLE_LEAD_PLAN = {
+  name: "Lead Unlock",
+  price: "2.00",
+  leads: 1,
+  description: "Unlock this specific lead for a one-time fee.",
+};
+
 export const getPlanDetails = (planName) => {
-  return SUBSCRIPTION_PLANS[planName.toUpperCase()] || SUBSCRIPTION_PLANS.PLUS;
+  switch (planName.toUpperCase()) {
+    case "EXTRA_100":
+      return EXTRA_LEADS_PLAN;
+    case "SINGLE_LEAD":
+      return SINGLE_LEAD_PLAN;
+    default:
+      return (
+        SUBSCRIPTION_PLANS[planName.toUpperCase()] || SUBSCRIPTION_PLANS.PLUS
+      );
+  }
 };

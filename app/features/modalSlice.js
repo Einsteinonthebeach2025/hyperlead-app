@@ -52,7 +52,8 @@ const modalSlice = createSlice({
         state.globalModal.data = data || null;
       } else if (modalType === "paypalPayment") {
         state.paypalPaymentModal.isOpen = isOpen;
-        state.paypalPaymentModal.selectedPlan = data || null;
+        state.paypalPaymentModal.selectedPlan = data?.selectedPlan || null;
+        state.paypalPaymentModal.data = data || null;
       } else if (modalType === "hyperSearch") {
         state.hyperSearchModal.isOpen = isOpen;
         state.hyperSearchModal.data = data || null;

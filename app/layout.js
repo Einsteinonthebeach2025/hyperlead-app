@@ -12,9 +12,9 @@ import ExtraLeadOptions from "./pages/dashboard/dashboardSide/extraLeads/ExtraLe
 import PayPalProviderWrapper from "./lib/store/PaypalProviderWrapper";
 import TransactionsData from "./pages/adminPanel/userManagement/list/components/userTransactions/TransactionsData";
 import PayPalPaymentModal from "./components/modals/paypalModal/PayPalPaymentModal";
-import HyperSearchModal from "./components/modals/HyperSearchModal";
 import { StoreProvider } from "./lib/store/StoreProvider";
 import { Inter_Tight } from "next/font/google";
+import HyperSearchModal from "./components/modals/hyperSearchModal/HyperSearchModal";
 
 const interTight = Inter_Tight({
   subsets: ["latin"],

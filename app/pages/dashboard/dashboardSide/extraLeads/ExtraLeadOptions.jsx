@@ -25,7 +25,7 @@ const ExtraLeadOptions = () => {
       setToggle({
         modalType: "paypalPayment",
         isOpen: true,
-        data: "EXTRA_100",
+        data: { selectedPlan: "EXTRA_100" },
       })
     );
     toggle();

@@ -8,10 +8,10 @@ import Close from 'app/components/buttons/Close'
 import Spinner from 'app/components/Spinner';
 import MotionContainer from 'app/components/containers/MotionContainer'
 import debounce from 'lodash/debounce';
-import HyperSearchBar from './hyperSearchModal/HyperSearchBar';
-import ResultCard from './hyperSearchModal/ResultCard';
-import NoResult from './hyperSearchModal/NoResult';
+import HyperSearchBar from './components/HyperSearchBar';
 import { selectUser } from 'app/features/userSlice';
+import ResultCard from './components/ResultCard';
+import NoResult from './components/NoResult';
 
 const HyperSearchModal = () => {
   const dispatch = useDispatch()
@@ -87,7 +87,7 @@ const HyperSearchModal = () => {
   return (
     <AnimatePresence>
       {isOpen && (
-        <MotionContainer animation='fade-in' className='fixed inset-0 top-0 bg-neutral-400/80 backdrop-blur-sm dark:bg-[#1d2939]/90 z-50 flex items-center justify-center p-4'>
+        <MotionContainer animation='fade-in' className='fixed inset-0 top-0 bg-neutral-400/80 backdrop-blur-sm dark:bg-[#1d2939]/90 z-10 flex items-center justify-center p-4'>
           <div className='bg-white dark:bg-[#151e27] p-6 rounded-lg shadow-[0_10px_25px_rgba(0,0,0,0.5)] w-full max-w-2xl h-[90vh] flex flex-col'>
             <Close onClick={handleClose} className='absolute top-4 right-4' />
             <HyperSearchBar query={query} setQuery={setQuery} />

@@ -1,8 +1,7 @@
-import { useState } from 'react'
 import Button from 'app/components/buttons/Button'
+import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { unlockingLeads } from 'app/lib/actions/leadActions'
-import { setError } from 'app/features/modalSlice'
+import { setError, setToggle } from 'app/features/modalSlice'
 import { selectUser } from 'app/features/userSlice'
 
 const UnlockLead = ({ leadId, isUnlocked, handleClose }) => {
@@ -13,21 +12,23 @@ const UnlockLead = ({ leadId, isUnlocked, handleClose }) => {
   const userName = user?.profile?.userName || user?.user_metadata?.name;
   const [loading, setLoading] = useState(false)
 
-  const handleUnlock = async () => {
+
+  const handleUnlock = () => {
     if (!userId || !userEmail || !userName) {
-      dispatch(setError({ message: "User not authenticated", type: "error" }))
-      return
+      dispatch(setError({ message: "User not authenticated", type: "error" }));
+      return;
     }
-    setLoading(true)
-    const result = await unlockingLeads(leadId, userId, userEmail, userName)
-    setLoading(false)
-    if (result.success) {
-      handleClose()
-      dispatch(setError({ message: "Lead unlocked successfully", type: "success" }))
-    } else {
-      dispatch(setError({ message: result.error || "Failed to unlock lead", type: "error" }))
-    }
-  }
+    dispatch(
+      setToggle({
+        modalType: "paypalPayment",
+        isOpen: true,
+        data: {
+          selectedPlan: "SINGLE_LEAD",
+          leadId: leadId,
+        },
+      })
+    );
+  };
 
   if (isUnlocked) {
     return (
@@ -43,7 +44,6 @@ const UnlockLead = ({ leadId, isUnlocked, handleClose }) => {
       className='text-xs whitespace-nowrap'
       onClick={handleUnlock}
       disabled={loading}
-      loading={loading}
     >
       {loading ? 'Unlocking...' : 'Unlock Lead'}
     </Button>

@@ -35,7 +35,7 @@ const PricingButton = ({ item }) => {
       setToggle({
         modalType: "paypalPayment",
         isOpen: true,
-        data: item.title,
+        data: { selectedPlan: item.title.toUpperCase() },
       })
     );
   };

@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import {
   SUBSCRIPTION_PLANS,
   EXTRA_LEADS_PLAN,
+  SINGLE_LEAD_PLAN,
 } from "app/lib/config/paypalConfig";
 
 export async function POST(req) {
@@ -99,6 +100,8 @@ export async function POST(req) {
     let plan;
     if (planName === "EXTRA_100") {
       plan = EXTRA_LEADS_PLAN;
+    } else if (planName === "SINGLE_LEAD") {
+      plan = SINGLE_LEAD_PLAN;
     } else {
       plan = SUBSCRIPTION_PLANS[planName.toUpperCase()];
     }

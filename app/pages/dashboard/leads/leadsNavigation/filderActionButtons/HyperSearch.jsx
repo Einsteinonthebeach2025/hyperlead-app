@@ -2,7 +2,7 @@
 import Button from 'app/components/buttons/Button'
 import { setError, setToggle } from 'app/features/modalSlice';
 import { selectUser } from 'app/features/userSlice';
-import { MdOfflineBolt } from "react-icons/md";
+import { PiMagicWand } from 'react-icons/pi';
 import { useDispatch, useSelector } from 'react-redux';
 
 const HyperSearch = () => {
@@ -20,7 +20,7 @@ const HyperSearch = () => {
 
     return (
         <Button type="extra" onClick={handleClick}>
-            <MdOfflineBolt />
+            <PiMagicWand />
             <span>Search Hyperbase</span>
         </Button>
     )
