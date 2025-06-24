@@ -9,6 +9,7 @@ import { useState, useEffect } from "react";
 import { filterConfig } from "app/helpers/filterHelpers";
 import LeadsNaming from "./LeadsNaming";
 import SpanText from "app/components/SpanText";
+import HyperSearch from "./filderActionButtons/HyperSearch";
 
 const LeadFilter = ({
   leads = [],
@@ -49,6 +50,7 @@ const LeadFilter = ({
         <SelectAllButton currentPageLeads={currentPageLeads} />
         <NewCampaignButton />
         <AddExtraLeads type="extra" />
+        <HyperSearch />
       </FlexBox>
       <LeadsNaming />
     </FlexBox>

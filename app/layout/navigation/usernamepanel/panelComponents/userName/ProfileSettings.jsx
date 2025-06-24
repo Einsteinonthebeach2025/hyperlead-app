@@ -1,7 +1,7 @@
 "use client";
 import { AnimatePresence } from "framer-motion";
-import { FaUser } from "react-icons/fa";
-import { MdDashboard, MdBusinessCenter, MdAssistant, MdLogout } from "react-icons/md";
+import { FaMapMarkedAlt, FaUserEdit } from "react-icons/fa";
+import { MdLogout } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
 import { signOut } from "app/lib/actions/authActions";
@@ -10,6 +10,9 @@ import { setError } from "app/features/modalSlice";
 import MotionContainer from "app/components/containers/MotionContainer";
 import Button from "app/components/buttons/Button";
 import CardContainer from "app/components/containers/CardContainer";
+import { FaChartLine } from "react-icons/fa6";
+import { IoMdOptions } from "react-icons/io";
+import { BsPersonFillAdd } from "react-icons/bs";
 
 const ProfileSettings = ({ isOpen, handleActive }) => {
   const dispatch = useDispatch();
@@ -55,33 +58,33 @@ const ProfileSettings = ({ isOpen, handleActive }) => {
     {
       name: "My profile",
       href: "/myprofile",
-      icon: <FaUser />,
+      icon: <FaUserEdit />,
       type: "link",
     },
     {
       name: "Dashboard",
-      icon: <MdDashboard />,
+      icon: <FaChartLine />,
       href: "/dashboard/activities",
       type: "link",
     },
     {
       name: "Lead Regions",
       href: "/regions",
-      icon: <MdBusinessCenter />,
+      icon: <FaMapMarkedAlt />,
       type: "link",
     },
 
     {
       name: "Intustry Preferences",
       href: "/preferences",
-      icon: <MdBusinessCenter />,
+      icon: <IoMdOptions />,
       type: "link",
     },
 
     {
       name: "Add Teammate",
       href: "/add-assistant",
-      icon: <MdAssistant />,
+      icon: <BsPersonFillAdd />,
       type: "link",
     },
     {

@@ -355,3 +355,25 @@ export const notifyAssistantAccept = async (bossId, assistantEmail) => {
   }
   return { success: true, data: notification };
 };
+
+export const notifyUnlockingLead = async (userId, userName) => {
+  try {
+    const { data, error } = await supabase
+      .from("notifications")
+      .insert({
+        user_id: userId,
+        type: "unlocking lead",
+        message: `${userName}, you have successfully unlocked lead.`,
+        read: false,
+        importance: "medium",
+        metadata: {},
+        action_url: "",
+      })
+      .select()
+      .single();
+    if (error) throw error;
+    return { data, error: null };
+  } catch (error) {
+    return { data: null, error: error.message };
+  }
+};

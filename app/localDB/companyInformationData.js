@@ -2,108 +2,99 @@ export const termsData = [
   {
     type: "paragraph",
     content:
-      'Welcome to HyperLead, a lead generation platform operated by HyperLead. These Terms of Use (“Terms”) govern your access to and use of our website (<a href="https://www.hyperlead.net" class="text-blue-500 hover:underline">https://www.hyperlead.net</a>), dashboard, and related services (the “Service”).',
+      'HyperLead – Terms of Use\nWelcome to HyperLead, a lead generation software platform operated by HyperLead. These Terms of Use ("Terms") govern your access to and use of our website [<a href="https://www.hyperlead.net" class="text-blue-500 hover:underline">https://www.hyperlead.net</a>], the user dashboard, and all related services (collectively, the "Service").',
   },
   {
     type: "paragraph",
     content:
-      "By using HyperLead, you agree to these Terms. If you don’t agree, do not use the platform.",
-  },
-  {
-    type: "box",
-    title: "Welcome to Hyperlead",
-    content: [
-      "HyperLead uses advanced AI algorithms and data-driven automation to identify & Scrape Targeted Leads – It collects and verifies business leads from various online sources. Automate Outreach – Sends AI-personalized emails, messages, and follow-ups to engage prospects. Lead Scoring & Tracking – Prioritizes high-converting leads based on AI-driven analysis. Seamless CRM Integration – Syncs ...",
-      "www.hyperlead.net",
-    ],
+      "By accessing or using HyperLead, you confirm that you have read, understood, and agree to be bound by these Terms. If you do not agree, do not use the Service.",
   },
   {
     type: "section",
-    title: "1. Who Can Use HyperLead",
+    title: "1. Eligibility",
     content: [
-      { type: "paragraph", text: "You must:" },
+      { type: "paragraph", text: "To use HyperLead, you must:" },
       {
         type: "list",
         items: [
-          "Be at least 18 years old",
-          "Use HyperLead for <strong>business purposes only</strong> (no personal or consumer use)",
-          "Not use the platform for unlawful, spammy, or unethical activity",
+          "Be at least 18 years of age",
+          "Use the platform solely for business-to-business (B2B) purposes",
+          "Not use the platform for illegal, fraudulent, deceptive, or unethical activities",
         ],
       },
       {
         type: "paragraph",
-        text: "We reserve the right to suspend or terminate accounts at our discretion.",
+        text: "We reserve the right to suspend or terminate access to any user at our sole discretion.",
       },
     ],
   },
   {
     type: "section",
-    title: "2. Your Responsibilities",
+    title: "2. User Responsibilities",
     content: [
-      { type: "paragraph", text: "You agree to:" },
+      { type: "paragraph", text: "By using HyperLead, you agree to:" },
       {
         type: "list",
         items: [
-          "Use leads and email data <strong>only for B2B outreach</strong>",
-          "<strong>Comply with all applicable laws</strong>, including GDPR, CAN-SPAM, PECR, and other data protection laws",
-          "Not sell, resell, or publicly share any data received from HyperLead",
-          "Not misuse, scrape, or attempt to reverse-engineer the system",
+          "Use contact data only for lawful B2B outreach",
+          "Comply with all applicable laws and regulations, including but not limited to GDPR (EU), CAN-SPAM (US), and PECR (UK)",
+          "Not extract, export, resell, redistribute, or publicly share any data from the platform",
+          "Not scrape, reverse-engineer, or attempt to access backend systems or data outside intended use",
+          "Accept full responsibility for the content and legal compliance of any messages or campaigns you send using our tools",
         ],
-      },
-      {
-        type: "paragraph",
-        text: "You're responsible for the emails you send and the way you use the data.",
       },
     ],
   },
   {
     type: "section",
-    title: "3. Lead Data & Accuracy",
+    title: "3. Lead Data Disclaimer",
     content: [
       {
         type: "paragraph",
-        text: "HyperLead provides leads from licensed and publicly available sources. While we aim to ensure accuracy, we <strong>do not guarantee</strong>:",
+        text: "HyperLead provides business contact data sourced from licensed third-party databases and publicly available sources. We do not guarantee:",
       },
       {
         type: "list",
         items: [
-          "That all email addresses are deliverable",
-          "That contact info is 100% up to date",
-          "That outreach results will meet any specific benchmarks",
+          "The accuracy or deliverability of any email addresses",
+          "That any specific lead will respond or convert",
+          "That the data is current, complete, or error-free",
         ],
       },
       {
         type: "paragraph",
-        text: 'Leads are provided <strong>"as-is"</strong> and <strong>"as available."</strong> Use them at your own discretion.',
+        text: 'All data is provided "as-is" and "as available." Users assume all responsibility for how lead data is used.',
       },
     ],
   },
   {
     type: "section",
-    title: "4. Payments & Plans",
+    title: "4. Payments, Subscriptions & Plans",
     content: [
       {
         type: "list",
         items: [
-          "Subscription payments are billed in advance and non-refundable",
-          "You may upgrade, downgrade, or cancel at any time via your account settings",
-          "If payment fails or is overdue, your access may be restricted or paused",
-          "Additional lead credits can be purchased at one-time prices",
+          "Subscription fees are billed in advance and are non-refundable",
+          "Payments are securely processed via third-party providers such as Stripe or PayPal",
+          "You may upgrade, downgrade, or cancel your plan at any time via your account dashboard",
+          "If payment fails or becomes overdue, we may suspend or restrict your access",
+          "One-time lead credits may be purchased in addition to subscriptions",
+          "We reserve the right to modify pricing at any time with prior notice",
         ],
-      },
-      {
-        type: "paragraph",
-        text: "We reserve the right to change pricing at any time with notice.",
       },
     ],
   },
   {
     type: "section",
-    title: "5. Intellectual Property",
+    title: "5. Intellectual Property & License",
     content: [
       {
         type: "paragraph",
-        text: "All content, branding, logos, UI, and features on HyperLead are owned by us. You may not copy, reproduce, or misuse our platform or any of its assets without written permission.",
+        text: "All software, branding, UI components, visuals, and functionality within HyperLead are the exclusive intellectual property of HyperLead.",
+      },
+      {
+        type: "paragraph",
+        text: "You are granted a limited, revocable, non-exclusive, non-transferable license to access and use the Service for your own internal business purposes. You may not copy, reproduce, modify, decompile, scrape, or redistribute any part of the Service without prior written consent.",
       },
     ],
   },
@@ -113,7 +104,7 @@ export const termsData = [
     content: [
       {
         type: "paragraph",
-        text: 'You are responsible for keeping your login credentials secure. If you suspect unauthorized access, notify us immediately at <a href="mailto:contact@hyperlead.net" class="text-blue-500 hover:underline">contact@hyperlead.net</a>.',
+        text: 'You are solely responsible for maintaining the confidentiality of your account credentials and for all activity under your account. If you suspect unauthorized access or breach, you must notify us immediately at <a href="mailto:contact@hyperlead.net" class="text-blue-500 hover:underline">contact@hyperlead.net</a>.',
       },
     ],
   },
@@ -123,62 +114,63 @@ export const termsData = [
     content: [
       {
         type: "paragraph",
-        text: "We strive for 99.9% uptime but don't guarantee that the platform will be uninterrupted or error-free. We may temporarily suspend service for maintenance, upgrades, or security issues.",
+        text: "We aim for 99.9% uptime but do not guarantee continuous or uninterrupted service. We may perform scheduled or emergency maintenance, suspend service for upgrades, or address security concerns without prior notice.",
       },
     ],
   },
   {
     type: "section",
-    title: "8. Termination",
+    title: "8. Termination of Service",
     content: [
       {
         type: "paragraph",
-        text: "We may suspend or terminate your access if:",
+        text: "We reserve the right to suspend or terminate your account if:",
       },
       {
         type: "list",
         items: [
-          "You breach these Terms",
-          "You misuse or abuse the platform",
-          "You attempt to damage, disrupt, or reverse-engineer the service",
+          "You violate these Terms",
+          "You misuse or abuse any part of the Service",
+          "You attempt to access, reverse-engineer, or harm the platform",
         ],
       },
       {
         type: "paragraph",
-        text: "You may also delete your account anytime by contacting support.",
+        text: "You may request account deletion at any time by contacting support.",
       },
     ],
   },
   {
     type: "section",
-    title: "9. Disclaimers & Limitations of Liability",
+    title: "9. Disclaimers & Limitation of Liability",
     content: [
       {
         type: "paragraph",
-        text: 'HyperLead is provided "as-is." We disclaim all warranties, express or implied, including fitness for a particular purpose.',
+        text: 'HyperLead is provided "as-is" without warranties of any kind, whether express or implied. We specifically disclaim any warranties of merchantability or fitness for a particular purpose.',
       },
-      { type: "paragraph", text: "We are not liable for:" },
+      { type: "paragraph", text: "HyperLead will not be liable for:" },
       {
         type: "list",
         items: [
-          "Loss of revenue, leads, or business",
-          "Damages resulting from email campaign misuse or data inaccuracy",
-          "Third-party service issues (e.g. Supabase, Gmail)",
+          "Any indirect, incidental, or consequential damages",
+          "Loss of leads, revenue, or business",
+          "Misuse of data or results from email outreach",
+          "Third-party service disruptions (e.g., Supabase, Gmail, Vercel)",
         ],
       },
       {
         type: "paragraph",
-        text: "Total liability, if any, is capped at the amount you've paid us in the past 6 months.",
+        text: "Total liability is strictly limited to the subscription fees paid by you in the previous six (6) months.",
       },
     ],
   },
   {
     type: "section",
-    title: "10. Changes to Terms",
+    title: "10. Changes to These Terms",
     content: [
       {
         type: "paragraph",
-        text: 'We may update these Terms from time to time. The latest version will always be available at [<a href="https://www.hyperlead.net/terms" class="text-blue-500 hover:underline">https://www.hyperlead.net/terms</a>]. Continued use of the platform means you accept the updated terms.',
+        text: 'We may update these Terms from time to time. The most recent version will always be available at <a href="https://www.hyperlead.net/terms" class="text-blue-500 hover:underline">https://www.hyperlead.net/terms</a>. By continuing to use the Service, you agree to the updated Terms.',
       },
     ],
   },
@@ -188,17 +180,41 @@ export const termsData = [
     content: [
       {
         type: "paragraph",
-        text: "These Terms are governed by the laws of [insert country or state jurisdiction — e.g., Georgia, EU, or Delaware, USA], without regard to conflict-of-law rules..",
+        text: "These Terms are governed by and interpreted under the laws of Georgia (country), without regard to conflict-of-law principles. Any disputes will be resolved exclusively in the courts located in Tbilisi, Georgia.",
       },
     ],
   },
   {
     type: "section",
-    title: "12. Contact",
+    title: "12. Data Access Only – No Resale or Export",
     content: [
       {
         type: "paragraph",
-        text: "For legal or account questions, email us at: contact@hyperlead.net",
+        text: "Users are granted non-transferable access to contact data solely within the HyperLead platform. You may not export, download, share, or sell lead data.",
+      },
+      {
+        type: "paragraph",
+        text: "HyperLead retains full control over access, delivery, and data limits. Any attempt to bypass system restrictions or use data outside approved workflows may result in immediate account termination and potential legal action.",
+      },
+    ],
+  },
+  {
+    type: "section",
+    title: "13. Dispute Resolution",
+    content: [
+      {
+        type: "paragraph",
+        text: "In the event of any dispute, you agree to first attempt resolution through good-faith negotiation with HyperLead. If unresolved, disputes shall be submitted to the exclusive jurisdiction of the courts in Tbilisi, Georgia.",
+      },
+    ],
+  },
+  {
+    type: "section",
+    title: "14. Contact",
+    content: [
+      {
+        type: "paragraph",
+        text: "For any questions, concerns, or legal notices, please contact us at: contact@hyperlead.net",
       },
     ],
   },
@@ -208,48 +224,36 @@ export const privacyPolicyData = [
   {
     type: "paragraph",
     content:
-      'HyperLead is committed to protecting your privacy. This Privacy Policy outlines how we collect, use, store, and share your personal data when you visit our website (<a href="https://www.hyperlead.net" class="text-blue-500 hover:underline">https://www.hyperlead.net</a>) or use our services.',
-  },
-  {
-    type: "box",
-    title: "Welcome to Hyperlead",
-    content: [
-      "HyperLead uses advanced AI algorithms and data-driven automation to identify & Scrape Targeted Leads – It collects and verifies business leads from various online sources. Automate Outreach – Sends AI-personalized emails, messages, and follow-ups to engage prospects. Lead Scoring & Tracking – Prioritizes high-converting leads based on AI-driven analysis. Seamless CRM Integration – Syncs ...",
-      "www.hyperlead.net",
-    ],
+      'Privacy Policy\nEffective Date: [Insert Date]\n\nThis Privacy Policy describes how HyperLead ("we," "our," or "us") collects, uses, and protects your personal information when you visit our website [<a href="https://www.hyperlead.net" class="text-blue-500 hover:underline">https://www.hyperlead.net</a>] or use our services.',
   },
   {
     type: "section",
-    title: "1. What Information We Collect",
+    title: "1. Information We Collect",
     content: [
       {
-        type: "paragraph",
-        text: "We collect the following types of information:",
-      },
-      {
         type: "nested",
-        title: "a) Information You Provide:",
+        title: "a) Information You Provide",
         items: [
-          "Name, email address, company name, and job title (during signup or onboarding)",
-          "Payment details (via secure third-party processors like Stripe or PayPal)",
-          "Any information submitted via contact forms, support, or onboarding steps",
+          "Name, email, company name, job title (during signup or onboarding)",
+          "Payment information (processed securely via Stripe or PayPal)",
+          "Any details submitted through support forms or onboarding steps",
         ],
       },
       {
         type: "nested",
-        title: "b) Automatically Collected Data:",
+        title: "b) Automatically Collected Data",
         items: [
-          "IP address, browser type, device info, time spent on site",
-          "Usage logs within the dashboard (e.g., leads viewed/downloaded)",
+          "IP address, device info, browser type, location, and usage logs",
+          "Interactions within the platform (e.g., lead views, session activity)",
         ],
       },
       {
         type: "nested",
-        title: "c) Leads & Contact Data:",
+        title: "c) Business Contact Data",
         content:
-          "We provide B2B contact information sourced from publicly available or licensed third-party databases. This data may include:",
+          "We source B2B contact information from public, licensed, or third-party data providers. This may include:",
         items: [
-          "Name, job title, company, business email, phone, LinkedIn profile, company info",
+          "Full name, job title, company, business email, phone number, LinkedIn profile, and company metadata",
         ],
       },
     ],
@@ -258,62 +262,62 @@ export const privacyPolicyData = [
     type: "section",
     title: "2. How We Use Your Information",
     content: [
-      { type: "paragraph", text: "We use your data to:" },
+      { type: "paragraph", text: "We process your data to:" },
       {
         type: "list",
         items: [
-          "Provide and improve our lead generation services",
-          "Personalize your experience and lead suggestions",
-          "Process payments and manage subscriptions",
-          "Send updates, onboarding emails, and support",
-          "Monitor system performance and prevent fraud",
-          "Comply with legal obligations",
+          "Deliver and improve HyperLead's services",
+          "Provide lead suggestions and personalized experiences",
+          "Manage payments, subscriptions, and account settings",
+          "Send updates, onboarding information, and support communications",
+          "Monitor platform performance and ensure security",
+          "Meet legal and regulatory requirements",
         ],
       },
       {
         type: "paragraph",
-        text: "We <strong>do not</strong> sell your personal information to third parties.",
+        text: "We do not sell your personal information.",
       },
     ],
   },
   {
     type: "section",
-    title: "3. Lawful Basis for Processing (GDPR)",
+    title: "3. Legal Basis for Processing (GDPR Compliance)",
     content: [
       {
         type: "paragraph",
-        text: "We process your data on the following legal grounds:",
+        text: "We process your data under the following legal bases:",
       },
       {
         type: "list",
         items: [
-          "<strong>Consent</strong> – When you explicitly agree (e.g., newsletter signup)",
-          "<strong>Contract</strong> – To deliver the service you subscribed to",
-          "<strong>Legitimate Interests</strong> – To improve the platform and manage support",
-          "<strong>Legal Obligation</strong> – If required by law",
+          "Consent – When you opt-in to communications",
+          "Contractual Obligation – To deliver subscribed services",
+          "Legitimate Interest – To enhance platform performance and support",
+          "Legal Requirement – When required by law",
         ],
       },
     ],
   },
   {
     type: "section",
-    title: "4. Third-Party Services",
+    title: "4. Use of Third-Party Services",
     content: [
       {
         type: "paragraph",
-        text: "We use trusted third parties to run our business, including:",
+        text: "We use reputable service providers, including:",
       },
       {
         type: "list",
         items: [
-          "Supabase (database storage)",
-          "Google Workspace (communication)",
-          "Vercel, Framer, Cursor (hosting/UI)",
+          "Supabase – Database and backend infrastructure",
+          "Google Workspace – Communication and support",
+          "Vercel, Framer, Cursor – Website, UI, and hosting",
         ],
       },
       {
         type: "paragraph",
-        text: "These providers may store your data in regions outside your country, and all are committed to high security standards.",
+        text: "Some data may be processed or stored in other jurisdictions. All vendors are committed to high security standards.",
       },
     ],
   },
@@ -323,89 +327,101 @@ export const privacyPolicyData = [
     content: [
       {
         type: "paragraph",
-        text: "We retain your data only as long as necessary:",
+        text: "We retain your data as follows:",
       },
       {
         type: "list",
         items: [
-          "Account data: Until account is deleted or after 24 months of inactivity",
-          "Payment records: Retained as required by law",
-          "Email logs: Kept for 6 months for security/audit purposes",
+          "Account Data – Until your account is deleted or after 24 months of inactivity",
+          "Payment Data – Retained as required by financial law",
+          "Email Activity Logs – Retained for 6 months for auditing and security",
         ],
       },
       {
         type: "paragraph",
-        text: 'You may request deletion anytime via <a href="mailto:contact@hyperlead.net" class="text-blue-500 hover:underline">contact@hyperlead.net</a>.',
+        text: 'You may request data deletion anytime via <a href="mailto:contact@hyperlead.net" class="text-blue-500 hover:underline">contact@hyperlead.net</a>.',
       },
     ],
   },
   {
     type: "section",
-    title: "6. Your Rights (EU, UK & CA Residents)",
+    title: "6. Your Rights (EU, UK, CA Residents)",
     content: [
       { type: "paragraph", text: "You have the right to:" },
       {
         type: "list",
         items: [
           "Access your data",
-          "Correct inaccurate information",
-          'Delete your data ("Right to be Forgotten")',
-          "Object to processing",
-          "File a complaint with your data protection authority",
+          "Request corrections",
+          'Request deletion ("Right to be Forgotten")',
+          "Object to data processing",
+          "File a complaint with a data protection authority",
         ],
       },
       {
         type: "paragraph",
-        text: 'To exercise any of these rights, contact us at: <a href="mailto:contact@hyperlead.net" class="text-blue-500 hover:underline">contact@hyperlead.net</a>',
+        text: 'To exercise these rights, contact us at: <a href="mailto:contact@hyperlead.net" class="text-blue-500 hover:underline">contact@hyperlead.net</a>',
       },
     ],
   },
   {
     type: "section",
-    title: "7. Cookies",
+    title: "7. Cookies & Tracking Technologies",
     content: [
-      { type: "paragraph", text: "We use cookies for:" },
+      { type: "paragraph", text: "We use cookies to:" },
       {
         type: "list",
         items: [
-          "Analytics (Google Analytics)",
-          "Session management",
-          "User personalization",
+          "Enable session management",
+          "Personalize user experience",
+          "Analyze performance (e.g., Google Analytics)",
         ],
       },
       {
         type: "paragraph",
-        text: "You can control cookie settings through your browser or opt-out at any time.",
+        text: "You can modify or disable cookies through your browser settings.",
       },
     ],
   },
   {
     type: "section",
-    title: "8. Security",
+    title: "8. Data Security",
     content: [
       {
         type: "paragraph",
-        text: "We use SSL encryption, secure cloud infrastructure, and access controls to protect your data. However, no system is 100% secure — use the service at your own risk.",
+        text: "We implement strong technical and organizational measures, including:",
+      },
+      {
+        type: "list",
+        items: [
+          "SSL encryption",
+          "Secure cloud infrastructure",
+          "Role-based access controls",
+        ],
+      },
+      {
+        type: "paragraph",
+        text: "However, no system is 100% secure. You use the platform at your own risk.",
       },
     ],
   },
   {
     type: "section",
-    title: "9. Changes to This Policy",
+    title: "9. Policy Updates",
     content: [
       {
         type: "paragraph",
-        text: `We may update this Privacy Policy as needed. The latest version will always be available at [<a href="https://www.hyperlead.net/privacy" class="text-blue-500 hover:underline">https://www.hyperlead.net/privacy</a>]. If changes are significant, we'll notify you by email or in-app.`,
+        text: 'This Privacy Policy may be updated periodically. The latest version will always be available at [<a href="https://www.hyperlead.net/privacy" class="text-blue-500 hover:underline">https://www.hyperlead.net/privacy</a>].\nFor material changes, we will notify users via email or in-app notifications.',
       },
     ],
   },
   {
     type: "section",
-    title: "10. Contact Us",
+    title: "10. Contact Information",
     content: [
       {
         type: "paragraph",
-        text: 'Questions? Contact our team at: <a href="mailto:contact@hyperlead.net" class="text-blue-500 hover:underline">contact@hyperlead.net</a>',
+        text: 'If you have questions or requests related to this policy, contact our team at: <a href="mailto:contact@hyperlead.net" class="text-blue-500 hover:underline">contact@hyperlead.net</a>',
       },
     ],
   },

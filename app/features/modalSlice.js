@@ -21,6 +21,10 @@ const initialState = {
     isOpen: false,
     selectedPlan: null,
   },
+  hyperSearchModal: {
+    isOpen: false,
+    data: null,
+  },
   isModalOpen: false,
   error: "",
   type: "error",
@@ -49,6 +53,9 @@ const modalSlice = createSlice({
       } else if (modalType === "paypalPayment") {
         state.paypalPaymentModal.isOpen = isOpen;
         state.paypalPaymentModal.selectedPlan = data || null;
+      } else if (modalType === "hyperSearch") {
+        state.hyperSearchModal.isOpen = isOpen;
+        state.hyperSearchModal.data = data || null;
       }
     },
     setError: (state, action) => {
@@ -119,5 +126,6 @@ export const selectGlobalModal = (state) => state.modal.globalModal;
 export const selectIsDarkMode = (state) => state.modal.isDarkMode;
 export const selectIsModalOpen = (state) => state.modal.isModalOpen;
 export const selectTransactionsModal = (state) => state.modal.transactionsModal;
+export const selectHyperSearchModal = (state) => state.modal.hyperSearchModal;
 export const selectPayPalPaymentModal = (state) =>
   state.modal.paypalPaymentModal;

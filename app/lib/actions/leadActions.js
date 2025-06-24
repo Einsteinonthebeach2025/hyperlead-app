@@ -1,4 +1,10 @@
 import supabase from "../config/supabaseClient";
+import { getCurrentUser, notifyUnlockingLead } from "./notificationActions";
+
+const getMonthStart = () => {
+  const now = new Date();
+  return new Date(now.getFullYear(), now.getMonth(), 1).toISOString();
+};
 
 export const checkSubscriptionExpiration = async (userId) => {
   try {
@@ -663,5 +669,104 @@ export const addExtraLeads = async (userId) => {
       success: false,
       error: error.message,
     };
+  }
+};
+
+export const hyperSearchLeads = async (query) => {
+  if (!query || query.length < 2) {
+    return { success: true, data: [] };
+  }
+
+  try {
+    const { data, error } = await supabase
+      .from("leads")
+      .select(
+        "id, first_name, last_name, person_title, company_title, seniority, industry, country"
+      )
+      .ilike("company_title", `%${query}%`)
+      .limit(20);
+    if (error) {
+      console.error("Error during hyper search:", error);
+      throw error;
+    }
+    return { success: true, data };
+  } catch (error) {
+    console.error("Error in hyperSearchLeads:", error);
+    return { success: false, error: error.message };
+  }
+};
+
+export const unlockingLeads = async (leadId, userId, userEmail, userName) => {
+  try {
+    const user = await getCurrentUser();
+    const subscription = user?.profile?.subscription;
+    let maxUnlocks = 0;
+    if (subscription === "PRO") maxUnlocks = 10;
+    else if (subscription === "Hyper") maxUnlocks = 25;
+    else maxUnlocks = 0;
+    const monthStart = getMonthStart();
+    // 2. Count how many leads this user has unlocked this month
+    const { data: unlockedThisMonth, error: countError } = await supabase
+      .from("unlocked_leads")
+      .select("id", { count: "exact" })
+      .eq("user_id", userId)
+      .gte("unlocked_at", monthStart);
+    if (countError) throw countError;
+    if (unlockedThisMonth.length >= maxUnlocks) {
+      return {
+        success: false,
+        error: `You have reached your monthly unlock limit (${maxUnlocks}).`,
+      };
+    }
+    // Insert into unlocked_leads
+    const { data, error } = await supabase
+      .from("unlocked_leads")
+      .insert([
+        {
+          lead_id: leadId,
+          user_id: userId,
+          user_email: userEmail,
+        },
+      ])
+      .select()
+      .single();
+    if (error) throw error;
+    // Increment unlocked_leads_count in profiles
+    if (data) {
+      const { data: profile, error: profileError } = await supabase
+        .from("profiles")
+        .select("unlocked_leads_count")
+        .eq("id", userId)
+        .single();
+      if (profileError) throw profileError;
+      const currentCount = profile?.unlocked_leads_count
+        ? Number(profile.unlocked_leads_count)
+        : 0;
+      const { error: updateError } = await supabase
+        .from("profiles")
+        .update({ unlocked_leads_count: currentCount + 1 })
+        .eq("id", userId);
+      if (updateError) throw updateError;
+    }
+    // Notify user
+    await notifyUnlockingLead(userId, userName);
+    return { success: true, data };
+  } catch (error) {
+    return { success: false, error: error.message };
+  }
+};
+
+export const getUnlockedLeads = async (userId) => {
+  try {
+    const { data, error } = await supabase
+      .from("unlocked_leads")
+      .select("lead_id")
+      .eq("user_id", userId);
+
+    if (error) throw error;
+
+    return { success: true, data };
+  } catch (error) {
+    return { success: false, error: error.message };
   }
 };

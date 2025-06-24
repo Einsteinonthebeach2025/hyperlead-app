@@ -1,6 +1,6 @@
 "use client"
 import { IoMdNotifications, IoMdSettings } from "react-icons/io";
-import { FaStar, FaChartLine, FaDatabase, FaInbox, FaLock } from "react-icons/fa";
+import { FaStar, FaChartLine, FaDatabase, FaInbox, FaUnlockAlt } from "react-icons/fa";
 import { FaRegFolderClosed } from "react-icons/fa6";
 import { PiShootingStarFill } from "react-icons/pi";
 import { BsPersonAdd } from "react-icons/bs";
@@ -29,6 +29,11 @@ const links = [
     href: "/dashboard/history-leads",
     label: "Archived Leads",
     icon: <FaRegFolderClosed />,
+  },
+  {
+    href: "/dashboard/unlocked-leads",
+    label: "unlocked Leads",
+    icon: <FaUnlockAlt />,
   },
   {
     href: "/dashboard/favorite-leads",
@@ -75,7 +80,7 @@ const DashboardSide = () => {
   return (
     <SideBarLinks links={links}>
       <div className="flex flex-col items-start space-y-2 justify-between w-full">
-        <SimulateExpire />
+        {/* <SimulateExpire /> */}
         <ToggleDashboardData />
         <AddExtraLeads />
         <Button
