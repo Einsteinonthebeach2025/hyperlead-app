@@ -7,15 +7,11 @@ import {
 
 export async function POST(req) {
   console.log("==== PayPal VERIFY API called ====");
+
   try {
     const { orderID, planName } = await req.json();
 
-    // Debugging (Optional):
-    console.log("PayPal Client ID:", process.env.PAYPAL_CLIENT_ID);
-    console.log("PayPal Secret:", process.env.PAYPAL_SECRET);
-    console.log("PayPal API URL:", process.env.PAYPAL_API_URL);
-
-    // Get PayPal access token
+    // 1. Get Access Token
     const auth = Buffer.from(
       `${process.env.PAYPAL_CLIENT_ID}:${process.env.PAYPAL_SECRET}`
     ).toString("base64");
@@ -33,9 +29,7 @@ export async function POST(req) {
     );
 
     const tokenData = await tokenRes.json();
-
     if (!tokenData.access_token) {
-      console.error("Token Response:", tokenData);
       return NextResponse.json(
         { error: "Failed to obtain PayPal access token" },
         { status: 500 }
@@ -44,7 +38,7 @@ export async function POST(req) {
 
     const accessToken = tokenData.access_token;
 
-    // Verify order details
+    // 2. Fetch Order Details
     const orderRes = await fetch(
       `${process.env.PAYPAL_API_URL}/v2/checkout/orders/${orderID}`,
       {
@@ -57,7 +51,6 @@ export async function POST(req) {
     );
 
     const data = await orderRes.json();
-
     if (data.status !== "COMPLETED") {
       return NextResponse.json(
         { error: "Payment not completed" },
@@ -65,46 +58,44 @@ export async function POST(req) {
       );
     }
 
-    if (
-      !data.purchase_units ||
-      !Array.isArray(data.purchase_units) ||
-      !data.purchase_units[0]?.amount?.value
-    ) {
+    const purchaseUnit = data.purchase_units?.[0];
+    const amount = purchaseUnit?.amount?.value;
+
+    if (!amount) {
       return NextResponse.json(
-        { error: "Invalid PayPal order data" },
+        { error: "Invalid order data" },
         { status: 500 }
       );
     }
-    const amount = data.purchase_units[0].amount.value;
 
-    // Extract payment method details
+    // 3. Extract Payment Method Info
     let paymentMethod = {
       brand: "PAYPAL",
       last4: "PAYPAL",
       maskedCard: "PAYPAL",
     };
 
-    // Check if payment was made with a card (not PayPal balance)
-    if (data.payment_source) {
-      const cardPayment = data.payment_source.card;
-      if (cardPayment) {
-        paymentMethod = {
-          brand: cardPayment.brand?.toUpperCase() || "CARD",
-          last4: cardPayment.last_4_digits || "****",
-          maskedCard: `${cardPayment.brand?.toUpperCase() || "CARD"} / **** **** **** ${cardPayment.last_4_digits || "****"}`,
-        };
-      }
+    const cardPayment = data.payment_source?.card;
+    if (cardPayment) {
+      const brand = cardPayment.brand?.toUpperCase() || "CARD";
+      const last4 = cardPayment.last_4_digits || "****";
+      paymentMethod = {
+        brand,
+        last4,
+        maskedCard: `${brand} / **** **** **** ${last4}`,
+      };
     }
 
-    // Verify amount matches plan
+    // 4. Match Plan
     let plan;
     if (planName === "EXTRA_100") {
       plan = EXTRA_LEADS_PLAN;
     } else if (planName === "SINGLE_LEAD") {
       plan = SINGLE_LEAD_PLAN;
     } else {
-      plan = SUBSCRIPTION_PLANS[planName.toUpperCase()];
+      plan = SUBSCRIPTION_PLANS[planName?.toUpperCase()];
     }
+
     if (!plan) {
       return NextResponse.json({ error: "Invalid plan" }, { status: 400 });
     }
@@ -116,12 +107,24 @@ export async function POST(req) {
       );
     }
 
+    // 5. Extract Payer Billing Info
+    const payerData = data.payer || {};
+    const payerInfo = {
+      name: `${payerData.name?.given_name || ""} ${payerData.name?.surname || ""}`.trim(),
+      email: payerData.email_address || "",
+      address: payerData.address || {},
+    };
+
+    const captureId = data.purchase_units[0]?.payments?.captures[0]?.id;
+    // 6. Return to Frontend
     return NextResponse.json({
       success: true,
       orderID: data.id,
       plan: planName,
       leads: plan.leads,
-      paymentMethod: paymentMethod,
+      paymentMethod,
+      payerInfo,
+      captureId,
     });
   } catch (error) {
     console.error("PayPal verification error:", error);

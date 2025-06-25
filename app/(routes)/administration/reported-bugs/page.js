@@ -9,7 +9,6 @@ export const metadata = {
 const ReportedBugsPage = async () => {
   const supabase = await createServerClient();
 
-  // Get total count
   const { count } = await supabase
     .from("bug_reports")
     .select("*", { count: "exact", head: true });
@@ -20,20 +19,20 @@ const ReportedBugsPage = async () => {
     .select("*")
     .order("created_at", { ascending: false })
     .range(0, 9);
-
-  const { data: profiles, error: profilesError } = await supabase
-    .from("profiles")
-    .select("id, userName, avatar_url");
-
-  if (bugsError || profilesError) {
+  if (bugsError || !bugs || bugs.length === 0) {
     return (
       <ReportedBugs
-        bugs={null}
-        message="No bugs"
+        bugs={[]}
+        totalCount={0}
+        message="No bugs reported"
         desc="Await bugs for users to report"
       />
     );
   }
+
+  const { data: profiles, error: profilesError } = await supabase
+    .from("profiles")
+    .select("id, userName, avatar_url");
 
   const bugsWithUserData = bugs.map((bug) => {
     const user = profiles.find((profile) => profile.id === bug.user_id);

@@ -39,7 +39,7 @@ const ProfileSettings = ({ isOpen, handleActive }) => {
     e.preventDefault();
     if (item.name === "Add Teammate") {
       const subscription = user?.profile?.subscription;
-      if (!subscription || subscription === "Plus") {
+      if (!subscription || subscription === "PLUS") {
         dispatch(setError({ message: "Subscribe to PRO or Hyper plan for this feature." }));
         return;
       }
@@ -109,7 +109,7 @@ const ProfileSettings = ({ isOpen, handleActive }) => {
                   onClick={(e) => handleLinkClick(e, item)}
                   type={item.type}
                   href={
-                    item.name === "Add Teammate" && (!user?.profile?.subscription || user?.profile?.subscription === "Plus")
+                    item.name === "Add Teammate" && (!user?.profile?.subscription || user?.profile?.subscription === "PLUS")
                       ? undefined
                       : item.href
                   }

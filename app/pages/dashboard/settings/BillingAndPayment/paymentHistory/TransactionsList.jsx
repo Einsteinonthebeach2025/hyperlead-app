@@ -7,6 +7,9 @@ import FlexBox from 'app/components/containers/FlexBox'
 
 const TransactionsList = ({ transactions }) => {
 
+  console.log(transactions, "from transactions list");
+
+
   if (!transactions || transactions.length === 0) {
     return (
       <div className="center flex-col space-y-4">
@@ -31,7 +34,7 @@ const TransactionsList = ({ transactions }) => {
   return (
     <div className="space-y-4 max-h-[600px] overflow-y-auto">
       {transactions.map((transaction) => {
-        const statusColor = transaction.status === 'completed'
+        const statusColor = transaction.status === 'COMPLETED'
           ? 'text-green-400 bg-green-400/20'
           : 'text-red-500 dark:text-red-400';
 
@@ -53,6 +56,7 @@ const TransactionsList = ({ transactions }) => {
             </FlexBox>
             <div className="space-y-2">
               <TransactionRow label="Order ID:" value={transaction.order_id} />
+              <TransactionRow label="Capture ID:" value={transaction.capture_id} />
               <TransactionRow label="Plan Type:" value={transaction.plan_name} />
               <TransactionRow
                 label="Amount:"

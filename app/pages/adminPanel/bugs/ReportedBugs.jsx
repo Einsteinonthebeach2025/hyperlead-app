@@ -5,11 +5,21 @@ import Headline from "app/components/Headline";
 import BugList from "./BugList";
 import supabase from "app/lib/config/supabaseClient";
 import Button from "app/components/buttons/Button";
+import SectionHeadline from "app/components/SectionHeadline";
 
-const ReportedBugs = ({ bugs: initialBugs, totalCount }) => {
+const ReportedBugs = ({ bugs: initialBugs, totalCount, message, desc }) => {
   const [bugs, setBugs] = useState(initialBugs);
   const [loading, setLoading] = useState(false);
-  const [offset, setOffset] = useState(10); // Start from 10 since we already have first 10
+  const [offset, setOffset] = useState(10);
+
+  if (!bugs || bugs.length === 0) {
+    return <div className="h-screen center">
+      <SectionHeadline
+        title={message}
+        desc={desc}
+      />
+    </div>
+  }
 
   const loadMoreBugs = async () => {
     try {

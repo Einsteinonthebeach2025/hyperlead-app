@@ -30,7 +30,6 @@ const PricingButton = ({ item }) => {
       );
       return;
     }
-    // Open PayPal payment modal with selected plan
     dispatch(
       setToggle({
         modalType: "paypalPayment",

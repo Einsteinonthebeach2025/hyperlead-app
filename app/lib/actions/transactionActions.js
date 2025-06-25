@@ -5,40 +5,38 @@ import { notifyUserOnSubscription } from "./notificationActions";
 
 export const createTransaction = async (
   userId,
-  orderID,
+  orderId,
   planName,
   amount,
-  paymentMethod = null
+  paymentMethod,
+  payerInfo,
+  captureId
 ) => {
-  try {
-    const transactionData = {
-      user_id: userId,
-      order_id: orderID,
-      plan_name: planName,
-      amount: amount,
-      status: "completed",
-      created_at: new Date().toISOString(),
-    };
+  const { brand, last4, maskedCard } = paymentMethod || {};
+  const { name, email, address } = payerInfo || {};
 
-    // Add payment method details if available
-    if (paymentMethod) {
-      transactionData.card_brand = paymentMethod.brand;
-      transactionData.card_last4 = paymentMethod.last4;
-      transactionData.masked_card = paymentMethod.maskedCard;
-    }
+  const { data, error } = await supabase.from("transactions").insert({
+    user_id: userId,
+    order_id: orderId,
+    plan_name: planName,
+    capture_id: captureId,
+    amount,
+    status: "COMPLETED",
+    card_brand: brand,
+    card_last4: last4,
+    masked_card: maskedCard,
+    payer_name: name,
+    payer_email: email,
+    payer_address: address,
+    created_at: new Date(),
+  });
 
-    const { data, error } = await supabase
-      .from("transactions")
-      .insert(transactionData)
-      .select()
-      .single();
-
-    if (error) throw error;
-    return { success: true, data };
-  } catch (error) {
-    console.error("Error creating transaction:", error);
+  if (error) {
+    console.error("Supabase insert error:", error);
     return { success: false, error: error.message };
   }
+
+  return { success: true, data };
 };
 
 export const processSubscription = async (

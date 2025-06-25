@@ -70,7 +70,7 @@ const DashboardSide = () => {
   const handleAddTeammateClick = (e) => {
     e.preventDefault();
     const subscription = user?.profile?.subscription;
-    if (!subscription || subscription === "Plus") {
+    if (!subscription || subscription === "PLUS") {
       dispatch(setError({ message: "Subscribe to PRO or Hyper plan for this feature." }));
       return;
     }

@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { selectUser } from "app/features/userSlice";
 import { setError, setToggle, selectPayPalPaymentModal } from "app/features/modalSlice";
 import { createTransaction, processSubscription } from "app/lib/actions/transactionActions";
-import { addExtraLeads, unlockingLeads } from "app/lib/actions/leadActions";
+import { addExtraLeads } from "app/lib/actions/leadActions";
 import { SUBSCRIPTION_PLANS, EXTRA_LEADS_PLAN, SINGLE_LEAD_PLAN } from "app/lib/config/paypalConfig";
 import ModalWrapper from "app/components/containers/ModalWrapper";
 import PlanDetails from "./components/PlanDetails";
@@ -102,38 +102,32 @@ const PayPalPaymentModal = () => {
           planName: selectedPlan,
         }),
       });
+
       const verifyData = await verifyResponse.json();
       if (!verifyData.success) throw new Error(verifyData.error || "Payment verification failed");
+
+      const { paymentMethod, payerInfo, captureId } = verifyData;
 
       const transactionResult = await createTransaction(
         user.id,
         orderID,
         selectedPlan,
         plan.price,
-        verifyData.paymentMethod
+        paymentMethod,
+        payerInfo,
+        captureId
       );
+
       if (!transactionResult.success) throw new Error(transactionResult.error);
-      if (selectedPlan === "SINGLE_LEAD") {
-        const leadId = data?.leadId; // passed from modalSlice
-        if (!leadId) throw new Error("Lead ID missing for unlock.");
 
-        const unlockResult = await unlockingLeads(
-          leadId,
-          user.id,
-          user.email,
-          user.profile?.userName || user.user_metadata?.name
-        );
-
-        if (!unlockResult.success) throw new Error(unlockResult.error);
-        dispatch(setToggle({ modalType: "hyperSearch", isOpen: false }));
-        dispatch(setError({ message: "Lead unlocked successfully!", type: "success" }));
-      }
-      else if (selectedPlan === "EXTRA_100") {
+      if (selectedPlan === "EXTRA_100") {
         const extraLeadsResult = await addExtraLeads(user.id);
         if (!extraLeadsResult.success) throw new Error(extraLeadsResult.error);
         dispatch(setError({ message: "Successfully purchased 100 extra leads!", type: "success" }));
-      }
-      else {
+      } else if (selectedPlan === "SINGLE_LEAD") {
+        dispatch(setToggle({ modalType: "hyperSearch", isOpen: false }));
+        dispatch(setError({ message: "Lead unlocked successfully!", type: "success" }));
+      } else {
         const subscriptionResult = await processSubscription(
           user.id,
           user.email,
@@ -141,7 +135,6 @@ const PayPalPaymentModal = () => {
           plan.leads
         );
         if (!subscriptionResult.success) throw new Error(subscriptionResult.error);
-
         dispatch(setError({
           message: `Subscribed to ${selectedPlan} and received ${plan.leads} leads!`,
           type: "success",
@@ -149,6 +142,7 @@ const PayPalPaymentModal = () => {
       }
 
       handleClose();
+
     } catch (error) {
       console.error("Payment error:", error);
       dispatch(setError({ message: error.message, type: "error" }));
@@ -156,7 +150,6 @@ const PayPalPaymentModal = () => {
       setLoading(false);
     }
   };
-
 
   const handlePaymentError = (error) => {
     console.error("PayPal error:", error);

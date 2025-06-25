@@ -25,8 +25,8 @@ const UserDetails = ({ profile }) => {
     <div className="gap-2 flex flex-col lg:flex-row capitalize text-[10px] lg:text-sm text-neutral-500 dark:text-neutral-300">
       {profile?.country && profile?.city && (
         <>
-          <div className="gap-1 flex ">
-            <CountryFlags countryName={profile?.country} />
+          <div className="gap-1 flex">
+            <CountryFlags style={{ width: "18px", height: "18px" }} countryName={profile?.country} />
             <span>{profile?.country},</span>
             {profile?.city && <span>{profile?.city}</span>}
           </div>
