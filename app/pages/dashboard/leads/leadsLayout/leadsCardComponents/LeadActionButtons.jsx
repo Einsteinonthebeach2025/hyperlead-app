@@ -6,7 +6,9 @@ import { useState } from 'react';
 import { AnimatePresence } from 'framer-motion';
 import MotionContainer from 'app/components/containers/MotionContainer';
 
-const LeadActionButtons = ({ lead, type, onLeadStatusChange, onLeadLikeChange }) => {
+// MORe section for future use
+
+const LeadActionButtons = ({ lead }) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
 
@@ -41,9 +43,6 @@ const LeadActionButtons = ({ lead, type, onLeadStatusChange, onLeadLikeChange })
               onClick={(e) => e.stopPropagation()}
               onMouseLeave={() => setIsDropdownOpen(false)}
             >
-              <FlexBox type="row-center" className="gap-1">
-                <AddToFavorite lead={lead} />
-              </FlexBox>
             </MotionContainer>
           )}
         </AnimatePresence>

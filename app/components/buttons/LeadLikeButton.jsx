@@ -48,7 +48,7 @@ const LeadLikeButton = ({ lead, onLeadLikeChange }) => {
         onMouseEnter={() => toggleState(true)}
         onMouseLeave={() => toggleState(false)}
         onClick={(e) => handleLike(lead.id, e)}
-        className={`text-violet-600 relative p-2 bg-violet-200/50 dark:bg-violet-500/50 duration-300 hover:bg-violet-200 rounded-lg cursor-pointer ${isLoading ? 'opacity-50' : ''}`}
+        className={`text-violet-600 dark:text-violet-400 relative p-2 bg-violet-200/50 dark:bg-violet-500/50 duration-300 hover:bg-violet-200 rounded-lg cursor-pointer ${isLoading ? 'opacity-50' : ''}`}
       >
         {hasLiked ? (
           <FaHeart size={18} />

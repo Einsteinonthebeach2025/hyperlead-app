@@ -702,7 +702,7 @@ export const unlockingLeads = async (leadId, userId, userEmail, userName) => {
     const subscription = user?.profile?.subscription;
     let maxUnlocks = 0;
     if (subscription === "PRO") maxUnlocks = 10;
-    else if (subscription === "Hyper") maxUnlocks = 25;
+    else if (subscription === "HYPER") maxUnlocks = 25;
     else maxUnlocks = 0;
     const monthStart = getMonthStart();
     // 2. Count how many leads this user has unlocked this month

@@ -357,6 +357,8 @@ export const notifyAssistantAccept = async (bossId, assistantEmail) => {
 };
 
 export const notifyUnlockingLead = async (userId, userName) => {
+  // const user = await getCurrentUser();
+  // const userName = user?.profile?.userName || user?.user_metadata?.name;
   try {
     const { data, error } = await supabase
       .from("notifications")

@@ -47,7 +47,7 @@ const SendEmailButton = ({ lead, type = 'lead' }) => {
             onMouseEnter={() => toggleState(true)}
             onMouseLeave={() => toggleState(false)}
             onClick={emailModal}
-            className="cursor-pointer p-2 bg-blue-200/50 dark:bg-blue-500/50 duration-300 relative text-blue-500 hover:bg-blue-200 rounded-lg"
+            className="cursor-pointer p-2 bg-blue-200/50 dark:bg-blue-500/50 duration-300 relative text-blue-500 dark:text-blue-300 hover:bg-blue-200 rounded-lg"
           >
             <GoPencil />
             <HoverModal

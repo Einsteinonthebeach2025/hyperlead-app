@@ -11,6 +11,7 @@ import SendEmailButton from "app/components/buttons/SendEmailButton";
 import LeadActionButtons from "./leadsCardComponents/LeadActionButtons";
 import LeadLikeButton from "app/components/buttons/LeadLikeButton";
 import MarkButton from "app/components/buttons/MarkButtons";
+import AddToFavorite from "app/components/buttons/AddToFavorite";
 
 const LeadCard = ({ leads, onLeadStatusChange, onLeadLikeChange, type, onLeadClick }) => {
 
@@ -48,12 +49,9 @@ const LeadCard = ({ leads, onLeadStatusChange, onLeadLikeChange, type, onLeadCli
                 exit={{ opacity: 0, rotateX: 90 }}
                 transition={{ duration: 0.5 }}
               >
-                <CardContainer className={`grid grid-cols-[1.7fr_0.3fr_1.2fr_1.5fr_0.8fr] gap-3 place-content-center group relative h-20 group ${lead?.used ? "opacity-60" : ""
+                <CardContainer className={`grid grid-cols-[1.7fr_1.2fr_1.5fr_0.8fr] gap-3 place-content-center group relative h-20 group ${lead?.used ? "opacity-60" : ""
                   }`}>
                   <LeadPersonsName lead={lead} colorTheme={colorTheme} />
-                  <FlexBox type="row-start" className="items-center">
-                    <h1 className="text-xs font-medium dark:text-white">{lead?.seniority}</h1>
-                  </FlexBox>
                   <LeadLocation lead={lead} colorTheme={colorTheme} />
                   <LeadIndustry lead={lead} />
                   <FlexBox type="row" className="items-center gap-2" >
@@ -62,7 +60,7 @@ const LeadCard = ({ leads, onLeadStatusChange, onLeadLikeChange, type, onLeadCli
                       <MarkButton lead={lead} onStatusChange={onLeadStatusChange} />
                     )}
                     <LeadLikeButton lead={lead} onLeadLikeChange={onLeadLikeChange} />
-                    <LeadActionButtons lead={lead} type={type} onLeadStatusChange={onLeadStatusChange} onLeadLikeChange={onLeadLikeChange} />
+                    <AddToFavorite lead={lead} />
                   </FlexBox>
                 </CardContainer>
               </motion.div>

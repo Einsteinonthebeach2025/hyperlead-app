@@ -9,7 +9,6 @@ import SendNotificationModal from "./pages/modals/notificationModal/SendNotifica
 import GlobalModal from "./components/modals/GlobalModal";
 import ThemeProvider from "./lib/store/ThemeProvider";
 import ExtraLeadOptions from "./pages/dashboard/dashboardSide/extraLeads/ExtraLeadOptions";
-import PayPalProviderWrapper from "./lib/store/PaypalProviderWrapper";
 import TransactionsData from "./pages/adminPanel/userManagement/list/components/userTransactions/TransactionsData";
 import PayPalPaymentModal from "./components/modals/paypalModal/PayPalPaymentModal";
 import { StoreProvider } from "./lib/store/StoreProvider";
@@ -34,22 +33,22 @@ export default function RootLayout({ children }) {
         <html lang="en" className={interTight.className}>
           <ThemeProvider>
             <body className="center flex-col">
-              <PayPalProviderWrapper>
-                <main className="relative w-full max-w-[1650px] dark:bg-[#151e27] duration-500">
-                  <NavigationWrapper />
-                  {children}
-                  <ErrorMsg />
-                  <SideBar />
-                  <EmailModal />
-                  <GlobalModal />
-                  <SendNotificationModal />
-                  <TransactionsData />
-                  <ExtraLeadOptions />
-                  <PayPalPaymentModal />
-                  <HyperSearchModal />
-                  <Footer />
-                </main>
-              </PayPalProviderWrapper>
+              {/* <PayPalProviderWrapper> */}
+              <main className="relative w-full max-w-[1650px] dark:bg-[#151e27] duration-500">
+                <NavigationWrapper />
+                {children}
+                <ErrorMsg />
+                <SideBar />
+                <EmailModal />
+                <GlobalModal />
+                <SendNotificationModal />
+                <TransactionsData />
+                <ExtraLeadOptions />
+                <PayPalPaymentModal />
+                <HyperSearchModal />
+                <Footer />
+              </main>
+              {/* </PayPalProviderWrapper> */}
             </body>
           </ThemeProvider>
         </html>

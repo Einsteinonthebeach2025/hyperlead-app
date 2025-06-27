@@ -76,8 +76,8 @@ const ProfileAvatar = memo(({ profile: initialProfile = {}, userId }) => {
   );
 
   return (
-    <div className="w-44 h-44 rounded-full absolute p-3 backdrop-blur-3xl -top-28">
-      <div className="relative w-full h-full rounded-full overflow-hidden">
+    <div className="w-44 h-44 rounded-xl p-3 bg-stone-200/70 backdrop-blur-3xl mb-3">
+      <div className="relative w-full h-full rounded-xl overflow-hidden">
         {localProfile?.avatar_url ? (
           <Image
             className="object-cover"
@@ -103,7 +103,7 @@ const ProfileAvatar = memo(({ profile: initialProfile = {}, userId }) => {
           </div>
         )}
       </div>
-      <label className="bg-blue-700 hover:bg-blue-800 transition-all cursor-pointer text-white w-fit rounded-full right-3 bottom-3 absolute center p-2">
+      <label className="bg-blue-700 hover:bg-blue-800 transition-all cursor-pointer text-white w-fit rounded-xl -right-2 -bottom-2 absolute center p-2">
         <input
           type="file"
           className="hidden"

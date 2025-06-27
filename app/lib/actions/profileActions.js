@@ -61,23 +61,6 @@ export const uploadAvatar = async (userId, file) => {
   }
 };
 
-export const updateWallpaper = async (userId, wallpaperUrl) => {
-  try {
-    const { data, error } = await supabase
-      .from("profiles")
-      .update({ wallpaper_url: wallpaperUrl })
-      .eq("id", userId)
-      .select()
-      .single();
-
-    if (error) throw error;
-    return { success: true, data };
-  } catch (error) {
-    console.error("Error updating wallpaper:", error);
-    return { success: false, error: error.message };
-  }
-};
-
 export const addAssistantToUser = async (
   userId,
   assistantEmail,

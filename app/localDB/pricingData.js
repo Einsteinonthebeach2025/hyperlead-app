@@ -4,7 +4,7 @@ const pricingData = [
     title: "Plus",
     desc: "Perfect for solo founders or early-stage teams building outbound from scratch.",
     price: 0.01,
-    leads: 39,
+    leads: 150,
     link: "/",
     benefits: [
       "150 high-quality B2B leads/month",

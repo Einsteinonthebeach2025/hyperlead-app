@@ -20,7 +20,7 @@ const SubscriptionInfo = () => {
                 day: 'numeric',
             });
         })()
-        : 'August 19, 2025';
+        : null;
 
     const subscribedSinceDate = user?.profile?.subscription_timestamp
         ? new Date(user.profile.subscription_timestamp).toLocaleDateString('en-US', {
@@ -28,7 +28,7 @@ const SubscriptionInfo = () => {
             month: 'long',
             day: 'numeric',
         })
-        : 'August 20, 2024';
+        : null;
 
     return (
         <CardContainer>

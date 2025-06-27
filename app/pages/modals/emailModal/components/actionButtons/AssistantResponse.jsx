@@ -39,7 +39,7 @@ const Response = ({ data }) => {
   return (
     <div className="flex-1 w-full space-y-2 mb-5 border-bottom">
       <SubTitle className='text-black dark:text-white'>Generated Email:</SubTitle>
-      <pre className="whitespace-pre-wrap text-black dark:text-white text-[12px] leading-6 font-mono">
+      <pre className="whitespace-pre-wrap text-black dark:text-white text-[12px] leading-6">
         {words.map((word, index) => (
           <motion.span
             key={index}
@@ -59,7 +59,7 @@ const Buttons = ({ handleClick, addToEmail, clearStates, refineEmail, shortenEma
   return (
     <FlexBox type="row-start" className='w-full gap-2'>
       <Button
-        type="success"
+        type="extra"
         onClick={() => {
           addToEmail()
           handleClick()
@@ -68,7 +68,7 @@ const Buttons = ({ handleClick, addToEmail, clearStates, refineEmail, shortenEma
         <span >Add to Email</span>
       </Button>
       <Button
-        type="success"
+        type="extra"
         onClick={refineEmail}
         loading={refineLoading}
         disabled={refineLoading}
@@ -76,7 +76,7 @@ const Buttons = ({ handleClick, addToEmail, clearStates, refineEmail, shortenEma
         <span>Refine</span>
       </Button>
       <Button
-        type="success"
+        type="extra"
         onClick={shortenEmail}
         loading={shortenLoading}
         disabled={shortenLoading}
@@ -84,7 +84,7 @@ const Buttons = ({ handleClick, addToEmail, clearStates, refineEmail, shortenEma
         <span>Shorten</span>
       </Button>
       <Button
-        type="delete"
+        type="extra"
         onClick={() => {
           clearStates();
           handleClick();

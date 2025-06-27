@@ -47,13 +47,13 @@ const AddToFavorite = ({ lead }) => {
         onMouseEnter={() => toggleState(true)}
         onMouseLeave={() => toggleState(false)}
         onClick={handleFavorite}
-        className="text-blue-600 cursor-pointer"
+        className="text-violet-600 dark:text-violet-400 relative p-2 bg-violet-200/50 dark:bg-violet-500/50 duration-300 hover:bg-violet-200 rounded-lg cursor-pointer"
       >
         {isFavorited ? <FaStar size={20} /> : <FaRegStar size={20} />}
       </FlexBox>
       <HoverModal
         isOpen={isOpen}
-        className="right-10 -top-4 w-full"
+        className="right-10 -top-2 w-28"
         text={isFavorited ? "Remove from favorites" : "Add to favorites"}
       />
     </>

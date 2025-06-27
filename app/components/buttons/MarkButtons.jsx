@@ -31,7 +31,7 @@ const MarkButton = ({ lead, onStatusChange }) => {
         onClick={handleUsedStatus}
         className="bg-green-200/50 dark:bg-green-500/50 relative p-2 duration-300 hover:bg-green-200 rounded-lg"
       >
-        <div className="text-green-600">
+        <div className="text-green-600 dark:text-green-400">
           {active ? <FaBookmark /> : <FaRegBookmark />}
         </div>
         <HoverModal

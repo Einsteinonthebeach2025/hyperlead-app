@@ -21,7 +21,7 @@ const ProfileSocialLinks = ({ profile }) => {
   return (
     <div className="items-center flex gap-2 text-lg md:text-2xl mt-2">
       {socialLinks.map((link) => (
-        <IconContainer key={link.href} href={link.href} size="sm">{link.icon}</IconContainer>
+        <IconContainer key={link.href} href={link.href} size="md">{link.icon}</IconContainer>
       ))}
     </div>
   );

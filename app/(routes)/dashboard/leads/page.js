@@ -36,7 +36,13 @@ const LeadsPage = async () => {
     .select("lead_id, used, is_demo")
     .eq("user_id", effectiveUserId);
   if (allUserLeadsError) {
-    return <Leads data={null} message="Error loading leads" />;
+    return (
+      <Leads
+        data={null}
+        message="Error loading leads"
+        desc="Please try again later"
+      />
+    );
   }
   // If user has no leads at all
   if (!allUserLeads || allUserLeads.length === 0) {
@@ -61,13 +67,33 @@ const LeadsPage = async () => {
   const historyLeadIds = historyLeads.map((ul) => ul.lead_id);
   // Filter out leads that are in history
   const currentLeadIds = allUserLeads.map((ul) => ul.lead_id);
-  const { data: allLeadsData, error: allLeadsError } = await supabase
-    .from("leads")
-    .select("*")
-    .in("id", currentLeadIds);
-  if (allLeadsError) {
-    return <Leads data={null} message="Error loading leads" />;
+  console.log(currentLeadIds, "from page");
+
+  // Helper to chunk an array
+  function chunkArray(array, size) {
+    const result = [];
+    for (let i = 0; i < array.length; i += size) {
+      result.push(array.slice(i, i + size));
+    }
+    return result;
   }
+
+  const chunkedIds = chunkArray(currentLeadIds, 100);
+  let allLeadsData = [];
+  let allLeadsError = null;
+
+  for (const chunk of chunkedIds) {
+    const { data, error } = await supabase
+      .from("leads")
+      .select("*")
+      .in("id", chunk);
+    if (error) {
+      allLeadsError = error;
+      break;
+    }
+    allLeadsData = allLeadsData.concat(data);
+  }
+
   // Merge used status with leads data
   const leadsWithUsedStatus = allLeadsData.map((lead) => {
     const userLead = allUserLeads.find((ul) => ul.lead_id === lead.id);

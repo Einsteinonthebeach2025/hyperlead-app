@@ -29,14 +29,8 @@ const PaymentButton = ({ plan, handlePaymentSuccess, handlePaymentError, setShow
         }}
         onApprove={async (data, actions) => {
           const order = await actions.order.capture();
-
-          // Show your app's spinner/modal
           setShowAppProcessing(true);
-
-          // Start backend processing, but don't await it here
           handlePaymentSuccess(order.id);
-
-          // Return immediately so PayPal closes its modal
           return;
         }}
         onError={handlePaymentError}

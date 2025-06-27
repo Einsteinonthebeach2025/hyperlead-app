@@ -63,8 +63,28 @@ const HistoryLeadsPage = async () => {
     );
   }
   const historyLeadIds = allUserHistoryLeads.map((ul) => ul.lead_id);
-  const { data: allHistoryLeadsData, error: allHistoryLeadsError } =
-    await supabase.from("leads").select("*").in("id", historyLeadIds);
+  // Chunking logic to avoid large IN queries
+  function chunkArray(array, size) {
+    const result = [];
+    for (let i = 0; i < array.length; i += size) {
+      result.push(array.slice(i, i + size));
+    }
+    return result;
+  }
+  let allHistoryLeadsData = [];
+  let allHistoryLeadsError = null;
+  const chunkedIds = chunkArray(historyLeadIds, 100);
+  for (const chunk of chunkedIds) {
+    const { data, error } = await supabase
+      .from("leads")
+      .select("*")
+      .in("id", chunk);
+    if (error) {
+      allHistoryLeadsError = error;
+      break;
+    }
+    allHistoryLeadsData = allHistoryLeadsData.concat(data);
+  }
   if (allHistoryLeadsError) {
     return <HistoryLeads data={null} message="Error loading history leads" />;
   }

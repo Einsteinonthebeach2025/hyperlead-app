@@ -4,16 +4,21 @@ import ProfileSocialLinks from "./ProfileSocialLinks";
 import CardContainer from "app/components/containers/CardContainer";
 import SubscribtionStatus from "./SubscribtionStatus";
 import Dot from "app/components/Dot";
+import ProfileAvatar from "../profileImages/ProfileAvatar";
+import FlexBox from "app/components/containers/FlexBox";
 
 const ProfileHeader = ({ profile }) => {
   return (
     <CardContainer className="flex flex-col lg:flex-row justify-between w-full px-5">
-      <div className="flex flex-col gap-2">
-        <SubscribtionStatus item={profile} />
-        <Title className="capitalize">
-          {profile?.firstName} {profile?.lastName}
-        </Title>
-        <UserDetails profile={profile} />
+      <div className="flex flex-col lg:flex-row gap-6">
+        <ProfileAvatar profile={profile} userId={profile?.id} />
+        <FlexBox type='column-start' className="justify-end pb-3">
+          <SubscribtionStatus item={profile} />
+          <Title className="capitalize">
+            {profile?.firstName} {profile?.lastName}
+          </Title>
+          <UserDetails profile={profile} />
+        </FlexBox>
       </div>
       <ProfileSocialLinks profile={profile} />
     </CardContainer>

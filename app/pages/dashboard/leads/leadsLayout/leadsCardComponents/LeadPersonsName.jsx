@@ -21,7 +21,8 @@ const PersonName = ({ lead, colorTheme }) => {
   return (
     <div className="flex items-center gap-3">
       <PersonInitials lead={lead} colorTheme={colorTheme} />
-      <FlexBox type="column-center">
+      <FlexBox type="column-center" className="leading-2">
+        <SpanText>{lead?.seniority}</SpanText>
         <SubTitle>
           {lead?.first_name} {lead?.last_name}
         </SubTitle>

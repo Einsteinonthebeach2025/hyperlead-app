@@ -4,12 +4,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { selectUser } from "app/features/userSlice";
 import { setError, setToggle, selectPayPalPaymentModal } from "app/features/modalSlice";
 import { createTransaction, processSubscription } from "app/lib/actions/transactionActions";
-import { addExtraLeads } from "app/lib/actions/leadActions";
+import { addExtraLeads, unlockingLeads } from "app/lib/actions/leadActions";
 import { SUBSCRIPTION_PLANS, EXTRA_LEADS_PLAN, SINGLE_LEAD_PLAN } from "app/lib/config/paypalConfig";
 import ModalWrapper from "app/components/containers/ModalWrapper";
 import PlanDetails from "./components/PlanDetails";
 import TwoFactorAuthModal from "app/components/modals/TwoFactorAuthModal";
-import ButtonSection from "./components/ButtonSection";
+import ButtonSection from "./components/paymentButtons/ButtonSection";
 import ProcessingSection from "./components/ProcessingSection";
 
 const PayPalPaymentModal = () => {
@@ -91,6 +91,8 @@ const PayPalPaymentModal = () => {
       ? SINGLE_LEAD_PLAN
       : SUBSCRIPTION_PLANS[selectedPlan.toUpperCase()];
 
+
+  // Handle one-time payment success
   const handlePaymentSuccess = async (orderID) => {
     setLoading(true);
     try {
@@ -102,12 +104,9 @@ const PayPalPaymentModal = () => {
           planName: selectedPlan,
         }),
       });
-
       const verifyData = await verifyResponse.json();
       if (!verifyData.success) throw new Error(verifyData.error || "Payment verification failed");
-
       const { paymentMethod, payerInfo, captureId } = verifyData;
-
       const transactionResult = await createTransaction(
         user.id,
         orderID,
@@ -117,14 +116,13 @@ const PayPalPaymentModal = () => {
         payerInfo,
         captureId
       );
-
       if (!transactionResult.success) throw new Error(transactionResult.error);
-
       if (selectedPlan === "EXTRA_100") {
         const extraLeadsResult = await addExtraLeads(user.id);
         if (!extraLeadsResult.success) throw new Error(extraLeadsResult.error);
         dispatch(setError({ message: "Successfully purchased 100 extra leads!", type: "success" }));
       } else if (selectedPlan === "SINGLE_LEAD") {
+        await unlockingLeads(data?.leadId, user.id, user.email, user.profile?.userName);
         dispatch(setToggle({ modalType: "hyperSearch", isOpen: false }));
         dispatch(setError({ message: "Lead unlocked successfully!", type: "success" }));
       } else {
@@ -140,15 +138,53 @@ const PayPalPaymentModal = () => {
           type: "success",
         }));
       }
-
       handleClose();
-
     } catch (error) {
       console.error("Payment error:", error);
       dispatch(setError({ message: error.message, type: "error" }));
     } finally {
       setLoading(false);
     }
+  };
+
+  // Handle subscription success
+  const handleSubscriptionSuccess = async (subscriptionID) => {
+    setLoading(true);
+    try {
+      const verifyResponse = await fetch("/api/paypal-subscription/verify", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          subscriptionID,
+          planName: selectedPlan,
+        }),
+      });
+      const verifyData = await verifyResponse.json();
+      if (!verifyData.success) throw new Error(verifyData.error || "Subscription verification failed");
+      const { payerInfo } = verifyData;
+      const subscriptionResult = await processSubscription(
+        user.id,
+        user.email,
+        selectedPlan,
+        plan.leads
+      );
+      if (!subscriptionResult.success) throw new Error(subscriptionResult.error);
+      dispatch(setError({
+        message: `Subscribed to ${selectedPlan} and received ${plan.leads} leads!`,
+        type: "success",
+      }));
+      handleClose();
+    } catch (error) {
+      console.error("Subscription error:", error);
+      dispatch(setError({ message: error.message, type: "error" }));
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleSubscriptionError = (error) => {
+    console.error("PayPal subscription error:", error);
+    dispatch(setError({ message: "Subscription failed.", type: "error" }));
   };
 
   const handlePaymentError = (error) => {
@@ -173,6 +209,8 @@ const PayPalPaymentModal = () => {
           handlePaymentSuccess={handlePaymentSuccess}
           handlePaymentError={handlePaymentError}
           setShowAppProcessing={setShowAppProcessing}
+          handleSubscriptionSuccess={handleSubscriptionSuccess}
+          handleSubscriptionError={handleSubscriptionError}
         />
         <ProcessingSection loading={loading} />
       </div>
