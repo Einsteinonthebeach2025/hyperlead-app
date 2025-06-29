@@ -3,8 +3,9 @@ import FavoriteLeads from "app/pages/dashboard/favoriteLeads/FavoriteLeads";
 import { getEffectiveUserId } from "app/helpers/assistantHelper";
 
 export const metadata = {
-  title: "Hyperlead | Favorite Leads",
-  description: "Favorite Leads",
+  title: "Hyperlead | Favorite Leads Dashboard",
+  description:
+    "Quickly access and manage your favorite leads. Keep track of top prospects and easily revisit important contacts in your Hyperlead account.",
 };
 
 const FavoriteLeadsPage = async () => {

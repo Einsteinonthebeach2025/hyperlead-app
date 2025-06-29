@@ -3,8 +3,9 @@ import Leads from "app/pages/dashboard/leads/Leads";
 import { getEffectiveUserId } from "app/helpers/assistantHelper";
 
 export const metadata = {
-  title: "Hyperlead | Leads",
-  description: "User prefered leads provided by Hyperlead",
+  title: "Hyperlead | Your Leads Dashboard",
+  description:
+    "Access and manage your current leads easily in one place. View lead details, track progress, and take action directly from your Hyperlead dashboard.",
 };
 
 const LeadsPage = async () => {

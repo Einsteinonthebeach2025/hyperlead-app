@@ -2,7 +2,9 @@ import { createServerClient } from "app/lib/config/supabaseServer";
 import MyProfile from "app/pages/myprofile/MyProfile";
 
 export const metadata = {
-  title: "Hyperlead | My Profile",
+  title: "Hyperlead | Your Profile - Manage Personal Data",
+  description:
+    "Access and update your personal information, preferences, and account settings securely through your Hyperlead profile page. Take full control of your data in one place.",
 };
 
 const MyProfilePage = async () => {

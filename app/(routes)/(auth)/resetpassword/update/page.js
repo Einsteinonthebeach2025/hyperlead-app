@@ -1,7 +1,9 @@
 import UpdatePassword from "app/pages/authentication/resetpassword/UpdatePassword";
 
 export const metadata = {
-  title: "Hyperlead | Update Password ",
+  title: "Hyperlead | Update Password",
+  description:
+    "Securely update your Hyperlead account password to regain access and protect your personal information.",
 };
 
 const UpdatePasswordPage = () => {

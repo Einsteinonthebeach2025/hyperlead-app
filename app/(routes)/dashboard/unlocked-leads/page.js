@@ -2,8 +2,9 @@ import { createServerClient } from "app/lib/config/supabaseServer";
 import UnlockedLeads from "app/pages/dashboard/unlockedLeads/UnlockedLeads";
 
 export const metadata = {
-  title: "Hyperlead | Unlocked Leads",
-  description: "Unlocked Leads page",
+  title: "Hyperlead | Unlocked Leads Dashboard",
+  description:
+    "View all the leads you've unlocked with one-time payments. Instantly access verified contact information and lead details in your Hyperlead account.",
 };
 
 const UnlockedLeadsPage = async () => {

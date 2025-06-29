@@ -21,9 +21,9 @@ const interTight = Inter_Tight({
 });
 
 export const metadata = {
-  title: "Welcome to Hyperlead",
+  title: "Welcome to Hyperlead | Lead Management Platform",
   description:
-    "Platform for creating and managing your leads, contacts, and more.",
+    "Hyperlead helps you create, manage, and grow your leads and contacts efficiently. Streamline your sales and marketing efforts with our powerful tools.",
 };
 
 export default function RootLayout({ children }) {

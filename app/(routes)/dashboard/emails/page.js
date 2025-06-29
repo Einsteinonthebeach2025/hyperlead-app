@@ -3,8 +3,9 @@ import { getEffectiveUserId } from "app/helpers/assistantHelper";
 import Emails from "app/pages/dashboard/emails/Emails";
 
 export const metadata = {
-  title: "Hyperlead | Emails",
-  description: "Emails",
+  title: "Hyperlead | Sent Emails & Tracking",
+  description:
+    "View your sent emails to leads, track delivery status, opens, and monitor all your email communications within Hyperlead.",
 };
 
 const DashboardEmailsPage = async () => {

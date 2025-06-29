@@ -5,8 +5,9 @@ import DashboardPageWrapper from "app/components/containers/DashboardPageWrapper
 import FlexBox from "app/components/containers/FlexBox";
 
 export const metadata = {
-  title: "Hyperlead | Settings",
-  description: "User settings page",
+  title: "Hyperlead | Account Settings & Security",
+  description:
+    "Manage your account settings, enable two-factor authentication (2FA), update your password, and control billing and payment preferences securely through Hyperlead.",
 };
 
 export default function SettingsLayout({ children }) {

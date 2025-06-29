@@ -2,8 +2,9 @@ import { createServerClient } from "app/lib/config/supabaseServer";
 import Notifications from "app/pages/dashboard/notifications/Notifications";
 
 export const metadata = {
-  title: "Hyperlead | Notifications",
-  description: "Notifications page ",
+  title: "Hyperlead | Notifications Center",
+  description:
+    "View and manage your notifications, alerts, and important updates related to your leads, account activity, and system messages on Hyperlead.",
 };
 
 const NotificationsPage = async () => {

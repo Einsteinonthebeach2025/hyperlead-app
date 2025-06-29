@@ -3,8 +3,9 @@ import HistoryLeads from "app/pages/dashboard/historyLeads/HistoryLeads";
 import { getEffectiveUserId } from "app/helpers/assistantHelper";
 
 export const metadata = {
-  title: "Hyperlead | History Leads",
-  description: "History Leads",
+  title: "Hyperlead | Archived Leads History",
+  description:
+    "Browse and review your archived leads. Access historical lead data and revisit previous opportunities from your Hyperlead account.",
 };
 
 const HistoryLeadsPage = async () => {

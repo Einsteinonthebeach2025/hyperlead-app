@@ -2,8 +2,9 @@ import { createServerClient } from "app/lib/config/supabaseServer";
 import Regions from "app/pages/regions/Regions";
 
 export const metadata = {
-  title: "Hyperlead | Regions",
-  description: "some text here",
+  title: "Hyperlead | Region Preferences",
+  description:
+    "Choose your target regions to receive tailored lead recommendations based on location preferences. Customize your lead sources in Hyperlead.",
 };
 
 const RegionsPage = async () => {

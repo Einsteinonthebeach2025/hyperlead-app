@@ -2,8 +2,9 @@ import MotionContainer from "app/components/containers/MotionContainer";
 import Title from "app/components/Title";
 
 export const metadata = {
-  title: "Hyperlead | My Analytics",
-  description: "User prefered leads provided by Hyperlead",
+  title: "Hyperlead | My Analytics Dashboard",
+  description:
+    "Track and analyze your leads, email campaigns, industry trends, lead statuses, and subscription details — all personalized in your Hyperlead analytics dashboard.",
 };
 
 const ActivitiesPage = () => {

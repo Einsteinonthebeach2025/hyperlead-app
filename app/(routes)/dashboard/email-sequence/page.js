@@ -3,8 +3,9 @@ import EmailSequences from "app/pages/dashboard/emailSequence/EmailSequences";
 import { getEffectiveUserId } from "app/helpers/assistantHelper";
 
 export const metadata = {
-  title: "Hyperlead | Email Sequences",
-  description: "Email Sequences",
+  title: "Hyperlead | Email Sequences & Campaigns",
+  description:
+    "Manage and monitor your automated email sequences and campaigns. Track performance and optimize outreach efforts within your Hyperlead dashboard.",
 };
 
 const EmailSequencePage = async () => {
