@@ -106,7 +106,7 @@ const PayPalPaymentModal = () => {
       });
       const verifyData = await verifyResponse.json();
       if (!verifyData.success) throw new Error(verifyData.error || "Payment verification failed");
-      const { paymentMethod, payerInfo, captureId } = verifyData;
+      const { paymentMethod, payerInfo, captureId, userTransactionId } = verifyData;
       const transactionResult = await createTransaction(
         user.id,
         orderID,
@@ -114,7 +114,8 @@ const PayPalPaymentModal = () => {
         plan.price,
         paymentMethod,
         payerInfo,
-        captureId
+        captureId,
+        userTransactionId
       );
       if (!transactionResult.success) throw new Error(transactionResult.error);
       if (selectedPlan === "EXTRA_100") {
@@ -162,6 +163,7 @@ const PayPalPaymentModal = () => {
       const verifyData = await verifyResponse.json();
       if (!verifyData.success) throw new Error(verifyData.error || "Subscription verification failed");
       const { payerInfo } = verifyData;
+      // Create transaction record for subscription
       const transactionResult = await createTransaction(
         user.id,
         subscriptionID,

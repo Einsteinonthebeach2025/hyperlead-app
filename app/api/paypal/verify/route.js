@@ -116,6 +116,24 @@ export async function POST(req) {
     };
 
     const captureId = data.purchase_units[0]?.payments?.captures[0]?.id;
+
+    // Fetch user-facing transaction ID from capture details
+    let userTransactionId = null;
+    if (captureId) {
+      const captureRes = await fetch(
+        `${process.env.PAYPAL_API_URL}/v2/payments/captures/${captureId}`,
+        {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      const captureData = await captureRes.json();
+      userTransactionId = captureData.id || null; // This is usually the user-facing transaction ID
+    }
+
     // 6. Return to Frontend
     return NextResponse.json({
       success: true,
@@ -125,6 +143,7 @@ export async function POST(req) {
       paymentMethod,
       payerInfo,
       captureId,
+      userTransactionId,
     });
   } catch (error) {
     console.error("PayPal verification error:", error);

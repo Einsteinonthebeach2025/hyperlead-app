@@ -10,7 +10,8 @@ export const createTransaction = async (
   amount,
   paymentMethod,
   payerInfo,
-  captureId
+  captureId,
+  userTransactionId
 ) => {
   const { brand, last4, maskedCard } = paymentMethod || {};
   const { name, email, address } = payerInfo || {};
@@ -20,6 +21,7 @@ export const createTransaction = async (
     order_id: orderId,
     plan_name: planName,
     capture_id: captureId,
+    user_transaction_id: userTransactionId,
     amount,
     status: "COMPLETED",
     card_brand: brand,
