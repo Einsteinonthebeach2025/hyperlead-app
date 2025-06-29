@@ -162,6 +162,16 @@ const PayPalPaymentModal = () => {
       const verifyData = await verifyResponse.json();
       if (!verifyData.success) throw new Error(verifyData.error || "Subscription verification failed");
       const { payerInfo } = verifyData;
+      const transactionResult = await createTransaction(
+        user.id,
+        subscriptionID,
+        selectedPlan,
+        plan.price,
+        { brand: "PayPal", last4: "N/A", maskedCard: "PayPal Subscription" }, // Default payment method for subscriptions
+        payerInfo,
+        null
+      );
+      if (!transactionResult.success) throw new Error(transactionResult.error);
       const subscriptionResult = await processSubscription(
         user.id,
         user.email,
