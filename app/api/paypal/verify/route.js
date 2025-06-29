@@ -291,11 +291,49 @@ export async function POST(req) {
 
     // Step 8: Extract captureId and user-facing transaction ID
     const captureId = purchaseUnit?.payments?.captures?.[0]?.id || null;
-    const userTransactionId = captureId;
-    console.log("Step 8: Transaction ID captured:", {
-      captureId,
-      userTransactionId,
-    });
+    let userTransactionId = null;
+
+    if (captureId) {
+      console.log(
+        "Step 8.1: Fetching capture details to extract user-facing transaction ID"
+      );
+
+      const captureRes = await fetch(
+        `${process.env.PAYPAL_API_URL}/v2/payments/captures/${captureId}`,
+        {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      const captureData = await captureRes.json();
+      console.log("Step 8.2: Capture details received:", captureData);
+
+      userTransactionId = captureData?.seller_receivable_breakdown?.paypal_fee
+        ?.value
+        ? captureData?.id
+        : captureData?.id || null;
+
+      // Fallback: check top-level transaction_id
+      if (captureData?.status === "COMPLETED" && captureData?.id) {
+        userTransactionId = captureData.id;
+      }
+
+      // Ultimate fallback: scan purchase_units[0].payments.captures array
+      // Sometimes the actual transaction ID is under "processor_response.transaction_id"
+      const processorTxnId = captureData?.processor_response?.transaction_id;
+      if (processorTxnId) {
+        userTransactionId = processorTxnId;
+      }
+
+      console.log(
+        "Step 8.3: Final user-facing transaction ID:",
+        userTransactionId
+      );
+    }
 
     // Step 9: Return to frontend
     return NextResponse.json({
