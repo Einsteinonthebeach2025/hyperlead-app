@@ -1,34 +1,39 @@
+// route.js
 import { NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 
-// Supabase admin client
+// Use server-side Supabase admin client
 const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL,
+  process.env.SUPABASE_URL, // Use the admin URL, not NEXT_PUBLIC
   process.env.SUPABASE_SERVICE_ROLE_KEY
 );
 
-// Required for raw body parsing for signature validation (you can add later)
+// Helper: Parse raw body (for signature verification, if you add it later)
 export const config = {
   api: {
     bodyParser: false,
   },
 };
 
+export async function GET() {
+  console.log("hello from paypal webhook [GET]");
+  return NextResponse.json({ message: "Webhook GET test OK" });
+}
+
 export async function POST(req) {
   try {
     const body = await req.json();
-
     console.log("📩 PayPal Webhook Event:", JSON.stringify(body, null, 2));
 
     const eventType = body.event_type;
     const resource = body.resource;
 
-    // ✅ Handle the real transaction ID from completed capture
+    // Listen for the payment capture completed event
     if (eventType === "PAYMENT.CAPTURE.COMPLETED") {
-      const transactionId = resource.id; // this is the user-facing TX ID (e.g., 95T263805R298640T)
+      const transactionId = resource.id; // This is the user-facing transaction ID
       const orderId = resource?.supplementary_data?.related_ids?.order_id;
 
-      console.log("✅ Captured Transaction ID:", transactionId);
+      console.log("✅ Captured Transaction ID (user-facing):", transactionId);
       console.log("↪️ Related Order ID:", orderId);
 
       if (orderId && transactionId) {
@@ -45,7 +50,7 @@ export async function POST(req) {
       }
     }
 
-    // Handle other billing/subscription events if needed
+    // Optionally handle other events
     if (eventType.startsWith("BILLING.SUBSCRIPTION.")) {
       console.log("ℹ️ Subscription Event:", eventType);
     }
@@ -58,8 +63,4 @@ export async function POST(req) {
       { status: 500 }
     );
   }
-}
-
-export async function GET() {
-  return NextResponse.json({ message: "Webhook GET test OK" });
 }
