@@ -26,9 +26,8 @@ const HyperleadUsersPage = async () => {
       )
     `
     )
-    .order("created_at", { ascending: true }) // oldest first
-    .range(0, 19); // first 20 users
-
+    .order("created_at", { ascending: true })
+    .range(0, 19);
   if (usersError) {
     return (
       <UserManagement
