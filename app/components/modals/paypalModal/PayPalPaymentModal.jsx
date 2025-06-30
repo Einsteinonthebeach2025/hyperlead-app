@@ -140,7 +140,6 @@ const PayPalPaymentModal = () => {
       }
       handleClose();
     } catch (error) {
-      console.error("Payment error:", error);
       dispatch(setError({ message: error.message, type: "error" }));
     } finally {
       setLoading(false);

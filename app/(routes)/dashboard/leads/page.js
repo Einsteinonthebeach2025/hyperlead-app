@@ -68,7 +68,6 @@ const LeadsPage = async () => {
   const historyLeadIds = historyLeads.map((ul) => ul.lead_id);
   // Filter out leads that are in history
   const currentLeadIds = allUserLeads.map((ul) => ul.lead_id);
-  console.log(currentLeadIds, "from page");
 
   // Helper to chunk an array
   function chunkArray(array, size) {

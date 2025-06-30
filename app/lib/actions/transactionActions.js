@@ -17,7 +17,7 @@ export const createTransaction = async (
 
   const { data, error } = await supabase.from("transactions").insert({
     user_id: userId,
-    order_id: orderId,
+    paypal_order_id: orderId,
     plan_name: planName,
     seller_transaction_id: captureId,
     amount,

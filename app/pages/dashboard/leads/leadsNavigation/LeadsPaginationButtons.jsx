@@ -1,3 +1,4 @@
+"use client"
 import FlexBox from "app/components/containers/FlexBox";
 import SpanContainer from "app/components/containers/SpanContainer";
 import { FaCaretRight, FaCaretLeft } from "react-icons/fa";

@@ -10,11 +10,6 @@ export async function POST(req) {
 
   try {
     const { orderID, planName } = await req.json();
-    console.log("[Step 1] Received orderID and planName:", {
-      orderID,
-      planName,
-    });
-
     // 1. Get Access Token
     const auth = Buffer.from(
       `${process.env.PAYPAL_CLIENT_ID}:${process.env.PAYPAL_SECRET}`
@@ -34,7 +29,6 @@ export async function POST(req) {
 
     const tokenData = await tokenRes.json();
     if (!tokenData.access_token) {
-      console.error("[Error] Failed to obtain PayPal access token", tokenData);
       return NextResponse.json(
         { error: "Failed to obtain PayPal access token" },
         { status: 500 }
@@ -52,7 +46,6 @@ export async function POST(req) {
         },
       }
     );
-    console.log("[Step 6] Requested order details for orderID:", orderID);
 
     const data = await orderRes.json();
     console.log("[Step 7] Order details fetched:", data);
