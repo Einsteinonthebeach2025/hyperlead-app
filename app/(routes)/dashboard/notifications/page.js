@@ -22,7 +22,8 @@ const NotificationsPage = async () => {
   const { data: notifications, error: notificationsError } = await supabase
     .from("notifications")
     .select("*")
-    .eq("user_id", session.user.id);
+    .eq("user_id", session.user.id)
+    .order("created_at", { ascending: false });
 
   if (notificationsError)
     return (

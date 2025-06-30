@@ -23,6 +23,7 @@ export async function POST(req) {
     const { access_token } = await tokenRes.json();
     if (!access_token) throw new Error("PayPal token failed");
 
+    // Fetch subscription details
     const subRes = await fetch(
       `${process.env.PAYPAL_API_URL}/v1/billing/subscriptions/${subscriptionID}`,
       {
@@ -32,6 +33,7 @@ export async function POST(req) {
     );
 
     const subData = await subRes.json();
+    console.log("[DEBUG] Subscription data:", subData);
 
     if (subData.status !== "ACTIVE") {
       return NextResponse.json(
@@ -40,13 +42,36 @@ export async function POST(req) {
       );
     }
 
-    // You can extract payer info, next billing time, etc. here
+    // Extract payer info and address
+    const subscriber = subData.subscriber || {};
+    const payer_name =
+      `${subscriber.name?.given_name || ""} ${subscriber.name?.surname || ""}`.trim();
+    const payer_email = subscriber.email_address || "";
+    const payer_address = subscriber.shipping_address?.address || {};
+
+    // Extract last payment transaction ID
+    const last_payment = subData.billing_info?.last_payment || {};
+    const seller_transaction_id = last_payment.transaction_id || null;
+    const amount = last_payment.amount?.value || null;
+
+    // Debug logs
+    console.log("[DEBUG] Payer name:", payer_name);
+    console.log("[DEBUG] Payer email:", payer_email);
+    console.log("[DEBUG] Payer address:", payer_address);
+    console.log("[DEBUG] Seller transaction ID:", seller_transaction_id);
+    console.log("[DEBUG] Amount:", amount);
 
     return NextResponse.json({
       success: true,
       plan: planName,
       subscriptionID,
-      payerInfo: subData.subscriber,
+      payerInfo: {
+        name: payer_name,
+        email: payer_email,
+        address: payer_address,
+      },
+      seller_transaction_id,
+      amount,
     });
   } catch (err) {
     console.error("PayPal Subscription Error:", err);

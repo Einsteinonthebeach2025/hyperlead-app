@@ -16,7 +16,6 @@ const UserManagement = ({ data: initialUsers, totalCount, message, desc }) => {
   const [currentFilters, setCurrentFilters] = useState({
     subscription: "all"
   });
-
   const handleFilterChange = (type, value) => {
     setCurrentFilters(prev => ({
       ...prev,
