@@ -56,7 +56,7 @@ const TransactionsList = ({ transactions }) => {
             </FlexBox>
             <div className="space-y-2">
               <TransactionRow label="Order ID:" value={transaction.order_id} />
-              <TransactionRow label="Capture ID:" value={transaction.capture_id} />
+              <TransactionRow label="Capture ID:" value={transaction.seller_transaction_id} />
               <TransactionRow label="Plan Type:" value={transaction.plan_name} />
               <TransactionRow
                 label="Amount:"
