@@ -53,7 +53,7 @@ const UserManagement = ({ data: initialUsers, totalCount, message, desc }) => {
         return;
       }
 
-      if (newUsers.length === 0) {
+      if (newUsers?.length === 0) {
         return;
       }
 
@@ -67,9 +67,9 @@ const UserManagement = ({ data: initialUsers, totalCount, message, desc }) => {
   };
 
   const filteredUsers = filterUsers(users, currentFilters);
-  const hasMore = users.length < totalCount;
+  const hasMore = users?.length < totalCount;
 
-  if (!initialUsers || initialUsers.length === 0) {
+  if (!initialUsers || initialUsers?.length === 0) {
     return (
       <div className="h-screen center">
         <SectionHeadline
