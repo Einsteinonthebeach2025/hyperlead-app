@@ -15,7 +15,7 @@ const FilterBar = ({
     Object.values(currentFilters).some((value) => value !== "all");
 
   return (
-    <div className="flex gap-2">
+    <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-7 gap-2">
       {filterConfig?.map((filter) => {
         const options = filter.getOptions(data);
         const value = currentFilters[filter.type] || "all";
@@ -25,8 +25,9 @@ const FilterBar = ({
               id={filter.id}
               name={filter.id}
               value={value}
+              autoComplete="off"
               onChange={(e) => handleFilterChange(filter.type, e.target.value)}
-              className="appearance-none pr-8 hover:bg-neutral-200 dark:hover:bg-[#151e27] duration-300"
+              className="appearance-none pr-8 hover:bg-neutral-200 dark:hover:bg-[#151e27] duration-300 w-full"
             >
               <option value="">{filter.label === "Users" ? "All Users" : filter.label}</option>
               {options?.map((option) => (

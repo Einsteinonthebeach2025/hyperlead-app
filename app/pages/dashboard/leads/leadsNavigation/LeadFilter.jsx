@@ -36,7 +36,7 @@ const LeadFilter = ({
         <SubTitle>Filter Leads Based on Your Criteria</SubTitle>
         <SpanText> Use the filters below to narrow down your ideal prospects by country, company size, industry, city, or seniority level.</SpanText>
       </FlexBox>
-      <div className="flex place-content-between gap-2">
+      <div className="flex items-center gap-2">
         <FilterBar
           data={filteredLeads}
           currentFilters={currentFilters}

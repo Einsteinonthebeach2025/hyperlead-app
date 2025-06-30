@@ -122,6 +122,7 @@ const UpdateProfile = () => {
                 type="text"
                 id="userName"
                 name="userName"
+                autoComplete="true"
                 value={formData.userName}
                 onChange={handleChange}
                 placeholder="Enter your username"
@@ -134,6 +135,7 @@ const UpdateProfile = () => {
                 type="text"
                 id="firstName"
                 name="firstName"
+                autoComplete="true"
                 value={formData.firstName}
                 onChange={handleChange}
                 placeholder="Enter your first name"
@@ -146,6 +148,7 @@ const UpdateProfile = () => {
                 type="text"
                 id="lastName"
                 name="lastName"
+                autoComplete="true"
                 value={formData.lastName}
                 onChange={handleChange}
                 placeholder="Enter your last name"
@@ -158,6 +161,7 @@ const UpdateProfile = () => {
                 type="date"
                 id="userBirthDate"
                 name="userBirthDate"
+                autoComplete="true"
                 value={formData.userBirthDate}
                 onChange={handleChange}
                 max={new Date().toISOString().split("T")[0]}
@@ -170,6 +174,7 @@ const UpdateProfile = () => {
                 type="tel"
                 id="phone"
                 name="phone"
+                autoComplete="true"
                 value={formData.phone}
                 onChange={handleChange}
                 placeholder="Enter your phone number"
@@ -182,6 +187,7 @@ const UpdateProfile = () => {
                 type="text"
                 id="company"
                 name="company"
+                autoComplete="true"
                 value={formData.company}
                 onChange={handleChange}
                 placeholder="Enter your company name"
@@ -194,6 +200,7 @@ const UpdateProfile = () => {
                 type="text"
                 id="country"
                 name="country"
+                autoComplete="true"
                 value={formData.country}
                 onChange={handleChange}
                 placeholder="Enter your country"
@@ -206,6 +213,7 @@ const UpdateProfile = () => {
                 type="text"
                 id="city"
                 name="city"
+                autoComplete="true"
                 value={formData.city}
                 onChange={handleChange}
                 placeholder="Enter your city"
@@ -232,6 +240,7 @@ const UpdateProfile = () => {
                 type="text"
                 id="address"
                 name="address"
+                autoComplete="true"
                 value={formData.address}
                 onChange={handleChange}
                 placeholder="Enter your address"
@@ -244,6 +253,7 @@ const UpdateProfile = () => {
                 type="url"
                 id="linkedin_url"
                 name="linkedin_url"
+                autoComplete="true"
                 value={formData.linkedin_url}
                 onChange={handleChange}
                 placeholder="Enter your LinkedIn profile URL"
@@ -256,6 +266,7 @@ const UpdateProfile = () => {
                 type="url"
                 id="twitter_url"
                 name="twitter_url"
+                autoComplete="true"
                 value={formData.twitter_url}
                 onChange={handleChange}
                 placeholder="Enter your Twitter profile URL"
@@ -268,6 +279,7 @@ const UpdateProfile = () => {
                 type="url"
                 id="web_url"
                 name="web_url"
+                autoComplete="true"
                 value={formData.web_url}
                 onChange={handleChange}
                 placeholder="Enter your website URL"
@@ -280,6 +292,7 @@ const UpdateProfile = () => {
                 type="text"
                 id="position"
                 name="position"
+                autoComplete="true"
                 value={formData.position}
                 onChange={handleChange}
                 placeholder="Enter your position"

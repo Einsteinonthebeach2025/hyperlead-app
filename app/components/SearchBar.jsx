@@ -32,11 +32,14 @@ const SearchBar = ({ leads = [], onSearch }) => {
   return (
     <div className="relative">
       <input
+        id="lead-search-input"
+        name="lead-search"
         type="text"
         value={searchTerm}
         onChange={handleSearch}
         placeholder="Search your leads..."
         className="search-bar"
+        autoComplete="off"
       />
       <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-neutral-400" />
     </div>

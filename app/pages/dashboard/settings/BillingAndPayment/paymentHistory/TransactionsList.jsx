@@ -4,11 +4,12 @@ import { formatTime } from 'app/helpers/utils'
 import SubTitle from 'app/components/SubTitle'
 import Paragraph from 'app/components/Paragraph'
 import FlexBox from 'app/components/containers/FlexBox'
+import SpanText from 'app/components/SpanText';
+import { useDispatch } from 'react-redux';
+import { setToggle } from 'app/features/modalSlice';
 
 const TransactionsList = ({ transactions }) => {
-
-  console.log(transactions, "from transactions list");
-
+  const dispatch = useDispatch();
 
   if (!transactions || transactions.length === 0) {
     return (
@@ -31,8 +32,21 @@ const TransactionsList = ({ transactions }) => {
     </FlexBox>
   );
 
+  const handleShowFullDetails = (transaction) => {
+    dispatch(setToggle({
+      modalType: 'global',
+      isOpen: true,
+      data: {
+        title: 'Transaction Details',
+        contentType: 'transactionDetails',
+        transaction,
+        size: 'md',
+      },
+    }));
+  };
+
   return (
-    <div className="space-y-4 max-h-[600px] overflow-y-auto">
+    <div className="space-y-4 max-h-[600px] overflow-y-auto relative">
       {transactions.map((transaction) => {
         const statusColor = transaction.status === 'COMPLETED'
           ? 'text-green-400 bg-green-400/20'
@@ -41,7 +55,7 @@ const TransactionsList = ({ transactions }) => {
         return (
           <div
             key={transaction.id}
-            className="space-y-3 p-4 primary-border rounded-lg shadow-sm bg-neutral-50/50 dark:bg-[#344c63]/50"
+            className="space-y-3 p-4 primary-border rounded-lg shadow-sm bg-neutral-50/50 dark:bg-[#344c63]/50 "
           >
             <FlexBox type="row-between">
               <FlexBox className="gap-1">
@@ -55,8 +69,10 @@ const TransactionsList = ({ transactions }) => {
               </span>
             </FlexBox>
             <div className="space-y-2">
-              <TransactionRow label="Order ID:" value={transaction.order_id} />
-              <TransactionRow label="Capture ID:" value={transaction.seller_transaction_id} />
+              <TransactionRow label="Order ID:" value={transaction.paypal_order_id} />
+              {transaction.seller_transaction_id && (
+                <TransactionRow label="Capture ID:" value={transaction.seller_transaction_id} />
+              )}
               <TransactionRow label="Plan Type:" value={transaction.plan_name} />
               <TransactionRow
                 label="Amount:"
@@ -64,6 +80,9 @@ const TransactionsList = ({ transactions }) => {
                 customColor="text-blue-600 dark:text-blue-400 font-bold"
               />
             </div>
+            <FlexBox onClick={() => handleShowFullDetails(transaction)} type="row-end" className="w-full justify-end cursor-pointer">
+              <SpanText>View full details</SpanText>
+            </FlexBox>
           </div>
         );
       })}

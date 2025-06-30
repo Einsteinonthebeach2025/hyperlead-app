@@ -6,8 +6,6 @@ import {
 } from "app/lib/config/paypalConfig";
 
 export async function POST(req) {
-  console.log("==== PayPal VERIFY API called ====");
-
   try {
     const { orderID, planName } = await req.json();
     // 1. Get Access Token
@@ -48,9 +46,7 @@ export async function POST(req) {
     );
 
     const data = await orderRes.json();
-    console.log("[Step 7] Order details fetched:", data);
     if (data.status !== "COMPLETED") {
-      console.warn("[Warn] Payment not completed:", data.status);
       return NextResponse.json(
         { error: "Payment not completed" },
         { status: 400 }
@@ -59,10 +55,8 @@ export async function POST(req) {
 
     const purchaseUnit = data.purchase_units?.[0];
     const amount = purchaseUnit?.amount?.value;
-    console.log("[Step 8] Purchase unit and amount:", purchaseUnit, amount);
 
     if (!amount) {
-      console.error("[Error] Invalid order data, missing amount");
       return NextResponse.json(
         { error: "Invalid order data" },
         { status: 500 }
@@ -86,7 +80,6 @@ export async function POST(req) {
         maskedCard: `${brand} / **** **** **** ${last4}`,
       };
     }
-
     // 4. Match Plan
     let plan;
     if (planName === "EXTRA_100") {
@@ -98,17 +91,10 @@ export async function POST(req) {
     }
 
     if (!plan) {
-      console.error("[Error] Invalid plan:", planName);
       return NextResponse.json({ error: "Invalid plan" }, { status: 400 });
     }
 
     if (amount !== plan.price) {
-      console.error(
-        "[Error] Payment amount mismatch. Expected:",
-        plan.price,
-        "Got:",
-        amount
-      );
       return NextResponse.json(
         { error: "Payment amount mismatch" },
         { status: 400 }
@@ -137,7 +123,6 @@ export async function POST(req) {
       captureId,
     });
   } catch (error) {
-    console.error("[Error] PayPal verification error:", error);
     return NextResponse.json(
       { error: "Payment verification failed" },
       { status: 500 }

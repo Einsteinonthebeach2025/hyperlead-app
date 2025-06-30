@@ -9,7 +9,7 @@ const SideBarLinks = ({ links, children }) => {
 
   return (
 
-    <div className="w-full md:w-[30%] lg:w-[20%] relative py-3 lg:border-r border-neutral-200 dark:border-[#344c63]">
+    <div className="w-full md:w-[20%] lg:w-[20%] relative py-3 lg:border-r border-neutral-200 dark:border-[#344c63]">
       <div className="sticky top-20 w-full px-3 flex flex-col justify-between lg:h-screen">
         <MotionContainer
           animation="fade-in"
@@ -21,9 +21,9 @@ const SideBarLinks = ({ links, children }) => {
               <MotionChildren key={link.href} animation="fade-in">
                 <Link
                   href={link.href}
-                  className={`w-full flex items-center justify-start gap-3 px-3 py-2 rounded-lg transition-all duration-300 capitalize relative ${isActive
+                  className={`w-full flex items-center text-xs xl:text-base justify-start gap-3 px-3 py-2 rounded-lg transition-all duration-300 capitalize relative ${isActive
                     ? "bg-neutral-800 text-white dark:bg-blue-900 dark:hover:bg-indigo-900/70"
-                    : "text-neutral-600 bg-neutral-200 hover:bg-neutral-500/20 dark:bg-blue-900/30 dark:hover:bg-blue-900/50 dark:text-stone-200"
+                    : "text-neutral-600 bg-neutral-200 hover:bg-neutral-500/50 dark:bg-blue-900/30 dark:hover:bg-blue-900/50 dark:text-stone-200"
                     }`}
                 >
                   <span>{link.icon}</span>

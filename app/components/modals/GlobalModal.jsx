@@ -9,6 +9,7 @@ import Paragraph from '../Paragraph';
 import Close from '../buttons/Close';
 import { termsData, privacyPolicyData } from 'app/localDB/companyInformationData';
 import InfoDisplay from './terms/InfoDisplay';
+import FullBillingDetails from 'app/pages/dashboard/settings/BillingAndPayment/paymentHistory/FullBillingDetails';
 
 const GlobalModal = ({ children }) => {
   const dispatch = useDispatch();
@@ -32,6 +33,8 @@ const GlobalModal = ({ children }) => {
         return <InfoDisplay data={termsData} />;
       case 'privacyPolicy':
         return <InfoDisplay data={privacyPolicyData} />;
+      case 'transactionDetails':
+        return <FullBillingDetails transaction={data.transaction} setShowFullDetails={handleClose} />;
       default:
         return data.desc ? <Paragraph className='text-gray-600'>{data.desc}</Paragraph> : null;
     }
@@ -40,7 +43,7 @@ const GlobalModal = ({ children }) => {
   return (
     <AnimatePresence>
       {isOpen && (
-        <MotionContainer animation='fade-in' className='fixed inset-0 top-0 bg-neutral-400/80 backdrop-blur-sm dark:bg-[#1d2939]/90 z-50 flex items-center justify-center'>
+        <MotionContainer animation='fade-in' className='fixed inset-0 top-0 bg-neutral-400/80 backdrop-blur-xs dark:bg-[#1d2939]/90 z-50 flex items-center justify-center'>
           <div className={`${sizeClasses[data?.size] || sizeClasses.md} bg-neutral-100 dark:bg-[#151e27] p-6 rounded-lg shadow-[0_10px_25px_rgba(0,0,0,0.5)] w-full center flex-col space-y-2`}>
             <Close onClick={handleClose} className='absolute top-4 right-4' />
             <MotionChildren animation='fade-in' className="w-full center">

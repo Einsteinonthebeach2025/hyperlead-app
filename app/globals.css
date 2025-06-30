@@ -18,12 +18,15 @@
   .primary-outline {
     @apply outline-10 md:outline-20 outline-stone-300/20 m-5;
   }
+  option {
+    @apply text-[10px] lg:text-xs;
+  }
   input,
   textarea {
     @apply rounded-3xl bg-neutral-100 dark:bg-[#344c63] px-3 py-1 lg:py-2 placeholder:capitalize placeholder:opacity-40 dark:text-stone-300 dark:placeholder:text-stone-200 outline-none w-full duration-300 focus:ring-1 focus:ring-neutral-300 dark:focus:ring-sky-800 text-[12px] lg:text-base;
   }
   select {
-    @apply appearance-none border rounded-md px-2 py-1 focus:outline-none focus:ring-[0.5px] bg-white border-neutral-300 focus:ring-neutral-400 text-[12px] lg:text-base dark:bg-[#1d2939] dark:text-stone-200 dark:border-[#344c63];
+    @apply appearance-none border rounded-md px-2 py-1 focus:outline-none focus:ring-[0.5px] bg-white border-neutral-300 focus:ring-neutral-400 text-[10px] lg:text-base dark:bg-[#1d2939] dark:text-stone-200 dark:border-[#344c63];
   }
   label {
     @apply capitalize font-medium pl-1 text-[13px] lg:text-base dark:text-stone-300;

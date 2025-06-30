@@ -33,8 +33,6 @@ export async function POST(req) {
     );
 
     const subData = await subRes.json();
-    console.log("[DEBUG] Subscription data:", subData);
-
     if (subData.status !== "ACTIVE") {
       return NextResponse.json(
         { error: "Subscription not active" },
@@ -51,15 +49,7 @@ export async function POST(req) {
 
     // Extract last payment transaction ID
     const last_payment = subData.billing_info?.last_payment || {};
-    const seller_transaction_id = last_payment.transaction_id || null;
     const amount = last_payment.amount?.value || null;
-
-    // Debug logs
-    console.log("[DEBUG] Payer name:", payer_name);
-    console.log("[DEBUG] Payer email:", payer_email);
-    console.log("[DEBUG] Payer address:", payer_address);
-    console.log("[DEBUG] Seller transaction ID:", seller_transaction_id);
-    console.log("[DEBUG] Amount:", amount);
 
     return NextResponse.json({
       success: true,
@@ -70,7 +60,6 @@ export async function POST(req) {
         email: payer_email,
         address: payer_address,
       },
-      seller_transaction_id,
       amount,
     });
   } catch (err) {

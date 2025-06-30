@@ -10,6 +10,8 @@ const ToggleSwitch = ({ checked, onChange, disabled = false, small = false }) =>
         opacity: disabled ? 0.6 : 1,
     }}>
         <input
+            id="toggle-switch"
+            name="toggle-switch"
             type="checkbox"
             checked={checked}
             onChange={onChange}
