@@ -4,7 +4,6 @@ import SectionHeadline from 'app/components/SectionHeadline';
 import CardContainer from 'app/components/containers/CardContainer';
 import MotionContainer from 'app/components/containers/MotionContainer';
 import PaymentHistory from './paymentHistory/PaymentHistory';
-import BillingInfo from './billingInfo/BillingInfo';
 import SubscriptionInfo from './subscriptionInfo/SubscriptionInfo';
 
 const BillingAndPayment = ({ transactions = [], error }) => {
@@ -38,10 +37,7 @@ const BillingAndPayment = ({ transactions = [], error }) => {
         />
         <div className="grid grid-cols-2 gap-4">
           <PaymentHistory transactions={transactions} />
-          <div className='grid grid-cols-1 gap-4'>
-            <SubscriptionInfo />
-            <BillingInfo transactions={transactions} />
-          </div>
+          <SubscriptionInfo />
         </div>
       </MotionContainer>
     </div>

@@ -14,6 +14,7 @@ import PayPalPaymentModal from "./components/modals/paypalModal/PayPalPaymentMod
 import { StoreProvider } from "./lib/store/StoreProvider";
 import { Inter_Tight } from "next/font/google";
 import HyperSearchModal from "./components/modals/hyperSearchModal/HyperSearchModal";
+import ChatBot from "./pages/chatBot/ChatBot";
 
 const interTight = Inter_Tight({
   subsets: ["latin"],
@@ -33,7 +34,6 @@ export default function RootLayout({ children }) {
         <html lang="en" className={interTight.className}>
           <ThemeProvider>
             <body className="center flex-col">
-              {/* <PayPalProviderWrapper> */}
               <main className="relative w-full max-w-[1650px] dark:bg-[#151e27] duration-500">
                 <NavigationWrapper />
                 {children}
@@ -46,9 +46,9 @@ export default function RootLayout({ children }) {
                 <ExtraLeadOptions />
                 <PayPalPaymentModal />
                 <HyperSearchModal />
+                <ChatBot />
                 <Footer />
               </main>
-              {/* </PayPalProviderWrapper> */}
             </body>
           </ThemeProvider>
         </html>

@@ -32,7 +32,8 @@ const SubscriptionInfo = () => {
 
     return (
         <CardContainer>
-            <div className="p-6">
+
+            <div>
                 <SubsHeader subscriptionEndDate={subscriptionEndDate} />
                 <PlanInfo user={user} subscribedSinceDate={subscribedSinceDate} />
                 <FooterInfo />

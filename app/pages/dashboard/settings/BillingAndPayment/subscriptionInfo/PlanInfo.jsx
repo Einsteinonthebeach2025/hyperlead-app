@@ -14,12 +14,6 @@ const PlanInfo = ({ user, subscribedSinceDate }) => {
                         </div>
                         <div className="flex gap-2">
                             <Button
-                                className="bg-green-500 hover:bg-green-600 text-white !text-xs !px-3 !py-2 rounded-full"
-                                onClick={() => { /* TODO */ }}
-                            >
-                                Change Plan
-                            </Button>
-                            <Button
                                 className="bg-red-500 hover:bg-red-600 text-white !text-xs !px-3 !py-2 rounded-full"
                                 onClick={() => { /* TODO */ }}
                             >
@@ -27,7 +21,6 @@ const PlanInfo = ({ user, subscribedSinceDate }) => {
                             </Button>
                         </div>
                     </div>
-                    <div className="mt-6 border-t border-gray-200 dark:border-gray-700 my-4"></div>
                 </div>
             )}
             {!subscribedSinceDate && (
