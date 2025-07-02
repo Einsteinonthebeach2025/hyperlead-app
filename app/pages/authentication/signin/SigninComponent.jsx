@@ -5,11 +5,13 @@ import Title from "app/components/Title";
 import Link from "next/link";
 import SignInForm from "./SignInForm";
 import FlexBox from "app/components/containers/FlexBox";
+import Logo from "app/components/Logo";
 
 const SignInComponent = () => {
   return (
     <>
-      <div className="h-screen center w-full ">
+      <div className="h-screen center flex-col space-y-5 w-full ">
+        <Logo />
         <FormContainer className="w-[90%] max-w-[400px] space-y-1">
           <MotionContainer animation="zoom-out">
             <Title>SIGN IN</Title>

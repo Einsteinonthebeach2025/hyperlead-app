@@ -5,10 +5,12 @@ import MotionContainer from "app/components/containers/MotionContainer";
 import FormContainer from "app/components/containers/FormContainer";
 import Paragraph from "app/components/Paragraph";
 import Title from "app/components/Title";
+import Logo from "app/components/Logo";
 
 const SignUpComponent = () => {
   return (
-    <div className="h-screen center">
+    <div className="h-screen center flex-col space-y-2">
+      <Logo />
       <FormContainer className="w-[90%] max-w-[500px] space-y-2">
         <MotionContainer animation="zoom-out">
           <Title>SIGN UP</Title>

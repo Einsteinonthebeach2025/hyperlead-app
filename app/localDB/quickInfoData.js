@@ -18,7 +18,7 @@ const quickInfoData = [
     id: 3,
     icon: <IoStatsChart />,
     title: "Run smarter campaigns",
-    desc: "SLaunch personalized email campaigns, track replies, and manage all outreach in one place—directly from your dashboard.",
+    desc: "Launch personalized email campaigns, track replies, and manage all outreach in one place—directly from your dashboard.",
   },
 ];
 

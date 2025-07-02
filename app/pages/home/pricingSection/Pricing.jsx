@@ -10,7 +10,6 @@ const SectionPricing = () => {
         desc="Get verified B2B leads, AI outreach tools, and campaign automation—all in one simple plan."
       />
       <h1>Annual pricing here</h1>
-
       <PricingList />
       <MobileSwiper />
     </section>

@@ -39,7 +39,7 @@ const Preferences = ({ initialPreferences = [] }) => {
       if (!regionLength) {
         router.push("/regions");
       } else {
-        router.push("/");
+        router.push("/dashboard/activities");
       }
     } catch (error) {
       dispatch(setError("Failed to update preferences"));

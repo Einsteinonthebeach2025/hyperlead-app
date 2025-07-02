@@ -7,8 +7,8 @@ const SectionTwo = () => {
     <section>
       <SectionHeadline
         className="lg:px-[10%]"
-        title="AI-Powered Lead Generation & Outreach All in One Platform"
-        desc="Find, qualify, and engage high-intent leads effortlessly with AI-driven automation. Scale your business faster."
+        title="Lead Generation & Outreach All in One Platform"
+        desc="Find, qualify, and engage high-intent leads effortlessly with AI-driven automation. Scale your business faster."
       />
       <ContentList />
     </section>

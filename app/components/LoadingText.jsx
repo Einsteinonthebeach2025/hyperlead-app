@@ -13,7 +13,7 @@ const pokeVariants = {
     }),
 };
 
-const LoeadingText = ({ text, loading }) => {
+const LoadingText = ({ text, loading }) => {
     const [waveKey, setWaveKey] = useState(0);
 
     useEffect(() => {
@@ -43,4 +43,4 @@ const LoeadingText = ({ text, loading }) => {
     )
 }
 
-export default LoeadingText
+export default LoadingText

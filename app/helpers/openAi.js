@@ -1,5 +1,6 @@
 import OpenAI from "openai";
 import { chatbotSystemContent, emailSystemContent } from "./aiSystemRules";
+import { appFeatures } from "./chatbotKnowledge";
 
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
@@ -60,16 +61,17 @@ Return the trigger from the list that is most similar in meaning to the user's m
 };
 
 // CHAT ASSISTANT for paraphrasing answer
-export const paraphraseAnswer = async (answer) => {
-  const prompt = `Rephrase the following answer in a different way, but keep the meaning and context:\n"${answer}"`;
+export const paraphraseAnswer = async (answer, userQuestion) => {
+  const prompt = `
+A user asked: "${userQuestion}"
+Here is the answer you must base your response on: "${answer}"
+Please rephrase this answer in your own words, keep the meaning and context, and make it sound natural and conversational.
+  `;
   const response = await openai.chat.completions.create({
     model: "gpt-4.1-mini-2025-04-14",
-    messages: [
-      { role: "system", content: chatbotSystemContent },
-      { role: "user", content: prompt },
-    ],
+    messages: [{ role: "system", content: prompt }],
+    max_tokens: 200,
     temperature: 0.7,
-    max_tokens: 100,
   });
   return response.choices[0].message.content.trim();
 };

@@ -40,7 +40,7 @@ const Regions = ({ initialRegions = [] }) => {
         await updateProfile(user.id, { is_new_user: false });
         dispatch(updateUserProfile({ is_new_user: false }));
       }
-      router.push("/");
+      router.push("/dashboard/activities");
       if (isNewUser) {
         setTimeout(showWelcomeModal, 1000);
       }
@@ -56,7 +56,7 @@ const Regions = ({ initialRegions = [] }) => {
         await updateProfile(user.id, { is_new_user: false });
         dispatch(updateUserProfile({ is_new_user: false }));
       }
-      router.push("/");
+      router.push("/dashboard/activities");
       if (isNewUser) {
         setTimeout(showWelcomeModal, 1000);
       }

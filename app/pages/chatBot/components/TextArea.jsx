@@ -1,8 +1,9 @@
 
 const TextArea = ({ input, setInput, handleKeyDown, handleSend, loading }) => {
     return (
-        <div className='p-2 border-t border-neutral-200 dark:border-[#344c63] bg-white dark:bg-[#232e3b]'>
+        <div className='p-2 border-t border-neutral-200 dark:border-[#344c63] bg-white dark:bg-[#232e3b] '>
             <textarea
+                id='chat-input'
                 className='w-full rounded-md border border-neutral-300 dark:border-[#344c63] p-2 resize-none focus:outline-none focus:ring-1 focus:ring-blue-400 text-sm bg-neutral-100 dark:bg-[#1d2939]'
                 rows={2}
                 value={input}
