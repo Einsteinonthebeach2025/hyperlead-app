@@ -154,3 +154,33 @@ export async function deleteEmailSequence(sequenceId) {
     return { success: false, error: error.message };
   }
 }
+
+export async function sendSubscriptionCancelEmail({
+  userName,
+  email,
+  cancelled_at,
+}) {
+  try {
+    const subject = "Your HyperLead Subscription Has Been Cancelled";
+    const message = `
+      Dear ${userName || "Custromer"},
+      <br/><br/>
+      This is to confirm that your subscription has been successfully cancelled as of <b>${new Date(cancelled_at).toLocaleString()}</b>.<br/>
+      During your inactive period, you will no longer have access to leads or premium features. If you wish to reactivate your subscription in the future, you can do so anytime from your account dashboard.<br/><br/>
+      Thank you for being a valued member of HyperLead. If you have any questions or need assistance, please contact our support team.<br/><br/>
+      Best regards,<br/>
+      The HyperLead Team
+    `;
+    const htmlContent = message;
+    const { data: emailData } = await resend.emails.send({
+      from: "HyperLead <contact@hyperlead.net>",
+      to: email,
+      subject,
+      html: htmlContent,
+    });
+    // Optionally, log or store the email event
+    return { success: true, data: emailData };
+  } catch (error) {
+    return { success: false, error: error.message };
+  }
+}

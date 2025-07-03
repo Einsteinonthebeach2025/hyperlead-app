@@ -1,3 +1,4 @@
+import { getEffectiveUserId } from "app/helpers/assistantHelper";
 import { createServerClient } from "app/lib/config/supabaseServer";
 import UnlockedLeads from "app/pages/dashboard/unlockedLeads/UnlockedLeads";
 
@@ -19,10 +20,18 @@ const UnlockedLeadsPage = async () => {
       <UnlockedLeads data={null} message="Error occurred" desc={sessionError} />
     );
 
+  const currentUserId = session.user.id;
+  const currentUserEmail = session.user.email;
+  const { isAssistant, effectiveUserId } = await getEffectiveUserId(
+    currentUserId,
+    currentUserEmail
+  );
+  const userIdsToQuery = isAssistant ? [effectiveUserId] : [session.user.id];
+
   const { data: unlocked, error: unlockedError } = await supabase
     .from("unlocked_leads")
     .select("lead_id")
-    .eq("user_id", session.user.id);
+    .eq("user_id", userIdsToQuery);
 
   if (unlockedError) throw unlockedError;
   if (!unlocked || unlocked.length === 0)

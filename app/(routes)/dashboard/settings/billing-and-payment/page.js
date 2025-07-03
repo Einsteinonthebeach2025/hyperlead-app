@@ -4,7 +4,6 @@ import { createServerClient } from "app/lib/config/supabaseServer";
 const BillingAndPaymentPage = async () => {
   const supabase = await createServerClient();
 
-  // Get current user session
   const {
     data: { session },
     error: sessionError,
@@ -16,7 +15,18 @@ const BillingAndPaymentPage = async () => {
     );
   }
 
-  // Fetch user transactions directly
+  const { data: user, error: userError } = await supabase
+    .from("profiles")
+    .select(
+      " subscription_id, email, userName, subscription_timestamp, id, subscription"
+    )
+    .eq("id", session.user.id)
+    .single();
+
+  if (userError) {
+    return <BillingAndPayment transactions={[]} error="Failed to load user" />;
+  }
+
   const { data: transactions, error: transactionsError } = await supabase
     .from("transactions")
     .select("*")
@@ -32,7 +42,7 @@ const BillingAndPaymentPage = async () => {
     );
   }
 
-  return <BillingAndPayment transactions={transactions || []} />;
+  return <BillingAndPayment transactions={transactions || []} user={user} />;
 };
 
 export default BillingAndPaymentPage;

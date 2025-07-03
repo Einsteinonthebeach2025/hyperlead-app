@@ -102,7 +102,7 @@ const ChatBot = () => {
               </FlexBox>
               <ChatContent messages={messages} chatEndRef={chatEndRef} loading={loading} />
               <div className='h-6 relative bg-neutral-50 dark:bg-[#1d2939] px-3 flex items-center justify-end'>
-                {loading && <div className='flex absolute left-1 bottom-0 items-center gap-2'>
+                {loading && <div className='flex absolute left-3 bottom-0 items-center gap-2'>
                   <Spinner size='sm' />
                   <LoadingText loading={loading} text="Thinking..." />
                 </div>}

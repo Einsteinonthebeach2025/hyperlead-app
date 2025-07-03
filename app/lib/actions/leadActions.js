@@ -6,41 +6,6 @@ const getMonthStart = () => {
   return new Date(now.getFullYear(), now.getMonth(), 1).toISOString();
 };
 
-export const checkSubscriptionExpiration = async (userId) => {
-  try {
-    const { data: profile, error } = await supabase
-      .from("profiles")
-      .select("subscription_timestamp, subscription")
-      .eq("id", userId)
-      .single();
-    if (error) throw error;
-    if (!profile.subscription || !profile.subscription_timestamp) {
-      return { expired: true };
-    }
-    const subscriptionDate = new Date(profile.subscription_timestamp);
-    const now = new Date();
-    const oneMonthLater = new Date(subscriptionDate);
-    oneMonthLater.setMonth(oneMonthLater.getMonth() + 1);
-    const expired = now > oneMonthLater;
-    if (expired) {
-      const { error: updateError } = await supabase
-        .from("profiles")
-        .update({
-          subscription: null,
-          subscription_timestamp: null,
-          monthly_leads: 0,
-          leads_received_this_month: 0,
-        })
-        .eq("id", userId);
-      if (updateError) throw updateError;
-    }
-    return { expired };
-  } catch (error) {
-    console.error("Error checking subscription expiration:", error);
-    return { expired: false, error: error.message };
-  }
-};
-
 export const assignLeadsToUser = async (
   userId,
   userEmail,
@@ -256,24 +221,6 @@ export const assignLeadsToUser = async (
       success: false,
       error: error.message,
     };
-  }
-};
-
-export const simulateSubscriptionExpiration = async (userId) => {
-  try {
-    const twoMonthsAgo = new Date();
-    twoMonthsAgo.setMonth(twoMonthsAgo.getMonth() - 2);
-    const { error } = await supabase
-      .from("profiles")
-      .update({
-        subscription_timestamp: twoMonthsAgo.toISOString(),
-      })
-      .eq("id", userId);
-    if (error) throw error;
-    return await checkSubscriptionExpiration(userId);
-  } catch (error) {
-    console.error("Error simulating subscription expiration:", error);
-    return { error: error.message };
   }
 };
 

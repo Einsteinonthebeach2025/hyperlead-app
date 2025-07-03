@@ -5,10 +5,21 @@ import SectionHeadline from 'app/components/SectionHeadline'
 import LeadCard from '../leads/leadsLayout/LeadCard'
 import { selectUser } from 'app/features/userSlice'
 import { useSelector } from 'react-redux'
+import { useState } from 'react'
 
 const UnlockedLeads = ({ data, title, desc }) => {
   const user = useSelector(selectUser)
   const subs = user?.profile?.subscription === "PRO" || user?.profile?.subscription === "Hyper"
+  const [leads, setLeads] = useState(data || []);
+
+  // Handler for liking a lead
+  const handleLeadLikeChange = (leadId, likesArray) => {
+    setLeads((prevLeads) =>
+      prevLeads?.map((lead) =>
+        lead.id === leadId ? { ...lead, likes: likesArray } : lead
+      )
+    );
+  };
 
   if ((data?.length === 0 || !data) && !subs) {
     return (
@@ -42,7 +53,11 @@ const UnlockedLeads = ({ data, title, desc }) => {
 
   return (
     <DashboardPageWrapper title="Unlocked Leads">
-      <LeadCard leads={data} />
+      <LeadCard
+        leads={leads}
+        type="unlocked"
+        onLeadLikeChange={handleLeadLikeChange}
+      />
     </DashboardPageWrapper>
   )
 }

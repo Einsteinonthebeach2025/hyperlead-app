@@ -11,6 +11,7 @@ import PlanDetails from "./components/PlanDetails";
 import TwoFactorAuthModal from "app/components/modals/TwoFactorAuthModal";
 import ButtonSection from "./components/paymentButtons/ButtonSection";
 import ProcessingSection from "./components/ProcessingSection";
+import { updateProfile } from "app/lib/actions/profileActions";
 
 const PayPalPaymentModal = () => {
   const dispatch = useDispatch();
@@ -150,6 +151,7 @@ const PayPalPaymentModal = () => {
   const handleSubscriptionSuccess = async (subscriptionID) => {
     setLoading(true);
     try {
+      await updateProfile(user.id, { subscription_id: subscriptionID })
       const verifyResponse = await fetch("/api/paypal-subscription/verify", {
         method: "POST",
         headers: { "Content-Type": "application/json" },

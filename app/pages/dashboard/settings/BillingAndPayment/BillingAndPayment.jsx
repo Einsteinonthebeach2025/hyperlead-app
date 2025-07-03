@@ -5,7 +5,7 @@ import MotionContainer from 'app/components/containers/MotionContainer';
 import PaymentHistory from './paymentHistory/PaymentHistory';
 import SubscriptionInfo from './subscriptionInfo/SubscriptionInfo';
 
-const BillingAndPayment = ({ transactions = [], error }) => {
+const BillingAndPayment = ({ transactions = [], error, user }) => {
 
   if (error) {
     return (
@@ -28,7 +28,7 @@ const BillingAndPayment = ({ transactions = [], error }) => {
       <MotionContainer animation="fade-in">
         <div className="grid grid-cols-2 gap-4">
           <PaymentHistory transactions={transactions} />
-          <SubscriptionInfo />
+          <SubscriptionInfo transactions={transactions} user={user} />
         </div>
       </MotionContainer>
     </div>

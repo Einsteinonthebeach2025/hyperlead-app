@@ -3,6 +3,7 @@ import SendNotificationButton from 'app/components/buttons/SendNotificationButto
 import SendEmailButton from 'app/components/buttons/SendEmailButton';
 import SubTitle from 'app/components/SubTitle';
 import ViewTransactions from './userTransactions/ViewTransactions';
+import StopSubscription from 'app/components/buttons/StopSubscription';
 
 const ActionButtons = ({ item }) => {
   const { id, email } = item;
@@ -13,6 +14,7 @@ const ActionButtons = ({ item }) => {
         <SendEmailButton lead={{ id, email }} type="user" />
         <SendNotificationButton user={{ id, email }} />
         <ViewTransactions item={item} />
+        <StopSubscription user={item} isAdmin={true} />
       </FlexBox>
     </div>
   )

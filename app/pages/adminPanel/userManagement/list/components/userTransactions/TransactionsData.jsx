@@ -10,7 +10,6 @@ import MotionContainer from "app/components/containers/MotionContainer";
 const TransactionsData = () => {
   const dispatch = useDispatch();
   const { isOpen, data } = useSelector(selectTransactionsModal);
-
   const transactions = data?.transactions || [];
 
   const handleClose = () => {
@@ -50,7 +49,7 @@ const TransactionInfo = ({ data }) => {
 
   const TransactionRow = ({ label, value, customColor }) => (
     <div className="flex justify-between text-sm">
-      <span className="text-gray-600 dark:text-stone-100 font-thin">{label}</span>
+      <span className=" dark:text-stone-100 font-light">{label}</span>
       <span className={`font-medium capitalize ${customColor ? customColor : 'dark:text-neutral-200'}`}>
         {value}
       </span>
@@ -60,13 +59,13 @@ const TransactionInfo = ({ data }) => {
   return (
     <div className="space-y-4 max-h-[540px] overflow-y-auto">
       {data.map((item) => {
-        const statusColor = item.status === 'completed'
-          ? 'text-green-600'
-          : 'text-red-500';
+        const statusColor = item.status === 'COMPLETED'
+          ? 'text-green-600 bg-green-200 px-3 rounded-xl'
+          : 'text-red-500 bg-red-200 px-3 rounded-xl';
         return (
           <div key={item.id} className="space-y-1 p-3 primary-border rounded-md shadow-sm bg-neutral-100/50 dark:bg-[#1d2939]">
             <TransactionRow label="Purchased:" value={formatTime(item.created_at)} />
-            <TransactionRow label="Order ID:" value={item.order_id} />
+            <TransactionRow label="Order ID:" value={item.paypal_order_id} />
             <TransactionRow label="Plan Type:" value={item.plan_name} />
             <TransactionRow label="Status:" value={item.status} customColor={statusColor} />
             <TransactionRow label="Price:" value={`$${item.amount}`} />

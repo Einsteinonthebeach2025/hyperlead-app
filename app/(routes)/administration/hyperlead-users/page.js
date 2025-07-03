@@ -1,4 +1,4 @@
-import supabase from "app/lib/config/supabaseClient";
+import { createServerClient } from "app/lib/config/supabaseServer";
 import UserManagement from "app/pages/adminPanel/userManagement/UserManagement";
 
 export const metadata = {
@@ -7,6 +7,8 @@ export const metadata = {
 };
 
 const HyperleadUsersPage = async () => {
+  const supabase = await createServerClient();
+
   // Get total count of users
   const { count } = await supabase
     .from("profiles")
@@ -18,17 +20,18 @@ const HyperleadUsersPage = async () => {
     .select(
       `
       id, address, avatar_url, city, company, created_at, email, firstName, lastName,
-      leads_received_this_month, linkedin_url, phone, position, country, reported_bugs,
+      leads_received_this_month, linkedin_url, subscription_id, phone, position, country, reported_bugs,
       sex, subscription, subscription_timestamp, total_leads_received, twitter_url,
       userBirthDate, userName, web_url, address,
-      transactions (
-        id, order_id, plan_name, amount, status, created_at
+      transactions!user_id (
+        id, paypal_order_id, plan_name, amount, status, created_at
       )
     `
     )
     .order("created_at", { ascending: true })
     .range(0, 19);
   if (usersError) {
+    console.error("Error fetching users:", usersError);
     return (
       <UserManagement
         data={null}

@@ -1,18 +1,16 @@
 "use client"
 import CardContainer from 'app/components/containers/CardContainer'
-import { selectUser } from 'app/features/userSlice'
-import { useSelector } from 'react-redux'
 import { FaCheck } from 'react-icons/fa';
 import SubsHeader from './SubsHeader';
 import SubTitle from 'app/components/SubTitle';
 import PlanInfo from './PlanInfo';
 
-const SubscriptionInfo = () => {
-    const user = useSelector(selectUser)
+const SubscriptionInfo = ({ transactions, user }) => {
+    console.log(user);
 
-    const subscriptionEndDate = user?.profile?.subscription_timestamp
+    const subscriptionEndDate = user?.subscription_timestamp
         ? (() => {
-            const date = new Date(user.profile.subscription_timestamp);
+            const date = new Date(user.subscription_timestamp);
             date.setMonth(date.getMonth() + 1);
             return date.toLocaleDateString('en-US', {
                 year: 'numeric',
@@ -22,8 +20,8 @@ const SubscriptionInfo = () => {
         })()
         : null;
 
-    const subscribedSinceDate = user?.profile?.subscription_timestamp
-        ? new Date(user.profile.subscription_timestamp).toLocaleDateString('en-US', {
+    const subscribedSinceDate = user?.subscription_timestamp
+        ? new Date(user.subscription_timestamp).toLocaleDateString('en-US', {
             year: 'numeric',
             month: 'long',
             day: 'numeric',
@@ -32,7 +30,6 @@ const SubscriptionInfo = () => {
 
     return (
         <CardContainer>
-
             <div>
                 <SubsHeader subscriptionEndDate={subscriptionEndDate} />
                 <PlanInfo user={user} subscribedSinceDate={subscribedSinceDate} />

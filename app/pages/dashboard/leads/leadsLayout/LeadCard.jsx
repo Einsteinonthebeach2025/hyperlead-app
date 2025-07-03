@@ -8,7 +8,6 @@ import SectionHeadline from "app/components/SectionHeadline";
 import CardContainer from "app/components/containers/CardContainer";
 import LeadPersonsName from "./leadsCardComponents/LeadPersonsName";
 import SendEmailButton from "app/components/buttons/SendEmailButton";
-import LeadActionButtons from "./leadsCardComponents/LeadActionButtons";
 import LeadLikeButton from "app/components/buttons/LeadLikeButton";
 import MarkButton from "app/components/buttons/MarkButtons";
 import AddToFavorite from "app/components/buttons/AddToFavorite";
@@ -56,11 +55,11 @@ const LeadCard = ({ leads, onLeadStatusChange, onLeadLikeChange, type, onLeadCli
                   <LeadIndustry lead={lead} />
                   <FlexBox type="row" className="items-center gap-2" >
                     <SendEmailButton lead={lead} />
-                    {type === "favorite" ? null : (
+                    {type === "favorite" || type === "unlocked" ? null : (
                       <MarkButton lead={lead} onStatusChange={onLeadStatusChange} />
                     )}
                     <LeadLikeButton lead={lead} onLeadLikeChange={onLeadLikeChange} />
-                    <AddToFavorite lead={lead} />
+                    {type === "unlocked" ? null : <AddToFavorite lead={lead} />}
                   </FlexBox>
                 </CardContainer>
               </motion.div>

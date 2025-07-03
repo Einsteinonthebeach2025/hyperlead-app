@@ -16,8 +16,6 @@ const SubscriptionButton = ({ plan, handleSubscriptionSuccess, handleSubscriptio
           label: "subscribe",
         }}
         createSubscription={(data, actions) => {
-          console.log('PayPal SubscriptionButton: plan object:', plan);
-          console.log('PayPal SubscriptionButton: plan_id used:', plan.plan_id);
           return actions.subscription.create({
             plan_id: plan.plan_id, // From SUBSCRIPTION_PLANS
           });

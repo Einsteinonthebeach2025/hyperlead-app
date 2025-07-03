@@ -17,7 +17,7 @@ const SignInComponent = () => {
             <Title>SIGN IN</Title>
           </MotionContainer>
           <SignInForm />
-          <FlexBox type="row">
+          <FlexBox type="row" className="items-center gap-1">
             <Paragraph>Don't have an account? </Paragraph>
             <Link className="text-blue-500 hover:underline" href="/signup">
               Sign Up

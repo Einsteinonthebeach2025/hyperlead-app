@@ -5,7 +5,6 @@ import { IoReceiptOutline } from 'react-icons/io5'
 import TransactionsList from './TransactionsList'
 
 const PaymentHistory = ({ transactions }) => {
-    console.log(transactions, "transactions");
     return (
         <CardContainer className="space-y-4">
             <div className="flex items-center gap-3">

@@ -87,3 +87,36 @@ export const processSubscription = async (
     return { success: false, error: error.message };
   }
 };
+
+export const cancelSubscription = async (
+  userId,
+  subscriptionId,
+  cancelledAt
+) => {
+  try {
+    const { data: transaction, error: fetchError } = await supabase
+      .from("transactions")
+      .select("id")
+      .eq("user_id", userId)
+      .eq("paypal_order_id", subscriptionId)
+      .order("created_at", { ascending: false })
+      .limit(1)
+      .single();
+    if (fetchError || !transaction) {
+      return {
+        success: false,
+        error: "Transaction not found for this subscription.",
+      };
+    }
+    const { error: updateError } = await supabase
+      .from("transactions")
+      .update({ status: "CANCELLED", created_at: cancelledAt })
+      .eq("id", transaction.id);
+    if (updateError) {
+      return { success: false, error: updateError.message };
+    }
+    return { success: true };
+  } catch (error) {
+    return { success: false, error: error.message };
+  }
+};

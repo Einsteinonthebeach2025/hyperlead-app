@@ -3,30 +3,42 @@ import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { IoIosArrowForward } from "react-icons/io";
-import Link from "next/link";
 import { setError } from "app/features/modalSlice";
 import { zoomOut } from "app/animationValues/motionVariants";
+import Link from "next/link";
 
 const ErrorMsg = () => {
   const toastRef = useRef(null);
   const dispatch = useDispatch();
-  const [isHovered, setIsHovered] = useState(false);
   const error = useSelector((state) => state?.modal?.error || "");
   const type = useSelector((state) => state?.modal?.type || "");
   const link = useSelector((state) => state?.modal?.link || "");
   const title = useSelector((state) => state?.modal?.title || "");
+  const [count, setCount] = useState(5);
 
   useEffect(() => {
+    let interval;
     if (error) {
-      const timer = setTimeout(() => {
-        dispatch(setError(""));
-      }, 5000);
-      return () => clearTimeout(timer);
+      setCount(5);
+      interval = setInterval(() => {
+        setCount((prev) => prev - 1);
+      }, 1000);
+    } else {
+      setCount(5);
     }
-  }, [error, dispatch]);
+    return () => {
+      if (interval) clearInterval(interval);
+    };
+  }, [error]);
+
+  useEffect(() => {
+    if (count === 0 && error) {
+      dispatch(setError(""));
+    }
+  }, [count, error, dispatch]);
 
   const handleClose = () => {
-    dispatch(setError({ message: "", type: "", link: "", title: "" }));
+    dispatch(setError(""));
   };
 
   return (
@@ -38,14 +50,12 @@ const ErrorMsg = () => {
           exit="exit"
           initial="hidden"
           whileInView="visible"
-          onMouseEnter={() => setIsHovered(true)}
-          onMouseLeave={() => setIsHovered(false)}
-          className={`${
-            type === "success"
-              ? "bg-green-100 border border-green-400 text-green-700"
-              : "bg-red-100 border-2 border-red-400 text-red-700"
-          } px-4 md:px-8 fixed z-20 bottom-5 right-5 py-3 font-semibold flex flex-col items-center `}
+          className={`${type === "success"
+            ? "border-green-500 bg-green-200 text-green-600 hover:bg-green-200 dark:bg-green-900 dark:text-green-300 dark:hover:bg-green-800"
+            : "border-red-500 bg-red-200 text-red-600 hover:bg-red-200 dark:bg-red-900 dark:text-red-300 dark:hover:bg-red-800"
+            } px-4 md:px-8 border-3 fixed z-20 top-5 right-5 py-3 rounded-lg font-semibold flex gap-3 items-center `}
         >
+          <span className={`absolute -right-3 -bottom-3 ${type === "success" ? "bg-green-500" : "bg-red-500"} w-5 h-5 text-white center rounded-md`}>{count}</span>
           <h1>{error}</h1>
           {link && (
             <Link
@@ -57,14 +67,6 @@ const ErrorMsg = () => {
               <IoIosArrowForward />
             </Link>
           )}
-          <motion.div
-            initial={{ width: "100%" }}
-            animate={{ width: isHovered ? "100%" : "0%" }}
-            transition={{ duration: isHovered ? 0 : 5, ease: "linear" }}
-            className={`absolute left-0 rounded-full -bottom-2 h-[2px] ${
-              type === "success" ? "bg-green-500" : "bg-red-400"
-            }`}
-          />
         </motion.div>
       )}
     </AnimatePresence>

@@ -29,7 +29,7 @@ const List = ({ data: initialData }) => {
             initial={{ opacity: 1 }}
             exit={{ rotateX: 90 }}
             transition={{ duration: 0.5 }}>
-            <CardContainer className='flex flex-col lg:flex-row lg:justify-between'>
+            <CardContainer className='flex flex-col lg:flex-row lg:justify-between items-center'>
               <div>
                 <Importance item={item?.importance} />
                 <Paragraph>{item.message}</Paragraph>

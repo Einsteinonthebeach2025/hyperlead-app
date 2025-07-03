@@ -12,7 +12,7 @@ const SubsHeader = ({ subscriptionEndDate }) => {
                         <IconContainer size="sm">
                             <IoReceiptOutline />
                         </IconContainer>
-                        <SubTitle>Transaction History</SubTitle>
+                        <SubTitle>Subscription Info</SubTitle>
                     </div>
                     <div className="mt-4 bg-blue-900/20 dark:bg-slate-800/50 p-3 rounded-lg flex items-center text-sm">
                         <div className="flex items-center">

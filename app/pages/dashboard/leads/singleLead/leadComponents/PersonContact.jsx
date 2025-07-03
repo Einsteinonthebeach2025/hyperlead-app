@@ -25,7 +25,7 @@ const PersonContact = ({ data }) => {
               {data?.first_name} {data?.last_name}
             </SubTitle>
             <Paragraph>{data?.person_title}</Paragraph>
-            <FlexBox className="gap-1">
+            <FlexBox type="row-start" className="gap-1">
               <SpanText>{data?.email}</SpanText>
               <CopyEmail lead={data} />
             </FlexBox>

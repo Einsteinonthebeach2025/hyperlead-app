@@ -11,6 +11,7 @@ import Button from "app/components/buttons/Button";
 import GoogleButton from "app/components/buttons/GoogleButton";
 import TwoFactorAuthModal from "app/components/modals/TwoFactorAuthModal";
 import Logo from "app/components/Logo";
+import FlexBox from "app/components/containers/FlexBox";
 
 const SignInForm = () => {
   const dispatch = useDispatch();
@@ -116,19 +117,19 @@ const SignInForm = () => {
             Forgot Password?
           </Link>
         </div>
-        <Button
-          className="mx-auto"
-          type="submit"
-          text="Logging In"
-          loading={loading || checkingTrust}
-          disable={loading || checkingTrust}
-        >
-          <IoMdLogIn size={20} />
-          <span>Login</span>
-        </Button>
+        <FlexBox type="row-between">
+          <Button
+            type="submit"
+            text="Logging In"
+            loading={loading || checkingTrust}
+            disable={loading || checkingTrust}
+          >
+            <IoMdLogIn size={20} />
+            <span>Login</span>
+          </Button>
+          <GoogleButton />
+        </FlexBox>
       </form>
-      <GoogleButton />
-
       <TwoFactorAuthModal
         type="login"
         isOpen={show2FAModal}

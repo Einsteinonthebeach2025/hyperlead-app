@@ -63,6 +63,8 @@ Return the trigger from the list that is most similar in meaning to the user's m
 // CHAT ASSISTANT for paraphrasing answer
 export const paraphraseAnswer = async (answer, userQuestion) => {
   const prompt = `
+App features:
+${appFeatures}
 A user asked: "${userQuestion}"
 Here is the answer you must base your response on: "${answer}"
 Please rephrase this answer in your own words, keep the meaning and context, and make it sound natural and conversational.

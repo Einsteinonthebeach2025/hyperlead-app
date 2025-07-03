@@ -9,7 +9,6 @@ import { validateForm } from "app/helpers/validateForm";
 import { setError } from "app/features/modalSlice";
 import { setLoading, setUser } from "app/features/userSlice";
 import { notifyUserRegistration } from "app/lib/actions/notificationActions";
-import GoogleButton from "app/components/buttons/GoogleButton";
 
 const SignUpForm = () => {
   const dispatch = useDispatch();
@@ -42,13 +41,9 @@ const SignUpForm = () => {
         dispatch(setError("Failed to create user profile"));
         return;
       }
-      router.push("/preferences");
       dispatch(setUser(data));
+      router.push("/preferences");
       await notifyUserRegistration();
-      setEmail("");
-      setUserName("");
-      setPassword("");
-      setConfirmPassword("");
     } catch (error) {
       dispatch(setError("An unexpected error occurred. Please try again."));
     } finally {
@@ -72,7 +67,6 @@ const SignUpForm = () => {
         />
         <FormButtons loading={loading} />
       </form>
-      <GoogleButton />
     </>
   );
 };

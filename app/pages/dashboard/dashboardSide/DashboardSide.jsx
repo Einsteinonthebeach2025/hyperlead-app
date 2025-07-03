@@ -12,7 +12,6 @@ import SideBarLinks from "app/components/SideBarLinks";
 import ToggleDashboardData from "./ToggleDashboardData";
 import AddExtraLeads from "./extraLeads/AddExtraLeads";
 import Button from "app/components/buttons/Button";
-import SimulateExpire from "app/SimulateExpire";
 
 const links = [
   {
@@ -80,7 +79,6 @@ const DashboardSide = () => {
   return (
     <SideBarLinks links={links}>
       <div className="flex flex-col items-start space-y-2 justify-between w-full">
-        {/* <SimulateExpire /> */}
         <ToggleDashboardData />
         <AddExtraLeads />
         <Button

@@ -29,7 +29,7 @@ const Delete = ({ id, onDelete, type = 'item' }) => {
   return (
     <div
       onClick={handleDelete}
-      className={`cursor-pointer w-fit text-red-400 hover:text-red-500 duration-300 ${loading ? "opacity-50" : ""}`}
+      className={`cursor-pointer p-2 rounded-lg bg-red-200/50 hover:bg-red-200 w-fit text-red-400 hover:text-red-500 duration-300 dark:text-red-500 dark:bg-red-500/40 dark:hover:bg-red-500/30 ${loading ? "opacity-50" : ""}`}
     >
       <FaTrashAlt size={19} />
     </div>

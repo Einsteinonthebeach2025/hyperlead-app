@@ -16,7 +16,7 @@ const SignUpComponent = () => {
           <Title>SIGN UP</Title>
         </MotionContainer>
         <SignUpForm />
-        <FlexBox type="row">
+        <FlexBox type="row" className="items-center gap-1">
           <Paragraph>Already have an account?</Paragraph>
           <Link className="text-blue-500 hover:underline" href="/signin">
             Login

@@ -357,8 +357,6 @@ export const notifyAssistantAccept = async (bossId, assistantEmail) => {
 };
 
 export const notifyUnlockingLead = async (userId, userName) => {
-  // const user = await getCurrentUser();
-  // const userName = user?.profile?.userName || user?.user_metadata?.name;
   try {
     const { data, error } = await supabase
       .from("notifications")
@@ -376,6 +374,30 @@ export const notifyUnlockingLead = async (userId, userName) => {
     if (error) throw error;
     return { data, error: null };
   } catch (error) {
+    return { data: null, error: error.message };
+  }
+};
+
+export const notifySubscriptionCancel = async (userId) => {
+  try {
+    const { data, error } = await supabase
+      .from("notifications")
+      .insert({
+        user_id: userId,
+        type: "SUBSCRIPTION_CANCEL_NOTIFY",
+        message:
+          "Subscription successfully cancelled. During inactive you will no longer have access to leads.",
+        read: false,
+        importance: "medium",
+        metadata: {},
+        action_url: "",
+      })
+      .select()
+      .single();
+    if (error) throw error;
+    return { data, error: null };
+  } catch (error) {
+    console.error("Error creating subscription cancel notification:", error);
     return { data: null, error: error.message };
   }
 };

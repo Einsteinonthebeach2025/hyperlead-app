@@ -16,16 +16,19 @@ const HistoryLeadsPage = async () => {
     error: sessionError,
   } = await supabase.auth.getSession();
   if (!session?.user) return <HistoryLeads data={null} />;
+
   const currentUserId = session.user.id;
   const currentUserEmail = session.user.email;
   const { isAssistant, effectiveUserId } = await getEffectiveUserId(
     currentUserId,
     currentUserEmail
   );
+  const userIdsToQuery = isAssistant ? [effectiveUserId] : [session.user.id];
+
   const { data: profile, error: profileError } = await supabase
     .from("profiles")
     .select("subscription, subscription_timestamp")
-    .eq("id", effectiveUserId)
+    .eq("id", userIdsToQuery)
     .single();
   if (profileError) {
     return <HistoryLeads data={null} message="Please subscribe to get leads" />;

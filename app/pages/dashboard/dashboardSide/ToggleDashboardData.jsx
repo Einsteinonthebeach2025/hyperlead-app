@@ -22,6 +22,9 @@ const ToggleDashboardData = () => {
     if (viewBossDataCookie) {
       const value = viewBossDataCookie.split('=')[1] === 'true';
       dispatch(setView(value));
+    } else {
+      // If cookie is not set, default to false (view own dashboard)
+      dispatch(setView(false));
     }
   }, [dispatch]);
 
