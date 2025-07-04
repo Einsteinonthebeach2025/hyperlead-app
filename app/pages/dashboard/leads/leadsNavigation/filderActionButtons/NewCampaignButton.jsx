@@ -28,7 +28,6 @@ const NewCampaignButton = () => {
                 dispatch(setError({ message: `You have reached your monthly campaign limit`, type: "error" }));
                 return;
             }
-
             dispatch(setToggle({
                 modalType: 'email',
                 isOpen: true,

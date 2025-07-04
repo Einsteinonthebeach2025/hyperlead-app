@@ -197,7 +197,6 @@ export async function getMonthlyCampaignCount(userId) {
     .eq("user_id", userId)
     .eq("type", "sequenced_email")
     .gte("sent_at", monthStart.toISOString());
-
   if (error) {
     return { success: false, error: error.message };
   }

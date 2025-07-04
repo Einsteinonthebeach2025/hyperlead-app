@@ -1,7 +1,7 @@
 TODO LIST
 
-connorgraham@eageramoeba.co.uk ---> graphchiqovani@yahoo.com
-jeffm@metzcorp.com ---> grapchiqovani@gmail.com
+lponcia@aquinasrealestate.com ---> graphchiqovani@yahoo.com
+susie.angelucci@monitordaily.com ---> grapchiqovani@gmail.com
 
 - რამე თესლი ლოადინგ ანიმაციაა საჭირო /auth/callback და მსგავსი ლოადინგებისთვის
 

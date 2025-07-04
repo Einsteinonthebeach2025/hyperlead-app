@@ -9,7 +9,6 @@ const ModalButtons = ({ refresh }) => {
 
   const handleReadAll = async (e) => {
     e.stopPropagation();
-    console.log("clicked");
     if (!user?.id) return;
     const { error } = await supabase
       .from("notifications")

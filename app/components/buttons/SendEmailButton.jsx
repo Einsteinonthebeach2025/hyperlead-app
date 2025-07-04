@@ -27,7 +27,7 @@ const SendEmailButton = ({ lead, type = 'lead' }) => {
       else if (plan === "HYPER") maxCampaigns = 25;
       else maxCampaigns = 0;
       const campaignCount = user?.profile?.email_campaign_count || 0;
-      if (campaignCount >= maxCampaigns) {
+      if (leadsToEmail.length > 1 && campaignCount >= maxCampaigns) {
         dispatch(setError({ message: `You have reached your monthly campaign limit`, type: "error" }));
         return;
       }

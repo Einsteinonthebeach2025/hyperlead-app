@@ -29,6 +29,7 @@ const EmailModal = () => {
     try {
       let results;
       const isSequence = Boolean(formData.sequence_name);
+      const isCampaign = isSequence || (data && data.length > 1);
       if (isSequence) {
         const sequence_id = crypto.randomUUID();
         results = await Promise.all(
@@ -57,9 +58,9 @@ const EmailModal = () => {
               lead_email: lead.email,
               subject: formData.subject,
               message: formData.message,
-              type: "single_email",
-              sequence_name: null,
-              sequence_id: null,
+              type: data.length > 1 ? "sequenced_email" : "single_email",
+              sequence_name: data.length > 1 ? formData.sequence_name : null,
+              sequence_id: data.length > 1 ? crypto.randomUUID() : null,
               follow_up: formData.follow_up,
             })
           )
@@ -67,13 +68,15 @@ const EmailModal = () => {
       }
       const allSuccessful = results.every((result) => result.success);
       if (allSuccessful) {
-        await incrementEmailCampaignCount(user.id);
+        if (isCampaign) {
+          await incrementEmailCampaignCount(user.id);
+        }
         closeModal();
         dispatch(clearSelectedLeads());
         dispatch(
           setError({
-            message: isSequence
-              ? `Email sequence "${formData.sequence_name}" sent successfully to ${data.length} recipients`
+            message: isCampaign
+              ? `Email sequence${formData.sequence_name ? ` "${formData.sequence_name}"` : ""} sent successfully to ${data.length} recipients`
               : `Email sent successfully to ${data.length} recipient${data.length > 1 ? "s" : ""}`,
             type: "success",
           })

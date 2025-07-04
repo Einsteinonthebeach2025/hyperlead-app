@@ -1,5 +1,6 @@
 "use client";
 import Image from "next/image";
+import { FaImages } from "react-icons/fa";
 import { IoCameraOutline } from "react-icons/io5";
 import { useState, useCallback, memo, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -75,9 +76,10 @@ const ProfileAvatar = memo(({ profile: initialProfile = {}, userId }) => {
     [dispatch, userId]
   );
 
+
   return (
-    <div className="w-44 h-44 rounded-xl p-3 bg-stone-200/70 backdrop-blur-3xl mb-3">
-      <div className="relative w-full h-full rounded-xl overflow-hidden">
+    <div className="w-44 h-44 rounded-xl p-3 bg-stone-300/80 backdrop-blur-3xl mb-3">
+      <div className="relative w-full h-full center rounded-xl overflow-hidden text-neutral-500">
         {localProfile?.avatar_url ? (
           <Image
             className="object-cover"
@@ -88,14 +90,7 @@ const ProfileAvatar = memo(({ profile: initialProfile = {}, userId }) => {
             alt="user-avatar"
           />
         ) : (
-          <Image
-            className="object-cover"
-            src="/assets/noPhoto.jpg"
-            fill
-            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-            priority
-            alt="default-avatar"
-          />
+          <FaImages size={100} />
         )}
         {uploading && (
           <div className="absolute inset-0 bg-black/50 flex items-center justify-center">

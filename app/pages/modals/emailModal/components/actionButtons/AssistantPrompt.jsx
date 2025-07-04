@@ -103,7 +103,7 @@ const AssistantPrompt = ({ isOpen, handleClick, setFormData }) => {
       {isOpen && (
         <MotionContainer
           animation="left"
-          className='absolute z-[5] backdrop-blur-sm w-full h-full flex bg-black/80 justify-end'
+          className='absolute z-[5] backdrop-blur-sm w-full h-full flex bg-black/90 justify-end '
         >
           <Prompt handleClick={handleClick} prompt={prompt} setPrompt={setPrompt} loading={loading} generateEmail={generateEmail} error={error} />
           <AssistantResponse

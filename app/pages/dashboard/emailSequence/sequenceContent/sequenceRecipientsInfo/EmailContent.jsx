@@ -6,6 +6,7 @@ import React from 'react'
 
 const EmailContent = ({ data }) => {
     const { subject, message } = data
+
     return (
         <div className='space-y-4 lg:space-y-2 border-bottom'>
             <FlexBox type="column" className="leading-2 gap-1">
@@ -14,7 +15,7 @@ const EmailContent = ({ data }) => {
             </FlexBox>
             <FlexBox type="column" className="leading-2 gap-1">
                 <SpanText>Message content</SpanText>
-                <Paragraph>{message}</Paragraph>
+                <Paragraph className="whitespace-pre-line">{message}</Paragraph>
             </FlexBox>
         </div>
     )
