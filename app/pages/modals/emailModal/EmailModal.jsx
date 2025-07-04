@@ -2,7 +2,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import { clearSelectedLeads, selectEmailModal, setError, setToggle } from "app/features/modalSlice";
 import { useToggleLocal } from "app/hooks/useToggleLocal";
-import { sendEmail } from "app/lib/actions/emailActions";
+import { sendEmail, incrementEmailCampaignCount } from "app/lib/actions/emailActions";
 import { useState } from "react";
 import { selectUser } from "app/features/userSlice";
 import EmailForm from "./EmailForm";
@@ -67,6 +67,7 @@ const EmailModal = () => {
       }
       const allSuccessful = results.every((result) => result.success);
       if (allSuccessful) {
+        await incrementEmailCampaignCount(user.id);
         closeModal();
         dispatch(clearSelectedLeads());
         dispatch(

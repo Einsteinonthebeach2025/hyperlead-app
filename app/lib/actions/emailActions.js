@@ -184,3 +184,45 @@ export async function sendSubscriptionCancelEmail({
     return { success: false, error: error.message };
   }
 }
+
+export async function getMonthlyCampaignCount(userId) {
+  const supabase = await createServerClient();
+  const monthStart = new Date();
+  monthStart.setDate(1);
+  monthStart.setHours(0, 0, 0, 0);
+
+  const { data, error } = await supabase
+    .from("emails")
+    .select("sequence_id")
+    .eq("user_id", userId)
+    .eq("type", "sequenced_email")
+    .gte("sent_at", monthStart.toISOString());
+
+  if (error) {
+    return { success: false, error: error.message };
+  }
+
+  // Count unique sequence_id (each campaign should have a unique sequence_id)
+  const uniqueCampaigns = new Set(data.map((e) => e.sequence_id));
+  return { success: true, count: uniqueCampaigns.size };
+}
+
+export async function incrementEmailCampaignCount(userId) {
+  const supabase = await createServerClient();
+  // Get current count
+  const { data: profile, error: fetchError } = await supabase
+    .from("profiles")
+    .select("email_campaign_count")
+    .eq("id", userId)
+    .single();
+  if (fetchError) return { success: false, error: fetchError.message };
+
+  const currentCount = profile?.email_campaign_count || 0;
+  const { error: updateError } = await supabase
+    .from("profiles")
+    .update({ email_campaign_count: currentCount + 1 })
+    .eq("id", userId);
+  if (updateError) return { success: false, error: updateError.message };
+
+  return { success: true };
+}

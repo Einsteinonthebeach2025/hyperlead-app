@@ -18,6 +18,15 @@ const UnlockLead = ({ leadId, isUnlocked, handleClose }) => {
       dispatch(setError({ message: "User not authenticated", type: "error" }));
       return;
     }
+    const subscription = user?.profile?.subscription;
+    const unlockedLeadsCount = user?.profile?.unlocked_leads_count || 0;
+    let maxUnlocks = 0;
+    if (subscription === "PRO") maxUnlocks = 10;
+    else if (subscription === "HYPER") maxUnlocks = 25;
+    if (maxUnlocks > 0 && unlockedLeadsCount >= maxUnlocks) {
+      dispatch(setError({ message: `You have reached your monthly unlock limit (${maxUnlocks}).`, type: "error" }));
+      return;
+    }
     dispatch(
       setToggle({
         modalType: "paypalPayment",

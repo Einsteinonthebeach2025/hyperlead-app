@@ -80,7 +80,7 @@ const HyperSearchModal = () => {
       setResults([]);
       setHasSearched(false);
       setLoading(false);
-      fetchUnlockedLeads(); // Fetch unlocked leads only when modal opens
+      fetchUnlockedLeads();
     }
   }, [isOpen]);
 

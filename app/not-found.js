@@ -1,12 +1,9 @@
-import Button from "./components/buttons/Button"
-import { FaHome } from "react-icons/fa"
-import SubTitle from "./components/SubTitle"
-import Paragraph from "./components/Paragraph"
+import { FaHome } from "react-icons/fa";
+import Button from "./components/buttons/Button";
+import Paragraph from "./components/Paragraph";
+import SubTitle from "./components/SubTitle";
 
-
-const TestingRegime = () => {
-
-
+export default function NotFound() {
   return (
     <div className="center h-screen flex-col space-y-2">
       <h1
@@ -20,16 +17,11 @@ const TestingRegime = () => {
         OOPS!
       </h1>
       <SubTitle>Page Not Found - 404</SubTitle>
-      <Paragraph>
-        Sorry, the page you are looking for does not exist.
-      </Paragraph>
-      <Button href='/'>
+      <Paragraph>Sorry, the page you are looking for does not exist.</Paragraph>
+      <Button href="/">
         <FaHome />
         <span>Go Home</span>
       </Button>
     </div>
-  )
+  );
 }
-
-
-export default TestingRegime

@@ -2,11 +2,13 @@
 import { useState } from 'react';
 import { PiShootingStarLight } from "react-icons/pi";
 import { useSelector, useDispatch } from "react-redux";
-import { selectLeads, setToggle } from "app/features/modalSlice";
+import { selectLeads, setToggle, setError } from "app/features/modalSlice";
 import Button from 'app/components/buttons/Button'
 import HoverModal from 'app/components/modals/HoverModal';
+import { selectUser } from 'app/features/userSlice';
 
 const NewCampaignButton = () => {
+    const user = useSelector(selectUser);
     const dispatch = useDispatch();
     const selectedLeads = useSelector(selectLeads);
     const hasSelectedLeads = selectedLeads.length > 0;
@@ -16,6 +18,17 @@ const NewCampaignButton = () => {
         e.preventDefault();
         e.stopPropagation();
         if (hasSelectedLeads) {
+            const plan = (user?.profile?.subscription || "").toUpperCase();
+            let maxCampaigns = 0;
+            if (plan === "PLUS") maxCampaigns = 5;
+            else if (plan === "PRO") maxCampaigns = 10;
+            else if (plan === "HYPER") maxCampaigns = 25;
+            const campaignCount = user?.profile?.email_campaign_count || 0;
+            if (campaignCount >= maxCampaigns) {
+                dispatch(setError({ message: `You have reached your monthly campaign limit`, type: "error" }));
+                return;
+            }
+
             dispatch(setToggle({
                 modalType: 'email',
                 isOpen: true,

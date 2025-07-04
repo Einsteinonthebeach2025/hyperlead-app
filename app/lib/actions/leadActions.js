@@ -131,6 +131,12 @@ export const assignLeadsToUser = async (
         .from("leads")
         .select("id, industry, country")
         .contains("industry", [industry]);
+
+      // Filter by region if user has region preferences
+      if (hasRegionPreferences && userProfile.region.length > 0) {
+        query = query.in("country", userProfile.region);
+      }
+
       if (allExcludedLeadIds.length > 0) {
         query = query.not("id", "in", `(${allExcludedLeadIds.join(",")})`);
       }
@@ -209,6 +215,21 @@ export const assignLeadsToUser = async (
         `Failed to update demo lead status in history for user ${userId}:`,
         updateHistoryError.message
       );
+    }
+
+    // Reset unlocked_leads_count for new subscriptions to give fresh monthly limit
+    if (isNewSubscription) {
+      const { error: resetUnlockError } = await supabase
+        .from("profiles")
+        .update({ unlocked_leads_count: 0 })
+        .eq("id", userId);
+      if (resetUnlockError) {
+        // Log the error but don't fail the entire process, as leads have been assigned.
+        console.error(
+          `Failed to reset unlocked_leads_count for user ${userId}:`,
+          resetUnlockError.message
+        );
+      }
     }
 
     return {
