@@ -4,25 +4,31 @@ export const SUBSCRIPTION_PLANS = {
   PLUS: {
     name: "Plus",
     price: "0.01",
+    annualPrice: "0.01",
     leads: 150,
     description: "Perfect for small businesses",
     plan_id: "P-74J685623B288143WNBN7CQY",
+    annual_plan_id: "P-83F02828AK235573YNBUPPCY",
     // plan_id: "P-7XH25132HX613060MNBOTB5I",
   },
   PRO: {
     name: "PRO",
     price: "99",
+    annualPrice: "950",
     leads: 400,
     description: "Ideal for growing businesses",
     plan_id: "P-2TJ41897NU456330ANBN7EEY",
+    annual_plan_id: "P-1T529730KX668460NNBUPPQY",
     // plan_id: "P-0AF34555UY783505PNBOTCKA",
   },
   HYPER: {
     name: "Hyper",
     price: "179",
+    annualPrice: "1720",
     leads: 800,
     description: "For large scale operations",
     plan_id: "P-3M451725FG751784VNBN7FDY",
+    annual_plan_id: "P-3BM54016W0125070RNBUPQFI",
     // plan_id: "P-7T642266MY038194FNBOTDFI",
   },
 };
@@ -41,15 +47,24 @@ export const SINGLE_LEAD_PLAN = {
   description: "Unlock this specific lead for a one-time fee.",
 };
 
-export const getPlanDetails = (planName) => {
+export const getPlanDetails = (planName, mode = "monthly") => {
   switch (planName.toUpperCase()) {
     case "EXTRA_100":
       return EXTRA_LEADS_PLAN;
     case "SINGLE_LEAD":
       return SINGLE_LEAD_PLAN;
-    default:
-      return (
-        SUBSCRIPTION_PLANS[planName.toUpperCase()] || SUBSCRIPTION_PLANS.PLUS
-      );
+    default: {
+      const plan =
+        SUBSCRIPTION_PLANS[planName.toUpperCase()] || SUBSCRIPTION_PLANS.PLUS;
+      if (mode === "annual") {
+        return {
+          ...plan,
+          price: plan.annualPrice,
+          plan_id: plan.annual_plan_id,
+          isAnnual: true,
+        };
+      }
+      return plan;
+    }
   }
 };

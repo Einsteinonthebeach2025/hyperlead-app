@@ -86,12 +86,16 @@ const PayPalPaymentModal = () => {
 
   if (!isOpen || !planKey) return null;
 
-  const plan = selectedPlan === "EXTRA_100"
+  // Build plan object using data from modal if present (for correct price/planId)
+  let plan = selectedPlan === "EXTRA_100"
     ? EXTRA_LEADS_PLAN
     : selectedPlan === "SINGLE_LEAD"
       ? SINGLE_LEAD_PLAN
       : SUBSCRIPTION_PLANS[selectedPlan.toUpperCase()];
 
+  // If data contains price/planId (from PricingButton), override plan fields
+  if (data?.price) plan = { ...plan, price: data.price };
+  if (data?.planId) plan = { ...plan, plan_id: data.planId };
 
   // Handle one-time payment success
   const handlePaymentSuccess = async (orderID) => {

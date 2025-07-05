@@ -2,7 +2,7 @@ export const termsData = [
   {
     type: "paragraph",
     content:
-      'HyperLead – Terms of Use\nWelcome to HyperLead, a lead generation software platform operated by HyperLead. These Terms of Use ("Terms") govern your access to and use of our website [<a href="https://www.hyperlead.net" class="text-blue-500 hover:underline">https://www.hyperlead.net</a>], the user dashboard, and all related services (collectively, the "Service").',
+      'HyperLead - Terms of Use\nWelcome to HyperLead, a lead generation software platform operated by HyperLead. These Terms of Use ("Terms") govern your access to and use of our website [<a href="https://www.hyperlead.net" class="text-blue-500 hover:underline">https://www.hyperlead.net</a>], the user dashboard, and all related services (collectively, the "Service").',
   },
   {
     type: "paragraph",
@@ -80,6 +80,9 @@ export const termsData = [
           "If payment fails or becomes overdue, we may suspend or restrict your access",
           "One-time lead credits may be purchased in addition to subscriptions",
           "We reserve the right to modify pricing at any time with prior notice",
+          "Auto-Renewal: Subscriptions renew automatically unless canceled before the end of the billing cycle. Your payment method will be charged at the beginning of each renewal period.",
+          "Cancellation & Refunds: You can cancel anytime from your dashboard. You'll retain access until the end of your billing cycle. No refunds are provided for partial use or unused time.",
+          "Pricing Changes: If pricing changes, we will notify you in advance. Continued use constitutes acceptance of new pricing.",
         ],
       },
     ],
@@ -221,6 +224,50 @@ export const termsData = [
 ];
 
 export const privacyPolicyData = [
+  {
+    type: "section",
+    title: "Data Usage Disclaimer",
+    content: [
+      {
+        type: "paragraph",
+        text: "HyperLead is a software-as-a-service (SaaS) platform that provides users with access to curated B2B contact information for the sole purpose of business outreach and sales engagement.",
+      },
+      {
+        type: "paragraph",
+        text: "We do not sell, export, or allow the download of lead data. Users are strictly prohibited from extracting, reselling, redistributing, or transferring contact data outside of the platform.",
+      },
+      {
+        type: "list",
+        items: [
+          "Sourced from publicly available, licensed, or verified third-party providers",
+          "Delivered securely through the HyperLead dashboard",
+          "Intended to be used exclusively within our built-in tools (e.g., email outreach)",
+        ],
+      },
+      {
+        type: "paragraph",
+        text: "By using HyperLead, you agree to use all data solely within the platform and in compliance with applicable laws and regulations, including:",
+      },
+      {
+        type: "list",
+        items: [
+          "General Data Protection Regulation (GDPR – EU)",
+          "CAN-SPAM Act (US)",
+          "Privacy and Electronic Communications Regulations (PECR – UK)",
+        ],
+      },
+    ],
+  },
+  {
+    type: "section",
+    title: "Privacy & Data Protection Summary",
+    content: [
+      {
+        type: "paragraph",
+        text: "HyperLead is committed to protecting your privacy and data. We only collect information necessary to provide and improve our services, and we never sell your personal data. All data is processed securely and in compliance with applicable laws. You have full control over your data and can request access or deletion at any time.",
+      },
+    ],
+  },
   {
     type: "paragraph",
     content:

@@ -5,9 +5,13 @@ import { selectUser } from "app/features/userSlice";
 import { IoMdHome } from "react-icons/io";
 import { useDispatch, useSelector } from "react-redux";
 
-const PricingButton = ({ item }) => {
+const PricingButton = ({ item, pricingMode = "monthly" }) => {
   const dispatch = useDispatch();
   const user = useSelector(selectUser);
+
+  const price = pricingMode === "annual" ? item.annualPrice : item.price;
+  const planId = pricingMode === "annual" ? item.annualPlanId : item.planId;
+  const period = pricingMode === "annual" ? "/year" : "/month";
 
   const handlePlanSelection = () => {
     if (!user) {
@@ -34,7 +38,12 @@ const PricingButton = ({ item }) => {
       setToggle({
         modalType: "paypalPayment",
         isOpen: true,
-        data: { selectedPlan: item.title.toUpperCase() },
+        data: {
+          selectedPlan: item.title.toUpperCase(),
+          pricingMode,
+          price,
+          planId,
+        },
       })
     );
   };

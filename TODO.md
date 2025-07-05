@@ -1,7 +1,7 @@
 TODO LIST
 
-lponcia@aquinasrealestate.com ---> graphchiqovani@yahoo.com
-susie.angelucci@monitordaily.com ---> grapchiqovani@gmail.com
+---> graphchiqovani@yahoo.com
+---> grapchiqovani@gmail.com
 
 - რამე თესლი ლოადინგ ანიმაციაა საჭირო /auth/callback და მსგავსი ლოადინგებისთვის
 

@@ -1,4 +1,4 @@
-const SpanContainer = ({ children, className, onClick, color = "light" }) => {
+const SpanContainer = ({ children, className, onClick, }) => {
 
 
   return (

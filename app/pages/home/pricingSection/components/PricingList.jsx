@@ -5,7 +5,7 @@ import PricingTitle from "./PricingTitles";
 import Benefits from "./Benefits";
 import PricingButton from "./PricingButton";
 
-const PricingList = () => {
+const PricingList = ({ pricingMode = "monthly" }) => {
   if (!pricingData || !pricingData.length) {
     return null;
   }
@@ -25,10 +25,10 @@ const PricingList = () => {
               }`}
           >
             <div>
-              <PricingTitle item={item} />
+              <PricingTitle item={item} pricingMode={pricingMode} />
               <Benefits item={item} />
             </div>
-            <PricingButton item={item} />
+            <PricingButton item={item} pricingMode={pricingMode} />
           </MotionChildren>
         );
       })}
