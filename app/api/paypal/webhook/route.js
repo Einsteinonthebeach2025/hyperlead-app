@@ -1,10 +1,5 @@
+// route.js
 import { NextResponse } from "next/server";
-import { createClient } from "@supabase/supabase-js";
-
-const supabase = createClient(
-  process.env.SUPABASE_URL,
-  process.env.SUPABASE_SERVICE_ROLE_KEY
-);
 
 export const config = {
   api: {
@@ -29,56 +24,31 @@ export async function POST(req) {
         resource.agreement_details?.last_payment_amount?.value;
       const payerInfo = resource.payer?.payer_info;
 
-      console.log(`[Recurring] Subscription ID:`, subscriptionId);
-      console.log(`[Recurring] Last Payment Date:`, lastPaymentDate);
-      console.log(`[Recurring] Last Payment Amount:`, lastPaymentAmount);
-      console.log(`[Recurring] Payer Info:`, payerInfo);
-
-      // Simulate lookup
-      const { data: user, error } = await supabase
-        .from("profiles")
-        .select("*")
-        .eq("subscription_id", subscriptionId)
-        .single();
-
-      if (!user) {
-        console.error(
-          "[Recurring] No user found for subscription:",
-          subscriptionId
-        );
-        return NextResponse.json({ error: "User not found" }, { status: 404 });
-      }
-
-      // Prevent duplicate processing
-      if (lastPaymentDate === user.last_payment_date) {
-        console.log("[Recurring] Duplicate payment event — skipping.");
-        return NextResponse.json({ status: "duplicate_skipped" });
-      }
-
-      // Process logic
-      const leadsToAssign = user.subscription_plan === "HYPER" ? 800 : 0;
-
-      const { error: updateError } = await supabase
-        .from("profiles")
-        .update({
-          leads: (user.leads || 0) + leadsToAssign,
-          last_payment_date: lastPaymentDate,
-        })
-        .eq("id", user.id);
-
-      if (updateError) {
-        console.error("[Recurring] Failed to assign leads:", updateError);
-        return NextResponse.json(
-          { error: "Failed to update user" },
-          { status: 500 }
-        );
-      }
-
-      // Optionally log or save transaction
       console.log(
-        `[Recurring] Assigned ${leadsToAssign} new leads to ${user.email}`
+        `[PayPal Webhook] [Recurring Payment] Subscription ID:`,
+        subscriptionId
       );
+      console.log(
+        `[PayPal Webhook] [Recurring Payment] Last Payment Date:`,
+        lastPaymentDate
+      );
+      console.log(
+        `[PayPal Webhook] [Recurring Payment] Last Payment Amount:`,
+        lastPaymentAmount
+      );
+      console.log(
+        `[PayPal Webhook] [Recurring Payment] Payer Info:`,
+        payerInfo
+      );
+
+      // TODO: Find user in your DB by subscriptionId
+      // TODO: Check if lastPaymentDate is new (not already processed)
+      // TODO: If new, credit leads, create transaction, notify user
     }
+
+    // Add more logic here for each event type as needed
+    // Example:
+    // if (eventType === "BILLING.SUBSCRIPTION.PAYMENT.FAILED") { ... }
 
     return NextResponse.json({ received: true, eventType }, { status: 200 });
   } catch (err) {
@@ -90,40 +60,71 @@ export async function POST(req) {
   }
 }
 
-// Simulate a fake recurring payment (optional, dev only)
 export async function GET() {
-  console.log("HELLO FROM PAYPAL WEBHOOK");
+  console.log("HELLO FROM LIVE PAYPAL WEBHOOK (is working)");
 
-  const simulate = true; // flip to false to disable
+  // Simulate recurring payment for subscription I-970SBSRWW6TS
+  console.log(
+    "[PayPal Webhook] [SIMULATION] Starting recurring payment simulation..."
+  );
 
-  if (simulate) {
-    setTimeout(async () => {
-      console.log("🔁 Simulating recurring payment...");
+  setTimeout(() => {
+    console.log(
+      "[PayPal Webhook] [SIMULATION] Step 1: Creating mock BILLING.SUBSCRIPTION.UPDATED event"
+    );
 
-      const fakeEvent = {
-        event_type: "BILLING.SUBSCRIPTION.UPDATED",
-        resource: {
-          id: "I-N8KU4F580KPM", // your real subscription ID
-          agreement_details: {
-            last_payment_date: new Date().toISOString(),
-            last_payment_amount: { value: "0.02" },
-          },
-          payer: {
-            payer_info: {
-              email: "sandboxuser@example.com",
-              payer_id: "TESTPAYERID",
-            },
+    const mockEvent = {
+      event_type: "BILLING.SUBSCRIPTION.UPDATED",
+      resource: {
+        id: "I-970SBSRWW6TS",
+        agreement_details: {
+          last_payment_date: new Date().toISOString(),
+          last_payment_amount: {
+            value: "0.02",
           },
         },
-      };
+        payer: {
+          payer_info: {
+            email: "test@example.com",
+            first_name: "Test",
+            last_name: "User",
+          },
+        },
+      },
+    };
 
-      await POST({
-        text: async () => JSON.stringify(fakeEvent),
-      });
-    }, 3000);
-  }
+    console.log(
+      "[PayPal Webhook] [SIMULATION] Step 2: Mock event created:",
+      mockEvent
+    );
+    console.log(
+      "[PayPal Webhook] [SIMULATION] Step 3: Subscription ID from event:",
+      mockEvent.resource.id
+    );
+    console.log(
+      "[PayPal Webhook] [SIMULATION] Step 4: Last Payment Date:",
+      mockEvent.resource.agreement_details.last_payment_date
+    );
+    console.log(
+      "[PayPal Webhook] [SIMULATION] Step 5: Last Payment Amount:",
+      mockEvent.resource.agreement_details.last_payment_amount.value
+    );
+    console.log(
+      "[PayPal Webhook] [SIMULATION] Step 6: Payer Info:",
+      mockEvent.resource.payer.payer_info
+    );
+
+    console.log(
+      "[PayPal Webhook] [SIMULATION] Step 7: Ready to process recurring payment for subscription I-970SBSRWW6TS"
+    );
+    console.log(
+      "[PayPal Webhook] [SIMULATION] Step 8: Next steps - Find user by subscription ID, check if payment is new, credit leads, create transaction"
+    );
+  }, 2000); // 2 second delay to simulate processing
 
   return NextResponse.json({
-    message: "Webhook is working and simulation has started",
+    message: "HELLO FROM LIVE PAYPAL WEBHOOK (is working)",
+    simulation:
+      "Recurring payment simulation started for subscription I-970SBSRWW6TS",
   });
 }
