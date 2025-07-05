@@ -58,7 +58,7 @@ const pricingData = [
     leads: 800,
     link: "/",
     // planId: "P-3M451725FG751784VNBN7FDY", production plan ID
-    plan_id: "P-96114009C49438150NBUTQSI", // Production Plan ID for 1 day reccuring test
+    planId: "P-96114009C49438150NBUTQSI", // Production Plan ID for 1 day reccuring test
     annualPlanId: "P-ANNUAL-HYPER-PLACEHOLDER",
     benefits: [
       "800+ verified leads/month",
