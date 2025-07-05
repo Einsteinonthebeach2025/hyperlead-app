@@ -13,6 +13,7 @@ import HyperSearch from "./filderActionButtons/HyperSearch";
 
 const LeadFilter = ({
   leads = [],
+  profile,
   handleFilterChange,
   handleReset,
   currentFilters = {},
@@ -50,7 +51,7 @@ const LeadFilter = ({
         <SelectAllButton currentPageLeads={currentPageLeads} />
         <NewCampaignButton />
         <AddExtraLeads type="extra" />
-        <HyperSearch />
+        <HyperSearch profile={profile} />
       </FlexBox>
       <LeadsNaming />
     </FlexBox>

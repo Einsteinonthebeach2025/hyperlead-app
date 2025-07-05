@@ -4,12 +4,24 @@ import FlexBox from 'app/components/containers/FlexBox'
 import SubTitle from 'app/components/SubTitle'
 import { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
+import { IoMdClose } from 'react-icons/io'
+import Close from 'app/components/buttons/Close'
 
 const AssistantResponse = ({ handleClick, data, addToEmail, clearStates, refineEmail, shortenEmail, refineLoading, shortenLoading, error }) => {
   return (
     <>
       {data && (
         <FlexBox type="column" className="absolute z-10 inset-0 bg-neutral-200 dark:bg-black items-center p-4 overflow-y-auto">
+          <Close
+            className="absolute top-2 right-2 z-20 p-2 rounded-full hover:bg-neutral-300 dark:hover:bg-neutral-800"
+            onClick={() => {
+              clearStates();
+              handleClick();
+            }}
+            aria-label="Close"
+          >
+            <IoMdClose size={24} />
+          </Close>
           <Response data={data} />
           <Buttons
             handleClick={handleClick}

@@ -1,14 +1,12 @@
 "use client"
 import Button from 'app/components/buttons/Button'
 import { setError, setToggle } from 'app/features/modalSlice';
-import { selectUser } from 'app/features/userSlice';
 import { PiMagicWand } from 'react-icons/pi';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
-const HyperSearch = () => {
+const HyperSearch = ({ profile }) => {
     const dispatch = useDispatch();
-    const user = useSelector(selectUser)
-    const subscription = user?.profile?.subscription;
+    const subscription = profile?.subscription;
 
     const handleClick = () => {
         if (subscription !== "PRO" && subscription !== "HYPER") {

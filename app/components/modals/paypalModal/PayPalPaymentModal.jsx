@@ -12,6 +12,7 @@ import TwoFactorAuthModal from "app/components/modals/TwoFactorAuthModal";
 import ButtonSection from "./components/paymentButtons/ButtonSection";
 import ProcessingSection from "./components/ProcessingSection";
 import { updateProfile } from "app/lib/actions/profileActions";
+import { useRouter } from "next/navigation";
 
 const PayPalPaymentModal = () => {
   const dispatch = useDispatch();
@@ -24,6 +25,7 @@ const PayPalPaymentModal = () => {
   const [is2FAVerified, setIs2FAVerified] = useState(false);
   const [twoFARequired, setTwoFARequired] = useState(false);
   const [isChecking2FA, setIsChecking2FA] = useState(true);
+  const router = useRouter();
 
   const handleClose = () => {
     dispatch(

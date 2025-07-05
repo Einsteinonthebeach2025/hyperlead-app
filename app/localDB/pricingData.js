@@ -51,7 +51,7 @@ const pricingData = [
     id: 2,
     title: "Hyper",
     desc: "Designed for outbound teams, agencies, and high-volume sales workflows.",
-    price: 0.02,
+    price: 0.01,
     annualPrice: 1720,
     leads: 800,
     link: "/",

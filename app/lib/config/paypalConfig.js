@@ -21,7 +21,7 @@ export const SUBSCRIPTION_PLANS = {
   },
   HYPER: {
     name: "Hyper",
-    price: "0.02",
+    price: "0.01",
     annualPrice: "1720",
     leads: 800,
     description: "For large scale operations",

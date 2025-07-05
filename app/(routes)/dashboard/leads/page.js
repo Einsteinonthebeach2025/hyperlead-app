@@ -109,6 +109,7 @@ const LeadsPage = async () => {
 
   return (
     <Leads
+      profile={profile}
       data={paginatedLeads}
       currentPage={1}
       totalPages={totalPages}
