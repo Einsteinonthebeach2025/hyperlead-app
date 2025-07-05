@@ -25,7 +25,7 @@ export const SUBSCRIPTION_PLANS = {
     annualPrice: "1720",
     leads: 800,
     description: "For large scale operations",
-    planId: "P-0XP45140AA5790530NBUVPMY",
+    planId: "P-3M451725FG751784VNBN7FDY",
     annual_plan_id: "P-3BM54016W0125070RNBUPQFI",
   },
 };

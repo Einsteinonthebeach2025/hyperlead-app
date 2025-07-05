@@ -8,7 +8,7 @@ const pricingData = [
     leads: 150,
     link: "/",
     planId: "P-74J685623B288143WNBN7CQY",
-    annualPlanId: "P-ANNUAL-PLUS-PLACEHOLDER",
+    annualPlanId: "P-83F02828AK235573YNBUPPCY",
     benefits: [
       "150 high-quality B2B leads/month",
       "Verified decision-makers: CEOs, Founders, Managers",
@@ -32,7 +32,7 @@ const pricingData = [
     link: "/",
     color: true,
     planId: "P-2TJ41897NU456330ANBN7EEY",
-    annualPlanId: "P-ANNUAL-PRO-PLACEHOLDER",
+    annualPlanId: "P-1T529730KX668460NNBUPPQY",
     benefits: [
       "400 targeted B2B leads/month",
       "Decision-maker contacts: CEOs, Founders, Managers, Directors",
@@ -56,8 +56,8 @@ const pricingData = [
     billingCycle: "day",
     leads: 800,
     link: "/",
-    planId: "P-0XP45140AA5790530NBUVPMY",
-    annualPlanId: "P-ANNUAL-HYPER-PLACEHOLDER",
+    planId: "P-3M451725FG751784VNBN7FDY",
+    annualPlanId: "P-3BM54016W0125070RNBUPQFI",
     benefits: [
       "800+ verified leads/month",
       "AAll Pro features included",
