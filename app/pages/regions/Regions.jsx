@@ -51,7 +51,6 @@ const Regions = ({ initialRegions = [] }) => {
 
   const handleSkip = async () => {
     try {
-      console.log("skipping");
       if (isNewUser) {
         await updateProfile(user.id, { is_new_user: false });
         dispatch(updateUserProfile({ is_new_user: false }));
