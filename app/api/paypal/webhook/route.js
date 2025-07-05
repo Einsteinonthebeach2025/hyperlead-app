@@ -1,4 +1,3 @@
-// route.js
 import { NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 
@@ -30,31 +29,56 @@ export async function POST(req) {
         resource.agreement_details?.last_payment_amount?.value;
       const payerInfo = resource.payer?.payer_info;
 
-      console.log(
-        `[PayPal Webhook] [Recurring Payment] Subscription ID:`,
-        subscriptionId
-      );
-      console.log(
-        `[PayPal Webhook] [Recurring Payment] Last Payment Date:`,
-        lastPaymentDate
-      );
-      console.log(
-        `[PayPal Webhook] [Recurring Payment] Last Payment Amount:`,
-        lastPaymentAmount
-      );
-      console.log(
-        `[PayPal Webhook] [Recurring Payment] Payer Info:`,
-        payerInfo
-      );
+      console.log(`[Recurring] Subscription ID:`, subscriptionId);
+      console.log(`[Recurring] Last Payment Date:`, lastPaymentDate);
+      console.log(`[Recurring] Last Payment Amount:`, lastPaymentAmount);
+      console.log(`[Recurring] Payer Info:`, payerInfo);
 
-      // TODO: Find user in your DB by subscriptionId
-      // TODO: Check if lastPaymentDate is new (not already processed)
-      // TODO: If new, credit leads, create transaction, notify user
+      // Simulate lookup
+      const { data: user, error } = await supabase
+        .from("profiles")
+        .select("*")
+        .eq("subscription_id", subscriptionId)
+        .single();
+
+      if (!user) {
+        console.error(
+          "[Recurring] No user found for subscription:",
+          subscriptionId
+        );
+        return NextResponse.json({ error: "User not found" }, { status: 404 });
+      }
+
+      // Prevent duplicate processing
+      if (lastPaymentDate === user.last_payment_date) {
+        console.log("[Recurring] Duplicate payment event — skipping.");
+        return NextResponse.json({ status: "duplicate_skipped" });
+      }
+
+      // Process logic
+      const leadsToAssign = user.subscription_plan === "HYPER" ? 800 : 0;
+
+      const { error: updateError } = await supabase
+        .from("profiles")
+        .update({
+          leads: (user.leads || 0) + leadsToAssign,
+          last_payment_date: lastPaymentDate,
+        })
+        .eq("id", user.id);
+
+      if (updateError) {
+        console.error("[Recurring] Failed to assign leads:", updateError);
+        return NextResponse.json(
+          { error: "Failed to update user" },
+          { status: 500 }
+        );
+      }
+
+      // Optionally log or save transaction
+      console.log(
+        `[Recurring] Assigned ${leadsToAssign} new leads to ${user.email}`
+      );
     }
-
-    // Add more logic here for each event type as needed
-    // Example:
-    // if (eventType === "BILLING.SUBSCRIPTION.PAYMENT.FAILED") { ... }
 
     return NextResponse.json({ received: true, eventType }, { status: 200 });
   } catch (err) {
@@ -66,9 +90,40 @@ export async function POST(req) {
   }
 }
 
+// Simulate a fake recurring payment (optional, dev only)
 export async function GET() {
-  console.log("HELLO FROM LIVE PAYPAL WEBHOOK (is working)");
+  console.log("HELLO FROM PAYPAL WEBHOOK");
+
+  const simulate = true; // flip to false to disable
+
+  if (simulate) {
+    setTimeout(async () => {
+      console.log("🔁 Simulating recurring payment...");
+
+      const fakeEvent = {
+        event_type: "BILLING.SUBSCRIPTION.UPDATED",
+        resource: {
+          id: "I-N8KU4F580KPM", // your real subscription ID
+          agreement_details: {
+            last_payment_date: new Date().toISOString(),
+            last_payment_amount: { value: "0.02" },
+          },
+          payer: {
+            payer_info: {
+              email: "sandboxuser@example.com",
+              payer_id: "TESTPAYERID",
+            },
+          },
+        },
+      };
+
+      await POST({
+        text: async () => JSON.stringify(fakeEvent),
+      });
+    }, 3000);
+  }
+
   return NextResponse.json({
-    message: "HELLO FROM LIVE PAYPAL WEBHOOK (is working)",
+    message: "Webhook is working and simulation has started",
   });
 }

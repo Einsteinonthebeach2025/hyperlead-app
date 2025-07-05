@@ -7,7 +7,8 @@ const pricingData = [
     annualPrice: 0.01,
     leads: 150,
     link: "/",
-    planId: "P-74J685623B288143WNBN7CQY",
+    // planId: "P-74J685623B288143WNBN7CQY",
+    planId: "P-7XH25132HX613060MNBOTB5I",
     annualPlanId: "P-83F02828AK235573YNBUPPCY",
     benefits: [
       "150 high-quality B2B leads/month",
@@ -31,7 +32,8 @@ const pricingData = [
     leads: 400,
     link: "/",
     color: true,
-    planId: "P-2TJ41897NU456330ANBN7EEY",
+    // planId: "P-2TJ41897NU456330ANBN7EEY",
+    planId: "P-9HX723217A653215GNBUSP5Q",
     annualPlanId: "P-1T529730KX668460NNBUPPQY",
     benefits: [
       "400 targeted B2B leads/month",
@@ -55,7 +57,8 @@ const pricingData = [
     annualPrice: 1720,
     leads: 800,
     link: "/",
-    planId: "P-3M451725FG751784VNBN7FDY",
+    // planId: "P-3M451725FG751784VNBN7FDY",
+    planId: "P-5YB76014V2287162GNBUVGWQ",
     annualPlanId: "P-3BM54016W0125070RNBUPQFI",
     benefits: [
       "800+ verified leads/month",
