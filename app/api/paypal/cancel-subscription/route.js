@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+const apiUrl = process.env.PAYPAL_API_URL;
 
 // Helper to get PayPal access token
 async function getPayPalAccessToken() {
@@ -6,7 +7,7 @@ async function getPayPalAccessToken() {
   const secret = process.env.PAYPAL_SECRET;
   const base64 = Buffer.from(`${clientId}:${secret}`).toString("base64");
 
-  const res = await fetch("https://api-m.paypal.com/v1/oauth2/token", {
+  const res = await fetch(`${apiUrl}/v1/oauth2/token`, {
     method: "POST",
     headers: {
       Authorization: `Basic ${base64}`,
@@ -24,7 +25,7 @@ export async function POST(req) {
     const accessToken = await getPayPalAccessToken();
 
     const res = await fetch(
-      `https://api-m.paypal.com/v1/billing/subscriptions/${subscriptionId}/cancel`,
+      `${apiUrl}/v1/billing/subscriptions/${subscriptionId}/cancel`,
       {
         method: "POST",
         headers: {

@@ -7,7 +7,8 @@ const pricingData = [
     annualPrice: 0.01,
     leads: 150,
     link: "/",
-    planId: "P-74J685623B288143WNBN7CQY",
+    // planId: "P-74J685623B288143WNBN7CQY", production plan ID
+    plan_id: "P-7XH25132HX613060MNBOTB5I", // SANDBOX test SUBSCRIPTION plan ID
     annualPlanId: "P-ANNUAL-PLUS-PLACEHOLDER",
     benefits: [
       "150 high-quality B2B leads/month",
@@ -31,7 +32,8 @@ const pricingData = [
     leads: 400,
     link: "/",
     color: true,
-    planId: "P-2TJ41897NU456330ANBN7EEY",
+    // planId: "P-2TJ41897NU456330ANBN7EEY", production plan ID
+    plan_id: "P-9HX723217A653215GNBUSP5Q", // SANDBOX test SUBSCRIPTION plan ID
     annualPlanId: "P-ANNUAL-PRO-PLACEHOLDER",
     benefits: [
       "400 targeted B2B leads/month",
@@ -51,11 +53,12 @@ const pricingData = [
     id: 2,
     title: "Hyper",
     desc: "Designed for outbound teams, agencies, and high-volume sales workflows.",
-    price: 179,
+    price: 0.01,
     annualPrice: 1720,
     leads: 800,
     link: "/",
-    planId: "P-3M451725FG751784VNBN7FDY",
+    // planId: "P-3M451725FG751784VNBN7FDY", production plan ID
+    plan_id: "P-96114009C49438150NBUTQSI", // Production Plan ID for 1 day reccuring test
     annualPlanId: "P-ANNUAL-HYPER-PLACEHOLDER",
     benefits: [
       "800+ verified leads/month",

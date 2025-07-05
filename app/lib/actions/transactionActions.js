@@ -70,6 +70,7 @@ export const processSubscription = async (
     const currentMonthLeads = userProfile.leads_received_this_month || 0;
     const updates = {
       subscription: planName,
+      subscription_status: "active",
       subscription_timestamp: new Date().toISOString(),
       monthly_leads: leads,
       leads_received_this_month: currentMonthLeads + leads,
@@ -108,12 +109,21 @@ export const cancelSubscription = async (
         error: "Transaction not found for this subscription.",
       };
     }
+    // Update transaction: set status to CANCELLED and set cancelled_at
     const { error: updateError } = await supabase
       .from("transactions")
-      .update({ status: "CANCELLED", created_at: cancelledAt })
+      .update({ current_status: "CANCELLED", cancelled_at: cancelledAt })
       .eq("id", transaction.id);
     if (updateError) {
       return { success: false, error: updateError.message };
+    }
+    // Update user profile: set subscription_id to null and subscription_status to "cancelled"
+    const { error: profileError } = await supabase
+      .from("profiles")
+      .update({ subscription_id: null, subscription_status: "cancelled" })
+      .eq("id", userId);
+    if (profileError) {
+      return { success: false, error: profileError.message };
     }
     return { success: true };
   } catch (error) {

@@ -28,9 +28,12 @@ const fetchLeadById = async (leadId) => {
 const SingleLeadPage = async ({ params, searchParams }) => {
   const { lead_id } = await params;
   const lead = await fetchLeadById(lead_id);
-  // Check for ?history=1 in the query string
+
+  // Await searchParams before using its properties
+  const resolvedSearchParams = await searchParams;
   const table =
-    searchParams?.history === "1" ? "user_leads_history" : "user_leads";
+    resolvedSearchParams?.history === "1" ? "user_leads_history" : "user_leads";
+
   return <SingleLead data={lead} table={table} />;
 };
 

@@ -14,9 +14,6 @@ const StopSubscription = ({ user, onSuccess, isAdmin = false }) => {
   const [cancelled, setCancelled] = useState(false);
   const dispatch = useDispatch();
 
-  console.log(user);
-
-
   const handleCancel = async () => {
     setLoading(true);
     setError(null);
@@ -28,7 +25,6 @@ const StopSubscription = ({ user, onSuccess, isAdmin = false }) => {
       });
       const data = await res.json();
       if (data.success) {
-        await updateProfile(user.id, { subscription_id: null });
         await notifySubscriptionCancel(user.id);
         await sendSubscriptionCancelEmail({
           userName: user?.userName,
@@ -36,7 +32,6 @@ const StopSubscription = ({ user, onSuccess, isAdmin = false }) => {
           cancelled_at: new Date()
         });
         await cancelSubscription(user.id, user?.subscription_id, new Date());
-
         const successMessage = isAdmin
           ? `Subscription cancelled successfully for ${user?.userName || user?.email}.`
           : "Subscription cancelled successfully.";
