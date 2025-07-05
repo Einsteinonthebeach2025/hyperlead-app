@@ -56,7 +56,7 @@ const pricingData = [
     billingCycle: "day",
     leads: 800,
     link: "/",
-    planId: "P-8BH82277AB226041MNBUUP6Y",
+    planId: "P-3M451725FG751784VNBN7FDY",
     annualPlanId: "P-ANNUAL-HYPER-PLACEHOLDER",
     benefits: [
       "800+ verified leads/month",
