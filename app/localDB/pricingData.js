@@ -55,7 +55,7 @@ const pricingData = [
     annualPrice: 1720,
     leads: 800,
     link: "/",
-    planId: "P-3M451725FG751784VNBN7FDY",
+    planId: "P-8BH82277AB226041MNBUUP6Y",
     annualPlanId: "P-ANNUAL-HYPER-PLACEHOLDER",
     benefits: [
       "800+ verified leads/month",
