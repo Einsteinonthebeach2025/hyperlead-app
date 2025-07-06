@@ -4,6 +4,7 @@ import { NextResponse } from "next/server";
 import supabaseAdmin from "app/lib/config/supabaseAdmin";
 import { assignLeadsToUser } from "app/lib/actions/leadActions";
 import { createTransaction } from "app/lib/actions/transactionActions";
+import { notifyRecurringPayment } from "app/lib/actions/notificationActions";
 
 export const config = {
   api: {
@@ -153,6 +154,28 @@ export async function POST(req) {
       console.log(
         `[PayPal Webhook] Updated user profile for user ${user.email}`
       );
+
+      // 5. Notify user of recurring payment
+      const userName = user.userName || user.email;
+      const notifyResult = await notifyRecurringPayment(
+        user.id,
+        userName,
+        planName,
+        leads,
+        supabaseAdmin
+      );
+      if (notifyResult.error) {
+        console.error(
+          `[PayPal Webhook] Failed to notify user:`,
+          notifyResult.error
+        );
+        // Don't fail the webhook, just log
+      } else {
+        console.log(
+          `[PayPal Webhook] Notified user of recurring payment:`,
+          user.email
+        );
+      }
     }
 
     return NextResponse.json({ received: true, eventType }, { status: 200 });

@@ -11,7 +11,8 @@ export const createTransaction = async (
   paymentMethod,
   payerInfo,
   captureId,
-  supabaseClient = supabase
+  supabaseClient = supabase,
+  extraFields = {}
 ) => {
   const { brand, last4, maskedCard } = paymentMethod || {};
   const { name, email, address } = payerInfo || {};
@@ -30,6 +31,7 @@ export const createTransaction = async (
     payer_email: email,
     payer_address: address,
     created_at: new Date(),
+    ...extraFields,
   });
 
   if (error) {
