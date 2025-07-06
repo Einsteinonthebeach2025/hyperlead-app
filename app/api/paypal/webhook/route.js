@@ -3,7 +3,6 @@
 import { NextResponse } from "next/server";
 import supabaseAdmin from "app/lib/config/supabaseAdmin";
 import { assignLeadsToUser } from "app/lib/actions/leadActions";
-import { createTransaction } from "app/lib/actions/transactionActions";
 
 export const config = {
   api: {
@@ -94,36 +93,6 @@ export async function POST(req) {
       }
       console.log(
         `[PayPal Webhook] Assigned ${leads} leads to user ${user.email}`
-      );
-
-      // 3. Create a new transaction for this recurring payment
-      const planName = user.subscription || "UNKNOWN";
-      const transactionResult = await createTransaction(
-        user.id,
-        subscriptionId,
-        planName,
-        resource.agreement_details?.last_payment_amount?.value || 0,
-        { brand: "PayPal", last4: "N/A", maskedCard: "PayPal Subscription" },
-        { name: user.email, email: user.email },
-        null, // captureId not available for recurring
-        supabaseAdmin,
-        {
-          recurring: true,
-          renewal_timestamp: now,
-        }
-      );
-      if (!transactionResult.success) {
-        console.error(
-          `[PayPal Webhook] Failed to create transaction:`,
-          transactionResult.error
-        );
-        return NextResponse.json(
-          { error: "Failed to create transaction" },
-          { status: 500 }
-        );
-      }
-      console.log(
-        `[PayPal Webhook] Created recurring transaction for user ${user.email}`
       );
     }
 
