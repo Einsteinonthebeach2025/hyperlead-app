@@ -153,23 +153,21 @@ export const notifyUserOnSubscription = async (assignedLeadsCount) => {
   }
 };
 
-export const notifyUserOnRecurringPayment = async (
-  userId,
-  leads,
-  supabaseClient = supabase
-) => {
+export const notifyUserOnRecurringPayment = async (assignedLeadsCount) => {
   try {
     const user = await getCurrentUser();
     const userName = user?.profile?.userName || user?.user_metadata?.name;
-    const { data, error } = await supabaseClient
+    const { data, error } = await supabase
       .from("notifications")
       .insert({
         user_id: user.id,
-        type: "RECURRING_PAYMENT_SUCCESS_NOTIFY",
+        type: "SUBSCRIPTION_SUCCESS_NOTIFY",
         message: `${userName}, your subscription successfully renewed`,
         read: false,
         importance: "low",
-        metadata: {},
+        metadata: {
+          received_leads: assignedLeadsCount,
+        },
         action_url: "",
       })
       .select()

@@ -1,12 +1,8 @@
 import supabase from "../config/supabaseClient";
 
-export const updateProfile = async (
-  userId,
-  updates,
-  supabaseClient = supabase
-) => {
+export const updateProfile = async (userId, updates) => {
   try {
-    const { data: profileData, error: profileError } = await supabaseClient
+    const { data: profileData, error: profileError } = await supabase
       .from("profiles")
       .update(updates)
       .eq("id", userId)
@@ -17,7 +13,7 @@ export const updateProfile = async (
       const authUpdates = {};
       if (updates.userName) authUpdates.display_name = updates.userName;
       if (updates.phone) authUpdates.phone = updates.phone;
-      const { error: authError } = await supabaseClient.auth.updateUser({
+      const { error: authError } = await supabase.auth.updateUser({
         data: authUpdates,
       });
       if (authError) throw authError;
