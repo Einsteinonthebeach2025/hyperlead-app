@@ -12,13 +12,13 @@ export const assignLeadsToUser = async (
   preferences,
   leadCount,
   isNewSubscription = false,
-  supabaseClient
+  supabaseClient = supabase
 ) => {
   try {
     const {
       data: { session },
       error: authError,
-    } = await supabase.auth.getSession();
+    } = await supabaseClient.auth.getSession();
     if (authError) {
       throw new Error(`Authentication error: ${authError.message}`);
     }
@@ -27,7 +27,7 @@ export const assignLeadsToUser = async (
         "No preferences set. Please set your industry preferences first."
       );
     }
-    const { data: userProfile, error: profileError } = await supabase
+    const { data: userProfile, error: profileError } = await supabaseClient
       .from("profiles")
       .select("region")
       .eq("id", userId)
@@ -39,7 +39,7 @@ export const assignLeadsToUser = async (
       userProfile.region && userProfile.region.length > 0;
     let availableCountries = [];
     if (hasRegionPreferences) {
-      const { data: availableLeads, error: leadsError } = await supabase
+      const { data: availableLeads, error: leadsError } = await supabaseClient
         .from("leads")
         .select("country")
         .in("country", userProfile.region)
@@ -56,14 +56,14 @@ export const assignLeadsToUser = async (
     if (isNewSubscription) {
       // 1. Get all current leads
       const { data: currentUserLeads, error: currentLeadsError } =
-        await supabase
+        await supabaseClient
           .from("user_leads")
           .select("lead_id, user_id, user_email, received_at, is_demo")
           .eq("user_id", userId);
 
       if (currentUserLeads && currentUserLeads.length > 0) {
         // 2. Prepare history entries for any not already in history
-        const { data: alreadyInHistory } = await supabase
+        const { data: alreadyInHistory } = await supabaseClient
           .from("user_leads_history")
           .select("lead_id")
           .eq("user_id", userId);
@@ -82,7 +82,7 @@ export const assignLeadsToUser = async (
           }));
 
         if (historyEntries.length > 0) {
-          const { error: insertHistoryError } = await supabase
+          const { error: insertHistoryError } = await supabaseClient
             .from("user_leads_history")
             .insert(historyEntries);
           if (insertHistoryError) {
@@ -92,19 +92,20 @@ export const assignLeadsToUser = async (
           }
         }
         // 3. Delete all current leads
-        await supabase.from("user_leads").delete().eq("user_id", userId);
+        await supabaseClient.from("user_leads").delete().eq("user_id", userId);
       }
     }
     // 1. Get all leads that this user has ever received (to avoid duplicates)
-    const { data: allUserLeads, error: historyError } = await supabase
+    const { data: allUserLeads, error: historyError } = await supabaseClient
       .from("user_leads_history")
       .select("lead_id, is_demo")
       .eq("user_id", userId);
     // 2. Get all leads currently assigned to the user
-    const { data: currentUserLeads, error: currentLeadsError } = await supabase
-      .from("user_leads")
-      .select("lead_id, is_demo")
-      .eq("user_id", userId);
+    const { data: currentUserLeads, error: currentLeadsError } =
+      await supabaseClient
+        .from("user_leads")
+        .select("lead_id, is_demo")
+        .eq("user_id", userId);
     // 3. Exclude only non-demo leads from assignment
     const previouslyReceivedLeadIds =
       allUserLeads?.filter((l) => !l.is_demo).map((lead) => lead.lead_id) || [];
@@ -168,7 +169,7 @@ export const assignLeadsToUser = async (
     }));
     // 6. Insert
     if (userLeadsToInsert.length > 0) {
-      const { error: insertError } = await supabase
+      const { error: insertError } = await supabaseClient
         .from("user_leads")
         .insert(userLeadsToInsert);
       if (insertError) {
@@ -180,7 +181,7 @@ export const assignLeadsToUser = async (
       );
     }
     // 4. Update total_leads_received (increment, not overwrite)
-    const { data: profile, error: profileFetchError } = await supabase
+    const { data: profile, error: profileFetchError } = await supabaseClient
       .from("profiles")
       .select("total_leads_received")
       .eq("id", userId)
@@ -192,7 +193,7 @@ export const assignLeadsToUser = async (
     }
     const currentTotal = profile.total_leads_received || 0;
     const updatedTotal = currentTotal + allAvailableLeads.length;
-    const { error: updateError } = await supabase
+    const { error: updateError } = await supabaseClient
       .from("profiles")
       .update({ total_leads_received: updatedTotal })
       .eq("id", userId);
@@ -204,7 +205,7 @@ export const assignLeadsToUser = async (
     }
 
     // After successfully assigning new leads, update historical demo leads to be part of history
-    const { error: updateHistoryError } = await supabase
+    const { error: updateHistoryError } = await supabaseClient
       .from("user_leads_history")
       .update({ is_demo: false })
       .eq("user_id", userId)
@@ -220,7 +221,7 @@ export const assignLeadsToUser = async (
 
     // Reset unlocked_leads_count for new subscriptions to give fresh monthly limit
     if (isNewSubscription) {
-      const { error: resetUnlockError } = await supabase
+      const { error: resetUnlockError } = await supabaseClient
         .from("profiles")
         .update({ unlocked_leads_count: 0 })
         .eq("id", userId);
