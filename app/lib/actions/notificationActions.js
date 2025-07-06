@@ -153,11 +153,15 @@ export const notifyUserOnSubscription = async (assignedLeadsCount) => {
   }
 };
 
-export const notifyUserOnRecurringPayment = async () => {
+export const notifyUserOnRecurringPayment = async (
+  userId,
+  leads,
+  supabaseClient = supabase
+) => {
   try {
     const user = await getCurrentUser();
     const userName = user?.profile?.userName || user?.user_metadata?.name;
-    const { data, error } = await supabase
+    const { data, error } = await supabaseClient
       .from("notifications")
       .insert({
         user_id: user.id,

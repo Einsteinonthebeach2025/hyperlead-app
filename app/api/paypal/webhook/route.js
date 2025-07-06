@@ -113,7 +113,11 @@ export async function POST(req) {
         last_leads_finished_notification: null,
         last_payment_date: now,
       };
-      const { error: updateError } = await updateProfile(user.id, updates);
+      const { error: updateError } = await updateProfile(
+        user.id,
+        updates,
+        supabaseAdmin
+      );
       if (updateError) {
         console.error(
           `[PayPal Webhook] Failed to update profile:`,
@@ -134,7 +138,8 @@ export async function POST(req) {
         resource.billing_info?.last_payment?.amount?.value || 0,
         { brand: "PayPal", last4: "N/A", maskedCard: "PayPal Subscription" },
         { name: user.email, email: user.email },
-        null // captureId not available for recurring
+        null, // captureId not available for recurring
+        supabaseAdmin
       );
       if (!transactionResult.success) {
         console.error(
@@ -151,7 +156,7 @@ export async function POST(req) {
       );
 
       // 6. Send notification
-      await notifyUserOnRecurringPayment(user.id, leads);
+      await notifyUserOnRecurringPayment(user.id, leads, supabaseAdmin);
       console.log(
         `[PayPal Webhook] Sent recurring payment notification to user ${user.email}`
       );

@@ -10,12 +10,13 @@ export const createTransaction = async (
   amount,
   paymentMethod,
   payerInfo,
-  captureId
+  captureId,
+  supabaseClient = supabase
 ) => {
   const { brand, last4, maskedCard } = paymentMethod || {};
   const { name, email, address } = payerInfo || {};
 
-  const { data, error } = await supabase.from("transactions").insert({
+  const { data, error } = await supabaseClient.from("transactions").insert({
     user_id: userId,
     paypal_order_id: orderId,
     plan_name: planName,
