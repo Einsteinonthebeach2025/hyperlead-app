@@ -4,15 +4,15 @@ import PricingTitle from "./components/PricingTitles";
 import Benefits from "./components/Benefits";
 import PricingButton from "./components/PricingButton";
 
-const MobileSwiper = () => {
+const MobileSwiper = ({ pricingMode = "monthly" }) => {
   if (!pricingData || !pricingData.length) {
     return null;
   }
 
   return (
     <>
-      <div className="h-[640px] w-full mt-2 block lg:hidden border">
-        <Swiper items={pricingData} className="h-[620px] my-2 items-center">
+      <div className="h-[640px] w-full block lg:hidden">
+        <Swiper items={pricingData} className="h-[620px] items-center">
           {pricingData?.map((item, index) => (
             <div
               key={index}
@@ -20,10 +20,10 @@ const MobileSwiper = () => {
                 }`}
             >
               <div>
-                <PricingTitle item={item} />
+                <PricingTitle item={item} pricingMode={pricingMode} />
                 <Benefits item={item} />
               </div>
-              <PricingButton item={item} />
+              <PricingButton item={item} pricingMode={pricingMode} />
             </div>
           ))}
         </Swiper>

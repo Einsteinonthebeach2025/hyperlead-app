@@ -8,6 +8,7 @@ const HyperSearch = ({ profile }) => {
     const dispatch = useDispatch();
     const subscription = profile?.subscription;
 
+
     const handleClick = () => {
         if (subscription !== "PRO" && subscription !== "HYPER") {
             dispatch(setError({ message: "You need to be a Pro or Hyper user to unlock leads", type: "error" }))

@@ -105,7 +105,6 @@ const Leads = ({
   };
 
   return (
-
     <DashboardPageWrapper title="Leads">
       <LeadFilter
         profile={profile}

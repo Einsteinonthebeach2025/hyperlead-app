@@ -13,7 +13,7 @@ const RandomLeadList = ({ data }) => {
       {data.map((lead) => (
         <Link href={`/dashboard/leads/${lead.id}`} key={lead.id}>
           <div className='rounded-xl p-2 bg-blue-100/50 dark:bg-blue-900/50' key={lead.id}>
-            <SubTitle>{truncateString(lead.company_title, 28)}</SubTitle>
+            <SubTitle className="h-10 lg:h-auto">{truncateString(lead.company_title, 28)}</SubTitle>
             <FlexBox type='row-between'>
               <FlexBox type='row' className='gap-1'>
                 <SpanText>{lead.first_name}</SpanText>

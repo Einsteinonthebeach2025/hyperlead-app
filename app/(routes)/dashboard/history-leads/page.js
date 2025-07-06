@@ -114,6 +114,7 @@ const HistoryLeadsPage = async () => {
     <HistoryLeads
       data={paginatedHistoryLeads}
       currentPage={1}
+      profile={profile}
       totalPages={totalPages}
       allLeads={historyLeadsWithUsedStatus}
     />

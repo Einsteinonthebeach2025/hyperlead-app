@@ -4,7 +4,7 @@ const pricingData = [
     title: "Plus",
     desc: "Perfect for solo founders or early-stage teams building outbound from scratch.",
     price: 0.01,
-    annualPrice: 0.01,
+    annualPrice: 374,
     leads: 150,
     link: "/",
     // planId: "P-74J685623B288143WNBN7CQY",

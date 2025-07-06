@@ -9,9 +9,7 @@ const getLeadsByRegions = async () => {
     data: { session },
     error: sessionError,
   } = await supabase.auth.getSession();
-  if (sessionError || !session?.user) {
-    return null;
-  }
+  if (sessionError || !session?.user) return null;
 
   const currentUserId = session.user.id;
   const currentUserEmail = session.user.email;
@@ -19,28 +17,38 @@ const getLeadsByRegions = async () => {
     currentUserId,
     currentUserEmail
   );
-  const userIdsToQuery = isAssistant ? [effectiveUserId] : [session.user.id];
+  const userIdsToQuery = isAssistant ? [effectiveUserId] : [currentUserId];
 
   const { data: userLeads, error: userLeadsError } = await supabase
     .from("user_leads")
     .select("lead_id")
-    .eq("user_id", userIdsToQuery);
-  if (userLeadsError || !userLeads) {
-    return null;
-  }
+    .in("user_id", userIdsToQuery);
+  if (userLeadsError || !userLeads) return null;
 
-  const { data: leads, error: leadsError } = await supabase
-    .from("leads")
-    .select("id, country")
-    .in(
-      "id",
-      userLeads.map((lead) => lead.lead_id)
+  const leadIds = userLeads.map((lead) => lead.lead_id);
+
+  const chunkArray = (array, size) =>
+    Array.from({ length: Math.ceil(array.length / size) }, (_, i) =>
+      array.slice(i * size, i * size + size)
     );
-  if (leadsError || !leads) {
-    return null;
+
+  const chunks = chunkArray(leadIds, 100);
+  let allLeads = [];
+
+  for (const chunk of chunks) {
+    const { data: leadsChunk, error } = await supabase
+      .from("leads")
+      .select("id, country")
+      .in("id", chunk);
+
+    if (error) {
+      continue;
+    }
+
+    allLeads.push(...(leadsChunk || []));
   }
 
-  const countryStats = leads.reduce((acc, lead) => {
+  const countryStats = allLeads.reduce((acc, lead) => {
     const country = lead.country || "Unknown";
     acc[country] = (acc[country] || 0) + 1;
     return acc;

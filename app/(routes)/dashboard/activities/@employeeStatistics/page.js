@@ -18,36 +18,43 @@ const getEmployeeStatistics = async () => {
     currentUserId,
     currentUserEmail
   );
-  const userIdsToQuery = isAssistant ? [effectiveUserId] : [session.user.id];
+  const userIdsToQuery = isAssistant ? [effectiveUserId] : [currentUserId];
 
   const { data: userLeads, error: userLeadsError } = await supabase
     .from("user_leads")
     .select("lead_id")
-    .eq("user_id", userIdsToQuery);
+    .in("user_id", userIdsToQuery);
   if (userLeadsError || !userLeads) {
     return null;
   }
-
   const leadIds = userLeads.map((lead) => lead.lead_id);
 
-  const { data: leads, error: leadsError } = await supabase
-    .from("leads")
-    .select("id, employees, company_title")
-    .in("id", leadIds)
-    .limit(5);
+  const chunkArray = (arr, size) =>
+    Array.from({ length: Math.ceil(arr.length / size) }, (_, i) =>
+      arr.slice(i * size, i * size + size)
+    );
 
-  if (leadsError || !leads) {
-    return null;
+  const chunks = chunkArray(leadIds, 100);
+  let allLeads = [];
+
+  for (const chunk of chunks) {
+    const { data: leadsChunk, error } = await supabase
+      .from("leads")
+      .select("id, employees, company_title, annual_revenue")
+      .in("id", chunk);
+
+    if (error) {
+      continue;
+    }
+
+    allLeads.push(...(leadsChunk || []));
   }
 
-  const formattedLeads = leads.map((lead) => ({
-    id: lead.id,
-    company_title: lead.company_title,
-    employees: lead.employees,
-    annual_revenue: lead.annual_revenue,
-  }));
+  const topLeads = allLeads
+    .sort((a, b) => (b.employees || 0) - (a.employees || 0))
+    .slice(0, 5);
 
-  return formattedLeads;
+  return topLeads;
 };
 
 const EmployeeStatisticsPage = async () => {

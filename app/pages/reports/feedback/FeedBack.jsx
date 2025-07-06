@@ -14,7 +14,8 @@ const Feedback = () => {
   const user = useSelector(selectUser);
 
   return (
-    <section className="h-screen relative center">
+    <section className="h-screen relative center flex-col space-y-4">
+      <Logo />
       {user?.email ? (
         <FormContainer className="w-[90%] max-w-[500px] space-y-4">
           <MotionContainer animation="zoom-out">
@@ -24,7 +25,7 @@ const Feedback = () => {
         </FormContainer>
       ) : (
         <FlexBox type="center-col" className="space-y-6">
-          <Logo />
+
           <SectionHeadline
             title="Join us to share your feedback"
             desc="You need to be signed in to share your feedback and help us improve. Sign in to get started!"

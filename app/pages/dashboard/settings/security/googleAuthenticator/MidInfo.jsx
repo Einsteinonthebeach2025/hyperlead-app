@@ -10,7 +10,7 @@ const MidInfo = () => {
     return (
         <div className='my-10'>
             <SubTitle>This helps prevent unauthorized access, even if someone has your password.</SubTitle>
-            <div className="grid grid-cols-3 gap-2">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-2">
                 <FlexBox type="row" className="space-x-2 items-center primary-border p-2">
                     <div className="w-10 center aspect-square text-green-600 bg-green-300 rounded-lg">
                         <FaCheck />

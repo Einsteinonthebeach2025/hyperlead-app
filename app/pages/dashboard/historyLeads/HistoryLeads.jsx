@@ -13,6 +13,7 @@ const HistoryLeads = ({
     data,
     desc,
     message,
+    profile,
     currentPage = 1,
     allLeads: initialAllLeads,
 }) => {
@@ -109,6 +110,7 @@ const HistoryLeads = ({
     return (
         <DashboardPageWrapper title="History Leads">
             <LeadFilter
+                profile={profile}
                 leads={allLeads}
                 handleFilterChange={handleFilterChange}
                 handleReset={handleReset}

@@ -9,8 +9,8 @@ import FlexBox from "app/components/containers/FlexBox";
 
 const ProfileHeader = ({ profile }) => {
   return (
-    <CardContainer className="flex flex-col lg:flex-row justify-between w-full px-5">
-      <div className="flex flex-col lg:flex-row gap-6">
+    <CardContainer className="flex flex-col lg:flex-row justify-between w-full px-5 items-center">
+      <div className="flex flex-col lg:flex-row gap-6 items-center lg:items-end">
         <ProfileAvatar profile={profile} userId={profile?.id} />
         <FlexBox type='column-start' className="justify-end pb-3">
           <SubscribtionStatus item={profile} />

@@ -24,7 +24,7 @@ const TransactionsList = ({ transactions }) => {
   }
 
   const TransactionRow = ({ label, value, customColor }) => (
-    <FlexBox type="row-between" className="text-sm">
+    <FlexBox type="row-between" className="text-sm items-center">
       <Paragraph>{label}</Paragraph>
       <span className={`font-semibold capitalize ${customColor ? customColor : 'text-gray-900 dark:text-gray-100'}`}>
         {value}
@@ -54,7 +54,7 @@ const TransactionsList = ({ transactions }) => {
         return (
           <div
             key={transaction.id}
-            className="space-y-3 p-4 primary-border rounded-lg shadow-sm bg-neutral-50/50 dark:bg-[#344c63]/50 "
+            className="space-y-1 lg:space-y-3 p-4 primary-border rounded-lg shadow-sm bg-neutral-50/50 dark:bg-[#344c63]/50 "
           >
             <FlexBox type="row-between">
               <FlexBox className="gap-1">
@@ -67,7 +67,7 @@ const TransactionsList = ({ transactions }) => {
                 {transaction.status}
               </span>
             </FlexBox>
-            <FlexBox type="row-between">
+            <FlexBox type="row-between" >
               <FlexBox className="gap-1">
                 <IoTimeOutline className='text-gray-500' />
                 <span className="text-xs text-gray-500">
@@ -78,7 +78,7 @@ const TransactionsList = ({ transactions }) => {
                 {transaction.current_status}
               </span>
             </FlexBox>
-            <div className="space-y-2">
+            <div className="space-y-2 ">
               <TransactionRow label="Order ID:" value={transaction.paypal_order_id} />
               {transaction.seller_transaction_id && (
                 <TransactionRow label="Capture ID:" value={transaction.seller_transaction_id} />

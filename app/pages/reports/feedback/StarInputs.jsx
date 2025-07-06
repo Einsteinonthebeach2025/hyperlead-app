@@ -1,9 +1,10 @@
+import SubTitle from "app/components/SubTitle";
 import { FaStar } from "react-icons/fa";
 
 const StarInputs = ({ setRating, setHover, hover, rating }) => {
   return (
     <div className="space-y-2">
-      <label className="text-sm font-medium">Rating</label>
+      <SubTitle className="text-sm font-medium">Rating</SubTitle>
       <div className="flex space-x-2">
         {[...Array(5)].map((_, index) => {
           const ratingValue = index + 1;
@@ -17,11 +18,10 @@ const StarInputs = ({ setRating, setHover, hover, rating }) => {
               onMouseLeave={() => setHover(0)}
             >
               <FaStar
-                className={`${
-                  ratingValue <= (hover || rating)
+                className={`${ratingValue <= (hover || rating)
                     ? "text-yellow-400"
                     : "text-gray-300"
-                }`}
+                  }`}
               />
             </button>
           );

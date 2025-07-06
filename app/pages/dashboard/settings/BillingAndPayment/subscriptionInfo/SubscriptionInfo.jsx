@@ -43,7 +43,7 @@ const FooterInfo = () => {
     return (
         <div className='mt-5'>
             <SubTitle>Upgrade to get more leads</SubTitle>
-            <ul className="mt-3 space-y-2 text-sm text-gray-600 dark:text-gray-300">
+            <ul className="mt-3 space-y-2 text-[10px] lg:text-sm text-gray-600 dark:text-gray-300">
                 <li className="flex items-center">
                     <FaCheck className="text-green-500 mr-2" />
                     <span>Unlimited access to all catalogs</span>

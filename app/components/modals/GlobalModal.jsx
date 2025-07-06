@@ -43,7 +43,7 @@ const GlobalModal = ({ children }) => {
   return (
     <AnimatePresence>
       {isOpen && (
-        <MotionContainer animation='fade-in' className='fixed inset-0 top-0 bg-neutral-400/80 backdrop-blur-xs dark:bg-[#1d2939]/90 z-50 flex items-center justify-center'>
+        <MotionContainer animation='fade-in' className='fixed inset-0 top-0 bg-neutral-400/80 backdrop-blur-xs dark:bg-[#1d2939]/90 z-50 flex items-center justify-center px-3'>
           <div className={`${sizeClasses[data?.size] || sizeClasses.md} bg-neutral-100 dark:bg-[#151e27] p-6 rounded-lg shadow-[0_10px_25px_rgba(0,0,0,0.5)] w-full center flex-col space-y-2`}>
             <Close onClick={handleClose} className='absolute top-4 right-4' />
             <MotionChildren animation='fade-in' className="w-full center">

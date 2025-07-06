@@ -6,12 +6,14 @@ import MotionContainer from "app/components/containers/MotionContainer";
 import Title from "app/components/Title";
 import SignUpAlertPage from "app/components/containers/SignUpAlertPage";
 import BugForm from "./BugForm";
+import Logo from "app/components/Logo";
 
 const ReportBug = () => {
   const user = useSelector(selectUser);
 
   return (
-    <div className="h-screen center relative">
+    <div className="h-screen center relative flex-col space-y-4">
+      <Logo />
       {user?.email ? (
         <FormContainer className="w-[90%] max-w-[500px] space-y-4">
           <MotionContainer animation="zoom-out">

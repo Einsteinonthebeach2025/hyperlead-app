@@ -26,7 +26,7 @@ const BillingAndPayment = ({ transactions = [], error, user }) => {
   return (
     <div className="w-full ">
       <MotionContainer animation="fade-in">
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
           <PaymentHistory transactions={transactions} />
           <SubscriptionInfo transactions={transactions} user={user} />
         </div>
