@@ -1,15 +1,11 @@
 // route.js
+// This file uses the Supabase service role key for all DB actions (bypasses RLS)
 import { NextResponse } from "next/server";
-import { createClient } from "@supabase/supabase-js";
 import { assignLeadsToUser } from "app/lib/actions/leadActions";
 import { updateProfile } from "app/lib/actions/profileActions";
 import { notifyUserOnRecurringPayment } from "app/lib/actions/notificationActions";
 import { createTransaction } from "app/lib/actions/transactionActions";
-
-const supabase = createClient(
-  process.env.SUPABASE_URL,
-  process.env.SUPABASE_SERVICE_ROLE_KEY
-);
+import supabaseAdmin from "app/lib/config/supabaseAdmin";
 
 export const config = {
   api: {
@@ -38,11 +34,12 @@ export async function POST(req) {
       );
 
       // Idempotency check (optional):
-      const { data: existingEvent, error: eventCheckError } = await supabase
-        .from("paypal_events")
-        .select("id")
-        .eq("event_id", eventId)
-        .single();
+      const { data: existingEvent, error: eventCheckError } =
+        await supabaseAdmin
+          .from("paypal_events")
+          .select("id")
+          .eq("event_id", eventId)
+          .single();
       if (existingEvent) {
         console.log(
           `[PayPal Webhook] Duplicate event received, skipping processing. Event ID: ${eventId}`
@@ -53,12 +50,12 @@ export async function POST(req) {
         );
       }
       // Store event id to prevent reprocessing
-      await supabase
+      await supabaseAdmin
         .from("paypal_events")
         .insert({ event_id: eventId, received_at: now });
 
       // 1. Find user by subscription_id
-      const { data: user, error: findError } = await supabase
+      const { data: user, error: findError } = await supabaseAdmin
         .from("profiles")
         .select(
           "id, email, preferences, monthly_leads, leads_received_this_month, subscription, subscription_status"
@@ -90,7 +87,8 @@ export async function POST(req) {
         user.email,
         user.preferences,
         leads,
-        true
+        true,
+        supabaseAdmin
       );
       if (!assignResult.success) {
         console.error(

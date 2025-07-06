@@ -11,7 +11,8 @@ export const assignLeadsToUser = async (
   userEmail,
   preferences,
   leadCount,
-  isNewSubscription = false
+  isNewSubscription = false,
+  supabaseClient
 ) => {
   try {
     const {
