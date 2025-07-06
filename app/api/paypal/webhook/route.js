@@ -3,6 +3,7 @@
 import { NextResponse } from "next/server";
 import supabaseAdmin from "app/lib/config/supabaseAdmin";
 import { assignLeadsToUser } from "app/lib/actions/leadActions";
+import { createTransaction } from "app/lib/actions/transactionActions";
 
 export const config = {
   api: {
@@ -55,7 +56,7 @@ export async function POST(req) {
       const { data: user, error: findError } = await supabaseAdmin
         .from("profiles")
         .select(
-          "id, email, preferences, monthly_leads, leads_received_this_month, subscription, subscription_status"
+          "id, email, preferences, monthly_leads, leads_received_this_month, total_leads_received, subscription, subscription_status"
         )
         .eq("subscription_id", subscriptionId)
         .single();
@@ -93,6 +94,64 @@ export async function POST(req) {
       }
       console.log(
         `[PayPal Webhook] Assigned ${leads} leads to user ${user.email}`
+      );
+
+      // 3. Create a recurring transaction
+      const planName = user.subscription || "UNKNOWN";
+      const transactionResult = await createTransaction(
+        user.id,
+        subscriptionId,
+        planName,
+        resource.agreement_details?.last_payment_amount?.value || 0,
+        { brand: "PayPal", last4: "N/A", maskedCard: "PayPal Subscription" },
+        { name: user.email, email: user.email },
+        null,
+        supabaseAdmin,
+        {
+          recurring: true,
+          renewal_timestamp: now,
+        }
+      );
+      if (!transactionResult.success) {
+        console.error(
+          `[PayPal Webhook] Failed to create transaction:`,
+          transactionResult.error
+        );
+        return NextResponse.json(
+          { error: "Failed to create transaction" },
+          { status: 500 }
+        );
+      }
+      console.log(
+        `[PayPal Webhook] Created recurring transaction for user ${user.email}`
+      );
+
+      // 4. Update user profile
+      const updatedLeadsReceived =
+        (user.leads_received_this_month || 0) + leads;
+      const updatedTotalLeads = (user.total_leads_received || 0) + leads;
+      const { error: updateProfileError } = await supabaseAdmin
+        .from("profiles")
+        .update({
+          last_payment_date: now,
+          last_notification_timestamp: null,
+          last_leads_finished_notification: null,
+          leads_received_this_month: updatedLeadsReceived,
+          total_leads_received: updatedTotalLeads,
+        })
+        .eq("id", user.id);
+      if (updateProfileError) {
+        console.error(
+          `[PayPal Webhook] Failed to update user profile:`,
+          updateProfileError
+        );
+        return NextResponse.json(
+          { error: "Failed to update user profile" },
+          { status: 500 }
+        );
+      }
+      console.log(
+        `[PayPal Webhook] Updated user profile for user ${user.email}`
       );
     }
 

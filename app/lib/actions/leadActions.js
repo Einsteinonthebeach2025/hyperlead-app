@@ -139,19 +139,20 @@ export const assignLeadsToUser = async (
         query = query.in("country", userProfile.region);
       }
 
-      if (allExcludedLeadIds.length > 0) {
-        query = query.not("id", "in", `(${allExcludedLeadIds.join(",")})`);
-      }
-      query = query.limit(limit);
-      const { data: industryLeads, error: leadsError } = await query;
+      const { data: industryLeads, error: leadsError } =
+        await query.limit(2000);
       if (leadsError) {
         throw new Error(
           `Failed to fetch leads for ${industry}: ${leadsError.message}`
         );
       }
-      if (industryLeads) {
-        allAvailableLeads = [...allAvailableLeads, ...industryLeads];
-      }
+
+      // Filter out already assigned leads in JS
+      const filteredLeads = industryLeads
+        .filter((lead) => !allExcludedLeadIds.includes(lead.id))
+        .slice(0, limit);
+
+      allAvailableLeads = [...allAvailableLeads, ...filteredLeads];
     }
     // Deduplicate
     const uniqueLeadsMap = new Map();
@@ -566,7 +567,7 @@ export const addExtraLeads = async (userId) => {
       }
 
       const { data: industryLeads, error: leadsError } =
-        await query.limit(limit);
+        await query.limit(2000);
 
       if (leadsError) {
         console.error(
@@ -574,9 +575,13 @@ export const addExtraLeads = async (userId) => {
         );
         continue;
       }
-      if (industryLeads) {
-        allAvailableLeads.push(...industryLeads);
-      }
+
+      // Filter out already assigned leads in JS
+      const filteredLeads = industryLeads
+        .filter((lead) => !allExcludedLeadIds.includes(lead.id))
+        .slice(0, limit);
+
+      allAvailableLeads = [...allAvailableLeads, ...filteredLeads];
     }
 
     // Deduplicate and slice to ensure correct count
