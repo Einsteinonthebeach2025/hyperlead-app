@@ -89,3 +89,47 @@ TODO LIST
 - [x] ANALYTICS: Total Users count with statistics graph
 - [x] ANALYTICS: Weekly users count comparison vs last week
 - [x] ANALYTICS: Based on country
+
+  const handleSubscriptionSuccess = async (subscriptionID) => {
+  setLoading(true);
+  try {
+  await updateProfile(user.id, { subscription_id: subscriptionID })
+  const verifyResponse = await fetch("/api/paypal-subscription/verify", {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({
+  subscriptionID,
+  planName: selectedPlan,
+  }),
+  });
+  const verifyData = await verifyResponse.json();
+  if (!verifyData.success) throw new Error(verifyData.error || "Subscription verification failed");
+  const { payerInfo, amount } = verifyData;
+  const transactionResult = await createTransaction(
+  user.id,
+  subscriptionID,
+  selectedPlan,
+  amount || plan.price,
+  { brand: "PayPal", last4: "N/A", maskedCard: "PayPal Subscription" },
+  payerInfo,
+  );
+  if (!transactionResult.success) throw new Error(transactionResult.error);
+  const subscriptionResult = await processSubscription(
+  user.id,
+  user.email,
+  selectedPlan,
+  plan.leads
+  );
+  if (!subscriptionResult.success) throw new Error(subscriptionResult.error);
+  dispatch(setError({
+  message: `Subscribed to ${selectedPlan} and received ${plan.leads} leads!`,
+  type: "success",
+  }));
+  handleClose();
+  } catch (error) {
+  console.error("Subscription error:", error);
+  dispatch(setError({ message: error.message, type: "error" }));
+  } finally {
+  setLoading(false);
+  }
+  };

@@ -3,16 +3,16 @@ import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { selectUser } from "app/features/userSlice";
 import { setError, setToggle, selectPayPalPaymentModal } from "app/features/modalSlice";
-import { createTransaction, processSubscription } from "app/lib/actions/transactionActions";
-import { addExtraLeads, unlockingLeads } from "app/lib/actions/leadActions";
+import { updateProfile } from "app/lib/actions/profileActions";
+import { useRouter } from "next/navigation";
 import { SUBSCRIPTION_PLANS, EXTRA_LEADS_PLAN, SINGLE_LEAD_PLAN } from "app/lib/config/paypalConfig";
 import ModalWrapper from "app/components/containers/ModalWrapper";
 import PlanDetails from "./components/PlanDetails";
 import TwoFactorAuthModal from "app/components/modals/TwoFactorAuthModal";
 import ButtonSection from "./components/paymentButtons/ButtonSection";
 import ProcessingSection from "./components/ProcessingSection";
-import { updateProfile } from "app/lib/actions/profileActions";
-import { useRouter } from "next/navigation";
+import { createTransaction, processSubscription } from "app/lib/actions/transactionActions";
+import { addExtraLeads, unlockingLeads } from "app/lib/actions/leadActions";
 
 const PayPalPaymentModal = () => {
   const dispatch = useDispatch();
@@ -157,36 +157,9 @@ const PayPalPaymentModal = () => {
   const handleSubscriptionSuccess = async (subscriptionID) => {
     setLoading(true);
     try {
-      await updateProfile(user.id, { subscription_id: subscriptionID })
-      const verifyResponse = await fetch("/api/paypal-subscription/verify", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          subscriptionID,
-          planName: selectedPlan,
-        }),
-      });
-      const verifyData = await verifyResponse.json();
-      if (!verifyData.success) throw new Error(verifyData.error || "Subscription verification failed");
-      const { payerInfo, amount } = verifyData;
-      const transactionResult = await createTransaction(
-        user.id,
-        subscriptionID,
-        selectedPlan,
-        amount || plan.price,
-        { brand: "PayPal", last4: "N/A", maskedCard: "PayPal Subscription" },
-        payerInfo,
-      );
-      if (!transactionResult.success) throw new Error(transactionResult.error);
-      const subscriptionResult = await processSubscription(
-        user.id,
-        user.email,
-        selectedPlan,
-        plan.leads
-      );
-      if (!subscriptionResult.success) throw new Error(subscriptionResult.error);
+      await updateProfile(user.id, { subscription_id: subscriptionID });
       dispatch(setError({
-        message: `Subscribed to ${selectedPlan} and received ${plan.leads} leads!`,
+        message: `Subscription created successfully! You will receive ${plan.leads} leads shortly.`,
         type: "success",
       }));
       handleClose();

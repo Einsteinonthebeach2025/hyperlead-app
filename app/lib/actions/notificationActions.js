@@ -1,13 +1,13 @@
 import supabase from "../config/supabaseClient";
 
-export const getCurrentUser = async () => {
+export const getCurrentUser = async (supabaseClient = supabase) => {
   const {
     data: { user },
     error,
-  } = await supabase.auth.getUser();
+  } = await supabaseClient.auth.getUser();
   if (error) throw error;
   if (!user) throw new Error("No authenticated user found");
-  const { data: profile, error: profileError } = await supabase
+  const { data: profile, error: profileError } = await supabaseClient
     .from("profiles")
     .select("id, userName, subscription")
     .eq("id", user.id)
@@ -103,11 +103,11 @@ export const notifyLeadsUsage = async () => {
   }
 };
 
-export const notifyUserRegistration = async () => {
+export const notifyUserRegistration = async (supabaseClient = supabase) => {
   try {
-    const user = await getCurrentUser();
+    const user = await getCurrentUser(supabaseClient);
     const userName = user?.profile?.userName || user?.user_metadata?.name;
-    const { data, error } = await supabase
+    const { data, error } = await supabaseClient
       .from("notifications")
       .insert({
         user_id: user.id,
@@ -127,11 +127,14 @@ export const notifyUserRegistration = async () => {
   }
 };
 
-export const notifyUserOnSubscription = async (assignedLeadsCount) => {
+export const notifyUserOnSubscription = async (
+  assignedLeadsCount,
+  supabaseClient = supabase
+) => {
   try {
-    const user = await getCurrentUser();
+    const user = await getCurrentUser(supabaseClient);
     const userName = user?.profile?.userName || user?.user_metadata?.name;
-    const { data, error } = await supabase
+    const { data, error } = await supabaseClient
       .from("notifications")
       .insert({
         user_id: user.id,

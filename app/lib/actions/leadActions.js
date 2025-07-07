@@ -129,7 +129,7 @@ export const assignLeadsToUser = async (
     for (let i = 0; i < shuffledPrefs.length; i++) {
       const industry = shuffledPrefs[i];
       const limit = leadsPerPref[i];
-      let query = supabase
+      let query = supabaseClient
         .from("leads")
         .select("id, industry, country")
         .contains("industry", [industry]);
@@ -480,10 +480,10 @@ export const removeLeadFromFavorites = async (leadId) => {
   return { favorite_leads: updatedFavorites };
 };
 
-export const addExtraLeads = async (userId) => {
+export const addExtraLeads = async (userId, supabaseClient = supabase) => {
   try {
     // Get user's preferences, region, and email
-    const { data: userProfile, error: profileError } = await supabase
+    const { data: userProfile, error: profileError } = await supabaseClient
       .from("profiles")
       .select(
         "preferences, region, leads_received_this_month, total_leads_received, email"
@@ -507,7 +507,7 @@ export const addExtraLeads = async (userId) => {
     }
 
     // Get all leads that this user has ever received (to avoid duplicates)
-    const { data: allUserLeads, error: historyError } = await supabase
+    const { data: allUserLeads, error: historyError } = await supabaseClient
       .from("user_leads_history")
       .select("lead_id")
       .eq("user_id", userId);
@@ -515,10 +515,11 @@ export const addExtraLeads = async (userId) => {
       throw new Error(`Failed to fetch lead history: ${historyError.message}`);
     }
 
-    const { data: currentUserLeads, error: currentLeadsError } = await supabase
-      .from("user_leads")
-      .select("lead_id")
-      .eq("user_id", userId);
+    const { data: currentUserLeads, error: currentLeadsError } =
+      await supabaseClient
+        .from("user_leads")
+        .select("lead_id")
+        .eq("user_id", userId);
     if (currentLeadsError) {
       throw new Error(
         `Failed to fetch current leads: ${currentLeadsError.message}`
@@ -548,7 +549,7 @@ export const addExtraLeads = async (userId) => {
       const limit = leadsPerPref[i];
       if (limit === 0) continue;
 
-      let query = supabase
+      let query = supabaseClient
         .from("leads")
         .select("id, industry, country")
         .contains("industry", [industry]);
@@ -609,7 +610,7 @@ export const addExtraLeads = async (userId) => {
 
     // Insert all leads at once
     if (userLeadsToInsert.length > 0) {
-      const { error: insertError } = await supabase
+      const { error: insertError } = await supabaseClient
         .from("user_leads")
         .insert(userLeadsToInsert);
       if (insertError) {
@@ -618,7 +619,7 @@ export const addExtraLeads = async (userId) => {
     }
 
     // Update user's lead counts and reset notification timestamps
-    const { error: updateError } = await supabase
+    const { error: updateError } = await supabaseClient
       .from("profiles")
       .update({
         leads_received_this_month:
@@ -671,9 +672,15 @@ export const hyperSearchLeads = async (query) => {
   }
 };
 
-export const unlockingLeads = async (leadId, userId, userEmail, userName) => {
+export const unlockingLeads = async (
+  leadId,
+  userId,
+  userEmail,
+  userName,
+  supabaseClient = supabase
+) => {
   try {
-    const user = await getCurrentUser();
+    const user = await getCurrentUser(supabaseClient);
     const subscription = user?.profile?.subscription;
     let maxUnlocks = 0;
     if (subscription === "PRO") maxUnlocks = 10;
@@ -681,7 +688,7 @@ export const unlockingLeads = async (leadId, userId, userEmail, userName) => {
     else maxUnlocks = 0;
     const monthStart = getMonthStart();
     // 2. Count how many leads this user has unlocked this month
-    const { data: unlockedThisMonth, error: countError } = await supabase
+    const { data: unlockedThisMonth, error: countError } = await supabaseClient
       .from("unlocked_leads")
       .select("id", { count: "exact" })
       .eq("user_id", userId)
@@ -694,7 +701,7 @@ export const unlockingLeads = async (leadId, userId, userEmail, userName) => {
       };
     }
     // Insert into unlocked_leads
-    const { data, error } = await supabase
+    const { data, error } = await supabaseClient
       .from("unlocked_leads")
       .insert([
         {
@@ -708,7 +715,7 @@ export const unlockingLeads = async (leadId, userId, userEmail, userName) => {
     if (error) throw error;
     // Increment unlocked_leads_count in profiles
     if (data) {
-      const { data: profile, error: profileError } = await supabase
+      const { data: profile, error: profileError } = await supabaseClient
         .from("profiles")
         .select("unlocked_leads_count")
         .eq("id", userId)
@@ -717,14 +724,14 @@ export const unlockingLeads = async (leadId, userId, userEmail, userName) => {
       const currentCount = profile?.unlocked_leads_count
         ? Number(profile.unlocked_leads_count)
         : 0;
-      const { error: updateError } = await supabase
+      const { error: updateError } = await supabaseClient
         .from("profiles")
         .update({ unlocked_leads_count: currentCount + 1 })
         .eq("id", userId);
       if (updateError) throw updateError;
     }
     // Notify user
-    await notifyUnlockingLead(userId, userName);
+    await notifyUnlockingLead(userId, userName, supabaseClient);
     return { success: true, data };
   } catch (error) {
     return { success: false, error: error.message };

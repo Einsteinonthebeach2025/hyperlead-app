@@ -48,7 +48,7 @@ const TransactionsList = ({ transactions }) => {
   return (
     <div className="space-y-4 max-h-[600px] overflow-y-auto relative">
       {transactions.map((transaction) => {
-        const statusColor = transaction.current_status === 'cancelled'
+        const statusColor = transaction.current_status === 'CANCELLED'
           ? 'text-red-500 bg-red-200 dark:bg-red-500/30'
           : 'text-green-500 bg-green-200 dark:bg-green-500/30';
         return (
@@ -67,17 +67,36 @@ const TransactionsList = ({ transactions }) => {
                 {transaction.status}
               </span>
             </FlexBox>
-            <FlexBox type="row-between" >
-              <FlexBox className="gap-1">
-                <IoTimeOutline className='text-gray-500' />
-                <span className="text-xs text-gray-500">
-                  {formatTime(transaction.cancelled_at)}
-                </span>
-              </FlexBox>
-              <span className={`px-2 py-1 uppercase font-bold rounded-full text-xs ${statusColor}`}>
-                {transaction.current_status}
-              </span>
-            </FlexBox>
+            {
+              transaction?.current_status === "CANCELLED" && (
+                <FlexBox type="row-between" >
+                  <FlexBox className="gap-1">
+                    <IoTimeOutline className='text-gray-500' />
+                    <span className="text-xs text-gray-500">
+                      {formatTime(transaction.cancelled_at)}
+                    </span>
+                  </FlexBox>
+                  <span className={`px-2 py-1 uppercase font-bold rounded-full text-xs ${statusColor}`}>
+                    {transaction.current_status}
+                  </span>
+                </FlexBox>
+              )
+            }
+            {
+              transaction.recurring && (
+                <FlexBox type="row-between" >
+                  <FlexBox className="gap-1">
+                    <IoTimeOutline className='text-gray-500' />
+                    <span className="text-xs text-gray-500">
+                      {formatTime(transaction.cancelled_at)}
+                    </span>
+                  </FlexBox>
+                  <span className={`px-2 py-1 uppercase font-bold rounded-full text-xs ${statusColor}`}>
+                    {transaction.current_status}
+                  </span>
+                </FlexBox>
+              )
+            }
             <div className="space-y-2 ">
               <TransactionRow label="Order ID:" value={transaction.paypal_order_id} />
               {transaction.seller_transaction_id && (

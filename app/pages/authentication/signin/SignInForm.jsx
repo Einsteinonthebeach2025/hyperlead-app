@@ -10,7 +10,6 @@ import Link from "next/link";
 import Button from "app/components/buttons/Button";
 import GoogleButton from "app/components/buttons/GoogleButton";
 import TwoFactorAuthModal from "app/components/modals/TwoFactorAuthModal";
-import Logo from "app/components/Logo";
 import FlexBox from "app/components/containers/FlexBox";
 
 const SignInForm = () => {

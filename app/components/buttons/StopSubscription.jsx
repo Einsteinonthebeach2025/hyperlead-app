@@ -1,8 +1,7 @@
 "use client"
+import Button from 'app/components/buttons/Button';
 import React, { useState } from 'react';
 import { FaRegStopCircle } from "react-icons/fa";
-import Button from 'app/components/buttons/Button';
-import { updateProfile } from 'app/lib/actions/profileActions';
 import { notifySubscriptionCancel } from 'app/lib/actions/notificationActions';
 import { sendSubscriptionCancelEmail } from 'app/lib/actions/emailActions';
 import { useDispatch } from 'react-redux';
