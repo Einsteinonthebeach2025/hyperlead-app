@@ -75,6 +75,31 @@ export async function POST(req) {
       }
     }
 
+    if (eventType === "BILLING.SUBSCRIPTION.ACTIVATED") {
+      const result = await handleSubscriptionCreated(
+        eventId,
+        event.resource,
+        supabaseAdmin
+      );
+
+      if (!result.success) {
+        return NextResponse.json(
+          { error: result.error },
+          {
+            status:
+              result.error === "User not found for subscription_id" ? 404 : 500,
+          }
+        );
+      }
+
+      if (result.duplicate) {
+        return NextResponse.json(
+          { received: true, duplicate: true },
+          { status: 200 }
+        );
+      }
+    }
+
     // if (eventType === "PAYMENT.CAPTURE.COMPLETED") {
     //   const result = await handlePaymentCaptureCompleted(
     //     eventId,
