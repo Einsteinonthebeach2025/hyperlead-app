@@ -12,6 +12,10 @@ export const handleSubscriptionCreated = async (
   resource,
   supabaseAdmin
 ) => {
+  console.log("[Webhook] handleSubscriptionCreated called", {
+    eventId,
+    resource,
+  });
   const subscriptionId = resource.id;
   const now = new Date().toISOString();
 
@@ -23,6 +27,7 @@ export const handleSubscriptionCreated = async (
     .single();
 
   if (existingEvent) {
+    console.log(`[Webhook] Duplicate event detected: ${eventId}`);
     return { success: true, duplicate: true };
   }
 
@@ -38,6 +43,10 @@ export const handleSubscriptionCreated = async (
     .single();
 
   if (findError || !user) {
+    console.error(
+      `[Webhook] User not found for subscription_id: ${subscriptionId}`,
+      findError
+    );
     return { success: false, error: "User not found for subscription_id" };
   }
 
@@ -45,6 +54,7 @@ export const handleSubscriptionCreated = async (
   const planName = user.subscription || "UNKNOWN";
   const planDetails = getPlanDetails(planName);
   if (!planDetails) {
+    console.error(`[Webhook] Invalid plan name: ${planName}`);
     return { success: false, error: "Invalid plan name" };
   }
 
@@ -59,6 +69,7 @@ export const handleSubscriptionCreated = async (
   );
 
   if (!assignResult.success) {
+    console.error(`[Webhook] Failed to assign leads to user: ${user.id}`);
     return { success: false, error: "Failed to assign leads" };
   }
 
@@ -79,6 +90,9 @@ export const handleSubscriptionCreated = async (
   );
 
   if (!transactionResult.success) {
+    console.error(
+      `[Webhook] Failed to create transaction for user: ${user.id}`
+    );
     return { success: false, error: "Failed to create transaction" };
   }
 
@@ -101,6 +115,10 @@ export const handleSubscriptionCreated = async (
     supabaseAdmin
   );
   if (updateProfileError) {
+    console.error(
+      `[Webhook] Failed to update user profile for user: ${user.id}`,
+      updateProfileError
+    );
     return { success: false, error: "Failed to update user profile" };
   }
 
@@ -111,11 +129,14 @@ export const handleSubscriptionCreated = async (
   );
   if (notifyResult.error) {
     console.error(
-      "Failed to send subscription notification:",
+      "[Webhook] Failed to send subscription notification:",
       notifyResult.error
     );
   }
 
+  console.log(
+    `[Webhook] Subscription created and processed for user: ${user.id}`
+  );
   return { success: true };
 };
 

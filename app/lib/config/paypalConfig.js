@@ -7,8 +7,8 @@ export const SUBSCRIPTION_PLANS = {
     annualPrice: "0.01",
     leads: 150,
     description: "Perfect for small businesses",
-    planId: "P-74J685623B288143WNBN7CQY",
-    // planId: "P-7XH25132HX613060MNBOTB5I",
+    // planId: "P-74J685623B288143WNBN7CQY",
+    planId: "P-7XH25132HX613060MNBOTB5I",
     annual_plan_id: "P-83F02828AK235573YNBUPPCY",
   },
   PRO: {
@@ -17,8 +17,8 @@ export const SUBSCRIPTION_PLANS = {
     annualPrice: "950",
     leads: 400,
     description: "Ideal for growing businesses",
-    planId: "P-2TJ41897NU456330ANBN7EEY",
-    // planId: "P-9HX723217A653215GNBUSP5Q",
+    // planId: "P-2TJ41897NU456330ANBN7EEY",
+    planId: "P-9HX723217A653215GNBUSP5Q",
     annual_plan_id: "P-1T529730KX668460NNBUPPQY",
   },
   HYPER: {
@@ -27,8 +27,8 @@ export const SUBSCRIPTION_PLANS = {
     annualPrice: "1720",
     leads: 800,
     description: "For large scale operations",
-    planId: "P-3M451725FG751784VNBN7FDY",
-    // planId: "P-5YB76014V2287162GNBUVGWQ",
+    // planId: "P-3M451725FG751784VNBN7FDY",
+    planId: "P-5YB76014V2287162GNBUVGWQ",
     annual_plan_id: "P-3BM54016W0125070RNBUPQFI",
   },
 };
