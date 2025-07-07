@@ -27,12 +27,8 @@ export async function POST(req) {
       const resource = event.resource;
       const subscriptionId = resource.id;
       const now = new Date().toISOString();
-      console.log(
-        `[PayPal Webhook] [Recurring Payment] Subscription ID:`,
-        subscriptionId
-      );
 
-      // Idempotency check (optional):
+      // 1.  IDEMPOTENCY CHECK
       const { data: existingEvent, error: eventCheckError } =
         await supabaseAdmin
           .from("paypal_events")
@@ -40,20 +36,16 @@ export async function POST(req) {
           .eq("event_id", eventId)
           .single();
       if (existingEvent) {
-        console.log(
-          `[PayPal Webhook] Duplicate event received, skipping processing. Event ID: ${eventId}`
-        );
         return NextResponse.json(
           { received: true, duplicate: true },
           { status: 200 }
         );
       }
-      // Store event id to prevent reprocessing
       await supabaseAdmin
         .from("paypal_events")
         .insert({ event_id: eventId, received_at: now });
 
-      // 1. Find user by subscription_id
+      // 2. FIND USER BY SUBSCRIPTION_ID
       const { data: user, error: findError } = await supabaseAdmin
         .from("profiles")
         .select(
@@ -62,18 +54,13 @@ export async function POST(req) {
         .eq("subscription_id", subscriptionId)
         .single();
       if (findError || !user) {
-        console.error(
-          `[PayPal Webhook] [Recurring Payment] User not found for subscription_id:`,
-          subscriptionId
-        );
         return NextResponse.json(
           { error: "User not found for subscription_id" },
           { status: 404 }
         );
       }
-      console.log(`[PayPal Webhook] User found:`, user.email, user.id);
 
-      // 2. Assign leads to user
+      // 3. ASSIGN LEADS TO USER
       const leads = user.monthly_leads || 100;
       const assignResult = await assignLeadsToUser(
         user.id,
@@ -84,20 +71,13 @@ export async function POST(req) {
         supabaseAdmin
       );
       if (!assignResult.success) {
-        console.error(
-          `[PayPal Webhook] Failed to assign leads:`,
-          assignResult.error
-        );
         return NextResponse.json(
           { error: "Failed to assign leads" },
           { status: 500 }
         );
       }
-      console.log(
-        `[PayPal Webhook] Assigned ${leads} leads to user ${user.email}`
-      );
 
-      // 3. Create a recurring transaction
+      // 4. CREATE A RECURRING TRANSACTION
       const planName = user.subscription || "UNKNOWN";
       const transactionResult = await createTransaction(
         user.id,
@@ -114,20 +94,13 @@ export async function POST(req) {
         }
       );
       if (!transactionResult.success) {
-        console.error(
-          `[PayPal Webhook] Failed to create transaction:`,
-          transactionResult.error
-        );
         return NextResponse.json(
           { error: "Failed to create transaction" },
           { status: 500 }
         );
       }
-      console.log(
-        `[PayPal Webhook] Created recurring transaction for user ${user.email}`
-      );
 
-      // 4. Update user profile
+      // 5. UPDATE USER PROFILE
       const updatedLeadsReceived =
         (user.leads_received_this_month || 0) + leads;
       const updatedTotalLeads = (user.total_leads_received || 0) + leads;
@@ -142,21 +115,14 @@ export async function POST(req) {
         })
         .eq("id", user.id);
       if (updateProfileError) {
-        console.error(
-          `[PayPal Webhook] Failed to update user profile:`,
-          updateProfileError
-        );
         return NextResponse.json(
           { error: "Failed to update user profile" },
           { status: 500 }
         );
       }
-      console.log(
-        `[PayPal Webhook] Updated user profile for user ${user.email}`
-      );
 
-      // 5. Notify user of recurring payment
-      const userName = user.userName || user.email;
+      // 6. NOTIFY USER OF RECURRING PAYMENT
+      const userName = user?.profile?.userName || user.email;
       const notifyResult = await notifyRecurringPayment(
         user.id,
         userName,
@@ -165,11 +131,6 @@ export async function POST(req) {
         supabaseAdmin
       );
       if (notifyResult.error) {
-        console.error(
-          `[PayPal Webhook] Failed to notify user:`,
-          notifyResult.error
-        );
-        // Don't fail the webhook, just log
       } else {
         console.log(
           `[PayPal Webhook] Notified user of recurring payment:`,
