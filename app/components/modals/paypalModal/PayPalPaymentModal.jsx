@@ -3,16 +3,16 @@ import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { selectUser } from "app/features/userSlice";
 import { setError, setToggle, selectPayPalPaymentModal } from "app/features/modalSlice";
-import { updateProfile } from "app/lib/actions/profileActions";
-import { useRouter } from "next/navigation";
+
+
 import { SUBSCRIPTION_PLANS, EXTRA_LEADS_PLAN, SINGLE_LEAD_PLAN } from "app/lib/config/paypalConfig";
 import ModalWrapper from "app/components/containers/ModalWrapper";
 import PlanDetails from "./components/PlanDetails";
 import TwoFactorAuthModal from "app/components/modals/TwoFactorAuthModal";
 import ButtonSection from "./components/paymentButtons/ButtonSection";
 import ProcessingSection from "./components/ProcessingSection";
-import { createTransaction, processSubscription } from "app/lib/actions/transactionActions";
-import { addExtraLeads, unlockingLeads } from "app/lib/actions/leadActions";
+import { updateProfile } from "app/lib/actions/profileActions";
+import { useRouter } from "next/navigation";
 
 const PayPalPaymentModal = () => {
   const dispatch = useDispatch();
@@ -103,45 +103,34 @@ const PayPalPaymentModal = () => {
   const handlePaymentSuccess = async (orderID) => {
     setLoading(true);
     try {
-      const verifyResponse = await fetch("/api/paypal/verify", {
+      // Store temporary order data for webhook processing
+      const orderData = {
+        order_id: orderID,
+        plan_name: selectedPlan,
+        amount: plan.price,
+        metadata: selectedPlan === "SINGLE_LEAD" ? { leadId: data?.leadId } : {},
+      };
+
+      // Store order data and update user profile with temp_order_id
+      const response = await fetch("/api/paypal/store-order", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          orderID,
-          planName: selectedPlan,
-        }),
+        body: JSON.stringify(orderData),
       });
-      const verifyData = await verifyResponse.json();
-      if (!verifyData.success) throw new Error(verifyData.error || "Payment verification failed");
-      const { paymentMethod, payerInfo, captureId } = verifyData;
-      const transactionResult = await createTransaction(
-        user.id,
-        orderID,
-        selectedPlan,
-        plan.price,
-        paymentMethod,
-        payerInfo,
-        captureId,
-      );
-      if (!transactionResult.success) throw new Error(transactionResult.error);
+
+      if (!response.ok) {
+        throw new Error("Failed to store order data");
+      }
+
+      // Show success message - webhook will handle the rest
       if (selectedPlan === "EXTRA_100") {
-        const extraLeadsResult = await addExtraLeads(user.id);
-        if (!extraLeadsResult.success) throw new Error(extraLeadsResult.error);
-        dispatch(setError({ message: "Successfully purchased 100 extra leads!", type: "success" }));
+        dispatch(setError({ message: "Payment successful! You will receive 100 extra leads shortly.", type: "success" }));
       } else if (selectedPlan === "SINGLE_LEAD") {
-        await unlockingLeads(data?.leadId, user.id, user.email, user.profile?.userName);
+        dispatch(setError({ message: "Payment successful! Your lead will be unlocked shortly.", type: "success" }));
         dispatch(setToggle({ modalType: "hyperSearch", isOpen: false }));
-        dispatch(setError({ message: "Lead unlocked successfully!", type: "success" }));
       } else {
-        const subscriptionResult = await processSubscription(
-          user.id,
-          user.email,
-          selectedPlan,
-          plan.leads
-        );
-        if (!subscriptionResult.success) throw new Error(subscriptionResult.error);
         dispatch(setError({
-          message: `Subscribed to ${selectedPlan} and received ${plan.leads} leads!`,
+          message: `Payment successful! You will receive ${plan.leads} leads shortly.`,
           type: "success",
         }));
       }
@@ -157,9 +146,36 @@ const PayPalPaymentModal = () => {
   const handleSubscriptionSuccess = async (subscriptionID) => {
     setLoading(true);
     try {
-      await updateProfile(user.id, { subscription_id: subscriptionID });
+      await updateProfile(user.id, { subscription_id: subscriptionID })
+      const verifyResponse = await fetch("/api/paypal-subscription/verify", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          subscriptionID,
+          planName: selectedPlan,
+        }),
+      });
+      const verifyData = await verifyResponse.json();
+      if (!verifyData.success) throw new Error(verifyData.error || "Subscription verification failed");
+      const { payerInfo, amount } = verifyData;
+      const transactionResult = await createTransaction(
+        user.id,
+        subscriptionID,
+        selectedPlan,
+        amount || plan.price,
+        { brand: "PayPal", last4: "N/A", maskedCard: "PayPal Subscription" },
+        payerInfo,
+      );
+      if (!transactionResult.success) throw new Error(transactionResult.error);
+      const subscriptionResult = await processSubscription(
+        user.id,
+        user.email,
+        selectedPlan,
+        plan.leads
+      );
+      if (!subscriptionResult.success) throw new Error(subscriptionResult.error);
       dispatch(setError({
-        message: `Subscription created successfully! You will receive ${plan.leads} leads shortly.`,
+        message: `Subscribed to ${selectedPlan} and received ${plan.leads} leads!`,
         type: "success",
       }));
       handleClose();
