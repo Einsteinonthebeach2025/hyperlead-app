@@ -1,5 +1,3 @@
-// route.js
-// This file uses the Supabase service role key for all DB actions (bypasses RLS)
 import supabaseAdmin from "app/lib/config/supabaseAdmin";
 import { NextResponse } from "next/server";
 import { assignLeadsToUser } from "app/lib/actions/leadActions";

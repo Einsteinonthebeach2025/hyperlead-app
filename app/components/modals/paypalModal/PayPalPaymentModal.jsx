@@ -13,6 +13,7 @@ import ButtonSection from "./components/paymentButtons/ButtonSection";
 import ProcessingSection from "./components/ProcessingSection";
 import { updateProfile } from "app/lib/actions/profileActions";
 import { useRouter } from "next/navigation";
+import { createTransaction, processSubscription } from "app/lib/actions/transactionActions";
 
 const PayPalPaymentModal = () => {
   const dispatch = useDispatch();
