@@ -11,7 +11,7 @@ const SectionThree = () => {
                 title="Smart Email Assistant, Built Into Your Workflow"
                 desc="Describe what you want to say. our built-in AI turns your prompt into a personalized, high-converting email in seconds. No copywriting skills needed."
             />
-            <ImageComponent src="/assets/sectionthree.jpg" alt="section three" />
+            <ImageComponent src="/assets/sectionthree.jpg" alt="section three" className="*:scale-[1.02]" />
             <ContentList />
         </section>
     );

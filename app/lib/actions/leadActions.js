@@ -731,7 +731,6 @@ export const unlockingLeads = async (
       if (updateError) throw updateError;
     }
     // Notify user
-    await notifyUnlockingLead(userId, userName, supabaseClient);
     return { success: true, data };
   } catch (error) {
     return { success: false, error: error.message };

@@ -1,6 +1,5 @@
 import supabaseAdmin from "app/lib/config/supabaseAdmin";
 import { NextResponse } from "next/server";
-import { handleSubscriptionUpdated } from "app/lib/webhooks/update";
 
 export const config = {
   api: {
@@ -34,6 +33,10 @@ export async function POST(req) {
 
     if (eventType === "BILLING.SUBSCRIPTION.CANCELLED") {
       console.log("4 BILLING.SUBSCRIPTION.CANCELLED fired");
+    }
+
+    if (eventType === "PAYMENT.CAPTURE.COMPLETED") {
+      console.log("4 PAYMENT.CAPTURE.COMPLETED fired");
     }
 
     return NextResponse.json({ received: true, eventType }, { status: 200 });

@@ -5,7 +5,7 @@ const ImageComponent = ({ src, alt, className }) => {
     <div
       className={`primary-border primary-outline overflow-hidden relative w-[80%] lg:w-2/4 ${className}`}
     >
-      <div className="hover:scale-[1.02] duration-300">
+      <div className="hover:scale-[1.03] duration-300">
         <Image
           src={src}
           alt={alt}

@@ -9,6 +9,11 @@ import MotionContainer from "app/components/containers/MotionContainer";
 
 const navLinks = [
   {
+    id: 3,
+    name: "Features",
+    link: "#features",
+  },
+  {
     id: 0,
     name: "Pricing",
     link: "#pricing",
@@ -19,11 +24,7 @@ const navLinks = [
     link: "/administration/hyperlead-users",
     isAdmin: true,
   },
-  {
-    id: 3,
-    name: "Features",
-    link: "#features",
-  },
+
 ];
 
 const NavLinks = () => {

@@ -3,8 +3,6 @@ import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { selectUser } from "app/features/userSlice";
 import { setError, setToggle, selectPayPalPaymentModal } from "app/features/modalSlice";
-
-
 import { SUBSCRIPTION_PLANS, EXTRA_LEADS_PLAN, SINGLE_LEAD_PLAN } from "app/lib/config/paypalConfig";
 import ModalWrapper from "app/components/containers/ModalWrapper";
 import PlanDetails from "./components/PlanDetails";
@@ -14,6 +12,8 @@ import ProcessingSection from "./components/ProcessingSection";
 import { updateProfile } from "app/lib/actions/profileActions";
 import { useRouter } from "next/navigation";
 import { createTransaction, processSubscription } from "app/lib/actions/transactionActions";
+import { addExtraLeads, unlockingLeads } from "app/lib/actions/leadActions";
+import { notifyExtraLeadsPurchase, notifySingleLeadUnlock } from "app/lib/actions/notificationActions";
 
 const PayPalPaymentModal = () => {
   const dispatch = useDispatch();
@@ -104,37 +104,74 @@ const PayPalPaymentModal = () => {
   const handlePaymentSuccess = async (orderID) => {
     setLoading(true);
     try {
-      // Store temporary order data for webhook processing
       const orderData = {
-        order_id: orderID,
-        plan_name: selectedPlan,
+        orderID: orderID,
+        planName: selectedPlan,
         amount: plan.price,
         metadata: selectedPlan === "SINGLE_LEAD" ? { leadId: data?.leadId } : {},
       };
-
-      // Store order data and update user profile with temp_order_id
+      // Verify payment with backend
       const response = await fetch("/api/paypal/verify", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(orderData),
       });
-
-      if (!response.ok) {
-        throw new Error("Failed to store order data");
+      const verifyData = await response.json();
+      if (!response.ok || !verifyData.success) {
+        throw new Error(verifyData.error || "Failed to verify payment");
       }
-
-      // Show success message - webhook will handle the rest
+      const captureId = verifyData.captureId;
+      // Handle EXTRA_100 plan
       if (selectedPlan === "EXTRA_100") {
+        const extraLeadsResult = await addExtraLeads(user.id);
+        if (!extraLeadsResult.success) throw new Error(extraLeadsResult.error);
+        const transactionResult = await createTransaction(
+          user.id,
+          orderID,
+          selectedPlan,
+          plan.price,
+          { brand: "PayPal", last4: "N/A", maskedCard: "PayPal" },
+          verifyData.payerInfo,
+          captureId
+        );
+        if (!transactionResult.success) throw new Error(transactionResult.error);
+        await notifyExtraLeadsPurchase(user.id, user.profile?.userName || user.email, 100);
         dispatch(setError({ message: "Payment successful! You will receive 100 extra leads shortly.", type: "success" }));
-      } else if (selectedPlan === "SINGLE_LEAD") {
+        handleClose();
+        return;
+      }
+      // Handle SINGLE_LEAD plan
+      if (selectedPlan === "SINGLE_LEAD") {
+        const leadId = data?.leadId;
+        if (!leadId) throw new Error("No leadId provided for single lead unlock");
+        const unlockResult = await unlockingLeads(
+          leadId,
+          user.id,
+          user.email,
+          user.profile?.userName || user.email
+        );
+        if (!unlockResult.success) throw new Error(unlockResult.error);
+        const transactionResult = await createTransaction(
+          user.id,
+          orderID,
+          selectedPlan,
+          plan.price,
+          { brand: "PayPal", last4: "N/A", maskedCard: "PayPal" },
+          verifyData.payerInfo,
+          captureId
+        );
+        if (!transactionResult.success) throw new Error(transactionResult.error);
+        await notifySingleLeadUnlock(user.id, user.profile?.userName || user.email, leadId);
         dispatch(setError({ message: "Payment successful! Your lead will be unlocked shortly.", type: "success" }));
         dispatch(setToggle({ modalType: "hyperSearch", isOpen: false }));
-      } else {
-        dispatch(setError({
-          message: `Payment successful! You will receive ${plan.leads} leads shortly.`,
-          type: "success",
-        }));
+        handleClose();
+        return;
       }
+      // Default: show success for other plans
+      dispatch(setError({
+        message: `Payment successful! You will receive ${plan.leads} leads shortly.`,
+        type: "success",
+      }));
       handleClose();
     } catch (error) {
       dispatch(setError({ message: error.message, type: "error" }));

@@ -21,7 +21,7 @@ export const createTransaction = async (
     user_id: userId,
     paypal_order_id: orderId,
     plan_name: planName,
-    seller_transaction_id: captureId,
+    seller_transaction_id: captureId, // ensure this is the PayPal capture id
     amount,
     status: "COMPLETED",
     card_brand: brand,

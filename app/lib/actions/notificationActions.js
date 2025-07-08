@@ -461,3 +461,47 @@ export const notifyRecurringPayment = async (
     return { data: null, error: error.message };
   }
 };
+
+export const notifyExtraLeadsPurchase = async (userId, userName, count) => {
+  try {
+    const { data, error } = await supabase
+      .from("notifications")
+      .insert({
+        user_id: userId,
+        type: "EXTRA_LEADS_PURCHASE_NOTIFY",
+        message: `${userName}, you have successfully purchased ${count} extra leads!`,
+        read: false,
+        importance: "medium",
+        metadata: { count },
+        action_url: "/dashboard/activities/leads",
+      })
+      .select()
+      .single();
+    if (error) throw error;
+    return { data, error: null };
+  } catch (error) {
+    return { data: null, error: error.message };
+  }
+};
+
+export const notifySingleLeadUnlock = async (userId, userName, leadId) => {
+  try {
+    const { data, error } = await supabase
+      .from("notifications")
+      .insert({
+        user_id: userId,
+        type: "SINGLE_LEAD_UNLOCK_NOTIFY",
+        message: `${userName}, you have successfully unlocked a lead!`,
+        read: false,
+        importance: "medium",
+        metadata: { leadId },
+        action_url: "/dashboard/unlocked-leads",
+      })
+      .select()
+      .single();
+    if (error) throw error;
+    return { data, error: null };
+  } catch (error) {
+    return { data: null, error: error.message };
+  }
+};

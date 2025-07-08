@@ -49,17 +49,11 @@ const LeadsPage = async () => {
   if (!allUserLeads || allUserLeads.length === 0) {
     return <Leads data={null} message="No leads available" />;
   }
-  // Check if user has any non-demo leads
   const hasNonDemoLeads = allUserLeads.some((lead) => !lead.is_demo);
-  if (hasNonDemoLeads && !profile.subscription) {
-    return (
-      <Leads
-        data={null}
-        message="subscription has expired"
-        desc="Please renew to view leads"
-      />
-    );
+  if (!hasNonDemoLeads) {
+    return <Leads data={null} message="No leads available" />;
   }
+  // Remove the subscription check here
   // Get history leads to exclude them from current leads
   const { data: historyLeads } = await supabase
     .from("user_leads_history")
