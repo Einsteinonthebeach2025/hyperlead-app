@@ -1,6 +1,5 @@
 import supabaseAdmin from "app/lib/config/supabaseAdmin";
 import { NextResponse } from "next/server";
-import { handleSubscriptionUpdated } from "app/lib/webhooks/update";
 import { handleRecurringPaymentCompleted } from "app/lib/webhooks/recurringCreated";
 
 export const config = {
