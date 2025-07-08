@@ -45,14 +45,27 @@ const LeadsPage = async () => {
       />
     );
   }
+  const hasNonDemoLeads = allUserLeads.some((lead) => !lead.is_demo);
+  const hasDemoLeads = allUserLeads.some((lead) => lead.is_demo);
+
+  // Restrict only if user has non-demo leads and no subscription
+  if (hasNonDemoLeads && !profile.subscription) {
+    return (
+      <Leads
+        data={null}
+        message="Subscription has expired"
+        desc="Please renew to view leads"
+      />
+    );
+  }
+
   // If user has no leads at all
   if (!allUserLeads || allUserLeads.length === 0) {
     return <Leads data={null} message="No leads available" />;
   }
-  const hasNonDemoLeads = allUserLeads.some((lead) => !lead.is_demo);
-  if (!hasNonDemoLeads) {
-    return <Leads data={null} message="No leads available" />;
-  }
+
+  // If user has only demo leads (or demo + subscription), show them
+  // (No restriction needed here, just proceed to show the leads table)
   // Remove the subscription check here
   // Get history leads to exclude them from current leads
   const { data: historyLeads } = await supabase

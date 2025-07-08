@@ -446,7 +446,7 @@ export const notifyRecurringPayment = async (
         type: "RECURRING_PAYMENT_NOTIFY",
         message: `${userName}, your subscription (${planName}) has been renewed and ${leadsCount} new leads have been assigned to you.`,
         read: false,
-        importance: "medium",
+        importance: "low",
         metadata: {
           plan: planName,
           received_leads: leadsCount,
@@ -471,7 +471,7 @@ export const notifyExtraLeadsPurchase = async (userId, userName, count) => {
         type: "EXTRA_LEADS_PURCHASE_NOTIFY",
         message: `${userName}, you have successfully purchased ${count} extra leads!`,
         read: false,
-        importance: "medium",
+        importance: "low",
         metadata: { count },
         action_url: "/dashboard/activities/leads",
       })
@@ -493,7 +493,7 @@ export const notifySingleLeadUnlock = async (userId, userName, leadId) => {
         type: "SINGLE_LEAD_UNLOCK_NOTIFY",
         message: `${userName}, you have successfully unlocked a lead!`,
         read: false,
-        importance: "medium",
+        importance: "low",
         metadata: { leadId },
         action_url: "/dashboard/unlocked-leads",
       })

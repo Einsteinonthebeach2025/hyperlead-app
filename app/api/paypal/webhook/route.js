@@ -1,5 +1,7 @@
 import supabaseAdmin from "app/lib/config/supabaseAdmin";
 import { NextResponse } from "next/server";
+import { handleSubscriptionUpdated } from "app/lib/webhooks/update";
+import { handleRecurringPaymentCompleted } from "app/lib/webhooks/recurringCreated";
 
 export const config = {
   api: {
@@ -20,7 +22,25 @@ export async function POST(req) {
     console.log(`[PayPal Webhook] Full event body:`, event);
 
     if (eventType === "PAYMENT.SALE.COMPLETED") {
-      console.log("1 PAYMENT.SALE.COMPLETED fired");
+      const resource = event.resource;
+      const result = await handleRecurringPaymentCompleted(
+        eventId,
+        resource,
+        supabaseAdmin
+      );
+      if (result.duplicate) {
+        return NextResponse.json(
+          { received: true, duplicate: true },
+          { status: 200 }
+        );
+      }
+      if (!result.success) {
+        return NextResponse.json(
+          { error: result.error || "Unknown error" },
+          { status: 500 }
+        );
+      }
+      return NextResponse.json({ received: true, eventType }, { status: 200 });
     }
 
     if (eventType === "BILLING.SUBSCRIPTION.CREATED") {

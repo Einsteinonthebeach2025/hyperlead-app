@@ -5,7 +5,10 @@ import {
 } from "app/lib/actions/leadActions";
 import { createTransaction } from "app/lib/actions/transactionActions";
 import { updateProfile } from "app/lib/actions/profileActions";
-import { notifyUserOnSubscription } from "app/lib/actions/notificationActions";
+import {
+  notifyRecurringPayment,
+  notifyUserOnSubscription,
+} from "app/lib/actions/notificationActions";
 
 export const handleSubscriptionCreated = async (
   eventId,
@@ -123,7 +126,7 @@ export const handleSubscriptionCreated = async (
   }
 
   // 7. SEND NOTIFICATION
-  const notifyResult = await notifyUserOnSubscription(
+  const notifyResult = await notifyRecurringPayment(
     planDetails.leads,
     supabaseAdmin
   );
