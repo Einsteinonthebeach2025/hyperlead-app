@@ -184,36 +184,11 @@ const PayPalPaymentModal = () => {
   const handleSubscriptionSuccess = async (subscriptionID) => {
     setLoading(true);
     try {
-      await updateProfile(user.id, { subscription_id: subscriptionID })
-      const verifyResponse = await fetch("/api/paypal-subscription/verify", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          subscriptionID,
-          planName: selectedPlan,
-        }),
-      });
-      const verifyData = await verifyResponse.json();
-      if (!verifyData.success) throw new Error(verifyData.error || "Subscription verification failed");
-      const { payerInfo, amount } = verifyData;
-      const transactionResult = await createTransaction(
-        user.id,
-        subscriptionID,
-        selectedPlan,
-        amount || plan.price,
-        { brand: "PayPal", last4: "N/A", maskedCard: "PayPal Subscription" },
-        payerInfo,
-      );
-      if (!transactionResult.success) throw new Error(transactionResult.error);
-      const subscriptionResult = await processSubscription(
-        user.id,
-        user.email,
-        selectedPlan,
-        plan.leads
-      );
-      if (!subscriptionResult.success) throw new Error(subscriptionResult.error);
+      console.log("[PayPal] handleSubscriptionSuccess: updating user profile with subscription_id", subscriptionID);
+      await updateProfile(user.id, { subscription_id: subscriptionID });
+      console.log("[PayPal] handleSubscriptionSuccess: subscription_id updated, waiting for webhook to assign leads");
       dispatch(setError({
-        message: `Subscribed to ${selectedPlan} and received ${plan.leads} leads!`,
+        message: "Subscription successful! Your leads will be available shortly after payment confirmation.",
         type: "success",
       }));
       handleClose();
