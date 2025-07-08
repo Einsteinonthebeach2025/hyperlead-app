@@ -47,7 +47,7 @@ export const handleRecurringPaymentCompleted = async (
   }
 
   // 3. GET PLAN DETAILS
-  const planName = user.subscription || "UNKNOWN";
+  const planName = user?.subscription || "UNKNOWN";
   const planDetails = getPlanDetails(planName);
   if (!planDetails) {
     console.error(`[Webhook] Invalid plan name: ${planName}`);

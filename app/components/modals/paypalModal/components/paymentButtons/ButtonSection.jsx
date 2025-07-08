@@ -21,6 +21,7 @@ const ButtonSection = ({
   }
 
   const isSubscription = !!plan.plan_id;
+  const planType = plan?.planType || plan?.name || plan?.title || plan?.planKey || plan?.id || "";
 
   return (
     <div>
@@ -39,6 +40,7 @@ const ButtonSection = ({
           <PaypalSubscriptionProvider>
             <SubscriptionButton
               plan={plan}
+              planType={planType}
               handleSubscriptionSuccess={handleSubscriptionSuccess}
               handleSubscriptionError={handleSubscriptionError}
               setShowAppProcessing={setShowAppProcessing}

@@ -22,6 +22,7 @@ export async function POST(req) {
     console.log(`[PayPal Webhook] Full event body:`, event);
 
     if (eventType === "PAYMENT.SALE.COMPLETED") {
+      console.log("2 BILLING.SSALE.COMPLETED fired");
       const resource = event.resource;
       const result = await handleRecurringPaymentCompleted(
         eventId,

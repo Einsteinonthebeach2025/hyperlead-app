@@ -3,7 +3,7 @@ import { PayPalButtons } from "@paypal/react-paypal-js";
 import { useDispatch } from "react-redux";
 import { setError } from "app/features/modalSlice";
 
-const SubscriptionButton = ({ plan, handleSubscriptionSuccess, handleSubscriptionError, setShowAppProcessing }) => {
+const SubscriptionButton = ({ plan, planType, handleSubscriptionSuccess, handleSubscriptionError, setShowAppProcessing }) => {
   const dispatch = useDispatch();
 
   return (
@@ -22,7 +22,7 @@ const SubscriptionButton = ({ plan, handleSubscriptionSuccess, handleSubscriptio
         }}
         onApprove={(data, actions) => {
           setShowAppProcessing(true);
-          handleSubscriptionSuccess(data.subscriptionID);
+          handleSubscriptionSuccess(data.subscriptionID, planType);
         }}
         onError={(err) => {
           dispatch(setError({ message: "Subscription error", type: "error" }));

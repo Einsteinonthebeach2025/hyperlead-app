@@ -181,11 +181,14 @@ const PayPalPaymentModal = () => {
   };
 
   // Handle subscription success
-  const handleSubscriptionSuccess = async (subscriptionID) => {
+  const handleSubscriptionSuccess = async (subscriptionID, planType) => {
     setLoading(true);
     try {
       console.log("[PayPal] handleSubscriptionSuccess: updating user profile with subscription_id", subscriptionID);
-      await updateProfile(user.id, { subscription_id: subscriptionID });
+      await updateProfile(user.id, {
+        subscription_id: subscriptionID,
+        subscription: planType,
+      });
       console.log("[PayPal] handleSubscriptionSuccess: subscription_id updated, waiting for webhook to assign leads");
       dispatch(setError({
         message: "Subscription successful! Your leads will be available shortly after payment confirmation.",
