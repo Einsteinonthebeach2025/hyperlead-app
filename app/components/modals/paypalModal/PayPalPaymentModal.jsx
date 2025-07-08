@@ -113,7 +113,7 @@ const PayPalPaymentModal = () => {
       };
 
       // Store order data and update user profile with temp_order_id
-      const response = await fetch("/api/paypal/store-order", {
+      const response = await fetch("/api/paypal/verify", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(orderData),
