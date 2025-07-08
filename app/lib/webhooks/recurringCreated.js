@@ -12,7 +12,7 @@ export const handleRecurringPaymentCompleted = async (
     eventId,
     resource,
   });
-  const subscriptionId = resource.id;
+  const subscriptionId = resource.billing_agreement_id;
   const now = new Date().toISOString();
 
   // 1. IDEMPOTENCY CHECK
