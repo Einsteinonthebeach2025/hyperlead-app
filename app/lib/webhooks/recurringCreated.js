@@ -1,16 +1,9 @@
-import {
-  assignLeadsToUser,
-  addExtraLeads,
-  unlockingLeads,
-} from "app/lib/actions/leadActions";
+import { assignLeadsToUser } from "app/lib/actions/leadActions";
 import { createTransaction } from "app/lib/actions/transactionActions";
 import { updateProfile } from "app/lib/actions/profileActions";
-import {
-  notifyRecurringPayment,
-  notifyUserOnSubscription,
-} from "app/lib/actions/notificationActions";
+import { notifyRecurringPayment } from "app/lib/actions/notificationActions";
 
-export const handleSubscriptionCreated = async (
+export const handleRecurringPaymentCompleted = async (
   eventId,
   resource,
   supabaseAdmin
