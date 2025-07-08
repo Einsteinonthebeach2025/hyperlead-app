@@ -80,8 +80,7 @@ export const handleRecurringPaymentCompleted = async (
     null,
     supabaseAdmin,
     {
-      recurring: false,
-      subscription_created: true,
+      current_status: "active",
     }
   );
 
