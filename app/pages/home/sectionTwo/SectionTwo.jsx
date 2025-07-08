@@ -4,7 +4,7 @@ import ContentList from "./ContentList";
 
 const SectionTwo = () => {
   return (
-    <section>
+    <section id="features">
       <SectionHeadline
         className="lg:px-[10%]"
         title="Lead Generation & Outreach All in One Platform"

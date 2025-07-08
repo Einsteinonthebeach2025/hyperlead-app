@@ -16,8 +16,13 @@ const navLinks = [
   {
     id: 1,
     name: "administration",
-    link: "/administration/reported-bugs",
+    link: "/administration/hyperlead-users",
     isAdmin: true,
+  },
+  {
+    id: 3,
+    name: "Features",
+    link: "#features",
   },
 ];
 
@@ -51,6 +56,19 @@ const NavLinks = () => {
     }
   };
 
+  const handleFeaturesClick = (e) => {
+    e.preventDefault();
+    handleClose();
+    if (pathname === "/") {
+      const featuresSection = document.getElementById("features");
+      if (featuresSection) {
+        featuresSection.scrollIntoView({ behavior: "smooth" });
+      }
+    } else {
+      router.push("/#features");
+    }
+  };
+
   return (
     <MotionContainer
       animation="zoom-out"
@@ -62,6 +80,19 @@ const NavLinks = () => {
             <MotionChildren
               animation="zoom-out"
               onClick={handlePricingClick}
+              key={item.id}
+            >
+              <button className="text-3xl md:text-sm dark:text-stone-300 cursor-pointer">
+                {item.name}
+              </button>
+            </MotionChildren>
+          );
+        }
+        if (item.name === "Features") {
+          return (
+            <MotionChildren
+              animation="zoom-out"
+              onClick={handleFeaturesClick}
               key={item.id}
             >
               <button className="text-3xl md:text-sm dark:text-stone-300 cursor-pointer">
