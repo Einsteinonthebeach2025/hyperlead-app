@@ -19,13 +19,13 @@ const LeadsPage = async () => {
 
   const currentUserId = session.user.id;
   const currentUserEmail = session.user.email;
-  const { isAssistant, effectiveUserId } = await getEffectiveUserId(
+  const { effectiveUserId } = await getEffectiveUserId(
     currentUserId,
     currentUserEmail
   );
   const { data: profile, error: profileError } = await supabase
     .from("profiles")
-    .select("subscription, subscription_timestamp")
+    .select("subscription, subscription_timestamp, id, email")
     .eq("id", effectiveUserId)
     .single();
   if (profileError) {
@@ -34,7 +34,7 @@ const LeadsPage = async () => {
   // Check if user has any leads first
   const { data: allUserLeads, error: allUserLeadsError } = await supabase
     .from("user_leads")
-    .select("lead_id, used, is_demo")
+    .select("lead_id, used, is_demo, is_extra")
     .eq("user_id", effectiveUserId);
   if (allUserLeadsError) {
     return (
@@ -45,11 +45,18 @@ const LeadsPage = async () => {
       />
     );
   }
-  const hasNonDemoLeads = allUserLeads.some((lead) => !lead.is_demo);
+  const hasNonDemoLeads = allUserLeads.some(
+    (lead) => !lead.is_demo && !lead.is_extra
+  );
   const hasDemoLeads = allUserLeads.some((lead) => lead.is_demo);
+  const hasExtraLeads = allUserLeads.some((lead) => lead.is_extra);
 
-  // Restrict only if user has non-demo leads and no subscription
-  if (hasNonDemoLeads && !profile.subscription) {
+  if (
+    hasNonDemoLeads &&
+    !hasDemoLeads &&
+    !hasExtraLeads &&
+    !profile.subscription
+  ) {
     return (
       <Leads
         data={null}
@@ -64,16 +71,12 @@ const LeadsPage = async () => {
     return <Leads data={null} message="No leads available" />;
   }
 
-  // If user has only demo leads (or demo + subscription), show them
-  // (No restriction needed here, just proceed to show the leads table)
-  // Remove the subscription check here
-  // Get history leads to exclude them from current leads
-  const { data: historyLeads } = await supabase
-    .from("user_leads_history")
-    .select("lead_id")
-    .eq("user_id", effectiveUserId);
-  const historyLeadIds = historyLeads.map((ul) => ul.lead_id);
-  // Filter out leads that are in history
+  // const { data: historyLeads } = await supabase
+  //   .from("user_leads_history")
+  //   .select("lead_id")
+  //   .eq("user_id", effectiveUserId);
+
+  // const historyLeadIds = historyLeads.map((ul) => ul.lead_id);
   const currentLeadIds = allUserLeads.map((ul) => ul.lead_id);
 
   // Helper to chunk an array

@@ -21,6 +21,30 @@ export async function POST(req) {
     console.log(`[PayPal Webhook] Event ID: ${eventId}`);
     console.log(`[PayPal Webhook] Full event body:`, event);
 
+    // FIRST PAYPAL WEBHOOK EVENT RESPONSE
+    if (eventType === "BILLING.SUBSCRIPTION.CREATED") {
+      console.log("2 BILLING.SUBSCRIPTION.CREATED fired");
+      const resource = event.resource;
+      const result = await handleInitialSubscription(
+        eventId,
+        resource,
+        supabaseAdmin
+      );
+      if (!result.success) {
+        return NextResponse.json(
+          { error: result.error || "Unknown error" },
+          { status: 500 }
+        );
+      }
+      return NextResponse.json({ received: true, eventType }, { status: 200 });
+    }
+
+    // SECOND PAYPAL WEBHOOK EVENT RESPONSE
+    if (eventType === "BILLING.SUBSCRIPTION.ACTIVATED") {
+      console.log("3 BILLING.SUBSCRIPTION.ACTIVATED fired");
+    }
+
+    // THIRD PAYPAL WEBHOOK EVENT RESPONSE
     if (eventType === "PAYMENT.SALE.COMPLETED") {
       console.log("2 BILLING.SSALE.COMPLETED fired");
       const resource = event.resource;
@@ -42,27 +66,6 @@ export async function POST(req) {
         );
       }
       return NextResponse.json({ received: true, eventType }, { status: 200 });
-    }
-
-    if (eventType === "BILLING.SUBSCRIPTION.CREATED") {
-      console.log("2 BILLING.SUBSCRIPTION.CREATED fired");
-      const resource = event.resource;
-      const result = await handleInitialSubscription(
-        eventId,
-        resource,
-        supabaseAdmin
-      );
-      if (!result.success) {
-        return NextResponse.json(
-          { error: result.error || "Unknown error" },
-          { status: 500 }
-        );
-      }
-      return NextResponse.json({ received: true, eventType }, { status: 200 });
-    }
-
-    if (eventType === "BILLING.SUBSCRIPTION.ACTIVATED") {
-      console.log("3 BILLING.SUBSCRIPTION.ACTIVATED fired");
     }
 
     if (eventType === "BILLING.SUBSCRIPTION.CANCELLED") {

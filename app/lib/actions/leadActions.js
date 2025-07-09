@@ -606,6 +606,7 @@ export const addExtraLeads = async (userId, supabaseClient = supabase) => {
       user_email: userEmail,
       received_at: new Date().toISOString(),
       is_demo: false,
+      is_extra: true,
     }));
 
     // Insert all leads at once
@@ -672,23 +673,22 @@ export const hyperSearchLeads = async (query) => {
   }
 };
 
-export const unlockingLeads = async (
-  leadId,
-  userId,
-  userEmail,
-  userName,
-  supabaseClient = supabase
-) => {
+export const unlockingLeads = async (leadId, userId, userEmail) => {
   try {
-    const user = await getCurrentUser(supabaseClient);
-    const subscription = user?.profile?.subscription;
+    const { data: profile, error: profileError } = await supabase
+      .from("profiles")
+      .select("subscription")
+      .eq("id", userId)
+      .single();
+    if (profileError) throw profileError;
+    const subscription = profile?.subscription;
     let maxUnlocks = 0;
     if (subscription === "PRO") maxUnlocks = 10;
     else if (subscription === "HYPER") maxUnlocks = 25;
     else maxUnlocks = 0;
     const monthStart = getMonthStart();
     // 2. Count how many leads this user has unlocked this month
-    const { data: unlockedThisMonth, error: countError } = await supabaseClient
+    const { data: unlockedThisMonth, error: countError } = await supabase
       .from("unlocked_leads")
       .select("id", { count: "exact" })
       .eq("user_id", userId)
@@ -701,7 +701,7 @@ export const unlockingLeads = async (
       };
     }
     // Insert into unlocked_leads
-    const { data, error } = await supabaseClient
+    const { data, error } = await supabase
       .from("unlocked_leads")
       .insert([
         {
@@ -715,7 +715,7 @@ export const unlockingLeads = async (
     if (error) throw error;
     // Increment unlocked_leads_count in profiles
     if (data) {
-      const { data: profile, error: profileError } = await supabaseClient
+      const { data: profile, error: profileError } = await supabase
         .from("profiles")
         .select("unlocked_leads_count")
         .eq("id", userId)
@@ -724,7 +724,7 @@ export const unlockingLeads = async (
       const currentCount = profile?.unlocked_leads_count
         ? Number(profile.unlocked_leads_count)
         : 0;
-      const { error: updateError } = await supabaseClient
+      const { error: updateError } = await supabase
         .from("profiles")
         .update({ unlocked_leads_count: currentCount + 1 })
         .eq("id", userId);

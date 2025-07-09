@@ -1,5 +1,6 @@
 "use client"
 import Button from 'app/components/buttons/Button'
+import supabase from 'app/lib/config/supabaseClient';
 import { setError, setToggle } from 'app/features/modalSlice';
 import { PiMagicWand } from 'react-icons/pi';
 import { useDispatch } from 'react-redux';
@@ -8,14 +9,40 @@ const HyperSearch = ({ profile }) => {
     const dispatch = useDispatch();
     const subscription = profile?.subscription;
 
+    const getMonthStart = () => {
+        const now = new Date();
+        return new Date(now.getFullYear(), now.getMonth(), 1).toISOString();
+    };
 
-    const handleClick = () => {
-        if (subscription !== "PRO" && subscription !== "HYPER") {
-            dispatch(setError({ message: "You need to be a Pro or Hyper user to unlock leads", type: "error" }))
-            return
+    const handleClick = async () => {
+        try {
+            const monthStart = getMonthStart();
+
+            let maxUnlocks = 0;
+            if (subscription === "PRO") maxUnlocks = 10;
+            else if (subscription === "HYPER") maxUnlocks = 25;
+
+            const { data, error } = await supabase
+                .from("unlocked_leads")
+                .select("id", { count: "exact" })
+                .eq("user_id", profile.id)
+                .gte("unlocked_at", monthStart);
+
+            if (error) {
+                dispatch(setError({ message: "Could not check unlock limit. Please try again.", type: "error" }));
+                return;
+            }
+
+            if (data.length >= maxUnlocks) {
+                dispatch(setError({ message: `You have reached your monthly unlock limit (${maxUnlocks}).`, type: "error" }));
+                return;
+            }
+
+            dispatch(setToggle({ modalType: 'hyperSearch', isOpen: true }));
+        } catch (err) {
+            dispatch(setError({ message: "Unexpected error. Please try again.", type: "error" }));
         }
-        dispatch(setToggle({ modalType: 'hyperSearch', isOpen: true }));
-    }
+    };
 
     return (
         <Button type="extra" onClick={handleClick}>
@@ -25,4 +52,4 @@ const HyperSearch = ({ profile }) => {
     )
 }
 
-export default HyperSearch
+export default HyperSearch;
