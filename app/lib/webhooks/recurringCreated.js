@@ -12,6 +12,11 @@ export const handleRecurringPaymentCompleted = async (
     eventId,
     resource,
   });
+  console.log(
+    "[Webhook] resource.billing_agreement_id:",
+    resource.billing_agreement_id
+  );
+  console.log("[Webhook] resource.id (PayPal sale/txn):", resource.id);
   const subscriptionId = resource.billing_agreement_id;
   const now = new Date().toISOString();
 
@@ -29,12 +34,14 @@ export const handleRecurringPaymentCompleted = async (
 
   await supabaseAdmin
     .from("paypal_events")
-    .insert({ event_id: eventId, received_at: now });
+    .insert({ event_id: eventId, received_at: now, resource_id: resource.id });
 
   // 2. FIND USER BY SUBSCRIPTION_ID
   const { data: user, error: findError } = await supabaseAdmin
     .from("profiles")
-    .select("id, email, preferences, subscription, subscription_status")
+    .select(
+      "id, email, preferences, subscription, subscription_status, total_leads_received, leads_received_this_month"
+    )
     .eq("subscription_id", subscriptionId)
     .single();
 
@@ -77,10 +84,11 @@ export const handleRecurringPaymentCompleted = async (
     planDetails.price,
     { brand: "PayPal", last4: "N/A", maskedCard: "PayPal Subscription" },
     { name: user.email, email: user.email },
-    null,
     supabaseAdmin,
     {
       current_status: "active",
+      recourse_id: resource.id,
+      seller_transaction_id: resource.id,
     }
   );
 
@@ -92,16 +100,20 @@ export const handleRecurringPaymentCompleted = async (
   }
 
   // 6. UPDATE USER PROFILE
+  // Fetch current values
+  const currentTotalLeads = user.total_leads_received || 0;
+  const currentLeadsThisMonth = user.leads_received_this_month || 0;
+
   const updates = {
     subscription: planName,
     subscription_status: "active",
     subscription_timestamp: now,
     monthly_leads: planDetails.leads,
-    leads_received_this_month: planDetails.leads,
+    leads_received_this_month: currentLeadsThisMonth + planDetails.leads,
     last_lead_reset_date: now,
     last_notification_timestamp: null,
     last_leads_finished_notification: null,
-    total_leads_received: planDetails.leads,
+    total_leads_received: currentTotalLeads + planDetails.leads,
   };
 
   const { error: updateProfileError } = await updateProfile(
@@ -118,7 +130,16 @@ export const handleRecurringPaymentCompleted = async (
   }
 
   // 7. SEND NOTIFICATION
+  console.log("[Webhook] Notifying user:", {
+    userId: user.id,
+    userName: user.userName || user.email,
+    planName,
+    leads: planDetails.leads,
+  });
   const notifyResult = await notifyRecurringPayment(
+    user.id,
+    user.userName || user.email,
+    planName,
     planDetails.leads,
     supabaseAdmin
   );
