@@ -136,24 +136,24 @@ export const handleRecurringPaymentCompleted = async (
     planName,
     leads: planDetails.leads,
   });
-  const notifyResult = await notifyRecurringPayment(
-    user.id,
-    user.userName || user.email,
-    planName,
-    planDetails.leads,
-    supabaseAdmin
-  );
-  if (notifyResult.error) {
-    console.error(
-      "[Webhook] Failed to send subscription notification:",
-      notifyResult.error
-    );
-  }
+  // const notifyResult = await notifyRecurringPayment(
+  //   user.id,
+  //   user.userName || user.email,
+  //   planName,
+  //   planDetails.leads,
+  //   supabaseAdmin
+  // );
+  // if (notifyResult.error) {
+  //   console.error(
+  //     "[Webhook] Failed to send subscription notification:",
+  //     notifyResult.error
+  //   );
+  // }
 
-  console.log(
-    `[Webhook] Subscription created and processed for user: ${user.id}`
-  );
-  return { success: true };
+  // console.log(
+  //   `[Webhook] Subscription created and processed for user: ${user.id}`
+  // );
+  // return { success: true };
 };
 
 // Helper function to get plan details
