@@ -12,8 +12,20 @@ export const handleRecurringPaymentCompleted = async (
     eventId,
     resource,
   });
+  console.log("supabaseAdmin:", supabaseAdmin);
+  console.log("resource:", resource);
+  console.log("resource.billing_agreement_id:", resource.billing_agreement_id);
   const subscriptionId = resource.billing_agreement_id;
   const now = new Date().toISOString();
+
+  if (!resource.billing_agreement_id) {
+    console.error("Missing billing_agreement_id in resource:", resource);
+    return { success: false, error: "Missing billing_agreement_id" };
+  }
+  if (!supabaseAdmin || typeof supabaseAdmin.from !== "function") {
+    console.error("supabaseAdmin is not initialized correctly:", supabaseAdmin);
+    return { success: false, error: "Supabase not initialized" };
+  }
 
   // 1. IDEMPOTENCY CHECK
   const { data: existingEvent, error: eventCheckError } = await supabaseAdmin
