@@ -128,18 +128,19 @@ export const notifyUserRegistration = async (supabaseClient = supabase) => {
 };
 
 export const notifyUserOnSubscription = async (
+  userId,
+  userName,
+  subscription,
   assignedLeadsCount,
   supabaseClient = supabase
 ) => {
   try {
-    const user = await getCurrentUser(supabaseClient);
-    const userName = user?.profile?.userName || user?.user_metadata?.name;
     const { data, error } = await supabaseClient
       .from("notifications")
       .insert({
-        user_id: user.id,
+        user_id: userId,
         type: "SUBSCRIPTION_SUCCESS_NOTIFY",
-        message: `${userName}, you have successfully subscribed to ${user?.profile?.subscription} plan`,
+        message: `${userName}, you have successfully subscribed to ${subscription} plan`,
         read: false,
         importance: "low",
         metadata: {

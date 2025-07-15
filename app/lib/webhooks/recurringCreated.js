@@ -69,16 +69,13 @@ export const handleRecurringPaymentCompleted = async (
 
   // Notify user about subscription
   try {
-    const notifyResult = await notifyUserOnSubscription(
+    await notifyUserOnSubscription(
+      user.id,
+      user.userName || user.email, // or whatever you want to show as name
+      user.subscription,
       assignResult.assignedLeadsCount,
       supabaseAdmin
     );
-    if (notifyResult.error) {
-      console.error(
-        "[Webhook] Failed to send subscription notification:",
-        notifyResult.error
-      );
-    }
   } catch (notifyError) {
     console.error(
       "[Webhook] Exception in notifyUserOnSubscription:",
