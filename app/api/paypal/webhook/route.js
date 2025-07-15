@@ -17,7 +17,6 @@ export async function POST(req) {
     const eventId = event.id;
 
     if (eventType === "PAYMENT.SALE.COMPLETED") {
-      // Only assign leads and process payment here!
       const resource = event.resource;
       const result = await handleRecurringPaymentCompleted(
         eventId,
@@ -38,17 +37,6 @@ export async function POST(req) {
       }
       return NextResponse.json({ received: true, eventType }, { status: 200 });
     }
-
-    // For other events, just log or do nothing
-    if (
-      eventType === "BILLING.SUBSCRIPTION.CREATED" ||
-      eventType === "BILLING.SUBSCRIPTION.ACTIVATED"
-    ) {
-      console.log(`${eventType} received, no action taken.`);
-      return NextResponse.json({ received: true, eventType }, { status: 200 });
-    }
-
-    // ... handle other events as needed
 
     return NextResponse.json({ received: true, eventType }, { status: 200 });
   } catch (err) {
