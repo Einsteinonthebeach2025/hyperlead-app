@@ -1,6 +1,5 @@
 import { assignLeadsToUser } from "app/lib/actions/leadActions";
 import { createTransaction } from "app/lib/actions/transactionActions";
-import { updateProfile } from "app/lib/actions/profileActions";
 import { notifyRecurringPayment } from "app/lib/actions/notificationActions";
 
 export const handleRecurringPaymentCompleted = async (
@@ -60,12 +59,34 @@ export const handleRecurringPaymentCompleted = async (
     planDetails.leads,
     true,
     supabaseAdmin,
-    planDetails.leads // Pass planLeads as the last argument
+    planDetails.leads
   );
 
   if (!assignResult.success) {
     console.error(`[Webhook] Failed to assign leads to user: ${user.id}`);
     return { success: false, error: "Failed to assign leads" };
+  }
+
+  // Step: Create transaction in transaction table
+  const transactionResult = await createTransaction(
+    user.id,
+    subscriptionId,
+    planName,
+    planDetails.price,
+    { brand: "PayPal", last4: "N/A", maskedCard: "PayPal Subscription" },
+    { name: user.email, email: user.email },
+    supabaseAdmin,
+    {
+      current_status: "active",
+      resource_id: resourceId,
+    }
+  );
+
+  if (!transactionResult.success) {
+    console.error(
+      `[Webhook] Failed to create transaction for user: ${user.id}`
+    );
+    return { success: false, error: "Failed to create transaction" };
   }
 
   return { success: true };

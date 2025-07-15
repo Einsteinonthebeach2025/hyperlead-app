@@ -28,6 +28,7 @@ export const assignLeadsToUser = async (
         "No preferences set. Please set your industry preferences first."
       );
     }
+    const now = new Date().toISOString();
     const { data: userProfile, error: profileError } = await supabaseClient
       .from("profiles")
       .select("region")
@@ -205,6 +206,8 @@ export const assignLeadsToUser = async (
         currentLeadsReceivedThisMonth + allAvailableLeads.length, // increment
       last_leads_finished_notification: null,
       last_notification_timestamp: null,
+      subscription_status: "active",
+      subscription_timestamp: now,
     };
     const { error: updateError } = await supabaseClient
       .from("profiles")
