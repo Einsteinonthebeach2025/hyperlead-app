@@ -8,7 +8,7 @@ export const handleRecurringPaymentCompleted = async (
   resource,
   supabaseAdmin
 ) => {
-  // 1. Idempotency check: Has this event already been processed?
+  // 1. IDEMPOTENCY CHECK
   const { data: existingEvent, error: eventCheckError } = await supabaseAdmin
     .from("paypal_events")
     .select("id")
@@ -19,7 +19,7 @@ export const handleRecurringPaymentCompleted = async (
     return { success: true, duplicate: true };
   }
 
-  // 2. Insert the event into paypal_events table
+  // 2. INSERT PAYPAL EVENT
   const now = new Date().toISOString();
   const resourceId = resource.id || null;
 
@@ -30,6 +30,90 @@ export const handleRecurringPaymentCompleted = async (
     console.error("[Webhook] Failed to insert event:", insertError);
     return { success: false, error: "Failed to insert event" };
   }
+
+  // 3. FIND USER
+  const subscriptionId = resource.billing_agreement_id;
+  const { data: user, error: findError } = await supabaseAdmin
+    .from("profiles")
+    .select("id, email, preferences, subscription, subscription_status")
+    .eq("subscription_id", subscriptionId)
+    .single();
+
+  if (findError || !user) {
+    console.error(
+      `[Webhook] User not found for subscription_id: ${subscriptionId}`,
+      findError
+    );
+    return { success: false, error: "User not found for subscription_id" };
+  }
+
+  const planName = user?.subscription || "UNKNOWN SUBSCRIPTION NAME";
+  const planDetails = getPlanDetails(planName);
+  if (!planDetails) {
+    console.error(`[Webhook] Invalid plan name: ${planName}`);
+    return { success: false, error: "Invalid plan name" };
+  }
+
+  const assignResult = await assignLeadsToUser(
+    user.id,
+    user.email,
+    user.preferences,
+    planDetails.leads,
+    true,
+    supabaseAdmin
+  );
+
+  if (!assignResult.success) {
+    console.error(`[Webhook] Failed to assign leads to user: ${user.id}`);
+    return { success: false, error: "Failed to assign leads" };
+  }
+
+  const transactionResult = await createTransaction(
+    user.id,
+    subscriptionId,
+    planName,
+    planDetails.price,
+    { brand: "PayPal", last4: "N/A", maskedCard: "PayPal Subscription" },
+    { name: user.email, email: user.email },
+    supabaseAdmin,
+    {
+      current_status: "active",
+      resource_id: resourceId,
+    }
+  );
+
+  if (!transactionResult.success) {
+    console.error(
+      `[Webhook] Failed to create transaction for user: ${user.id}`
+    );
+    return { success: false, error: "Failed to create transaction" };
+  }
+
+  const updates = {
+    subscription: planName,
+    subscription_status: "active",
+    subscription_timestamp: now,
+    monthly_leads: planDetails.leads,
+    leads_received_this_month: planDetails.leads,
+    last_lead_reset_date: now,
+    last_notification_timestamp: null,
+    last_leads_finished_notification: null,
+    total_leads_received: planDetails.leads,
+  };
+
+  const { error: updateProfileError } = await updateProfile(
+    user.id,
+    updates,
+    supabaseAdmin
+  );
+  if (updateProfileError) {
+    console.error(
+      `[Webhook] Failed to update user profile for user: ${user.id}`,
+      updateProfileError
+    );
+    return { success: false, error: "Failed to update user profile" };
+  }
+
   return { success: true };
 };
 
