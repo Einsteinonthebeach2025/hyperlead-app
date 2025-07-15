@@ -156,32 +156,6 @@ export const notifyUserOnSubscription = async (
   }
 };
 
-export const notifyUserOnRecurringPayment = async (assignedLeadsCount) => {
-  try {
-    const user = await getCurrentUser();
-    const userName = user?.profile?.userName || user?.user_metadata?.name;
-    const { data, error } = await supabase
-      .from("notifications")
-      .insert({
-        user_id: user.id,
-        type: "SUBSCRIPTION_SUCCESS_NOTIFY",
-        message: `${userName}, your subscription successfully renewed`,
-        read: false,
-        importance: "low",
-        metadata: {
-          received_leads: assignedLeadsCount,
-        },
-        action_url: "",
-      })
-      .select()
-      .single();
-    if (error) throw error;
-    return { data, error: null };
-  } catch (error) {
-    return { data: null, error: error.message };
-  }
-};
-
 export const notifyUserOnBugFix = async (bugId) => {
   try {
     const { data: bug, error: bugError } = await supabase
@@ -427,37 +401,6 @@ export const notifySubscriptionCancel = async (userId) => {
     return { data, error: null };
   } catch (error) {
     console.error("Error creating subscription cancel notification:", error);
-    return { data: null, error: error.message };
-  }
-};
-
-export const notifyRecurringPayment = async (
-  userId,
-  userName,
-  planName,
-  leadsCount,
-  supabaseClient = supabase
-) => {
-  try {
-    const { data, error } = await supabaseClient
-      .from("notifications")
-      .insert({
-        user_id: userId,
-        type: "RECURRING_PAYMENT_NOTIFY",
-        message: `${userName}, your subscription (${planName}) has been renewed and ${leadsCount} new leads have been assigned to you.`,
-        read: false,
-        importance: "low",
-        metadata: {
-          plan: planName,
-          received_leads: leadsCount,
-        },
-        action_url: "/dashboard/activities/leads",
-      })
-      .select()
-      .single();
-    if (error) throw error;
-    return { data, error: null };
-  } catch (error) {
     return { data: null, error: error.message };
   }
 };
