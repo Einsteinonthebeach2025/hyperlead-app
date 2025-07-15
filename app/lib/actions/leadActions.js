@@ -12,7 +12,8 @@ export const assignLeadsToUser = async (
   preferences,
   leadCount,
   isNewSubscription = false,
-  supabaseClient = supabase
+  supabaseClient = supabase,
+  planLeads
 ) => {
   try {
     const {
@@ -181,10 +182,10 @@ export const assignLeadsToUser = async (
         "No available leads to assign. Please update your preferences or contact support."
       );
     }
-    // 4. Update total_leads_received (increment, not overwrite)
+    // 4. Update total_leads_received (increment, not overwrite) and other fields
     const { data: profile, error: profileFetchError } = await supabaseClient
       .from("profiles")
-      .select("total_leads_received")
+      .select("total_leads_received, monthly_leads, leads_received_this_month")
       .eq("id", userId)
       .single();
     if (profileFetchError) {
@@ -194,15 +195,24 @@ export const assignLeadsToUser = async (
     }
     const currentTotal = profile.total_leads_received || 0;
     const updatedTotal = currentTotal + allAvailableLeads.length;
+    const currentLeadsReceivedThisMonth =
+      profile.leads_received_this_month || 0;
+    // planLeads should be passed in from the caller (the plan's lead count)
+    const updatedProfileFields = {
+      total_leads_received: updatedTotal,
+      monthly_leads: planLeads, // always set to plan's lead count
+      leads_received_this_month:
+        currentLeadsReceivedThisMonth + allAvailableLeads.length, // increment
+      last_leads_finished_notification: null,
+      last_notification_timestamp: null,
+    };
     const { error: updateError } = await supabaseClient
       .from("profiles")
-      .update({ total_leads_received: updatedTotal })
+      .update(updatedProfileFields)
       .eq("id", userId);
 
     if (updateError) {
-      throw new Error(
-        `Failed to update total leads received: ${updateError.message}`
-      );
+      throw new Error(`Failed to update user profile: ${updateError.message}`);
     }
 
     // After successfully assigning new leads, update historical demo leads to be part of history

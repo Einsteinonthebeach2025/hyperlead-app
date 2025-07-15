@@ -59,7 +59,8 @@ export const handleRecurringPaymentCompleted = async (
     user.preferences,
     planDetails.leads,
     true,
-    supabaseAdmin
+    supabaseAdmin,
+    planDetails.leads // Pass planLeads as the last argument
   );
 
   if (!assignResult.success) {
