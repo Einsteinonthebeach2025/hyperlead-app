@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
-import { handleRecurringPaymentCompleted } from "app/lib/webhooks/recurringCreated";
 import supabaseAdmin from "app/lib/config/supabaseAdmin";
+import { handleRecurringPaymentCompleted } from "app/lib/webhooks/recurringCreated";
 
 export const config = {
   api: {
@@ -15,6 +15,9 @@ export async function POST(req) {
     const event = JSON.parse(body);
     const eventType = event.event_type;
     const eventId = event.id;
+
+    console.log("eventType", eventType);
+    console.log("eventId", eventId);
 
     if (eventType === "PAYMENT.SALE.COMPLETED") {
       const resource = event.resource;

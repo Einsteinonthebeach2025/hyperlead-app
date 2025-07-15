@@ -133,7 +133,7 @@ export const handleRecurringPaymentCompleted = async (
   // console.log(
   //   `[Webhook] Subscription created and processed for user: ${user.id}`
   // );
-  // return { success: true };
+  return { success: true };
 };
 
 // Helper function to get plan details
