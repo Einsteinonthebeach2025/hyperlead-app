@@ -92,8 +92,6 @@ export const handleRecurringPaymentCompleted = async (
     supabaseAdmin,
     {
       current_status: "active",
-      recourse_id: resource.id,
-      seller_transaction_id: resource.id,
     }
   );
 
