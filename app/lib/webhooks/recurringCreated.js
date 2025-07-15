@@ -8,7 +8,28 @@ export const handleRecurringPaymentCompleted = async (
   resource,
   supabaseAdmin
 ) => {
-  console.log("TEST HANDLER", eventId, resource);
+  // 1. Idempotency check: Has this event already been processed?
+  const { data: existingEvent, error: eventCheckError } = await supabaseAdmin
+    .from("paypal_events")
+    .select("id")
+    .eq("event_id", eventId)
+    .single();
+  if (existingEvent) {
+    console.log(`[Webhook] Duplicate event detected: ${eventId}`);
+    return { success: true, duplicate: true };
+  }
+
+  // 2. Insert the event into paypal_events table
+  const now = new Date().toISOString();
+  const resourceId = resource.id || null;
+
+  const { error: insertError } = await supabaseAdmin
+    .from("paypal_events")
+    .insert({ event_id: eventId, received_at: now, resource_id: resourceId });
+  if (insertError) {
+    console.error("[Webhook] Failed to insert event:", insertError);
+    return { success: false, error: "Failed to insert event" };
+  }
   return { success: true };
 };
 
