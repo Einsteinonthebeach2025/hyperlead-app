@@ -1,13 +1,13 @@
 import { assignLeadsToUser } from "app/lib/actions/leadActions";
-import { createTransaction } from "app/lib/actions/transactionActions";
 import { notifyUserOnSubscription } from "../actions/notificationActions";
+import { createTransaction } from "../actions/transactionActions";
 
 export const handleRecurringPaymentCompleted = async (
   eventId,
   resource,
   supabaseAdmin
 ) => {
-  // 1. Idempotency check: Has this event already been processed?
+  // 1. IDEMPOTENCY CHECK
   const { data: existingEvent, error: eventCheckError } = await supabaseAdmin
     .from("paypal_events")
     .select("id")
@@ -18,7 +18,7 @@ export const handleRecurringPaymentCompleted = async (
     return { success: true, duplicate: true };
   }
 
-  // 2. Insert the event into paypal_events table
+  // 2. INSERT PAYPAL EVENT
   const now = new Date().toISOString();
   const resourceId = resource.id || null;
 
@@ -30,11 +30,13 @@ export const handleRecurringPaymentCompleted = async (
     return { success: false, error: "Failed to insert event" };
   }
 
-  // 3. FIND USER
+  // 3. FIND USER AND ASSIGN LEADS
   const subscriptionId = resource.billing_agreement_id;
   const { data: user, error: findError } = await supabaseAdmin
     .from("profiles")
-    .select("id, email, preferences, subscription, subscription_status")
+    .select(
+      "id, email, preferences, subscription, subscription_status, userName"
+    )
     .eq("subscription_id", subscriptionId)
     .single();
 
@@ -67,11 +69,11 @@ export const handleRecurringPaymentCompleted = async (
     return { success: false, error: "Failed to assign leads" };
   }
 
-  // Notify user about subscription
+  // 4. NOTIFY USERS ON SUBSCRIPTION
   try {
     await notifyUserOnSubscription(
       user.id,
-      user.userName || user.email, // or whatever you want to show as name
+      user.userName || user.email,
       user.subscription,
       assignResult.assignedLeadsCount,
       supabaseAdmin
@@ -81,6 +83,26 @@ export const handleRecurringPaymentCompleted = async (
       "[Webhook] Exception in notifyUserOnSubscription:",
       notifyError
     );
+  }
+
+  // 5. CREATE TRANSACTION FOR SUBSCRIPTION
+  const transactionResult = await createTransaction(
+    user.id,
+    subscriptionId,
+    planName,
+    planDetails.price,
+    { brand: "PayPal", last4: "N/A", maskedCard: "PayPal Subscription" },
+    { name: user.email, email: user.email },
+    null,
+    supabaseAdmin,
+    { current_status: "active" }
+  );
+
+  if (!transactionResult.success) {
+    console.error(
+      `[Webhook] Failed to create transaction for user: ${user.id}`
+    );
+    return { success: false, error: "Failed to create transaction" };
   }
 
   return { success: true };
