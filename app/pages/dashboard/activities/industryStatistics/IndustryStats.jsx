@@ -1,6 +1,7 @@
 import CardContainer from "app/components/containers/CardContainer";
 import FlexBox from "app/components/containers/FlexBox";
 import ContentHeadline from "app/components/ContentHeadline";
+import SectionHeadline from "app/components/SectionHeadline";
 import SubTitle from "app/components/SubTitle";
 import { FaBriefcase, FaGlobe, FaBuilding, FaChartBar, FaHeartbeat, FaShoppingCart, FaTools, FaMoneyBillWave, FaPlane, FaGavel, FaCamera, FaTruck, FaUserTie } from "react-icons/fa";
 
@@ -30,6 +31,7 @@ const colClassMap = {
 };
 
 const IndustryStats = ({ data, col }) => {
+
   return (
     <CardContainer className="space-y-4">
       <ContentHeadline

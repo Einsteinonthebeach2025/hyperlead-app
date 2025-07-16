@@ -140,7 +140,7 @@ export const notifyUserOnSubscription = async (
       .insert({
         user_id: userId,
         type: "SUBSCRIPTION_SUCCESS_NOTIFY",
-        message: `${userName}, you have successfully subscribed to ${subscription} plan`,
+        message: `${userName}, you have successfully subscribed to ${subscription} plan. Check your dashboard.`,
         read: false,
         importance: "low",
         metadata: {

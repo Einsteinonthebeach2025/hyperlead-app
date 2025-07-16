@@ -5,8 +5,7 @@ import SubsHeader from './SubsHeader';
 import SubTitle from 'app/components/SubTitle';
 import PlanInfo from './PlanInfo';
 
-const SubscriptionInfo = ({ transactions, user }) => {
-    console.log(user);
+const SubscriptionInfo = ({ user }) => {
 
     const subscriptionEndDate = user?.subscription_timestamp
         ? (() => {
@@ -31,7 +30,7 @@ const SubscriptionInfo = ({ transactions, user }) => {
     return (
         <CardContainer>
             <div>
-                <SubsHeader subscriptionEndDate={subscriptionEndDate} />
+                <SubsHeader user={user} subscriptionEndDate={subscriptionEndDate} />
                 <PlanInfo user={user} subscribedSinceDate={subscribedSinceDate} />
                 <FooterInfo />
             </div>

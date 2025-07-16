@@ -1,5 +1,4 @@
 import supabase from "../config/supabaseClient";
-import { getCurrentUser, notifyUnlockingLead } from "./notificationActions";
 
 const getMonthStart = () => {
   const now = new Date();
@@ -13,7 +12,8 @@ export const assignLeadsToUser = async (
   leadCount,
   isNewSubscription = false,
   supabaseClient = supabase,
-  planLeads
+  planLeads,
+  subscriptionType
 ) => {
   try {
     const {
@@ -201,13 +201,14 @@ export const assignLeadsToUser = async (
     // planLeads should be passed in from the caller (the plan's lead count)
     const updatedProfileFields = {
       total_leads_received: updatedTotal,
-      monthly_leads: planLeads, // always set to plan's lead count
+      monthly_leads: planLeads,
       leads_received_this_month:
-        currentLeadsReceivedThisMonth + allAvailableLeads.length, // increment
+        currentLeadsReceivedThisMonth + allAvailableLeads.length,
       last_leads_finished_notification: null,
       last_notification_timestamp: null,
       subscription_status: "active",
       subscription_timestamp: now,
+      subscription_type: subscriptionType,
     };
     const { error: updateError } = await supabaseClient
       .from("profiles")

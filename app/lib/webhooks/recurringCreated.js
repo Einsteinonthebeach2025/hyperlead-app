@@ -21,6 +21,7 @@ export const handleRecurringPaymentCompleted = async (
   // 2. INSERT PAYPAL EVENT
   const now = new Date().toISOString();
   const resourceId = resource.id || null;
+  console.log(resourceId, "resource id");
 
   const { error: insertError } = await supabaseAdmin
     .from("paypal_events")
@@ -35,7 +36,7 @@ export const handleRecurringPaymentCompleted = async (
   const { data: user, error: findError } = await supabaseAdmin
     .from("profiles")
     .select(
-      "id, email, preferences, subscription, subscription_status, userName"
+      "id, email, preferences, subscription, subscription_status, userName, subscription_type"
     )
     .eq("subscription_id", subscriptionId)
     .single();
@@ -53,6 +54,8 @@ export const handleRecurringPaymentCompleted = async (
     console.error(`[Webhook] Invalid plan name: ${planName}`);
     return { success: false, error: "Invalid plan name" };
   }
+
+  console.log(user.subscription_type, "subscription type");
 
   const assignResult = await assignLeadsToUser(
     user.id,
@@ -95,7 +98,11 @@ export const handleRecurringPaymentCompleted = async (
     { name: user.email, email: user.email },
     null,
     supabaseAdmin,
-    { current_status: "active" }
+    {
+      current_status: "active",
+      resource_id: resourceId,
+      subscription_type: user?.subscription_type,
+    }
   );
 
   if (!transactionResult.success) {

@@ -3,10 +3,6 @@ import dynamic from "next/dynamic";
 import SelectionForm from "app/components/SelectionForm";
 import regionsData from "app/localDB/regionsData";
 import { useRouter } from "next/navigation";
-import { useSelector, useDispatch } from "react-redux";
-import { selectUser, updateUserProfile } from "app/features/userSlice";
-import { setToggle } from "app/features/modalSlice";
-import { updateProfile } from "app/lib/actions/profileActions";
 
 const WorldMap = dynamic(
   () =>
@@ -18,32 +14,10 @@ const WorldMap = dynamic(
 
 const Regions = ({ initialRegions = [] }) => {
   const router = useRouter();
-  const dispatch = useDispatch();
-  const user = useSelector(selectUser);
-  const isNewUser = user?.profile?.is_new_user;
-  const userName = user?.profile?.userName || user?.user_metadata?.name;
-
-  const showWelcomeModal = () => {
-    dispatch(setToggle({
-      modalType: "global",
-      isOpen: true,
-      data: {
-        title: `welcome ${userName} to hyperlead`,
-        desc: "you have become a member of the hyperlead family. you have received demo leads and can now begin to observe your dashboard.",
-      },
-    }));
-  };
 
   const handleSuccess = async (selections) => {
     try {
-      if (isNewUser) {
-        await updateProfile(user.id, { is_new_user: false });
-        dispatch(updateUserProfile({ is_new_user: false }));
-      }
       router.push("/dashboard/activities");
-      if (isNewUser) {
-        setTimeout(showWelcomeModal, 1000);
-      }
     } catch (error) {
       console.error("Error in handleSuccess:", error);
     }
@@ -51,14 +25,7 @@ const Regions = ({ initialRegions = [] }) => {
 
   const handleSkip = async () => {
     try {
-      if (isNewUser) {
-        await updateProfile(user.id, { is_new_user: false });
-        dispatch(updateUserProfile({ is_new_user: false }));
-      }
       router.push("/dashboard/activities");
-      if (isNewUser) {
-        setTimeout(showWelcomeModal, 1000);
-      }
     } catch (error) {
       console.error("Error in handleSkip:", error);
     }

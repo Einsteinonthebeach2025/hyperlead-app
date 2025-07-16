@@ -10,8 +10,7 @@ import TwoFactorAuthModal from "app/components/modals/TwoFactorAuthModal";
 import ButtonSection from "./components/paymentButtons/ButtonSection";
 import ProcessingSection from "./components/ProcessingSection";
 import { updateProfile } from "app/lib/actions/profileActions";
-import { useRouter } from "next/navigation";
-import { createTransaction, processSubscription } from "app/lib/actions/transactionActions";
+import { createTransaction } from "app/lib/actions/transactionActions";
 import { addExtraLeads, unlockingLeads } from "app/lib/actions/leadActions";
 import { notifyExtraLeadsPurchase, notifySingleLeadUnlock } from "app/lib/actions/notificationActions";
 
@@ -19,6 +18,20 @@ const PayPalPaymentModal = () => {
   const dispatch = useDispatch();
   const user = useSelector(selectUser);
   const { isOpen, selectedPlan, data } = useSelector(selectPayPalPaymentModal);
+
+  // Robust extraction of subscriptionType
+  let subscriptionType = "MONTHLY";
+  if (data?.subscriptionType) {
+    subscriptionType = data.subscriptionType;
+  } else if (data?.pricingMode === "annual") {
+    subscriptionType = "ANNUAL";
+  } else if (data?.pricingMode === "monthly") {
+    subscriptionType = "MONTHLY";
+  }
+
+  console.log(subscriptionType, "type");
+
+
   const planKey = selectedPlan || data?.selectedPlan;
   const [loading, setLoading] = useState(false);
   const [showAppProcessing, setShowAppProcessing] = useState(false);
@@ -26,7 +39,6 @@ const PayPalPaymentModal = () => {
   const [is2FAVerified, setIs2FAVerified] = useState(false);
   const [twoFARequired, setTwoFARequired] = useState(false);
   const [isChecking2FA, setIsChecking2FA] = useState(true);
-  const router = useRouter();
 
   const handleClose = () => {
     dispatch(
@@ -100,6 +112,7 @@ const PayPalPaymentModal = () => {
   if (data?.price) plan = { ...plan, price: data.price };
   if (data?.planId) plan = { ...plan, plan_id: data.planId };
 
+
   // Handle one-time payment success
   const handlePaymentSuccess = async (orderID) => {
     setLoading(true);
@@ -132,7 +145,9 @@ const PayPalPaymentModal = () => {
           plan.price,
           { brand: "PayPal", last4: "N/A", maskedCard: "PayPal" },
           verifyData.payerInfo,
-          captureId
+          captureId,
+          undefined,
+          { subscription_type: subscriptionType }
         );
         if (!transactionResult.success) throw new Error(transactionResult.error);
         await notifyExtraLeadsPurchase(user.id, user.profile?.userName || user.email, 100);
@@ -148,7 +163,8 @@ const PayPalPaymentModal = () => {
           leadId,
           user.id,
           user.email,
-          user.profile?.userName || user.email
+          user.profile?.userName || user.email,
+          subscriptionType
         );
         if (!unlockResult.success) throw new Error(unlockResult.error);
         const transactionResult = await createTransaction(
@@ -158,7 +174,9 @@ const PayPalPaymentModal = () => {
           plan.price,
           { brand: "PayPal", last4: "N/A", maskedCard: "PayPal" },
           verifyData.payerInfo,
-          captureId
+          captureId,
+          undefined,
+          { subscription_type: subscriptionType }
         );
         if (!transactionResult.success) throw new Error(transactionResult.error);
         await notifySingleLeadUnlock(user.id, user.profile?.userName || user.email, leadId);
@@ -185,9 +203,11 @@ const PayPalPaymentModal = () => {
     setLoading(true);
     try {
       console.log("[PayPal] handleSubscriptionSuccess: updating user profile with subscription_id", subscriptionID);
+      console.log("[PayPal] subscription type", subscriptionType);
       await updateProfile(user.id, {
         subscription_id: subscriptionID,
         subscription: planType,
+        subscription_type: subscriptionType,
       });
       console.log("[PayPal] handleSubscriptionSuccess: subscription_id updated, waiting for webhook to assign leads");
       dispatch(setError({

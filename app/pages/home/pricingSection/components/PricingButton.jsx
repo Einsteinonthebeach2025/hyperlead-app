@@ -11,7 +11,6 @@ const PricingButton = ({ item, pricingMode = "monthly" }) => {
 
   const price = pricingMode === "annual" ? item.annualPrice : item.price;
   const planId = pricingMode === "annual" ? item.annualPlanId : item.planId;
-  const period = pricingMode === "annual" ? "/year" : "/month";
 
   const handlePlanSelection = () => {
     if (!user) {
@@ -43,6 +42,7 @@ const PricingButton = ({ item, pricingMode = "monthly" }) => {
           pricingMode,
           price,
           planId,
+          subscriptionType: pricingMode === "annual" ? "ANNUAL" : "MONTHLY",
         },
       })
     );

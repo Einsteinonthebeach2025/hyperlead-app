@@ -2,6 +2,16 @@ import { getEffectiveUserId } from "app/helpers/assistantHelper";
 import { createServerClient } from "app/lib/config/supabaseServer";
 import IndustryStats from "app/pages/dashboard/activities/industryStatistics/IndustryStats";
 
+function chunkArray(array, size) {
+  const result = [];
+  for (let i = 0; i < array.length; i += size) {
+    result.push(array.slice(i, i + size));
+  }
+  return result;
+}
+
+const CHUNK_SIZE = 100; // Safe chunk size for Supabase
+
 const IndustryStatisticsPage = async () => {
   const supabase = await createServerClient();
 
@@ -35,13 +45,21 @@ const IndustryStatisticsPage = async () => {
   if (userLeadsError || !userLeads) {
     return <IndustryStats data={null} />;
   }
+
   const allLeadIds = userLeads.map((ul) => ul.lead_id);
-  const { data: allLeads, error: allLeadsError } = await supabase
-    .from("leads")
-    .select("industry")
-    .in("id", allLeadIds);
-  if (allLeadsError || !allLeads) {
-    return <IndustryStats data={null} />;
+  const leadIdChunks = chunkArray(allLeadIds, CHUNK_SIZE);
+
+  let allLeads = [];
+  for (const chunk of leadIdChunks) {
+    const { data: leadsChunk, error: leadsChunkError } = await supabase
+      .from("leads")
+      .select("industry")
+      .in("id", chunk);
+
+    if (leadsChunkError) {
+      return <IndustryStats data={null} />;
+    }
+    allLeads = allLeads.concat(leadsChunk);
   }
 
   const userPreferences = profile.preferences;
@@ -57,6 +75,7 @@ const IndustryStatisticsPage = async () => {
       }
     });
   });
+
   return <IndustryStats data={preferenceLeadCounts} />;
 };
 

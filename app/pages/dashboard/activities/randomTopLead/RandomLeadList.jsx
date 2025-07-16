@@ -14,13 +14,13 @@ const RandomLeadList = ({ data }) => {
         <Link href={`/dashboard/leads/${lead.id}`} key={lead.id}>
           <div className='rounded-xl p-2 bg-blue-100/50 dark:bg-blue-900/50' key={lead.id}>
             <SubTitle className="h-10 lg:h-auto">{truncateString(lead.company_title, 28)}</SubTitle>
-            <FlexBox type='row-between'>
+            <div className="flex flex-col md:flex-row md:justify-between">
               <FlexBox type='row' className='gap-1'>
                 <SpanText>{lead.first_name}</SpanText>
                 <SpanText>{lead.last_name}</SpanText>
               </FlexBox>
               <SpanText>{lead.seniority}</SpanText>
-            </FlexBox>
+            </div>
           </div></Link>
       ))}
     </div>

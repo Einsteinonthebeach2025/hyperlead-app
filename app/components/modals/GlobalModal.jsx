@@ -2,12 +2,12 @@
 import { useDispatch, useSelector } from 'react-redux'
 import { selectGlobalModal, setToggle } from 'app/features/modalSlice'
 import { AnimatePresence } from 'framer-motion';
+import { termsData, privacyPolicyData } from 'app/localDB/companyInformationData';
 import MotionContainer from '../containers/MotionContainer';
 import Title from '../Title';
 import MotionChildren from '../containers/MotionChildren';
 import Paragraph from '../Paragraph';
 import Close from '../buttons/Close';
-import { termsData, privacyPolicyData } from 'app/localDB/companyInformationData';
 import InfoDisplay from './terms/InfoDisplay';
 import FullBillingDetails from 'app/pages/dashboard/settings/BillingAndPayment/paymentHistory/FullBillingDetails';
 
