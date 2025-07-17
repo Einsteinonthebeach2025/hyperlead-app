@@ -1,6 +1,6 @@
 TODO LIST
 
-daniel@resolutionvc.com ---> graphchiqovani@yahoo.com
+---> graphchiqovani@yahoo.com
 ---> grapchiqovani@gmail.com
 
 - რამე თესლი ლოადინგ ანიმაციაა საჭირო /auth/callback და მსგავსი ლოადინგებისთვის

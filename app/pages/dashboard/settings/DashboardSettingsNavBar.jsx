@@ -1,17 +1,44 @@
 "use client"
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { useEffect, useState } from 'react';
+import Spinner from 'app/components/Spinner';
 
-
-const tabs = [
+const allTabs = [
   { name: 'Security', href: '/dashboard/settings/security' },
-  { name: 'Change Password', href: '/dashboard/settings/change-my-password' },
   { name: 'Billing and Payment', href: '/dashboard/settings/billing-and-payment' },
+  { name: 'Change Password', href: '/dashboard/settings/change-my-password' },
 ];
 
 const DashboardSettingsNavBar = () => {
-
   const pathname = usePathname();
+  const [isGoogleUser, setIsGoogleUser] = useState(false);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const checkProvider = async () => {
+      try {
+        const supabase = createClientComponentClient();
+        const { data: { user } } = await supabase.auth.getUser();
+        if (user?.app_metadata?.provider === 'google' || user?.identities?.some((id) => id.provider === 'google')) {
+          setIsGoogleUser(true);
+        }
+      } finally {
+        setLoading(false);
+      }
+    };
+    checkProvider();
+  }, []);
+
+  if (loading) {
+    return <div className="flex items-center justify-center h-10"><Spinner /></div>;
+  }
+
+  // Filter out Change Password if Google user
+  const tabs = isGoogleUser
+    ? allTabs.filter(tab => tab.name !== 'Change Password')
+    : allTabs;
 
   return (
     <div className="flex items-center space-x-2 mt-2 mb-4">

@@ -1,20 +1,13 @@
 import MotionChildren from "app/components/containers/MotionChildren";
 import MotionContainer from "app/components/containers/MotionContainer";
 import Link from "next/link";
-import { FaFacebookSquare, FaTwitter, FaInstagram } from "react-icons/fa";
+import { FaInstagram } from "react-icons/fa";
 
 const socLinks = [
-  {
-    icon: <FaFacebookSquare />,
-    link: "/",
-  },
-  {
-    icon: <FaTwitter />,
-    link: "/",
-  },
+
   {
     icon: <FaInstagram />,
-    link: "/",
+    link: "https://www.instagram.com/hyperleadnet/",
   },
 ];
 

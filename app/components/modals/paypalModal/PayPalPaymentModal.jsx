@@ -19,7 +19,6 @@ const PayPalPaymentModal = () => {
   const user = useSelector(selectUser);
   const { isOpen, selectedPlan, data } = useSelector(selectPayPalPaymentModal);
 
-  // Robust extraction of subscriptionType
   let subscriptionType = "MONTHLY";
   if (data?.subscriptionType) {
     subscriptionType = data.subscriptionType;
@@ -28,9 +27,6 @@ const PayPalPaymentModal = () => {
   } else if (data?.pricingMode === "monthly") {
     subscriptionType = "MONTHLY";
   }
-
-  console.log(subscriptionType, "type");
-
 
   const planKey = selectedPlan || data?.selectedPlan;
   const [loading, setLoading] = useState(false);

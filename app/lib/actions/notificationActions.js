@@ -157,6 +157,36 @@ export const notifyUserOnSubscription = async (
   }
 };
 
+export const notifyUserOnRecurring = async (
+  userId,
+  userName,
+  subscription,
+  assignedLeadsCount,
+  supabaseClient = supabase
+) => {
+  try {
+    const { data, error } = await supabaseClient
+      .from("notifications")
+      .insert({
+        user_id: userId,
+        type: "RECURRING_PAYMENT_NOTIFY",
+        message: `${userName}, your recurring payment for the ${subscription} plan was successful. Your leads have been renewed.`,
+        read: false,
+        importance: "low",
+        metadata: {
+          received_leads: assignedLeadsCount,
+        },
+        action_url: "",
+      })
+      .select()
+      .single();
+    if (error) throw error;
+    return { data, error: null };
+  } catch (error) {
+    return { data: null, error: error.message };
+  }
+};
+
 export const notifyUserOnBugFix = async (bugId) => {
   try {
     const { data: bug, error: bugError } = await supabase

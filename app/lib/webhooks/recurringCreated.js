@@ -1,5 +1,8 @@
 import { assignLeadsToUser } from "app/lib/actions/leadActions";
-import { notifyUserOnSubscription } from "../actions/notificationActions";
+import {
+  notifyUserOnSubscription,
+  notifyUserOnRecurring,
+} from "../actions/notificationActions";
 import { createTransaction } from "../actions/transactionActions";
 
 export const handleRecurringPaymentCompleted = async (
@@ -14,7 +17,6 @@ export const handleRecurringPaymentCompleted = async (
     .eq("event_id", eventId)
     .single();
   if (existingEvent) {
-    console.log(`[Webhook] Duplicate event detected: ${eventId}`);
     return { success: true, duplicate: true };
   }
 
@@ -27,7 +29,6 @@ export const handleRecurringPaymentCompleted = async (
     .from("paypal_events")
     .insert({ event_id: eventId, received_at: now, resource_id: resourceId });
   if (insertError) {
-    console.error("[Webhook] Failed to insert event:", insertError);
     return { success: false, error: "Failed to insert event" };
   }
 
@@ -42,20 +43,13 @@ export const handleRecurringPaymentCompleted = async (
     .single();
 
   if (findError || !user) {
-    console.error(
-      `[Webhook] User not found for subscription_id: ${subscriptionId}`,
-      findError
-    );
     return { success: false, error: "User not found for subscription_id" };
   }
   const planName = user?.subscription || "UNKNOWN SUBSCRIPTION NAME";
   const planDetails = getPlanDetails(planName);
   if (!planDetails) {
-    console.error(`[Webhook] Invalid plan name: ${planName}`);
     return { success: false, error: "Invalid plan name" };
   }
-
-  console.log(user.subscription_type, "subscription type");
 
   const assignResult = await assignLeadsToUser(
     user.id,
@@ -68,22 +62,42 @@ export const handleRecurringPaymentCompleted = async (
   );
 
   if (!assignResult.success) {
-    console.error(`[Webhook] Failed to assign leads to user: ${user.id}`);
     return { success: false, error: "Failed to assign leads" };
   }
 
-  // 4. NOTIFY USERS ON SUBSCRIPTION
+  // Check if this is the first payment for this subscription
+  const { data: existingTransactions, error: txError } = await supabaseAdmin
+    .from("transactions")
+    .select("id")
+    .eq("user_id", user.id)
+    .eq("paypal_order_id", subscriptionId)
+    .eq("status", "COMPLETED");
+
+  const isFirstPayment =
+    !existingTransactions || existingTransactions.length === 0;
+
+  // 4. NOTIFY USERS ON SUBSCRIPTION OR RECURRING
   try {
-    await notifyUserOnSubscription(
-      user.id,
-      user.userName || user.email,
-      user.subscription,
-      assignResult.assignedLeadsCount,
-      supabaseAdmin
-    );
+    if (isFirstPayment) {
+      await notifyUserOnSubscription(
+        user.id,
+        user.userName || user.email,
+        user.subscription,
+        assignResult.assignedLeadsCount,
+        supabaseAdmin
+      );
+    } else {
+      await notifyUserOnRecurring(
+        user.id,
+        user.userName || user.email,
+        user.subscription,
+        assignResult.assignedLeadsCount,
+        supabaseAdmin
+      );
+    }
   } catch (notifyError) {
     console.error(
-      "[Webhook] Exception in notifyUserOnSubscription:",
+      "[Webhook] Exception in notifyUserOnSubscription/Recurring:",
       notifyError
     );
   }
@@ -106,9 +120,6 @@ export const handleRecurringPaymentCompleted = async (
   );
 
   if (!transactionResult.success) {
-    console.error(
-      `[Webhook] Failed to create transaction for user: ${user.id}`
-    );
     return { success: false, error: "Failed to create transaction" };
   }
 
