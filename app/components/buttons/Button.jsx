@@ -38,6 +38,7 @@ const Button = ({
 
   return (
     <button
+      type={type || "button"}
       onClick={onClick}
       className={`${className} ${cardTypes(type)} text-[11px] [&_svg]:text-sm md:[&_svg]:text-lg cursor-pointer font-semibold flex items-center space-x-1 rounded-3xl capitalize duration-300 w-fit`}
     >
