@@ -33,14 +33,18 @@ const AuthProvider = ({ children }) => {
     // Set up auth state change listener
     const {
       data: { subscription },
-    } = supabase.auth.onAuthStateChange(async (event, session) => {
+    } = supabase.auth.onAuthStateChange((event, session) => {
       if (event === "SIGNED_IN") {
-        const { data, error } = await getCurrentUser();
-        if (!error) {
-          dispatch(setUser(data));
-        }
+        setTimeout(async () => {
+          const { data, error } = await getCurrentUser();
+          if (!error) {
+            dispatch(setUser(data));
+          }
+        }, 0);
       } else if (event === "SIGNED_OUT") {
-        dispatch(setUser(null));
+        setTimeout(() => {
+          dispatch(setUser(null));
+        }, 0);
       }
     });
 
