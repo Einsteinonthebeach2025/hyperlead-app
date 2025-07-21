@@ -19,8 +19,9 @@ const HyperSearch = ({ profile }) => {
             const monthStart = getMonthStart();
 
             let maxUnlocks = 0;
-            if (subscription === "PRO") maxUnlocks = 10;
-            else if (subscription === "HYPER") maxUnlocks = 25;
+            if (subscription === "PLUS") maxUnlocks = 5;
+            else if (subscription === "PRO") maxUnlocks = 15;
+            else if (subscription === "HYPER") maxUnlocks = 30;
 
             const { data, error } = await supabase
                 .from("unlocked_leads")

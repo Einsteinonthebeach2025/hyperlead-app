@@ -7,9 +7,9 @@ const UserDisplayAvatar = ({ url, className, type, plan }) => {
     switch (plan) {
       case "PRO":
         return "bg-gradient-to-r from-cyan-200 to-sky-600 text-sky-500";
-      case "Plus":
+      case "PLUS":
         return "bg-gradient-to-r from-violet-400 to-blue-600 text-violet-500";
-      case "Hyper":
+      case "HYPER":
         return "bg-gradient-to-r from-teal-300 to-teal-500 text-teal-500";
     }
   };

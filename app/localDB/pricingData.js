@@ -1,7 +1,7 @@
 const pricingData = [
   {
     id: 0,
-    title: "Plus",
+    title: "PLUS",
     desc: "Perfect for solo founders or early-stage teams building outbound from scratch.",
     price: 0.01,
     annualPrice: 374,
@@ -49,7 +49,7 @@ const pricingData = [
   },
   {
     id: 2,
-    title: "Hyper",
+    title: "HYPER",
     desc: "Designed for outbound teams, agencies, and high-volume sales workflows.",
     price: 0.01,
     annualPrice: 1720,

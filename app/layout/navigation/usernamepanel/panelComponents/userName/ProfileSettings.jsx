@@ -40,7 +40,7 @@ const ProfileSettings = ({ isOpen, handleActive }) => {
     if (item.name === "Add Teammate") {
       const subscription = user?.profile?.subscription;
       if (!subscription || subscription === "PLUS") {
-        dispatch(setError({ message: "Subscribe to PRO or Hyper plan for this feature." }));
+        dispatch(setError({ message: "Subscribe to PRO or HYPER plan for this feature." }));
         return;
       }
     }

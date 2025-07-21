@@ -9,9 +9,16 @@ const SubscribtionStatus = ({ item }) => {
   const subs = item.subscription;
   const { isOpen, toggleState } = useToggleLocal();
 
+  console.log(item);
+
+
   const subscriptionDate = new Date(item.subscription_timestamp);
   const endDateObj = new Date(subscriptionDate);
-  endDateObj.setMonth(endDateObj.getMonth() + 1);
+  if (item.subscription_type === "ANNUAL") {
+    endDateObj.setFullYear(endDateObj.getFullYear() + 1);
+  } else {
+    endDateObj.setMonth(endDateObj.getMonth() + 1);
+  }
   const year = endDateObj.getFullYear();
   const month = String(endDateObj.getMonth() + 1).padStart(2, "0");
   const day = String(endDateObj.getDate()).padStart(2, "0");
