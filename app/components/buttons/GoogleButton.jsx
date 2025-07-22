@@ -8,7 +8,7 @@ const GoogleButton = () => {
   const [loading, setLoading] = useState(false);
 
   const handleGoogleSignIn = async (e) => {
-    if (e) e.preventDefault(); // Prevent any default form action
+    if (e) e.preventDefault();
     setLoading(true);
     await new Promise(resolve => setTimeout(resolve, 500));
     try {
