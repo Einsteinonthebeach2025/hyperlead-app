@@ -23,6 +23,10 @@ const NewCampaignButton = () => {
             if (plan === "PLUS") maxCampaigns = 5;
             else if (plan === "PRO") maxCampaigns = 10;
             else if (plan === "HYPER") maxCampaigns = 25;
+            if (!user?.profile?.subscription) {
+                dispatch(setError({ message: "You have to subscribe to a plan to use this feature.", type: "error" }));
+                return;
+            }
             const campaignCount = user?.profile?.email_campaign_count || 0;
             if (campaignCount >= maxCampaigns) {
                 dispatch(setError({ message: `You have reached your monthly campaign limit`, type: "error" }));
