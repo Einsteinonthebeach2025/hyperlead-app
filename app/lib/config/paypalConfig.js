@@ -3,8 +3,8 @@ export const PAYPAL_CLIENT_ID = process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID;
 export const SUBSCRIPTION_PLANS = {
   PLUS: {
     name: "PLUS",
-    price: "39",
-    annualPrice: "374",
+    price: "39.00",
+    annualPrice: "374.00",
     leads: 150,
     description: "Perfect for small businesses",
     planId: "P-7XH25132HX613060MNBOTB5I",
@@ -12,8 +12,8 @@ export const SUBSCRIPTION_PLANS = {
   },
   PRO: {
     name: "PRO",
-    price: "99",
-    annualPrice: "950",
+    price: "99.00",
+    annualPrice: "950.00",
     leads: 400,
     description: "Ideal for growing businesses",
     planId: "P-9HX723217A653215GNBUSP5Q",
@@ -21,8 +21,8 @@ export const SUBSCRIPTION_PLANS = {
   },
   HYPER: {
     name: "HYPER",
-    price: "179",
-    annualPrice: "1720",
+    price: "179.00",
+    annualPrice: "1720.00",
     leads: 800,
     description: "For large scale operations",
     planId: "P-5YB76014V2287162GNBUVGWQ",
