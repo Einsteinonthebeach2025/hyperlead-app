@@ -390,28 +390,6 @@ export const notifyAssistantAccept = async (bossId, assistantEmail) => {
   return { success: true, data: notification };
 };
 
-export const notifyUnlockingLead = async (userId, userName) => {
-  try {
-    const { data, error } = await supabase
-      .from("notifications")
-      .insert({
-        user_id: userId,
-        type: "unlocking lead",
-        message: `${userName}, you have successfully unlocked lead. Check your unlocked leads in the dashboard.`,
-        read: false,
-        importance: "medium",
-        metadata: {},
-        action_url: "",
-      })
-      .select()
-      .single();
-    if (error) throw error;
-    return { data, error: null };
-  } catch (error) {
-    return { data: null, error: error.message };
-  }
-};
-
 export const notifySubscriptionCancel = async (userId) => {
   try {
     const { data, error } = await supabase
@@ -443,7 +421,7 @@ export const notifyExtraLeadsPurchase = async (userId, userName, count) => {
       .insert({
         user_id: userId,
         type: "EXTRA_LEADS_PURCHASE_NOTIFY",
-        message: `${userName}, you have successfully purchased ${count} extra leads!`,
+        message: `${userName}, you have successfully purchased ${count} extra leads! Visit dashboard`,
         read: false,
         importance: "low",
         metadata: { count },
@@ -465,7 +443,7 @@ export const notifySingleLeadUnlock = async (userId, userName, leadId) => {
       .insert({
         user_id: userId,
         type: "SINGLE_LEAD_UNLOCK_NOTIFY",
-        message: `${userName}, you have successfully unlocked a lead!`,
+        message: `${userName}, you have successfully unlocked a lead! Check your unlocked leads dashboard`,
         read: false,
         importance: "low",
         metadata: { leadId },

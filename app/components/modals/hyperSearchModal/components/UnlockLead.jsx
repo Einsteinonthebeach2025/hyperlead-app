@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { setError, setToggle } from 'app/features/modalSlice'
 import { selectUser } from 'app/features/userSlice'
 
-const UnlockLead = ({ leadId, isUnlocked, handleClose }) => {
+const UnlockLead = ({ leadId, isUnlocked, }) => {
   const dispatch = useDispatch()
   const user = useSelector(selectUser)
   const userId = user?.id
