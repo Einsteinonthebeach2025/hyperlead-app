@@ -7,7 +7,7 @@ const pricingData = [
     annualPrice: 374,
     leads: 150,
     link: "/",
-    planId: "P-74J685623B288143WNBN7CQY",
+    planId: "P-7XH25132HX613060MNBOTB5I",
     annual_plan_id: "P-6UM118406D362493LNB37UZA",
     benefits: [
       "150 high-quality B2B leads/month",
@@ -26,12 +26,12 @@ const pricingData = [
     id: 1,
     title: "PRO",
     desc: "Ideal for growing teams and outreach-driven companies looking to scale.",
-    price: 0.01,
+    price: 99,
     annualPrice: 950,
     leads: 400,
     link: "/",
     color: true,
-    planId: "P-2TJ41897NU456330ANBN7EEY",
+    planId: "P-9HX723217A653215GNBUSP5Q",
     annual_plan_id: "P-8KK27710LB222034YNB37VHI",
     benefits: [
       "400 targeted B2B leads/month",
@@ -55,7 +55,7 @@ const pricingData = [
     annualPrice: 1720,
     leads: 800,
     link: "/",
-    planId: "P-3M451725FG751784VNBN7FDY",
+    planId: "P-5YB76014V2287162GNBUVGWQ",
     annual_plan_id: "P-4582297294762771VNB37VRI",
     benefits: [
       "800+ verified leads/month",
