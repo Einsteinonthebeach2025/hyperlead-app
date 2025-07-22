@@ -3,7 +3,7 @@ export const PAYPAL_CLIENT_ID = process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID;
 export const SUBSCRIPTION_PLANS = {
   PLUS: {
     name: "PLUS",
-    price: "0.01",
+    price: "39",
     annualPrice: "374",
     leads: 150,
     description: "Perfect for small businesses",
@@ -12,7 +12,7 @@ export const SUBSCRIPTION_PLANS = {
   },
   PRO: {
     name: "PRO",
-    price: "0.01",
+    price: "99",
     annualPrice: "950",
     leads: 400,
     description: "Ideal for growing businesses",
@@ -21,7 +21,7 @@ export const SUBSCRIPTION_PLANS = {
   },
   HYPER: {
     name: "HYPER",
-    price: "0.01",
+    price: "179",
     annualPrice: "1720",
     leads: 800,
     description: "For large scale operations",

@@ -58,7 +58,7 @@ const BugForm = () => {
         />
       </div>
       <div className="center">
-        <Button loading={loading}>
+        <Button type="submit" loading={loading}>
           <FaBug />
           <span>Submit a bug</span>
         </Button>
