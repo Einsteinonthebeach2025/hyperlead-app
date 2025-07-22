@@ -397,7 +397,7 @@ export const notifyUnlockingLead = async (userId, userName) => {
       .insert({
         user_id: userId,
         type: "unlocking lead",
-        message: `${userName}, you have successfully unlocked lead.`,
+        message: `${userName}, you have successfully unlocked lead. Check your unlocked leads in the dashboard.`,
         read: false,
         importance: "medium",
         metadata: {},
