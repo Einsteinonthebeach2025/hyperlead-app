@@ -1,7 +1,7 @@
 TODO LIST
 
-jodi@sault.com.au ---> graphchiqovani@yahoo.com
-michaelvallejos@kw.com ---> grapchiqovani@gmail.com
+---> graphchiqovani@yahoo.com
+---> grapchiqovani@gmail.com
 
 - რამე თესლი ლოადინგ ანიმაციაა საჭირო /auth/callback და მსგავსი ლოადინგებისთვის
 
