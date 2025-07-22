@@ -25,7 +25,9 @@ const LeadsPage = async () => {
   );
   const { data: profile, error: profileError } = await supabase
     .from("profiles")
-    .select("subscription, subscription_timestamp, id, email")
+    .select(
+      "subscription, subscription_timestamp, id, email, unlocked_leads_count"
+    )
     .eq("id", effectiveUserId)
     .single();
   if (profileError) {
