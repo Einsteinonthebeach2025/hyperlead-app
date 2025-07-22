@@ -13,7 +13,7 @@ export const SUBSCRIPTION_PLANS = {
   PRO: {
     name: "PRO",
     price: "0.01",
-    annualPrice: "0.01",
+    annualPrice: "950",
     leads: 400,
     description: "Ideal for growing businesses",
     planId: "P-2TJ41897NU456330ANBN7EEY",

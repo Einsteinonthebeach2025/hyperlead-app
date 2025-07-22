@@ -27,7 +27,7 @@ const pricingData = [
     title: "PRO",
     desc: "Ideal for growing teams and outreach-driven companies looking to scale.",
     price: 0.01,
-    annualPrice: 0.01,
+    annualPrice: 950,
     leads: 400,
     link: "/",
     color: true,
