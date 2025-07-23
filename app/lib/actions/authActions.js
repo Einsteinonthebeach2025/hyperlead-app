@@ -169,7 +169,7 @@ export const getCurrentUser = async () => {
 export const sendPasswordResetEmail = async (email) => {
   try {
     const { error } = await supabase.auth.resetPasswordForEmail(email, {
-      redirectTo: `https://hyperlead.net/resetpassword/update`,
+      redirectTo: `https://www.hyperlead.net/resetpassword/update`,
     });
     if (error) throw error;
     return {
