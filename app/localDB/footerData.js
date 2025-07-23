@@ -29,6 +29,10 @@ const footerData = [
         title: "terms of use",
         link: "/terms-of-use",
       },
+      {
+        title: "contact us",
+        link: "mailto:contact@hyperlead.net",
+      },
     ],
   },
 ];

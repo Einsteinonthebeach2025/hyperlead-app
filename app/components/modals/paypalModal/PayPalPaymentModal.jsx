@@ -111,11 +111,11 @@ const PayPalPaymentModal = () => {
   // Ensure annual plan_id is set for annual subscriptions
   if ((subscriptionType === "ANNUAL" || data?.pricingMode === "annual") && !plan.plan_id && plan.annual_plan_id) {
     plan = { ...plan, plan_id: plan.annual_plan_id };
-    console.log('[PayPal][PayPalPaymentModal] Set plan.plan_id to annual_plan_id:', plan.plan_id);
   }
 
   // Handle one-time payment success
   const handlePaymentSuccess = async (orderID) => {
+    setShowAppProcessing(true); // Show spinner only after payment starts
     setLoading(true);
     try {
       const orderData = {
@@ -196,6 +196,7 @@ const PayPalPaymentModal = () => {
       dispatch(setError({ message: error.message, type: "error" }));
     } finally {
       setLoading(false);
+      setShowAppProcessing(false);
     }
   };
 
@@ -254,7 +255,7 @@ const PayPalPaymentModal = () => {
           handleSubscriptionSuccess={handleSubscriptionSuccess}
           handleSubscriptionError={handleSubscriptionError}
         />
-        <ProcessingSection loading={loading} />
+        <ProcessingSection loading={showAppProcessing} />
       </div>
       <TwoFactorAuthModal
         isOpen={show2FAModal}

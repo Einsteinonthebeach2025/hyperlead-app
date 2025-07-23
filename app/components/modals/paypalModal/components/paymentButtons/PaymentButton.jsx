@@ -16,7 +16,7 @@ const PaymentButton = ({ plan, handlePaymentSuccess, handlePaymentError, setShow
           shape: "rect",
           label: "pay"
         }}
-        fundingSource={undefined} // This allows both PayPal and card payments
+        fundingSource="paypal" // Only show PayPal button
         createOrder={(data, actions) => {
           return actions.order.create({
             purchase_units: [
@@ -31,21 +31,8 @@ const PaymentButton = ({ plan, handlePaymentSuccess, handlePaymentError, setShow
           });
         }}
         onApprove={async (data, actions) => {
-          //create local order
-          // const localOrder = {
-          //   id: data.orderID,
-          //   plan: plan,
-          //   amount: plan.price,
-          //   currency: "USD",
-          //   status: "draft",
-          // }
-          // //save local order to supabase
-          // const { data: localOrderData, error: localOrderError } = await supabase.from("local_orders").insert(localOrder);
-          // if (localOrderError) {
-          //   console.error("Error saving local order:", localOrderError);
-          // }
-
           const order = await actions.order.capture();
+          // Only show spinner after payment is approved
           setShowAppProcessing(true);
           handlePaymentSuccess(order.id);
           return;

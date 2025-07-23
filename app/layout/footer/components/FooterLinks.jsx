@@ -53,6 +53,17 @@ const FooterLinks = () => {
                     </button>
                   );
                 }
+                if (linkItem.link.startsWith('mailto:')) {
+                  return (
+                    <a
+                      href={linkItem.link}
+                      key={index}
+                      className="text-neutral-700 capitalize cursor-pointer hover:text-black dark:text-stone-300 dark:hover:text-stone-200 duration-300 text-sm"
+                    >
+                      <span>{linkItem.title}</span>
+                    </a>
+                  );
+                }
                 return (
                   <Link
                     className="text-neutral-700 hover:text-black dark:text-stone-300 dark:hover:text-stone-200 duration-300 text-sm"
