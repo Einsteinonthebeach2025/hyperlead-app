@@ -1,4 +1,3 @@
-import React from "react";
 import { MdLockReset } from "react-icons/md";
 import Link from "next/link";
 import FormContainer from "app/components/containers/FormContainer";
