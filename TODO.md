@@ -65,7 +65,7 @@ TODO LIST
 - [x] NOTIFY USER: When subscription is out
 - [x] NOTIFY USER: When someone wants to add him/her as an assistant
 - [x] NOTIFY USER: After adding set of LEADS to the database (GLOBAL)
-- [ ] NOTIFY USER: About every new feature is added to application (GLOBAL)
+- [x] NOTIFY USER: About every new feature is added to application (GLOBAL)
 - [x] USER can report any bug and updates reported bugs count in database (reported_bugs field)
 - [x] USER can give feedback with star rating
 - [x] USER feedbacks first goes to admin panel with buttons APPROVED / DECLINED
@@ -85,7 +85,7 @@ TODO LIST
 - [x] FEEDBACKS: feedbacks are either approved or deleted
 - [x] USER MANAGEMENT: all users with neccessary data in it
 - [x] Admin can send a NOTIFICATIONS or EMAILS to all users or to a single user
-- [ ] Admin can STOP subscription for any user
+- [x] Admin can STOP subscription for any user
 - [x] ANALYTICS: Total Users count with statistics graph
 - [x] ANALYTICS: Weekly users count comparison vs last week
 - [x] ANALYTICS: Based on country

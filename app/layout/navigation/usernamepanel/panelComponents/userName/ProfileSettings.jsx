@@ -98,9 +98,9 @@ const ProfileSettings = ({ isOpen, handleActive }) => {
   return (
     <AnimatePresence>
       {isOpen && (
-        <MotionContainer animation="bottom">
+        <MotionContainer animation="bottom" onMouseLeave={handleActive}>
           <CardContainer
-            onMouseLeave={handleActive}
+
             className="absolute z-10 top-14 right-0 w-52 space-y-1 border shadow-md dark:shadow-stone-700 *:flex *:justify-end"
           >
             {links.map((item, index) => (
