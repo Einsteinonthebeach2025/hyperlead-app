@@ -108,6 +108,11 @@ const PayPalPaymentModal = () => {
   if (data?.price) plan = { ...plan, price: data.price };
   if (data?.planId) plan = { ...plan, plan_id: data.planId };
 
+  // Ensure annual plan_id is set for annual subscriptions
+  if ((subscriptionType === "ANNUAL" || data?.pricingMode === "annual") && !plan.plan_id && plan.annual_plan_id) {
+    plan = { ...plan, plan_id: plan.annual_plan_id };
+    console.log('[PayPal][PayPalPaymentModal] Set plan.plan_id to annual_plan_id:', plan.plan_id);
+  }
 
   // Handle one-time payment success
   const handlePaymentSuccess = async (orderID) => {

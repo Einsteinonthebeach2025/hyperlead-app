@@ -4,29 +4,35 @@ export const SUBSCRIPTION_PLANS = {
   PLUS: {
     name: "PLUS",
     price: "39.00",
-    annualPrice: "374.00",
+    annualPrice: "374",
     leads: 150,
     description: "Perfect for small businesses",
-    planId: "P-7XH25132HX613060MNBOTB5I",
-    annual_plan_id: "P-6UM118406D362493LNB37UZA",
+    // planId: "P-7XH25132HX613060MNBOTB5I", sandbox
+    planId: "P-74J685623B288143WNBN7CQY",
+    // annual_plan_id: "P-0P26852608051814KNCAMBZQ", sandbox
+    annual_plan_id: "P-83F02828AK235573YNBUPPCY",
   },
   PRO: {
     name: "PRO",
-    price: "99.00",
-    annualPrice: "950.00",
+    price: "0.01",
+    annualPrice: "0.01",
     leads: 400,
     description: "Ideal for growing businesses",
-    planId: "P-9HX723217A653215GNBUSP5Q",
-    annual_plan_id: "P-8KK27710LB222034YNB37VHI",
+    // planId: "P-9HX723217A653215GNBUSP5Q", sandbox
+    planId: "P-2TJ41897NU456330ANBN7EEY",
+    // annual_plan_id: "P-31Y92320KJ352140GNCAMCMI", sandbox
+    annual_plan_id: "P-1T529730KX668460NNBUPPQY",
   },
   HYPER: {
     name: "HYPER",
     price: "179.00",
-    annualPrice: "1720.00",
+    annualPrice: "1720",
     leads: 800,
     description: "For large scale operations",
-    planId: "P-5YB76014V2287162GNBUVGWQ",
-    annual_plan_id: "P-4582297294762771VNB37VRI",
+    // planId: "P-5YB76014V2287162GNBUVGWQ", sandbox
+    planId: "P-3M451725FG751784VNBN7FDY",
+    // annual_plan_id: "P-52097423WX019551UNCAMDFQ", sandbox
+    annual_plan_id: "P-3BM54016W0125070RNBUPQFI",
   },
 };
 

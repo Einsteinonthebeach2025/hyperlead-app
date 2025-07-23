@@ -2,6 +2,7 @@
 import { PayPalButtons } from "@paypal/react-paypal-js";
 import { useDispatch } from "react-redux";
 import { setError } from "app/features/modalSlice";
+import { useEffect } from "react";
 
 const SubscriptionButton = ({ plan, planType, handleSubscriptionSuccess, handleSubscriptionError, setShowAppProcessing }) => {
   const dispatch = useDispatch();
