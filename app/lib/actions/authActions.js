@@ -206,12 +206,16 @@ export const updatePassword = async (newPassword) => {
       throw error;
     }
     await notifyPasswordChange(user.id);
-    const { error: resetError } = await supabase
-      .from("password_resets")
-      .insert({
-        user_id: user.id,
-        reset_at: new Date().toISOString(),
-      });
+    const { error: updateProfileError } = await supabase
+      .from("profiles")
+      .update({ last_pwd_reset: new Date().toISOString() })
+      .eq("id", user.id);
+    if (updateProfileError) {
+      return {
+        error: "Password updated, but failed to update last_pwd_reset.",
+        message: null,
+      };
+    }
     return {
       error: null,
       message: "Password updated successfully.",
@@ -293,12 +297,17 @@ export const changePassword = async (currentPassword, newPassword) => {
       throw error;
     }
     await notifyPasswordChange(user.id);
-    const { error: resetError } = await supabase
-      .from("password_resets")
-      .insert({
-        user_id: user.id,
-        reset_at: new Date().toISOString(),
-      });
+    // Update last_pwd_reset in profiles table
+    const { error: updateProfileError } = await supabase
+      .from("profiles")
+      .update({ last_pwd_reset: new Date().toISOString() })
+      .eq("id", user.id);
+    if (updateProfileError) {
+      return {
+        error: "Password changed, but failed to update last_pwd_reset.",
+        message: null,
+      };
+    }
     return {
       error: null,
       message: "Password changed successfully.",

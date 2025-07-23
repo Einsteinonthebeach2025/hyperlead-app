@@ -10,7 +10,6 @@ import Button from 'app/components/buttons/Button';
 import supabase from 'app/lib/config/supabaseClient';
 
 const UserManagement = ({ data: initialUsers, totalCount, message, desc }) => {
-  console.log(initialUsers);
 
   const [users, setUsers] = useState(initialUsers);
   const [loading, setLoading] = useState(false);
@@ -40,7 +39,7 @@ const UserManagement = ({ data: initialUsers, totalCount, message, desc }) => {
         .select(`
           id, address, avatar_url, city, company, created_at, email, firstName, lastName,
           leads_received_this_month, linkedin_url, phone, position, country, reported_bugs,
-          sex, subscription, subscription_timestamp, total_leads_received, twitter_url,
+          sex, subscription, subscription_timestamp, subscription_type, total_leads_received, twitter_url,
           userBirthDate, userName, web_url, address,
           transactions!user_id (
             id, paypal_order_id, plan_name, amount, status, created_at

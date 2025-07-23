@@ -11,7 +11,7 @@ const UserJobTiitle = ({ item }) => {
     return (
         <FlexBox type="column" className="items-center">
             <SubTitle>{company}</SubTitle>
-            <Paragraph className="font-normal">{position}</Paragraph>
+            <Paragraph className="font-normal capitalize">{position}</Paragraph>
             <FlexBox type="row" className="gap-2 items-center mt-2">
                 {web_url && <IconContainer href={web_url} size="sm">{<FaGlobe size={20} />}</IconContainer>}
                 {twitter_url && <IconContainer href={twitter_url} size="sm">{<FaTwitter size={20} />}</IconContainer>}

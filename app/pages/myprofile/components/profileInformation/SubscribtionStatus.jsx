@@ -9,9 +9,6 @@ const SubscribtionStatus = ({ item }) => {
   const subs = item.subscription;
   const { isOpen, toggleState } = useToggleLocal();
 
-  console.log(item);
-
-
   const subscriptionDate = new Date(item.subscription_timestamp);
   const endDateObj = new Date(subscriptionDate);
   if (item.subscription_type === "ANNUAL") {

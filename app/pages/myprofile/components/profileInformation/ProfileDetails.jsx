@@ -6,6 +6,7 @@ import RemoveAssistant from "./RemoveAssistant";
 import { useSelector } from "react-redux";
 import { selectUser } from "app/features/userSlice";
 import FlexBox from "app/components/containers/FlexBox";
+import { formatTime } from "app/helpers/utils";
 
 const ProfileDetails = () => {
   const user = useSelector(selectUser);
@@ -18,6 +19,7 @@ const ProfileDetails = () => {
     { text: "Position", key: "position" },
     { text: "Gender", key: "sex" },
     { text: "Current Assistant", key: "user_assistant" },
+    { text: "Last Password Reset", key: "last_pwd_reset" },
   ];
 
   const addressInfo = [
@@ -51,11 +53,14 @@ const ProfileDetails = () => {
           );
         }
       }
+      if (key === "last_pwd_reset" && profile?.[key]) {
+        return <InfoContainer key={key} text={text} subText={formatTime(profile[key])} />;
+      }
       return <InfoContainer key={key} text={text} subText={profile?.[key]} />;
     });
 
   return (
-    <div className="w-full grid grid-cols-1 lg:grid-cols-2 gap-4 ">
+    <div className="w-full grid grid-cols-1 lg:grid-cols-2 gap-4">
       <CardContainer>
         <Title>Personal Information</Title>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mt-5">
@@ -64,7 +69,7 @@ const ProfileDetails = () => {
       </CardContainer>
       <CardContainer>
         <Title>Address</Title>
-        <div className="grid  grid-cols-1 lg:grid-cols-2 gap-4 mt-5">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mt-5">
           {renderInfo(addressInfo)}
         </div>
       </CardContainer>

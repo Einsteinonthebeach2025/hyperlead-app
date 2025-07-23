@@ -11,7 +11,7 @@ const UserRegions = ({ item }) => {
   const { country, city, address, phone, email, id } = item;
 
   return (
-    <div className='flex items-center gap-2 relative'>
+    <div className='flex items-center justify-end gap-2 relative'>
       <FlexBox type="column-end" className="items-center">
         {country && city ?
           <FlexBox type="row" className="gap-2 items-center">
@@ -20,7 +20,7 @@ const UserRegions = ({ item }) => {
             <CountryFlags className="rounded-full" countryName={country} />
           </FlexBox> : " "}
         {phone && address ?
-          <FlexBox type="column" className="mt-1 gap-1 items-center">
+          <FlexBox type="column-end" className="mt-1 gap-1 items-center">
             <SpanText className="font-medium">{address}</SpanText>
             <SpanText className="font-medium flex items-center gap-2">{phone} <FaPhone className='text-green-600' /></SpanText>
           </FlexBox>
