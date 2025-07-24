@@ -1,5 +1,8 @@
 const FullBillingDetails = ({ transaction }) => {
     const address = transaction.payer_address || {};
+
+    console.log(transaction);
+
     return (
         <div >
             <div className='space-y-1 text-sm'>
@@ -13,7 +16,7 @@ const FullBillingDetails = ({ transaction }) => {
                 <div><span className='font-light'>Payer Name:</span> {transaction.payer_name}</div>
                 <div><span className='font-light'>PayPal Order ID:</span> {transaction.paypal_order_id}</div>
                 <div><span className='font-light'>Plan Name:</span> {transaction.plan_name}</div>
-                {transaction.seller_transaction_id && <div><span className='font-light'>Capture ID:</span> {transaction.seller_transaction_id || ''}</div>}
+                {transaction.resource_id && <div><span className='font-light'>Capture ID:</span> {transaction.resource_id || ''}</div>}
                 <div><span className='font-light'>Status:</span> {transaction.status}</div>
             </div>
         </div>

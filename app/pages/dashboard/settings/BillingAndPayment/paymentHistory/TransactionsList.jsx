@@ -99,8 +99,8 @@ const TransactionsList = ({ transactions }) => {
             }
             <div className="space-y-2 ">
               <TransactionRow label="PayPal Order ID:" value={transaction.paypal_order_id} />
-              {transaction.seller_transaction_id && (
-                <TransactionRow label="Capture ID:" value={transaction.seller_transaction_id} />
+              {transaction.resource_id && (
+                <TransactionRow label="Capture ID:" value={transaction.resource_id} />
               )}
               <TransactionRow label="Plan Type:" value={transaction.plan_name} />
               <TransactionRow
