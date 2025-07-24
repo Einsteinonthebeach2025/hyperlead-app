@@ -1,9 +1,9 @@
 import { NextResponse } from "next/server";
 import { handleRecurringPaymentCompleted } from "app/lib/webhooks/recurringCreated";
-import { handleBillingSubscriptionFailed } from "app/lib/webhooks/billingSubscriptionFailed";
 import { handlePaymentSaleDenied } from "app/lib/webhooks/paymentSaleDenied";
 import { handleBillingSubscriptionCancelled } from "app/lib/webhooks/billingSubscriptionCancelled";
 import supabaseAdmin from "app/lib/config/supabaseAdmin";
+import { handleBillingSubscriptionFailed } from "app/lib/webhooks/billingsubscriptionFailed";
 
 export const config = {
   api: {
