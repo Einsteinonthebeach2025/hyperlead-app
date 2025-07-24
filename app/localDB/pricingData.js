@@ -7,10 +7,10 @@ const pricingData = [
     annualPrice: 374,
     leads: 150,
     link: "/",
-    // planId: "P-7XH25132HX613060MNBOTB5I", sandbox
-    planId: "P-74J685623B288143WNBN7CQY",
-    // annual_plan_id: "P-0P26852608051814KNCAMBZQ", sandbox
-    annual_plan_id: "P-83F02828AK235573YNBUPPCY",
+    planId: "P-7XH25132HX613060MNBOTB5I",
+    // planId: "P-74J685623B288143WNBN7CQY" production,
+    annual_plan_id: "P-0P26852608051814KNCAMBZQ",
+    // annual_plan_id: "P-83F02828AK235573YNBUPPCY", production
     benefits: [
       "150 high-quality B2B leads/month",
       "Verified decision-makers: CEOs, Founders, Managers",
@@ -28,15 +28,15 @@ const pricingData = [
     id: 1,
     title: "PRO",
     desc: "Ideal for growing teams and outreach-driven companies looking to scale.",
-    price: 0.01,
-    annualPrice: 0.01,
+    price: 99,
+    annualPrice: 950,
     leads: 400,
     link: "/",
     color: true,
-    // planId: "P-9HX723217A653215GNBUSP5Q", sandbox
-    planId: "P-2TJ41897NU456330ANBN7EEY",
-    // annual_plan_id: "P-31Y92320KJ352140GNCAMCMI", sandbox
-    annual_plan_id: "P-1T529730KX668460NNBUPPQY",
+    planId: "P-9HX723217A653215GNBUSP5Q",
+    // planId: "P-2TJ41897NU456330ANBN7EEY", production
+    annual_plan_id: "P-31Y92320KJ352140GNCAMCMI",
+    // annual_plan_id: "P-1T529730KX668460NNBUPPQY", production
     benefits: [
       "400 targeted B2B leads/month",
       "Decision-maker contacts: CEOs, Founders, Managers, Directors",
@@ -59,10 +59,10 @@ const pricingData = [
     annualPrice: 1720,
     leads: 800,
     link: "/",
-    // planId: "P-5YB76014V2287162GNBUVGWQ", sandbox
-    planId: "P-3M451725FG751784VNBN7FDY",
-    // annual_plan_id: "P-52097423WX019551UNCAMDFQ", sandbox
-    annual_plan_id: "P-3BM54016W0125070RNBUPQFI",
+    planId: "P-5YB76014V2287162GNBUVGWQ",
+    // planId: "P-3M451725FG751784VNBN7FDY", production
+    annual_plan_id: "P-52097423WX019551UNCAMDFQ",
+    // annual_plan_id: "P-3BM54016W0125070RNBUPQFI", production
     benefits: [
       "800+ verified leads/month",
       "AAll Pro features included",
