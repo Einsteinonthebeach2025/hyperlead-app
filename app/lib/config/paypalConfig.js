@@ -38,14 +38,14 @@ export const SUBSCRIPTION_PLANS = {
 
 export const EXTRA_LEADS_PLAN = {
   name: "Extra 100 Leads",
-  price: "0.01",
+  price: "29.00",
   leads: 100,
   description: "One-time purchase of 100 additional leads.",
 };
 
 export const SINGLE_LEAD_PLAN = {
   name: "Lead Unlock",
-  price: "0.01",
+  price: "2.00",
   leads: 1,
   description: "Unlock this specific lead for a one-time fee.",
 };

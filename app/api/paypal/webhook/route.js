@@ -119,6 +119,20 @@ export async function POST(req) {
       return NextResponse.json({ received: true, eventType }, { status: 200 });
     }
 
+    if (eventType === "PAYMENT.CAPTURE.COMPLETED") {
+      console.log(
+        `[Webhook] PAYMENT.CAPTURE.COMPLETED (one-time purchase) received. eventId: ${eventId}`
+      );
+      return NextResponse.json({ received: true, eventType }, { status: 200 });
+    }
+
+    if (eventType === "PAYMENT.DECLINED") {
+      console.log(
+        `[Webhook] PAYMENT.DECLINED (one-time purchase failed) received. eventId: ${eventId}`
+      );
+      return NextResponse.json({ received: true, eventType }, { status: 200 });
+    }
+
     return NextResponse.json({ received: true, eventType }, { status: 200 });
   } catch (err) {
     console.error("[PayPal Webhook] Error parsing event:", err, body);
