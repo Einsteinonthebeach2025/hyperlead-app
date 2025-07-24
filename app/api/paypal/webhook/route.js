@@ -126,7 +126,7 @@ export async function POST(req) {
       return NextResponse.json({ received: true, eventType }, { status: 200 });
     }
 
-    if (eventType === "PAYMENT.DECLINED") {
+    if (eventType === "PAYMENT.CAPTURE.DECLINED") {
       console.log(
         `[Webhook] PAYMENT.DECLINED (one-time purchase failed) received. eventId: ${eventId}`
       );
