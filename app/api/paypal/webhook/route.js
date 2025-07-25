@@ -4,6 +4,7 @@ import { handlePaymentSaleDenied } from "app/lib/webhooks/paymentSaleDenied";
 import { handleBillingSubscriptionCancelled } from "app/lib/webhooks/billingSubscriptionCancelled";
 import supabaseAdmin from "app/lib/config/supabaseAdmin";
 import { handleBillingSubscriptionFailed } from "app/lib/webhooks/billingsubscriptionFailed";
+import { handlePaymentCaptureCompleted } from "app/lib/webhooks/paymentCaptureCompleted";
 
 export const config = {
   api: {

@@ -13,9 +13,9 @@ const PaymentButton = ({ plan, handlePaymentSuccess, handlePaymentError, setShow
           layout: "vertical",
           color: "blue",
           shape: "rect",
-          label: "pay",
-          fundingIcons: true,
+          label: "pay"
         }}
+        fundingSource="paypal" // Only show PayPal button
         createOrder={(data, actions) => {
           return actions.order.create({
             purchase_units: [
@@ -24,15 +24,17 @@ const PaymentButton = ({ plan, handlePaymentSuccess, handlePaymentError, setShow
                   value: plan.price,
                   currency_code: "USD",
                 },
-                description: `${desc} - Transaction`,
+                description: `${desc} - Transaction`
               },
             ],
           });
         }}
         onApprove={async (data, actions) => {
           const order = await actions.order.capture();
+          // Only show spinner after payment is approved
           setShowAppProcessing(true);
           handlePaymentSuccess(order.id);
+          return;
         }}
         onError={handlePaymentError}
         onCancel={() => {
@@ -45,7 +47,7 @@ const PaymentButton = ({ plan, handlePaymentSuccess, handlePaymentError, setShow
         }}
       />
     </div>
-  );
-};
+  )
+}
 
-export default PaymentButton;
+export default PaymentButton

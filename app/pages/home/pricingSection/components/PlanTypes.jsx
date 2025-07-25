@@ -3,7 +3,7 @@ const PlanTypes = ({ pricingMode, setPricingMode }) => {
     <div className="relative flex gap-2 md:mb-4 bg-neutral-200 dark:bg-blue-300/30 p-1 rounded-full *:cursor-pointer">
       <button
         className={`
-          relative z-10 px-4 py-2 rounded-full transition-all duration-200
+          relative z-[3] px-4 py-2 rounded-full transition-all duration-200
           ${pricingMode === "monthly"
             ? "bg-white shadow-lg text-neutral-900 "
             : "bg-transparent text-neutral-500 dark:text-neutral-300"}
@@ -15,7 +15,7 @@ const PlanTypes = ({ pricingMode, setPricingMode }) => {
       </button>
       <button
         className={`
-          relative z-10 px-4 py-2 rounded-full transition-all duration-200
+          relative z-[3] px-4 py-2 rounded-full transition-all duration-200
           ${pricingMode === "annual"
             ? "bg-white shadow-lg text-neutral-900 "
             : "bg-transparent text-neutral-500 dark:text-neutral-300"}
