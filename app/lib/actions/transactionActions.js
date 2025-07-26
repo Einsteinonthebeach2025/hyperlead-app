@@ -45,9 +45,10 @@ export const cancelSubscription = async (
   cancelledAt
 ) => {
   try {
+    // Fetch the latest transaction for this user and subscription
     const { data: transaction, error: fetchError } = await supabase
       .from("transactions")
-      .select("id")
+      .select("*")
       .eq("user_id", userId)
       .eq("paypal_order_id", subscriptionId)
       .order("created_at", { ascending: false })
@@ -59,13 +60,22 @@ export const cancelSubscription = async (
         error: "Transaction not found for this subscription.",
       };
     }
-    // Update transaction: set status to CANCELLED and set cancelled_at
-    const { error: updateError } = await supabase
+
+    const { id, created_at, cancelled_at, status, current_status, ...rest } =
+      transaction;
+    const newTransaction = {
+      ...rest,
+      current_status: "CANCELLED",
+      status: "CANCELLED",
+      cancelled_at: cancelledAt,
+      created_at: new Date(),
+    };
+    // Insert new cancellation transaction
+    const { error: insertError } = await supabase
       .from("transactions")
-      .update({ current_status: "CANCELLED", cancelled_at: cancelledAt })
-      .eq("id", transaction.id);
-    if (updateError) {
-      return { success: false, error: updateError.message };
+      .insert(newTransaction);
+    if (insertError) {
+      return { success: false, error: insertError.message };
     }
     // Update user profile: set subscription_id to null and subscription_status to "cancelled"
     const { error: profileError } = await supabase

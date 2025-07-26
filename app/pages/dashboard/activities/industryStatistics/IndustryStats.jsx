@@ -1,7 +1,6 @@
 import CardContainer from "app/components/containers/CardContainer";
 import FlexBox from "app/components/containers/FlexBox";
 import ContentHeadline from "app/components/ContentHeadline";
-import SectionHeadline from "app/components/SectionHeadline";
 import SubTitle from "app/components/SubTitle";
 import { FaBriefcase, FaGlobe, FaBuilding, FaChartBar, FaHeartbeat, FaShoppingCart, FaTools, FaMoneyBillWave, FaPlane, FaGavel, FaCamera, FaTruck, FaUserTie } from "react-icons/fa";
 
@@ -10,7 +9,7 @@ const iconMap = {
   "e-commerce": <FaShoppingCart />,
   "information technology": <FaTools />,
   "legal services": <FaGavel />,
-  "media & entertainment": <FaCamera />,
+  "entertainment": <FaCamera />,
   "saas": <FaGlobe />,
   "real estate": <FaBuilding />,
   "construction": <FaTools />,
@@ -20,7 +19,8 @@ const iconMap = {
   "hospitality": <FaPlane />,
   "financial services": <FaMoneyBillWave />,
   "logistics": <FaTruck />,
-  "retail": <FaShoppingCart />
+  "retail": <FaShoppingCart />,
+  "media": <FaShoppingCart />
 };
 
 const colClassMap = {

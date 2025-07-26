@@ -45,30 +45,30 @@ export async function POST(req) {
       return NextResponse.json({ received: true, eventType }, { status: 200 });
     }
 
-    if (eventType === "PAYMENT.SALE.DENIED") {
-      console.log(
-        `[Webhook] PAYMENT.SALE.DENIED received. eventId: ${eventId}`
-      );
-      const resource = event.resource;
-      const result = await handlePaymentSaleDenied(
-        eventId,
-        resource,
-        supabaseAdmin
-      );
-      if (result.duplicate) {
-        return NextResponse.json(
-          { received: true, duplicate: true },
-          { status: 200 }
-        );
-      }
-      if (!result.success) {
-        return NextResponse.json(
-          { error: result.error || "Unknown error" },
-          { status: 500 }
-        );
-      }
-      return NextResponse.json({ received: true, eventType }, { status: 200 });
-    }
+    // if (eventType === "PAYMENT.SALE.DENIED") {
+    //   console.log(
+    //     `[Webhook] PAYMENT.SALE.DENIED received. eventId: ${eventId}`
+    //   );
+    //   const resource = event.resource;
+    //   const result = await handlePaymentSaleDenied(
+    //     eventId,
+    //     resource,
+    //     supabaseAdmin
+    //   );
+    //   if (result.duplicate) {
+    //     return NextResponse.json(
+    //       { received: true, duplicate: true },
+    //       { status: 200 }
+    //     );
+    //   }
+    //   if (!result.success) {
+    //     return NextResponse.json(
+    //       { error: result.error || "Unknown error" },
+    //       { status: 500 }
+    //     );
+    //   }
+    //   return NextResponse.json({ received: true, eventType }, { status: 200 });
+    // }
 
     if (eventType === "BILLING.SUBSCRIPTION.PAYMENT.FAILED") {
       console.log(

@@ -4,6 +4,7 @@ import {
   notifyUserOnSubscription,
   notifyUserOnRecurring,
 } from "../actions/notificationActions";
+import { getPlanDetails } from "app/lib/config/paypalConfig";
 
 export const handleRecurringPaymentCompleted = async (
   eventId,
@@ -46,7 +47,16 @@ export const handleRecurringPaymentCompleted = async (
     return { success: false, error: "User not found for subscription_id" };
   }
   const planName = user?.subscription || "UNKNOWN SUBSCRIPTION NAME";
-  const planDetails = getPlanDetails(planName);
+  const subscriptionType =
+    user?.subscription_type?.toLowerCase() === "annual" ? "annual" : "monthly";
+  const planDetails = getPlanDetails(planName, subscriptionType);
+  console.log("[DEBUG] planDetails:", planDetails);
+  console.log(
+    "[DEBUG] planDetails.price:",
+    planDetails.price,
+    "typeof:",
+    typeof planDetails.price
+  );
   if (!planDetails) {
     return { success: false, error: "Invalid plan name" };
   }
@@ -124,14 +134,4 @@ export const handleRecurringPaymentCompleted = async (
   }
 
   return { success: true };
-};
-
-// Helper function to get plan details
-const getPlanDetails = (planName) => {
-  const plans = {
-    PLUS: { leads: 150, price: 0.01 },
-    PRO: { leads: 400, price: 0.01 },
-    HYPER: { leads: 800, price: 0.01 },
-  };
-  return plans[planName.toUpperCase()];
 };

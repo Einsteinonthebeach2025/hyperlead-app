@@ -6,10 +6,10 @@ import IndustryStats from 'app/pages/dashboard/activities/industryStatistics/Ind
 const LeadsUsage = ({ industryStats, countryStats, totalLeads }) => {
 
 
-  const industryStatsObject = industryStats.reduce((acc, { industry, count }) => {
-    acc[industry] = count;
-    return acc;
-  }, {});
+  // const industryStatsObject = industryStats.reduce((acc, { industry, count }) => {
+  //   acc[industry] = count;
+  //   return acc;
+  // }, {});
 
 
   return (
@@ -23,7 +23,7 @@ const LeadsUsage = ({ industryStats, countryStats, totalLeads }) => {
         />
         <CountryStats data={countryStats} total={totalLeads} color="bg-amber-500" />
       </CardContainer>
-      <IndustryStats data={industryStatsObject} col="3" />
+      {/* <IndustryStats data={industryStatsObject} col="3" /> */}
     </div>
   )
 }

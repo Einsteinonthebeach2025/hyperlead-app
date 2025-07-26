@@ -31,7 +31,9 @@ export const handleBillingSubscriptionFailed = async (
   const subscriptionId = resource.id;
   const { data: user } = await supabaseAdminInstance
     .from("profiles")
-    .select("id, email, userName, subscription, subscription_type")
+    .select(
+      "id, email, userName, subscription, subscription_type, subscription_id"
+    )
     .eq("subscription_id", subscriptionId)
     .single();
   if (!user) {
@@ -41,28 +43,36 @@ export const handleBillingSubscriptionFailed = async (
     return { success: false, error: "User not found for subscription_id" };
   }
 
-  // 4. Create failed transaction
-  await supabaseAdminInstance.from("transactions").insert({
-    user_id: user.id,
-    paypal_order_id: subscriptionId,
-    plan_name: user.subscription,
-    amount: resource.last_failed_payment?.amount?.value || null,
-    status: "FAILED",
-    card_brand: "PayPal",
-    card_last4: "N/A",
-    masked_card: "PayPal Subscription",
-    payer_name: user.userName || user.email,
-    payer_email: user.email,
-    created_at: now,
-    current_status: "failed",
-    resource_id: resourceId,
-    subscription_type: user.subscription_type,
-    failure_reason:
-      resource.billing_info?.last_failed_payment?.reason_code ||
-      "payment_failed",
-  });
+  // 3. Insert FAILED transaction for this subscription if a previous transaction exists
+  const { data: lastTransaction, error: fetchTxError } =
+    await supabaseAdminInstance
+      .from("transactions")
+      .select("*")
+      .eq("user_id", user.id)
+      .eq("paypal_order_id", subscriptionId)
+      .order("created_at", { ascending: false })
+      .limit(1)
+      .single();
+  if (lastTransaction) {
+    const {
+      id,
+      created_at,
+      cancelled_at,
+      status,
+      current_status,
+      failure_reason,
+      ...rest
+    } = lastTransaction;
+    const failedTransaction = {
+      ...rest,
+      current_status: "FAILED",
+      status: "FAILED",
+      created_at: now,
+    };
+    await supabaseAdminInstance.from("transactions").insert(failedTransaction);
+  }
 
-  // 5. Update user profile (optional: set subscription_status to 'payment_failed')
+  // 4. Update user profile
   await supabaseAdminInstance
     .from("profiles")
     .update({ subscription_status: "payment_failed", subscription: null })

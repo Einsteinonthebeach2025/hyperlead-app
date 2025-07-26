@@ -20,7 +20,7 @@ const navLinks = [
   },
   {
     id: 1,
-    name: "administration",
+    name: "Admin",
     link: "/administration/hyperlead-users",
     isAdmin: true,
   },

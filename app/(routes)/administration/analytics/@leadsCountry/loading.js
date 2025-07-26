@@ -2,7 +2,7 @@ import Spinner from "app/components/Spinner";
 
 const loading = () => {
   return (
-    <div className="h-screen center">
+    <div className="center">
       <Spinner />
     </div>
   );

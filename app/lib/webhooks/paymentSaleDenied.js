@@ -72,7 +72,7 @@ export const handlePaymentSaleDenied = async (
   // 5. Update user profile (optional: set subscription_status to 'past_due' or 'payment_failed')
   await supabaseAdminInstance
     .from("profiles")
-    .update({ subscription_status: "payment_failed" })
+    .update({ subscription_status: "payment_failed", subscription: null })
     .eq("id", userId);
   console.log(
     `[Handler] Updated user profile to payment_failed. userId: ${userId}`

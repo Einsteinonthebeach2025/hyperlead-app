@@ -9,7 +9,7 @@ export const metadata = {
 };
 
 const LeadsPage = async () => {
-  const leadsPerPage = 20;
+  const leadsPerPage = 30;
   const supabase = await createServerClient();
   const {
     data: { session },

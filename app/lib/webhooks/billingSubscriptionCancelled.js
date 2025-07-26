@@ -41,6 +41,32 @@ export const handleBillingSubscriptionCancelled = async (
     return { success: false, error: "User not found for subscription_id" };
   }
 
+  // 3.5. Insert CANCELLED transaction for this subscription
+  // Fetch latest transaction for this user and subscription
+  const { data: lastTransaction, error: fetchTxError } =
+    await supabaseAdminInstance
+      .from("transactions")
+      .select("*")
+      .eq("user_id", user.id)
+      .eq("paypal_order_id", subscriptionId)
+      .order("created_at", { ascending: false })
+      .limit(1)
+      .single();
+  if (lastTransaction) {
+    const { id, created_at, cancelled_at, status, current_status, ...rest } =
+      lastTransaction;
+    const cancelledTransaction = {
+      ...rest,
+      current_status: "CANCELLED",
+      status: "CANCELLED",
+      cancelled_at: now,
+      created_at: now,
+    };
+    await supabaseAdminInstance
+      .from("transactions")
+      .insert(cancelledTransaction);
+  }
+
   // 4. Update user profile (set subscription: null, subscription_status: 'cancelled')
   await supabaseAdminInstance
     .from("profiles")

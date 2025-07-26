@@ -53,21 +53,30 @@ export const SINGLE_LEAD_PLAN = {
 export const getPlanDetails = (planName, mode = "monthly") => {
   switch (planName.toUpperCase()) {
     case "EXTRA_100":
-      return EXTRA_LEADS_PLAN;
+      return {
+        ...EXTRA_LEADS_PLAN,
+        price: parseFloat(EXTRA_LEADS_PLAN.price),
+      };
     case "SINGLE_LEAD":
-      return SINGLE_LEAD_PLAN;
+      return {
+        ...SINGLE_LEAD_PLAN,
+        price: parseFloat(SINGLE_LEAD_PLAN.price),
+      };
     default: {
       const plan =
         SUBSCRIPTION_PLANS[planName.toUpperCase()] || SUBSCRIPTION_PLANS.PLUS;
       if (mode === "annual") {
         return {
           ...plan,
-          price: plan.annualPrice,
+          price: parseFloat(plan.annualPrice),
           plan_id: plan.annual_plan_id,
           isAnnual: true,
         };
       }
-      return plan;
+      return {
+        ...plan,
+        price: parseFloat(plan.price),
+      };
     }
   }
 };
