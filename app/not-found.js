@@ -1,7 +1,7 @@
 import { FaHome } from "react-icons/fa";
-import Button from "./components/buttons/Button";
 import Paragraph from "./components/Paragraph";
 import SubTitle from "./components/SubTitle";
+import Link from "next/link";
 
 export default function NotFound() {
   return (
@@ -18,10 +18,10 @@ export default function NotFound() {
       </h1>
       <SubTitle>Page Not Found - 404</SubTitle>
       <Paragraph>Sorry, the page you are looking for does not exist.</Paragraph>
-      <Button href="/">
+      <Link href="/">
         <FaHome />
         <span>Go Home</span>
-      </Button>
+      </Link>
     </div>
   );
 }
