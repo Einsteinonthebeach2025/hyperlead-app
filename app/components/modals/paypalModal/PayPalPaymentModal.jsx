@@ -48,7 +48,21 @@ const PayPalPaymentModal = () => {
     setIs2FAVerified(false);
     setTwoFARequired(false);
     setIsChecking2FA(true);
+    setShowAppProcessing(false);
+    setLoading(false);
   };
+
+  // Reset states when modal opens or closes
+  useEffect(() => {
+    if (isOpen) {
+      setShowAppProcessing(false);
+      setLoading(false);
+    } else {
+      // Also reset when modal closes
+      setShowAppProcessing(false);
+      setLoading(false);
+    }
+  }, [isOpen]);
 
   // Check if 2FA is required for this user
   useEffect(() => {
@@ -228,11 +242,15 @@ const PayPalPaymentModal = () => {
   const handleSubscriptionError = (error) => {
     console.error("PayPal subscription error:", error);
     dispatch(setError({ message: "Subscription failed.", type: "error" }));
+    setShowAppProcessing(false);
+    setLoading(false);
   };
 
   const handlePaymentError = (error) => {
     console.error("PayPal error:", error);
     dispatch(setError({ message: "Payment failed.", type: "error" }));
+    setShowAppProcessing(false);
+    setLoading(false);
   };
 
   return (

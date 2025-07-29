@@ -9,9 +9,6 @@ const HyperSearch = ({ profile }) => {
     const dispatch = useDispatch();
     const subscription = profile?.subscription;
 
-    console.log(profile);
-
-
     const getMonthStart = () => {
         const now = new Date();
         return new Date(now.getFullYear(), now.getMonth(), 1).toISOString();

@@ -514,6 +514,10 @@ export const addExtraLeads = async (userId, supabaseClient = supabase) => {
     const userEmail = userProfile.email;
     const EXTRA_LEADS_COUNT = 100;
 
+    console.log(`[addExtraLeads] Starting assignment for user ${userId}`);
+    console.log(`[addExtraLeads] Preferences: ${preferences.join(", ")}`);
+    console.log(`[addExtraLeads] Regions: ${regions.join(", ")}`);
+
     if (!preferences || preferences.length === 0) {
       throw new Error(
         "No preferences set. Please set your industry preferences first."
@@ -548,20 +552,86 @@ export const addExtraLeads = async (userId, supabaseClient = supabase) => {
       ...new Set([...previouslyReceivedLeadIds, ...currentlyAssignedLeadIds]),
     ];
 
-    let allAvailableLeads = [];
-    const numPrefs = preferences.length;
+    console.log(
+      `[addExtraLeads] Excluded lead IDs count: ${allExcludedLeadIds.length}`
+    );
+    console.log(
+      `[addExtraLeads] Previously received leads: ${previouslyReceivedLeadIds.length}`
+    );
+    console.log(
+      `[addExtraLeads] Currently assigned leads: ${currentlyAssignedLeadIds.length}`
+    );
+
+    // Debug: Check if we have any leads available at all
+    const { data: totalLeads, error: totalLeadsError } = await supabaseClient
+      .from("leads")
+      .select("id, industry, country")
+      .limit(1);
+
+    if (totalLeadsError) {
+      console.error(
+        `[addExtraLeads] Error checking total leads: ${totalLeadsError.message}`
+      );
+    } else {
+      console.log(
+        `[addExtraLeads] Total leads in database: ${totalLeads?.length || 0} (sample check)`
+      );
+    }
+
+    // Debug: Check leads for specific industries
+    for (const industry of preferences) {
+      let industryQuery = supabaseClient
+        .from("leads")
+        .select("id, industry, country")
+        .contains("industry", [industry]);
+
+      if (regions && regions.length > 0) {
+        industryQuery = industryQuery.in("country", regions);
+      }
+
+      const { data: industryLeads, error: industryError } =
+        await industryQuery.limit(5);
+
+      if (industryError) {
+        console.error(
+          `[addExtraLeads] Error checking ${industry} leads: ${industryError.message}`
+        );
+      } else {
+        console.log(
+          `[addExtraLeads] ${industry} leads available (sample): ${industryLeads?.length || 0}`
+        );
+        if (industryLeads && industryLeads.length > 0) {
+          console.log(
+            `[addExtraLeads] ${industry} sample countries:`,
+            industryLeads.map((l) => l.country)
+          );
+        }
+      }
+    }
+
+    // Simple lead assignment system (similar to assignLeadsToUser)
+    const shuffledPrefs = [...preferences].sort(() => Math.random() - 0.5);
+    const numPrefs = shuffledPrefs.length;
     const baseLeadsPerPref = Math.floor(EXTRA_LEADS_COUNT / numPrefs);
     let remainder = EXTRA_LEADS_COUNT % numPrefs;
 
-    const shuffledPrefs = [...preferences].sort(() => Math.random() - 0.5);
+    // Calculate target leads per preference
     const leadsPerPref = shuffledPrefs.map((pref, idx) =>
       idx < remainder ? baseLeadsPerPref + 1 : baseLeadsPerPref
     );
 
+    console.log(
+      `[addExtraLeads] Target leads per preference: ${leadsPerPref.join(", ")}`
+    );
+
+    // Track assigned leads per preference
+    const assignedPerPref = new Array(shuffledPrefs.length).fill(0);
+    let allAvailableLeads = [];
+
+    // Fetch and assign leads for each preference
     for (let i = 0; i < shuffledPrefs.length; i++) {
       const industry = shuffledPrefs[i];
       const limit = leadsPerPref[i];
-      if (limit === 0) continue;
 
       let query = supabaseClient
         .from("leads")
@@ -570,15 +640,6 @@ export const addExtraLeads = async (userId, supabaseClient = supabase) => {
 
       if (regions && regions.length > 0) {
         query = query.in("country", regions);
-      }
-
-      // Exclude leads already assigned or in history
-      const currentExcludedIds = [
-        ...allExcludedLeadIds,
-        ...allAvailableLeads.map((l) => l.id),
-      ];
-      if (currentExcludedIds.length > 0) {
-        query = query.not("id", "in", `(${currentExcludedIds.join(",")})`);
       }
 
       const { data: industryLeads, error: leadsError } =
@@ -591,15 +652,28 @@ export const addExtraLeads = async (userId, supabaseClient = supabase) => {
         continue;
       }
 
-      // Filter out already assigned leads in JS
+      console.log(
+        `[addExtraLeads] ${industry}: Found ${industryLeads?.length || 0} leads before filtering`
+      );
+
+      // Filter out already assigned leads in JS (same as assignLeadsToUser)
       const filteredLeads = industryLeads
         .filter((lead) => !allExcludedLeadIds.includes(lead.id))
         .slice(0, limit);
 
+      console.log(
+        `[addExtraLeads] ${industry}: After filtering excluded leads: ${filteredLeads.length} available`
+      );
+
+      assignedPerPref[i] = filteredLeads.length;
       allAvailableLeads = [...allAvailableLeads, ...filteredLeads];
+
+      console.log(
+        `[addExtraLeads] ${industry}: ${filteredLeads.length}/${limit} leads assigned`
+      );
     }
 
-    // Deduplicate and slice to ensure correct count
+    // Deduplicate and slice to ensure correct count (same as assignLeadsToUser)
     const uniqueLeadsMap = new Map();
     allAvailableLeads.forEach((lead) => {
       uniqueLeadsMap.set(lead.id, lead);
@@ -609,8 +683,32 @@ export const addExtraLeads = async (userId, supabaseClient = supabase) => {
       EXTRA_LEADS_COUNT
     );
 
+    console.log(
+      `[addExtraLeads] Final result: ${finalLeads.length} leads assigned out of ${EXTRA_LEADS_COUNT} requested`
+    );
+    console.log(
+      `[addExtraLeads] Assignment summary:`,
+      shuffledPrefs.map((pref, idx) => ({
+        industry: pref,
+        assigned: assignedPerPref[idx],
+        requested: leadsPerPref[idx],
+      }))
+    );
+
     if (finalLeads.length === 0) {
-      throw new Error("No available leads found for your preferences.");
+      // Provide more detailed error information
+      const assignedSummary = shuffledPrefs
+        .map(
+          (pref, idx) => `${pref}: ${assignedPerPref[idx]}/${leadsPerPref[idx]}`
+        )
+        .join(", ");
+
+      throw new Error(
+        `No available leads found for your preferences. ` +
+          `Requested: ${EXTRA_LEADS_COUNT} leads. ` +
+          `Assigned per preference: ${assignedSummary}. ` +
+          `Please try updating your industry preferences or contact support if this issue persists.`
+      );
     }
 
     // Create user_leads entries
@@ -653,6 +751,12 @@ export const addExtraLeads = async (userId, supabaseClient = supabase) => {
     return {
       success: true,
       assignedLeadsCount: finalLeads.length,
+      requestedLeadsCount: EXTRA_LEADS_COUNT,
+      assignedPerPreference: shuffledPrefs.map((pref, idx) => ({
+        industry: pref,
+        assigned: assignedPerPref[idx],
+        requested: leadsPerPref[idx],
+      })),
     };
   } catch (error) {
     console.error("Error in addExtraLeads:", error);

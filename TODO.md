@@ -1,7 +1,7 @@
 TODO LIST
 
----> graphchiqovani@yahoo.com
----> grapchiqovani@gmail.com
+cm@dynamicsource.se ---> graphchiqovani@yahoo.com
+jonas@letsumai.com ---> grapchiqovani@gmail.com
 
 - რამე თესლი ლოადინგ ანიმაციაა საჭირო /auth/callback და მსგავსი ლოადინგებისთვის
 

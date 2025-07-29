@@ -53,10 +53,10 @@ const StopSubscription = ({ user, onSuccess, isAdmin = false }) => {
   if (!user?.subscription_id) {
     return (
       <Button
-        type={isAdmin ? " " : "delete"}
+        type="delete"
         className="pointer-events-none"
       >
-        <span>{isAdmin ? "Subscription stopped" : "Auto renewal cancelled"}</span>
+        <span>{isAdmin ? "No subscription" : "Auto renewal cancelled"}</span>
         {isAdmin ? <FaRegStopCircle /> : null}
       </Button>
     );
@@ -64,7 +64,7 @@ const StopSubscription = ({ user, onSuccess, isAdmin = false }) => {
 
   return (
     <Button
-      type={isAdmin ? " " : "delete"}
+      type={isAdmin ? "" : "delete"}
       onClick={handleCancel}
       disabled={loading || cancelled}
     >
