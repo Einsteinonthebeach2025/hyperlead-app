@@ -13,6 +13,7 @@ import { updateProfile } from "app/lib/actions/profileActions";
 import { createTransaction } from "app/lib/actions/transactionActions";
 import { addExtraLeads, unlockingLeads } from "app/lib/actions/leadActions";
 import { notifyExtraLeadsPurchase, notifySingleLeadUnlock } from "app/lib/actions/notificationActions";
+import { cancelSubscriptionUnified } from "app/helpers/cancelSubscription";
 
 const PayPalPaymentModal = () => {
   const dispatch = useDispatch();
@@ -36,6 +37,11 @@ const PayPalPaymentModal = () => {
   const [twoFARequired, setTwoFARequired] = useState(false);
   const [isChecking2FA, setIsChecking2FA] = useState(true);
 
+  const cancelExistingSubscription = async (subscriptionId) => {
+    const result = await cancelSubscriptionUnified(subscriptionId, user, false);
+    return result;
+  };
+
   const handleClose = () => {
     dispatch(
       setToggle({
@@ -58,7 +64,6 @@ const PayPalPaymentModal = () => {
       setShowAppProcessing(false);
       setLoading(false);
     } else {
-      // Also reset when modal closes
       setShowAppProcessing(false);
       setLoading(false);
     }
@@ -214,25 +219,36 @@ const PayPalPaymentModal = () => {
     }
   };
 
-  // Handle subscription success
   const handleSubscriptionSuccess = async (subscriptionID, planType) => {
     setLoading(true);
     try {
-      console.log("[PayPal] handleSubscriptionSuccess: updating user profile with subscription_id", subscriptionID);
-      console.log("[PayPal] subscription type", subscriptionType);
-      await updateProfile(user.id, {
+      if (user?.profile?.subscription_id && user?.profile?.subscription_id !== subscriptionID) {
+        const cancelResult = await cancelExistingSubscription(user?.profile?.subscription_id)
+        if (cancelResult.success) {
+          await new Promise(resolve => setTimeout(resolve, 500));
+        } else {
+          dispatch(setError({
+            message: `Warning: Could not automatically cancel your previous subscription. Please cancel it manually in your PayPal account to avoid double billing.`,
+            type: "error"
+          }));
+        }
+      } else {
+        console.log(" No existing subscription to cancel or same subscription ID");
+      }
+      const updateResult = await updateProfile(user.id, {
         subscription_id: subscriptionID,
         subscription: planType,
         subscription_type: subscriptionType,
       });
-      console.log("[PayPal] handleSubscriptionSuccess: subscription_id updated, waiting for webhook to assign leads");
+      if (updateResult.error) {
+        throw new Error(updateResult.error);
+      }
       dispatch(setError({
         message: "Subscription successful! Your leads will be available shortly after payment confirmation.",
         type: "success",
       }));
       handleClose();
     } catch (error) {
-      console.error("Subscription error:", error);
       dispatch(setError({ message: error.message, type: "error" }));
     } finally {
       setLoading(false);
@@ -240,7 +256,6 @@ const PayPalPaymentModal = () => {
   };
 
   const handleSubscriptionError = (error) => {
-    console.error("PayPal subscription error:", error);
     dispatch(setError({ message: "Subscription failed.", type: "error" }));
     setShowAppProcessing(false);
     setLoading(false);

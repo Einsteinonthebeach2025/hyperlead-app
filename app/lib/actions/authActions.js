@@ -4,6 +4,19 @@ import { notifyPasswordChange } from "./notificationActions";
 
 const createOrUpdateProfile = async (user, profile = {}) => {
   try {
+    // First, check if profile already exists
+    const { data: existingProfile, error: fetchError } = await supabase
+      .from("profiles")
+      .select("*")
+      .eq("id", user.id)
+      .single();
+
+    // If profile exists, don't overwrite it with metadata
+    if (existingProfile && !fetchError) {
+      return existingProfile;
+    }
+
+    // Only create new profile if it doesn't exist
     const { error: upsertError } = await supabase.from("profiles").upsert(
       {
         id: user.id,

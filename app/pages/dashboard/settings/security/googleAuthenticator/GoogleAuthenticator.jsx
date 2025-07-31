@@ -19,10 +19,7 @@ const GoogleAuthenticator = () => {
     const loadFactors = async () => {
       try {
         const { data, error } = await supabase.auth.mfa.listFactors();
-
         if (error) {
-          console.error("Error loading MFA factors:", error);
-          // Only reset state if we haven't successfully loaded factors before
           if (!hasLoadedFactors.current) {
             setFactor(null);
             setEnrolling(false);
@@ -30,7 +27,6 @@ const GoogleAuthenticator = () => {
           }
           return;
         }
-
         const unverifiedTotp = data?.all?.find(
           (f) => f.factor_type === "totp" && f.status === "unverified"
         );
@@ -41,7 +37,6 @@ const GoogleAuthenticator = () => {
           hasLoadedFactors.current = true;
           return;
         }
-
         const verifiedTotp = data?.all?.find(
           (f) => f.factor_type === "totp" && f.status === "verified"
         );
@@ -52,15 +47,12 @@ const GoogleAuthenticator = () => {
           hasLoadedFactors.current = true;
           return;
         }
-
         // No TOTP factors found
         setFactor(null);
         setEnrolling(false);
         setQrCode("");
         hasLoadedFactors.current = true;
       } catch (err) {
-        console.error("Unexpected error loading MFA factors:", err);
-        // Only reset state if we haven't successfully loaded factors before
         if (!hasLoadedFactors.current) {
           setFactor(null);
           setEnrolling(false);

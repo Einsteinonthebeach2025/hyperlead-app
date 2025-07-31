@@ -21,7 +21,7 @@ const HyperleadUsersPage = async () => {
       `
       id, address, avatar_url, city, company, created_at, email, firstName, lastName,
       leads_received_this_month, linkedin_url, subscription_id, phone, position, country, reported_bugs,
-      sex, subscription, subscription_timestamp, subscription_type, total_leads_received, twitter_url,
+      sex, subscription, subscription_timestamp,  subscription_type, total_leads_received, twitter_url,
       userBirthDate, userName, web_url, address,
       transactions!user_id (
         id, paypal_order_id, plan_name, amount, status, created_at

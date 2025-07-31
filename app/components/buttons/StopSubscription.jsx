@@ -2,11 +2,9 @@
 import Button from 'app/components/buttons/Button';
 import React, { useState } from 'react';
 import { FaRegStopCircle } from "react-icons/fa";
-import { notifySubscriptionCancel } from 'app/lib/actions/notificationActions';
-import { sendSubscriptionCancelEmail } from 'app/lib/actions/emailActions';
 import { useDispatch } from 'react-redux';
 import { setError } from 'app/features/modalSlice';
-import { cancelSubscription } from 'app/lib/actions/transactionActions';
+import { cancelSubscriptionUnified } from 'app/helpers/cancelSubscription';
 
 const StopSubscription = ({ user, onSuccess, isAdmin = false }) => {
   const [loading, setLoading] = useState(false);
@@ -17,35 +15,21 @@ const StopSubscription = ({ user, onSuccess, isAdmin = false }) => {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch('/api/paypal/cancel-subscription', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ subscriptionId: user?.subscription_id }),
-      });
-      const data = await res.json();
-      if (data.success) {
-        await notifySubscriptionCancel(user.id);
-        await sendSubscriptionCancelEmail({
-          userName: user?.userName,
-          email: user.email,
-          cancelled_at: new Date()
-        });
-        await cancelSubscription(user.id, user?.subscription_id, new Date());
+      const result = await cancelSubscriptionUnified(user?.subscription_id, user, isAdmin);
+      if (result.success) {
         const successMessage = isAdmin
           ? `Subscription cancelled successfully for ${user?.userName || user?.email}.`
           : "Subscription cancelled successfully.";
-
         dispatch(setError({ message: successMessage, type: "success" }));
         setCancelled(true);
-
         if (onSuccess) {
           onSuccess();
         }
       } else {
-        dispatch(setError("Failed to cancel subscription"));
+        dispatch(setError({ message: result.error || "Failed to cancel subscription", type: "error" }));
       }
     } catch (err) {
-      dispatch(setError("Failed to cancel subscription"));
+      dispatch(setError({ message: "Failed to cancel subscription", type: "error" }));
     }
     setLoading(false);
   };

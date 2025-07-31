@@ -56,8 +56,8 @@ const HomePage = () => {
       <Pricing />
       <FeebackSlider />
       <QuickInfoSection />
-      <LogoSlider />
       <Faq />
+      <LogoSlider />
     </main>
   );
 };

@@ -42,12 +42,21 @@ export const getFeedback = async () => {
       .order("created_at", { ascending: false });
     if (error) throw error;
 
-    const transformedData = data?.map((feedback) => ({
+    // Get all approved feedbacks first, then randomly select 6
+    const allFeedbacks = data || [];
+
+    // Shuffle the array and take first 6
+    const shuffledFeedbacks = allFeedbacks
+      .sort(() => Math.random() - 0.5)
+      .slice(0, 6);
+
+    const transformedData = shuffledFeedbacks.map((feedback) => ({
       ...feedback,
       userName: feedback?.profiles?.userName || "Anonymous User",
       email: feedback?.profiles?.email || null,
       avatar_url: feedback?.profiles?.avatar_url || null,
     }));
+
     return {
       data: transformedData || [],
       error: null,

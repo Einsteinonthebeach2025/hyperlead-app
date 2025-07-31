@@ -8,17 +8,19 @@ import CheckMarkButton from 'app/components/buttons/CheckMarkButton'
 import Dot from 'app/components/Dot'
 
 const UserRegions = ({ item }) => {
-  const { country, city, address, phone, email, id } = item;
+  const { country, city, address, phone, email, id, total_leads_received } = item;
 
   return (
     <div className='flex items-center justify-end gap-2 relative'>
       <FlexBox type="column-end" className="items-center">
+
         {country && city ?
           <FlexBox type="row" className="gap-2 items-center">
             <SubTitle>{city}</SubTitle>  <Dot />
             <SubTitle>{country}</SubTitle> <Dot />
             <CountryFlags className="rounded-full" countryName={country} />
           </FlexBox> : " "}
+        <SpanText>{total_leads_received} Total leads received</SpanText>
         {phone && address ?
           <FlexBox type="column-end" className="mt-1 gap-1 items-center">
             <SpanText className="font-medium">{address}</SpanText>

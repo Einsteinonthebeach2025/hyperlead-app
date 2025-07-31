@@ -5,7 +5,6 @@ import supabase from 'app/lib/config/supabaseClient'
 
 const ToggleButton = ({
   factor,
-  enrolling,
   loading,
   setFactor,
   setQrCode,

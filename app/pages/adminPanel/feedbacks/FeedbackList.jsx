@@ -17,9 +17,6 @@ const FeedbackList = ({ data }) => {
     setFeedback(prev => prev.filter(fb => fb.id !== deletedId));
   };
 
-  console.log(feedback);
-
-
   return (
     <div className="grid grid-cols-2 gap-3">
       <AnimatePresence mode="popLayout">

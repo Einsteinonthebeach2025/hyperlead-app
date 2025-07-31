@@ -17,7 +17,6 @@ const Reset2Fa = ({ loading, setLoading, setFactor, setQrCode, setCode, setEnrol
             (f) => f.factor_type === "totp" && f.status === "unverified"
           ) || [];
           for (const f of unverifiedFactors) {
-            console.log("[2FA] Reset: Unenrolling unverified factor:", f.id);
             await supabase.auth.mfa.unenroll({ factorId: f.id });
           }
           setFactor(null);

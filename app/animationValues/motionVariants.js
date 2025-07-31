@@ -5,7 +5,7 @@ export const infinityScroll = {
   visible: {
     x: "-100%",
     transition: {
-      duration: 30,
+      duration: 60,
       repeat: Infinity,
       repeatType: "loop",
       ease: "linear",

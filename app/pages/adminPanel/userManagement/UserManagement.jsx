@@ -33,7 +33,6 @@ const UserManagement = ({ data: initialUsers, totalCount, message, desc }) => {
   const loadMoreUsers = async () => {
     try {
       setLoading(true);
-
       const { data: newUsers, error } = await supabase
         .from("profiles")
         .select(`
@@ -47,16 +46,13 @@ const UserManagement = ({ data: initialUsers, totalCount, message, desc }) => {
         `)
         .order('created_at', { ascending: true })
         .range(offset, offset + 19);
-
       if (error) {
         console.error("Error fetching users:", error);
         return;
       }
-
       if (newUsers?.length === 0) {
         return;
       }
-
       setUsers(prev => [...prev, ...newUsers]);
       setOffset(prev => prev + 20);
     } catch (error) {
@@ -81,7 +77,7 @@ const UserManagement = ({ data: initialUsers, totalCount, message, desc }) => {
   }
 
   return (
-    <div className="py-3 lg:pr-6 space-y-3">
+    <div className="py-3 lg:pr-6 space-y-3 pl-3">
       <MotionContainer animation="fade-in">
         <Headline className="w-fit">User management</Headline>
       </MotionContainer>

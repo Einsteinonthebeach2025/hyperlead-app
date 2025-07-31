@@ -17,11 +17,10 @@ const FeedbackCard = ({ feedbacks }) => {
       className="flex items-center"
     >
       {feedbacks?.map((item) => {
-        const { header, review, userName, email, avatar_url } = item;
+        const { header, review, userName, email, avatar_url, created_at } = item;
         return (
           <CardContainer
             className="flex flex-col justify-between overflow-hidden w-[170px] h-44 lg:w-[350px] mx-2 lg:h-80"
-            type="light"
             key={item.id}
           >
             <div>
@@ -31,7 +30,7 @@ const FeedbackCard = ({ feedbacks }) => {
                 <p className="text-[6px] lg:text-[13px] dark:text-stone-300 whitespace-pre-wrap">{review}</p>
               </FlexBox>
             </div>
-            <Author item={{ userName, email, avatar_url }} />
+            <Author item={{ userName, email, avatar_url, created_at }} />
           </CardContainer>
         );
       })}
