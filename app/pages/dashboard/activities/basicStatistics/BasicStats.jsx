@@ -16,17 +16,17 @@ const BasicStats = ({ data }) => {
     },
     {
       title: "Monthly Leads for current plan",
-      value: data?.monthly_leads,
+      value: data?.monthly_leads || 0,
       icon: <RiBarChartBoxAiLine />,
     },
     {
       title: "Leads Received This Month",
-      value: data?.leads_received_this_month,
+      value: data?.leads_received_this_month || 0,
       icon: <TbCalendarPlus />,
     },
     {
       title: "Total Leads Received",
-      value: data?.total_leads_received,
+      value: data?.total_leads_received || 0,
       icon: <TbWorldDownload />,
     },
   ];
@@ -37,13 +37,13 @@ const BasicStats = ({ data }) => {
         const { icon, title, value } = stats;
         return (
           <MotionChildren key={index} animation="fade-in">
-            <CardContainer className="space-y-1 capitalize">
+            <CardContainer className="space-y-1 capitalize h-auto min-h-[120px]">
               <IconContainer size="md">
                 {icon}
               </IconContainer>
-              <div>
-                <SubTitle className="h-10 md:h-auto">{title}</SubTitle>
-                <Title className="font-thin">{value}</Title>
+              <div className="h-full flex flex-col justify-between">
+                <SubTitle className="h-10 md:h-auto text-sm line-clamp-2">{title}</SubTitle>
+                <Title className="font-thin text-lg">{value}</Title>
               </div>
             </CardContainer>
           </MotionChildren>

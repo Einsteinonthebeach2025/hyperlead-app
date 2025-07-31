@@ -23,7 +23,7 @@ const LeadsByRegions = ({ data }) => {
   };
 
   return (
-    <CardContainer className="space-y-2 w-full mx-auto relative overflow-hidden ">
+    <CardContainer className="space-y-2 w-full mx-auto relative overflow-hidden h-auto min-h-[300px]">
       <ContentHeadline
         className="border-bottom"
         type="column-start"

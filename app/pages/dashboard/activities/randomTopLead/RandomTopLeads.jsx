@@ -6,7 +6,7 @@ import RandomLeadList from './RandomLeadList';
 const RandomTopLeads = ({ data }) => {
 
   return (
-    <CardContainer className="p-3 lg:p-6 grow-1">
+    <CardContainer className="p-3 lg:p-6 grow-1 h-auto min-h-[300px]">
       <ContentHeadline
         className="border-bottom"
         type="column-start"

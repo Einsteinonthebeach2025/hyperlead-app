@@ -5,7 +5,7 @@ import ContentHeadline from "app/components/ContentHeadline";
 const EmployeeStats = ({ data = {} }) => {
 
   return (
-    <CardContainer>
+    <CardContainer className="h-auto min-h-[300px]">
       <ContentHeadline
         type="column-start"
         title="Top Employees"

@@ -33,7 +33,7 @@ const EmailStats = ({ data = {} }) => {
   const maxValue = Math.max(...donutData.map((item) => item.value));
 
   return (
-    <CardContainer className="space-y-4">
+    <CardContainer className="space-y-4 h-auto min-h-[300px]">
       <ContentHeadline
         className="border-bottom"
         type="column-start"

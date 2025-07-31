@@ -4,14 +4,14 @@ import InsightInfo from "./InsightInfo";
 
 const UsedLeadsInsight = ({ data = {} }) => {
   const OPACITY = ["opacity-100", "opacity-60", "opacity-30"];
-  const used = data?.used_stats?.used;
-  const unused = data?.used_stats?.unused;
+  const used = data?.used_stats?.used || 0;
+  const unused = data?.used_stats?.unused || 0;
   const total = used + unused;
 
   const activities = [
     {
       title: "My total leads",
-      value: total || 0,
+      value: total,
       OPACITY: OPACITY[0],
       width: 10,
     },
@@ -30,7 +30,7 @@ const UsedLeadsInsight = ({ data = {} }) => {
   ];
 
   return (
-    <CardContainer className="relative h-auto w-auto">
+    <CardContainer className="relative h-auto w-full min-h-[200px]">
       <InsightInfo data={activities} />
       <DonutAnimation data={activities} />
     </CardContainer>
