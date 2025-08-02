@@ -41,7 +41,7 @@ export const cancelSubscriptionUnified = async (
     }
     // 2. Send notification to user
     try {
-      await notifySubscriptionCancel(user.id);
+      await notifySubscriptionCancel(user.id, subscriptionId);
     } catch (notifyError) {
       console.warn(
         `⚠️ Failed to send notification for subscription cancellation: ${subscriptionId}`,
@@ -54,6 +54,7 @@ export const cancelSubscriptionUnified = async (
         userName: user?.userName,
         email: user.email,
         cancelled_at: new Date(),
+        subscriptionId: subscriptionId,
       });
     } catch (emailError) {
       console.warn(

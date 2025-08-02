@@ -390,18 +390,19 @@ export const notifyAssistantAccept = async (bossId, assistantEmail) => {
   return { success: true, data: notification };
 };
 
-export const notifySubscriptionCancel = async (userId) => {
+export const notifySubscriptionCancel = async (userId, subscriptionId) => {
   try {
     const { data, error } = await supabase
       .from("notifications")
       .insert({
         user_id: userId,
         type: "SUBSCRIPTION_CANCEL_NOTIFY",
-        message:
-          "Subscription successfully cancelled. During inactive you will no longer have access to leads.",
+        message: subscriptionId
+          ? `Subscription with ID ${subscriptionId} successfully cancelled. During inactive you will no longer have access to leads.`
+          : "Subscription successfully cancelled. During inactive you will no longer have access to leads.",
         read: false,
         importance: "medium",
-        metadata: {},
+        metadata: { subscriptionId },
         action_url: "",
       })
       .select()

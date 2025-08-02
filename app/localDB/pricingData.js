@@ -61,7 +61,7 @@ const pricingData = [
     link: "/",
     // planId: "P-5YB76014V2287162GNBUVGWQ",
     planId: "P-3M451725FG751784VNBN7FDY",
-    // annual_plan_id: "P-52097423WX019551UNCAMDFQ",
+    // // annual_plan_id: "P-52097423WX019551UNCAMDFQ",
     annual_plan_id: "P-3BM54016W0125070RNBUPQFI",
     benefits: [
       "800+ verified leads/month",
