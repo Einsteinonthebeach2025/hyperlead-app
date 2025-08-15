@@ -4,6 +4,7 @@ import { GoPencil } from "react-icons/go";
 import { useSelector, useDispatch } from "react-redux";
 import { useToggleLocal } from "app/hooks/useToggleLocal";
 import { FaEnvelope } from "react-icons/fa6";
+import { selectUser } from "app/features/userSlice";
 import Button from "app/components/buttons/Button";
 import HoverModal from "../modals/HoverModal";
 import FlexBox from "../containers/FlexBox";
@@ -13,25 +14,28 @@ const SendEmailButton = ({ lead, type = 'lead' }) => {
   const leads = useSelector(selectLeads);
   const selectedUsers = leads.filter(lead => lead.type === 'user');
   const { isOpen, toggleState } = useToggleLocal();
-  const user = useSelector(state => state.user);
+  const user = useSelector(selectUser);
+
 
   const emailModal = async (e) => {
     e.preventDefault();
     e.stopPropagation();
     if (type === 'lead') {
       const leadsToEmail = leads.length > 0 ? leads : [lead];
-      let maxCampaigns = 0;
+      // console.log(leadsToEmail.map(lead => lead.email), ".....");
       const plan = (user?.profile?.subscription || "").toUpperCase();
+      let maxCampaigns = 0;
       if (plan === "PLUS") maxCampaigns = 5;
       else if (plan === "PRO") maxCampaigns = 10;
       else if (plan === "HYPER") maxCampaigns = 25;
       else maxCampaigns = 0;
-      const campaignCount = user?.profile?.email_campaign_count || 0;
-      if (leadsToEmail.length > 1 && campaignCount >= maxCampaigns) {
-        dispatch(setError({ message: `You have reached your monthly campaign limit`, type: "error" }));
-        return;
+      if (leadsToEmail.length > 1) {
+        const campaignCount = user?.profile?.email_campaign_count || 0;
+        if (campaignCount >= maxCampaigns) {
+          dispatch(setError({ message: `You have reached your monthly campaign limit`, type: "error" }));
+          return;
+        }
       }
-
       dispatch(setToggle({
         modalType: 'email',
         isOpen: true,

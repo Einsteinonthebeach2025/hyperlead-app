@@ -3,6 +3,9 @@ TODO LIST
 cm@dynamicsource.se ---> graphchiqovani@yahoo.com
 jonas@letsumai.com ---> grapchiqovani@gmail.com
 
+josh @theonlyco.com
+saif @blankspaceinc.ca
+
 - რამე თესლი ლოადინგ ანიმაციაა საჭირო /auth/callback და მსგავსი ლოადინგებისთვის
 
 1. USER REGISTRATION & SECURITY

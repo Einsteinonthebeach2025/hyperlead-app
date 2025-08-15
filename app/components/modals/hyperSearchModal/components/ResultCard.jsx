@@ -36,7 +36,7 @@ const ResultCard = ({ lead, loading, hasSearched, unlockedLeadIds, handleClose }
         })
       ) : (
         <div className='flex justify-center items-center h-full'>
-          <p className='text-gray-500'>Here should be some text</p>
+          <p className='text-gray-500'>Access to hyperlead's full database search </p>
         </div>
       )}
     </>

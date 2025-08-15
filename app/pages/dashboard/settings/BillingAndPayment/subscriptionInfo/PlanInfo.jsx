@@ -10,7 +10,7 @@ const PlanInfo = ({ user, subscribedSinceDate }) => {
           <h3 className="text-lg font-semibold text-gray-800 dark:text-white">Current Plan</h3>
           <div className="flex justify-between items-center mt-2">
             <div>
-              <p className="font-bold text-xl text-gray-800 dark:text-white">{user?.subscription?.plan || 'PRO'}</p>
+              <p className="font-bold text-xl text-gray-800 dark:text-white">{user?.subscription?.plan || ' '}</p>
               <p className="text-xs text-gray-500 dark:text-gray-400">Subscribed since {subscribedSinceDate}</p>
             </div>
             <StopSubscription user={user} isAdmin={false} />

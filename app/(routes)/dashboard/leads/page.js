@@ -73,11 +73,6 @@ const LeadsPage = async () => {
     return <Leads data={null} message="No leads available" />;
   }
 
-  // const { data: historyLeads } = await supabase
-  //   .from("user_leads_history")
-  //   .select("lead_id")
-  //   .eq("user_id", effectiveUserId);
-
   // const historyLeadIds = historyLeads.map((ul) => ul.lead_id);
   const currentLeadIds = allUserLeads.map((ul) => ul.lead_id);
 
@@ -106,13 +101,45 @@ const LeadsPage = async () => {
     allLeadsData = allLeadsData.concat(data);
   }
 
-  // Merge used status with leads data
+  // Fetch sent emails for these leads
+  const { data: sentEmails, error: emailsError } = await supabase
+    .from("emails")
+    .select("lead_id, sent_at, type, sequence_name")
+    .eq("user_id", effectiveUserId)
+    .in("lead_id", currentLeadIds);
+
+  // Create a map of sent emails for quick lookup
+  const sentEmailsMap = {};
+  if (sentEmails && !emailsError) {
+    sentEmails.forEach((email) => {
+      if (!sentEmailsMap[email.lead_id]) {
+        sentEmailsMap[email.lead_id] = [];
+      }
+      sentEmailsMap[email.lead_id].push({
+        sent_at: email.sent_at,
+        type: email.type,
+        sequence_name: email.sequence_name,
+      });
+    });
+  }
+
+  // Merge used status and sent emails with leads data
   const leadsWithUsedStatus = allLeadsData.map((lead) => {
     const userLead = allUserLeads.find((ul) => ul.lead_id === lead.id);
+    const sentEmailsForLead = sentEmailsMap[lead.id] || [];
+
     return {
       ...lead,
       used: userLead?.used || false,
       is_demo: userLead?.is_demo || false,
+      sentEmails: sentEmailsForLead,
+      hasSentEmail: sentEmailsForLead.length > 0,
+      lastEmailSent:
+        sentEmailsForLead.length > 0
+          ? sentEmailsForLead.sort(
+              (a, b) => new Date(b.sent_at) - new Date(a.sent_at)
+            )[0]
+          : null,
     };
   });
 

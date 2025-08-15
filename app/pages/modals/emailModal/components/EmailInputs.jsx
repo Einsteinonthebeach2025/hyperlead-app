@@ -12,7 +12,6 @@ const EmailInputs = ({ formData, setFormData, data }) => {
 
   const isSequence = data.length > 1;
 
-
   return (
     <>
       <div>
@@ -49,7 +48,6 @@ const EmailInputs = ({ formData, setFormData, data }) => {
             placeholder="Name your email sequence"
             value={formData.sequence_name}
             onChange={handleChange}
-            required
           />
         </div>
       )}

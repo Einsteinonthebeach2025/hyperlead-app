@@ -7,11 +7,20 @@ import PlanInfo from './PlanInfo';
 
 const SubscriptionInfo = ({ user }) => {
 
+
     const subscriptionEndDate = user?.subscription_timestamp
         ? (() => {
             const date = new Date(user.subscription_timestamp);
-            date.setMonth(date.getMonth() + 1);
-            return date.toLocaleDateString('en-US', {
+            const endDateObj = new Date(date);
+
+            // Check subscription type and add appropriate time
+            if (user.subscription_type === "ANNUAL") {
+                endDateObj.setFullYear(endDateObj.getFullYear() + 1);
+            } else {
+                endDateObj.setMonth(endDateObj.getMonth() + 1);
+            }
+
+            return endDateObj.toLocaleDateString('en-US', {
                 year: 'numeric',
                 month: 'long',
                 day: 'numeric',

@@ -13,7 +13,7 @@ const ModalWrapper = ({ isOpen, onClose, title, children, className }) => {
       {isOpen && (
         <MotionContainer
           animation="fade-in"
-          className={`fixed top-0 z-50 inset-0 bg-black/70 backdrop-blur-sm center ${className}`}
+          className={`fixed top-0 z-[30] inset-0 bg-black/70 backdrop-blur-sm center ${className}`}
         >
           <FormContainer className="w-full max-w-[600px] relative border-none overflow-y-auto overflow-x-hidden">
             <FlexBox type="row-between" className="w-full text-blue-500">

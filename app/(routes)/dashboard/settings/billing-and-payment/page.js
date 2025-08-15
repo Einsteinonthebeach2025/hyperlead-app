@@ -18,7 +18,7 @@ const BillingAndPaymentPage = async () => {
   const { data: user, error: userError } = await supabase
     .from("profiles")
     .select(
-      " subscription_id, email, userName, subscription_timestamp, id, subscription, subscription_status"
+      " subscription_id, email, userName, subscription_timestamp, id, subscription, subscription_status, subscription_type"
     )
     .eq("id", session.user.id)
     .single();

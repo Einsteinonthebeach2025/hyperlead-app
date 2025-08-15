@@ -53,7 +53,7 @@ const ErrorMsg = () => {
           className={`${type === "success"
             ? "border-green-500 bg-green-200 text-green-600 hover:bg-green-200 dark:bg-green-900 dark:text-green-300 dark:hover:bg-green-800"
             : "border-red-500 bg-red-200 text-red-600 hover:bg-red-200 dark:bg-red-900 dark:text-red-300 dark:hover:bg-red-800"
-            } px-4 md:px-8 border-3 fixed z-20 top-5 right-5 py-3 rounded-lg font-semibold flex gap-3 items-center `}
+            } px-4 md:px-8 border-3 fixed z-[32] top-5 right-5 py-3 rounded-lg font-semibold flex gap-3 items-center `}
         >
           <span className={`absolute -right-3 -bottom-3 ${type === "success" ? "bg-green-500" : "bg-red-500"} w-5 h-5 text-white center rounded-md`}>{count}</span>
           <h1>{error}</h1>

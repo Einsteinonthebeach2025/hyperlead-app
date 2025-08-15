@@ -23,8 +23,40 @@ const EmailModal = () => {
     follow_up: false,
   });
 
+  const validateForm = () => {
+    const errors = [];
+
+    // Check if subject is filled
+    if (!formData.subject.trim()) {
+      errors.push("Subject is required");
+    }
+
+    // Check if message is filled
+    if (!formData.message.trim()) {
+      errors.push("Message is required");
+    }
+
+    // Check if sequence_name is filled for campaigns (multiple leads)
+    if (data && data.length > 1 && !formData.sequence_name.trim()) {
+      errors.push("Email sequence name is required for campaigns");
+    }
+
+    return errors;
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // Validate form before proceeding
+    const validationErrors = validateForm();
+    if (validationErrors.length > 0) {
+      dispatch(setError({
+        message: validationErrors.join(", "),
+        type: "error"
+      }));
+      return;
+    }
+
     setLoading(true);
     try {
       let results;

@@ -16,7 +16,7 @@ const SectionThree = () => {
                 muted
                 loop
                 playsInline
-                className="w-full lg:w-[50%] h-[500px] scale-105"
+                className="w-full lg:w-[50%] h-[500px] scale-105 mb-10"
                 alt="Animation video"
             />
             <ContentList />

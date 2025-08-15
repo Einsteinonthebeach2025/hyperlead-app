@@ -11,6 +11,7 @@ import SendEmailButton from "app/components/buttons/SendEmailButton";
 import LeadLikeButton from "app/components/buttons/LeadLikeButton";
 import MarkButton from "app/components/buttons/MarkButtons";
 import AddToFavorite from "app/components/buttons/AddToFavorite";
+import HasEmailSent from "./leadsCardComponents/HasEmailSent";
 
 const LeadCard = ({ leads, onLeadStatusChange, onLeadLikeChange, type, onLeadClick }) => {
 
@@ -24,17 +25,21 @@ const LeadCard = ({ leads, onLeadStatusChange, onLeadLikeChange, type, onLeadCli
 
   const colorThemes = ["violet", "green", "blue"];
 
+
+
   return (
     <div className="grid grid-cols-1 space-y-4 w-full py-5">
       <AnimatePresence>
         {leads?.map((lead, index) => {
           const colorTheme = colorThemes[index % colorThemes.length];
+
           const handleClick = (e) => {
             if (onLeadClick) {
               e.preventDefault();
               onLeadClick(lead.id);
             }
           };
+
           return (
             <Link
               href={`/dashboard/leads/${lead.id}`}
@@ -54,6 +59,7 @@ const LeadCard = ({ leads, onLeadStatusChange, onLeadLikeChange, type, onLeadCli
                   <LeadLocation lead={lead} colorTheme={colorTheme} />
                   <LeadIndustry lead={lead} />
                   <FlexBox type="row" className="items-center gap-2" >
+                    <HasEmailSent lead={lead} />
                     <SendEmailButton lead={lead} />
                     {type === "favorite" || type === "unlocked" ? null : (
                       <MarkButton lead={lead} onStatusChange={onLeadStatusChange} />
@@ -70,5 +76,7 @@ const LeadCard = ({ leads, onLeadStatusChange, onLeadLikeChange, type, onLeadCli
     </div>
   );
 };
+
+
 
 export default LeadCard;
